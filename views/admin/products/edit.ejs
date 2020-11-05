@@ -1,0 +1,88 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbarhome') %>
+
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            Edição do Produto
+        </div>
+        <div class="card-body">
+            <form action="/admin/products/update" method="POST" class="form">
+                <div class="row">
+                    <div class="col">
+                        <label for="nome">Nome</label>
+                        <input type="text" value="<%= product.nome %> " name="nome" id="nome"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="descricao">Descricao</label>
+                        <input type="text" value="<%= product.descricao %> " name="descricao" id="descricao"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="codRef">Cod.Ref</label>
+                        <input type="text" value="<%= product.codRef %> " name="codRef" id="codRef"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="tamFinal">Tam.Final</label>
+                        <input type="text" value="<%= product.tamFinal %> " name="tamFinal" id="tamFinal"
+                            class="form-control form-control-sm">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="vlrProduto">Vlr Produto</label>
+                        <input type="text" value="<%= product.vlrProduto %> " name="vlrProduto" id="vlrProduto"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="material">Material</label>
+                        <input type="text" value="<%= product.material %> " name="material" id="material"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="gramatura">Gramatura</label>
+                        <input type="text" value="<%= product.gramatura %> " name="gramatura" id="gramatura"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="peso">Peso</label>
+                        <input type="text" value="<%= product.peso %> " name="peso" id="peso"
+                            class="form-control form-control-sm">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="tamSangria">Tam.Sangria</label>
+                        <input type="text" value="<%= product.tamSangria %> " name="tamSangria" id="tamSangria"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="imagem">Imagem</label>
+                        <input type="text" value="<%= product.imagem %> " name="imagem" id="imagem"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="qtd">Quantidade</label>
+                        <input type="text" value="<%=product.qtd%>" name="qtd" id="qtd"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="qtd">Propriedade de Divisão</label>
+                        <input type="number" value="<%=product.propriedadeDivisao%>" name="propriedadeDivisao"
+                            id="propriedadeDivisao" class="form-control form-control-sm">
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="<%= product.id %> ">
+                <input type="submit" class="btn btn-primary btn mt-2" style="float: right;" value="Atualizar Produto">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<%- include('../../partials/footer') %>

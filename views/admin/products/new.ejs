@@ -1,0 +1,83 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbarhome') %>
+
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            Cadastro de produtos
+        </div>
+        <div class="card-body">
+            <form action="/admin/products/save" method="POST" class="form">
+                <div class="row">
+                    <div class="col">
+                        <label for="nome">Nome</label>
+                        <input type="text" name="nome" id="nome" required class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="descricao">Descricao</label>
+                        <input type="text" name="descricao" id="descricao" required
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="codRef">Cod.Ref</label>
+                        <input type="text" name="codRef" id="codRef" required class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="tamFinal">Tam.Final</label>
+                        <input type="text" name="tamFinal" id="tamFinal" required class="form-control form-control-sm">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="vlrProduto">Vlr Produto</label>
+                        <input type="text" name="vlrProduto" id="vlrProduto" required
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="material">Material</label>
+                        <input type="text" name="material" id="material" required class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="gramatura">Gramatura</label>
+                        <input type="text" name="gramatura" id="gramatura" required
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="peso">Peso</label>
+                        <input type="text" name="peso" id="peso" required class="form-control form-control-sm">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="tamSangria">Tam.Sangria</label>
+                        <input type="text" name="tamSangria" id="tamSangria" required
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="imagem">Imagem</label>
+                        <input type="text" name="imagem" id="imagem" required class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="qtd">Quantidade</label>
+                        <input type="text" name="qtd" id="qtd"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="qtd">Propriedade de Divisão</label>
+                        <input type="number" name="propriedadeDivisao"
+                            id="propriedadeDivisao" class="form-control form-control-sm">
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary btn mt-2" required style="float: right;" value="Salvar">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<%- include('../../partials/footer') %>

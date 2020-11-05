@@ -1,0 +1,28 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbarhome') %>
+
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">Login</div>
+                <div class="card-body">
+                    <form action="/client/acesso" method="POST" class="form">
+                        <input type="email" required name="email" placeholder="email" class="form-control" id="">
+                        <input type="password" required name="password" placeholder="******" class="form-control mt-2"
+                            id="">
+                        <input type="submit" class="btn btn-success mt-3 form-control" value="Logar">
+                        <a href="/client/register" class="btn btn-primary btn-sm form-control mt-2">Fazer cadastro</a>
+                        <a href="/client/register" class="btn btn-outline-primary btn-sm form-control mt-2">Sou um colaborador</a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<%- include('../../partials/footer') %>

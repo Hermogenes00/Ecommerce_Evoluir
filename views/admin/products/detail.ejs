@@ -1,0 +1,120 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbarhome') %>
+
+<div class="container mt-4">
+
+    <h4><%= product.nome %> </h4>
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <img src="https://s3-sa-east-1.amazonaws.com/arquivosgraficas/midia/1FCAA7EC-0F65-43C2-A490-98C9F1E65A6A/servicos/A9DE7AE0-8428-4BC1-8937-585146EBDC90.jpg"
+                alt="">
+        </div>
+
+        <div class="col">
+            <h3>Sobre o produto</h3>
+            <p><%= product.descricao %> </p>
+            <h3>Descrição Técnica</h3>
+            <p style="margin-bottom: 0%;">Ref: <%= product.codRef %> </p>
+            <p style="margin-bottom: 0%;">Tamanho Final: <%= product.tamFinal %> </p>
+            <p style="margin-bottom: 0%;">Material: <%= product.material %> </p>
+            <p style="margin-bottom: 0%;">Gramatura: <%= product.gramatura %> </p>
+            <p style="margin-bottom: 0%;">Peso: <%= product.peso %> </p>
+            <p style="margin-bottom: 0%;">Tamanho c/Sangria: <%= product.tamSangria %> </p>
+        </div>
+
+        <% if(logado){%>
+        <div class="col">
+            <div class="card">
+                
+                <div class="card-header">Add ao Carrinho</div>
+                <div class="card-body">
+
+                    <form action="/admin/cart/add" class="form" method="post">
+                        <div class="row">
+                            <div class="col">
+                                <input type="hidden" name="productId" value="<%= product.id %>">
+                                <label for="qtd">Quantidade</label>
+                                <select name="qtd" data-propriedadeDivisao="<%=product.propriedadeDivisao%>"
+                                    class="form-control form-control-sm" id="qtd">
+                                    <% for(let i = product.propriedadeDivisao; i<=product.qtd; i+=product.propriedadeDivisao){%>
+                                    <option value="<%= i %> "><%= i %>.Und</option>
+                                    <%} %>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h5>Valor do Item</h5>
+                            </div>
+                            <div class="col">
+                                <h5 id="vlrel"><%= product.vlrProduto %></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h5>Valor Total</h5>
+                            </div>
+                            <div class="col">
+                                <h5 id="vlrTotal"><%= product.vlrProduto %></h5>
+                            </div>
+                        </div>
+
+                        <input type="submit" class="btn btn-danger form-control mt-3" data-toggle="tooltip"
+                            data-placement="top" title="Adicionar ao carrinho" value="Comprar">
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <%}else{ %>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Login</div>
+                <div class="card-body">
+                    <form action="" class="form">
+                        <input type="text" name="" placeholder="email" class="form-control" id="">
+                        <input type="password" name="" placeholder="******" class="form-control mt-2" id="">
+                        <input type="submit" class="btn btn-success form-control mt-3" value="Logar">
+                        <a href="/client/register" class="btn btn-primary btn-sm form-control mt-2">Fazer cadastro</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+    </div>
+
+</div>
+
+<script>
+
+    let qtd = document.getElementsByName('qtd')
+    let vlrel = document.getElementById('vlrel');
+    let idProduto = document.getElementById('idProduto')
+    let vlrTotalel = document.getElementById('vlrTotal');
+
+    let propriedadeDivisao = parseFloat(qtd[0].dataset.propriedadedivisao);
+
+    //console.log(qtd[0].dataset.propriedadedivisao);
+    //Formatando valor do item
+
+    qtd[0].addEventListener('change', (event) => {
+
+        let qtd = parseInt(event.target.value) / propriedadeDivisao;
+
+        vlrTotalel.innerText = (qtd * parseFloat(vlrel.innerText)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+        vlrel.toLocaleString('pt-br')
+
+
+    })
+
+</script>
+
+
+
+
+
+<%- include('../../partials/footer') %>

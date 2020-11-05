@@ -1,0 +1,126 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbarhome') %>
+
+<div class="container mt-3">
+    <table class="table table-sm table-borderless">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Status</th>
+                <th>Valor Total</th>
+                <th class="text-center">Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% orders.forEach(o => {%>
+            <tr>
+
+                <td>
+                    <a href="#">
+                        <h6 data-id="<%= o.id %>" onclick="onClick(event)">Pedido: <%= o.id %></h6>
+                    </a>
+                </td>
+                <td>
+                    <h6><%= o.status %></h6>
+                </td>
+                <td>
+                    <h6><%= o.total %></h6>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-md-2 offset-md-4">
+                            <form onsubmit="remover(event,this,'Deseja realmente remover o carrinho?')" method="POST"
+                                action="/admin/order/delete">
+                                <input type="hidden" name="idOrder" value="<%= o.id %>">
+                                <input type="submit" class="btn btn-sm btn-danger" value="Limpar Carrinho">
+                            </form>
+                        </div>
+                        <div class="col-md-2">
+                            <form onsubmit="remover(event,this,'Deseja realmente remover o carrinho?')" method="POST"
+                                action="/admin/order/delete">
+                                <input type="hidden" name="idOrder" value="<%= o.id %>">
+                                <input type="submit" class="btn btn-sm btn-primary ml-4" value="Finalizar Carrinho">
+                            </form>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <div class="row">
+                        <div id="conteudo<%= o.id %>" class="col" style="display: none;"> </div>
+                    </div>
+                </td>
+            </tr>
+
+            <%}); %>
+
+        </tbody>
+    </table>
+
+
+
+</div>
+
+<%- include('../../partials/footer') %>
+
+<script src="/js/ajax.js"></script>
+
+<script>
+
+    function onClick(event) {
+
+
+        requisicao(`http://localhost:8090/admin/order/itensOrder/` + event.target.dataset.id, (data => {
+
+            let dados = JSON.parse(data)
+            let conteudo = document.getElementById('conteudo' + event.target.dataset.id)
+
+            if (conteudo.style.display == 'none' || conteudo.style.display == '') {
+                conteudo.style.display = 'block'
+                conteudo.innerHTML = '';
+                dados.forEach(item => {
+                    conteudo.innerHTML += `<div class="card border-secondary">
+                                <div class="card-body">
+                                    <div class="row">
+                                <div class="col">
+                                    Cod:${item.produto.id}
+                                </div>
+                                <div class="col">
+                                    Item: ${item.produto.nome}
+                                </div>
+                                <div class="col">
+                                    Qtd: ${item.qtd}
+                                </div>
+                                <div class="col">
+                                    Valor: ${item.valor}
+                                </div>
+                                <div class="col">
+                                    <form onsubmit="remover(event,this,'Deseja realmente remover o item?')" method="POST" action="/admin/order/itemOrder/delete">
+                        <input type="hidden" name="idItem" value="${item.id}">
+                        <input type="hidden" name="idPedido" value="${item.pedidoId}">
+                        <input type="submit" class="btn btn-sm btn-danger glyphicon glyphicon-search" value="Remover Item">
+                    </form>
+                                </div>
+                            </div>                     
+                                </div>
+                            </div>`
+                });
+
+            } else {
+                conteudo.style.display = 'none'
+            }
+
+        }
+        )
+        )
+    }
+
+    function remover(event, form, msg) {
+        event.preventDefault();
+        let decisao = confirm(msg)
+        if (decisao)
+            form.submit()
+    }
+
+</script>

@@ -1,0 +1,35 @@
+<nav id="menu" class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a href="/" class="nav-link" style="color: white;">Home</a>
+        </li>
+        <li class="nav-item">
+            <a href="/" class="nav-link" style="color: white;">Produto</a>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+
+        <% if(user.nome == 'Visitante'){%>
+        <li class="nav-item">
+            <a href="/client/login" class="nav-link" style="color: white;">LOGIN</a>
+        </li>
+        <%}else{%>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Olá <%= user.nome %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/client/order">Carrinho</a>
+                <a class="dropdown-item" href="#">Pedidos</a>
+                <a class="dropdown-item" href="#">Meu Cadastro</a>
+                <a class="dropdown-item" href="/client/logout">Sair</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="/client/order" class="nav-link" style="color: white;"> </a>
+        </li>
+        <%} %>
+
+    </ul>
+</nav>
