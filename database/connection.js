@@ -3,6 +3,5 @@ const connection = new sequelize('loja','root','admin',{
     host:'localhost',
     dialect:'mysql'
 })
-a
 
 module.exports = connection;

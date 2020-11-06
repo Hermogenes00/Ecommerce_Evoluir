@@ -20,13 +20,14 @@ const order = require('./models/order')
 const itensOrder = require('./models/itensOrder')
 const products = require('./models/product')
 const client = require('./models/client')
+const collaborator = require('./models/collaborator')
 
 //Importação dos controllers
 const productController = require('./controllers/productController');
 const clientController = require('./controllers/clientController');
-const userController = require('./controllers/userController');
+const collaboratorController = require('./controllers/collaboratorController');
 const orderController = require('./controllers/orderController');
-
+const mainController = require('./controllers/mainController');
 
 //Session
 app.use(session({
@@ -42,11 +43,14 @@ app.use(bodyparser.json())
 app.use('/', productController)
 app.use('/', clientController)
 app.use('/', orderController)
+app.use('/', collaboratorController)
+app.use('/', mainController)
+
 //app.use('/', userController)
 
 //Rotas
 
-app.get('/',defaultAuthentication,(req, res) => {
+app.get('/', defaultAuthentication, (req, res) => {
 
     products.findAll().then(products => {
 
@@ -58,23 +62,23 @@ app.get('/',defaultAuthentication,(req, res) => {
 
 })
 
-app.get('/criarSessao/:nome',defaultAuthentication, (req, res) => {
+app.get('/criarSessao/:nome', defaultAuthentication, (req, res) => {
     req.session.client = 'Santos'
     res.send('Sessão Criada')
 })
 
-app.get('/verSessao',clientAuthentication,(req, res) => { 
+app.get('/verSessao', clientAuthentication, (req, res) => {
 
     res.render('admin/teste')
 })
 
 
-app.get('/limparCookie',defaultAuthentication, (req, res) => {
+app.get('/limparCookie', defaultAuthentication, (req, res) => {
     res.clearCookie('testeCookie')
     res.render('admin/teste')
 })
 
-app.get('/logout',defaultAuthentication, (req, res) => {
+app.get('/logout', defaultAuthentication, (req, res) => {
     req.session.nome = undefined;
     res.redirect('/')
 })
