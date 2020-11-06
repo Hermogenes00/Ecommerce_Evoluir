@@ -7,21 +7,21 @@
             <h5 class="card-title">Cadastro de Cliente</h5>
         </div>
         <div class="card-body">
-            <form method="POST" action="/client/save">
+            <form method="POST" action="/client/update">
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="nome">Nome Completo</label>
-                        <input type="text" class="form-control form-control-sm" name="nome" id="nome">
+                        <input type="text" value="<%= user.nome %>" class="form-control form-control-sm" name="nome" id="nome">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="email">Email</label>
-                        <input type="email" name="email" required class="form-control form-control-sm" id="email">
+                        <input type="email" name="email" value="<%= user.email %>" required class="form-control form-control-sm" id="email">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="password">Senha</label>
-                        <input type="password" name="password" placeholder="*******"
+                        <input type="password" readonly disabled name="password" placeholder="*******"
                             class="form-control form-control-sm" id="password">
                     </div>
                 </div>
@@ -29,60 +29,52 @@
                 <div class="form-row">
                     <div class="col-md-6">
                         <label for="cnpjCpf">Cpf/Cnpj</label>
-                        <input type="number" class="form-control form-control-sm" name="cnpjCpf" id="cnpjCpf">
+                        <input type="number" value="<%= user.cnpjCpf %>" class="form-control form-control-sm" name="cnpjCpf" id="cnpjCpf">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="tel">Tel</label>
-                        <input type="tel" pattern="[0-9]{2} [0-9]{4}-[0-9]{4}" placeholder="00 0000-0000"
+                        <input type="tel" value="<%= user.tel %>" pattern="[0-9]{2} [0-9]{4}-[0-9]{4}" placeholder="00 0000-0000"
                             required="Verifique o formato digitado" class="form-control form-control-sm" name="tel"
                             id="tel">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="cel1">Cel 1</label>
-                        <input type="tel" pattern="[0-9]{2} [0-9]{5}-[0-9]{4}" placeholder="00 90000-0000"
+                        <input type="tel" value="<%= user.cel1 %>" pattern="[0-9]{2} [0-9]{5}-[0-9]{4}" placeholder="00 90000-0000"
                             required="Verifique o formato digitado" class="form-control form-control-sm" name="cel1"
                             id="cel1">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="cel2">Cel 1</label>
-                        <input type="tel" pattern="[0-9]{2} [0-9]{5}-[0-9]{4}" placeholder="00 90000-0000"
+                        <input type="tel" value="<%= user.cel2 %>" pattern="[0-9]{2} [0-9]{5}-[0-9]{4}" placeholder="00 90000-0000"
                             required="Verifique o formato digitado" class="form-control form-control-sm" name="cel2"
                             id="cel2">
                     </div>
                 </div>
                 <hr>
+
                 <div class="form-row">
-
-                    <div class="form-group col-md-3">
-                        <label for="rua">Cep</label>
-                        <div class="input-group  ">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-outline-secondary btn-sm" type="button" id="btnCep">Buscar
-                                    Cep</button>
-                            </div>
-                            <input type="number" name="cep" id="cep" class="form-control form-control-sm"
-                                placeholder="">
-                        </div>
+                    <div class="col-md-2">
+                        <label for="cep">Cep</label>
+                        <input type="number" value="<%= user.cep %>" class="form-control form-control-sm" name="cep" id="cep">
                     </div>
-
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-6">
                         <label for="rua">Rua</label>
-                        <input type="text" required class="form-control form-control-sm" value="asdfasd" name="rua"
+                        <input type="text" value="<%= user.rua %>" required class="form-control form-control-sm" name="rua"
                             id="rua">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="bairro">Bairro</label>
-                        <input type="text" required class="form-control form-control-sm" name="bairro" id="bairro">
+                        <input type="text" value="<%= user.bairro %>" required class="form-control form-control-sm" name="bairro" id="bairro">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="numero">Nº</label>
-                        <input type="text" required class="form-control form-control-sm" name="numero" id="numero">
+                        <input type="text" value="<%= user.numero %>" required class="form-control form-control-sm" name="numero" id="numero">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="complemento">Complemento</label>
-                        <input type="text" class="form-control form-control-sm" name="complemento" id="complemento">
+                        <input type="text" value="<%= user.complemento %>" class="form-control form-control-sm" name="complemento" id="complemento">
                     </div>
-                    <button type="submit" class="btn btn-primary form-control">Cadastrar</button>
+                    <button type="submit" class="btn btn-primary form-control">Salvar Alterações</button>
                 </div>
 
 
@@ -92,7 +84,6 @@
 </div>
 
 <%- include('../../partials/footer') %>
-
 <script>
 
     let formData = new FormData();

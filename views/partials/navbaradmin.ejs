@@ -2,8 +2,15 @@
 
 
     <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a href="/" class="nav-link" style="color: white;">Cadastros</a>
+        <li class="nav-item active dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Cadastros
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/collaborator/perfil">Produtos</a>
+                <a class="dropdown-item" href="/collaborator/logout">Categorias/SubCategorias</a>
+            </div>
         </li>
         <li class="nav-item">
             <a href="/" class="nav-link" style="color: white;">Pedidos</a>
@@ -18,14 +25,14 @@
         <li class="nav-item">
             <a href="/client/logout" class="nav-link" style="color: white;">Ir a Loja</a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item active dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 Olá <%= collaborator.nome %>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/client/order">Perfil</a>
-                <a class="dropdown-item" href="/client/logout">Sair</a>
+                <a class="dropdown-item" href="/collaborator/perfil">Perfil</a>
+                <a class="dropdown-item" href="/collaborator/logout">Sair</a>
             </div>
         </li>
 

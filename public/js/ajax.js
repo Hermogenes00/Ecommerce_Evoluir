@@ -31,3 +31,11 @@ function requisicaoPost(endereco, data, callback) {
 
     xhr.send(data)
 }
+
+
+function buscarCep(cep, callback) {
+
+    requisicao('http://localhost:8090/buscarCep/' + cep, (response) => {
+        callback(response)
+    })
+}

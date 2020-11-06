@@ -31,6 +31,11 @@ const orders = connection.define('pedidos', {
     complemento: {
         type: sequelize.STRING,
         allowNull: false
+    },
+    valorFrete:{
+        type: sequelize.DECIMAL(10, 2),
+        allowNull: false,
+        defaultValue: 0
     }
 })
 

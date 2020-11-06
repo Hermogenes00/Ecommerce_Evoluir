@@ -1,4 +1,3 @@
-//const localStorage = require('node-localstorage').LocalStorage
 function clientAuthentication(req, res, next) {
 
     if (req.session.client) {

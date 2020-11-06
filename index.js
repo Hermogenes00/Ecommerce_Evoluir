@@ -28,7 +28,7 @@ const clientController = require('./controllers/clientController');
 const collaboratorController = require('./controllers/collaboratorController');
 const orderController = require('./controllers/orderController');
 const mainController = require('./controllers/mainController');
-
+const utilsController = require('./controllers/utilsController');
 //Session
 app.use(session({
     secret: 'cloneLoja',
@@ -45,6 +45,7 @@ app.use('/', clientController)
 app.use('/', orderController)
 app.use('/', collaboratorController)
 app.use('/', mainController)
+app.use('/', utilsController)
 
 //app.use('/', userController)
 
