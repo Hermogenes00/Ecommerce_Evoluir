@@ -1,29 +1,37 @@
 const express = require('express');
 const products = require('../models/product')
+const sequelize = require('sequelize')
 const router = express.Router();
 const slug = require('slugify')
-const defaultAuthentication = require('../middleware/defaultAuthentication')
+const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 
-router.get('/admin/products/',defaultAuthentication ,(req, res) => {
-    products.findAll().then(products => {
+router.get('/admin/products/find/:product?', collaboratorAuthentication, async (req, res) => {
 
-        if (products != undefined) {
-            res.render('admin/products/products', { products: products })
+    let prod = `%${req.params.product}%`;
+    let prods = [{}]
+    try {
+        if (req.params.product && req.params.product != 'all') {
+            prods = await products.findAll({ where: { nome: { [sequelize.Op.like]: prod } } });
         } else {
-            res.json(erro)
+            if (req.params.product == null || req.params.product == 'all')
+                prods = await products.findAll();
         }
-
-    }).catch(erro => {
+        if (prods != undefined) {
+            res.render('admin/products/products', { products: prods })
+        } else {
+            res.json('Ops. Não foi possível realizar este procedimento, tente novamente, caso o problema persista, entre em contato com o suporte')
+        }
+    } catch (error) {
         res.json(erro)
-    })
+    }
 
 })
 
-router.get('/admin/products/new',defaultAuthentication ,(req, res) => {
+router.get('/admin/products/register', collaboratorAuthentication, (req, res) => {
     res.render('admin/products/new')
 })
 
-router.get('/admin/products/edit/:id',defaultAuthentication ,(req, res) => {
+router.get('/admin/products/edit/:id', collaboratorAuthentication, (req, res) => {
     let id = req.params.id;
 
     products.findByPk(id).then(product => {
@@ -34,23 +42,7 @@ router.get('/admin/products/edit/:id',defaultAuthentication ,(req, res) => {
 })
 
 
-router.get('/admin/products/detail/:id',defaultAuthentication ,(req, res) => {
-    let id = req.params.id;
-    let logado = false
-    if(req.session.client != undefined){
-        logado = true;
-    }
-    
-    products.findByPk(id).then(product => {
-        res.render('admin/products/detail', { product: product, logado: logado })
-    }).catch(erro => {
-        res.json(erro)
-    })
-
-
-})
-
-router.post('/admin/products/save',defaultAuthentication, (req, res) => {
+router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
 
     let data = req.body;
 
@@ -79,7 +71,7 @@ router.post('/admin/products/save',defaultAuthentication, (req, res) => {
     }
 })
 
-router.post('/admin/products/update',defaultAuthentication ,(req, res) => {
+router.post('/admin/products/update', collaboratorAuthentication, (req, res) => {
 
     let data = req.body;
 

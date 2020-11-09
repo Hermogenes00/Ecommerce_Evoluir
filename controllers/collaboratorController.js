@@ -5,8 +5,14 @@ const bcrypt = require('bcrypt')
 const collaborators = require('../models/collaborator')
 const salt = bcrypt.genSaltSync(10)
 
-router.get('/collaborator/perfil', collaboratorAuthentication, (req, res) => {
+router.get('/collaborator/perfil', collaboratorAuthentication, async (req, res) => {
 
+    let collaborator = await collaborators.findByPk(req.session.collaborator.id)
+    if (collaborator) {
+        res.render('admin/collaborator/perfil', { collaborator: collaborator })
+    } else {
+        res.redirect('/main')
+    }
 })
 
 router.post('/collaborator/update', collaboratorAuthentication, (req, res) => {
@@ -14,10 +20,13 @@ router.post('/collaborator/update', collaboratorAuthentication, (req, res) => {
 })
 
 router.get('/collaborator/login', (req, res) => {
+    if (req.session.collaborator) {
+        res.redirect
+    }
     res.render('admin/collaborator/login')
 })
 
-router.post('/collaborator/acesso',async (req, res) => {
+router.post('/collaborator/acesso', async (req, res) => {
     let data = req.body;
     let comparator = false;
 

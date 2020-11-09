@@ -1,11 +1,19 @@
 <%- include('../../partials/header') %>
 
 
+<style>
+    body {
+        height: 100%;
+        width: 100%;
+        background-color: #007bff;
+    }
+    
+</style>
 
-<div class="container mt-4">
+<div>
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <div class="card">
+            <div class="card border-primary  mt-5">
                 <div class="card-header">Login</div>
                 <div class="card-body">
                     <form action="/collaborator/acesso" method="POST" class="form">
@@ -14,7 +22,8 @@
                             id="">
                         <input type="submit" class="btn btn-success mt-3 form-control" value="Logar">
                         <a href="/client/register" class="btn btn-primary btn-sm form-control mt-2">Fazer cadastro</a>
-                        <a href="/client/login" class="btn btn-outline-primary btn-sm form-control mt-2">Sou um cliente</a>
+                        <a href="/client/login" class="btn btn-outline-primary btn-sm form-control mt-2">Sou um
+                            cliente</a>
                     </form>
                 </div>
             </div>
@@ -23,6 +32,7 @@
     </div>
 
 </div>
+
 
 
 <%- include('../../partials/footer') %>

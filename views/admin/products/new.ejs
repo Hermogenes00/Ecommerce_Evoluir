@@ -1,5 +1,5 @@
 <%- include('../../partials/header') %>
-<%- include('../../partials/navbarhome') %>
+<%- include('../../partials/navbaradmin') %>
 
 
 <div class="container mt-5">
@@ -70,14 +70,17 @@
                             id="propriedadeDivisao" class="form-control form-control-sm">
                     </div>
                 </div>
-                <input type="submit" class="btn btn-primary btn mt-2" required style="float: right;" value="Salvar">
+                <div class="card-footer" style="float: right;">
+                    <div class="row">
+                        <div class="col">
+                            <a href="/admin/products/find/" class="btn btn-outline-primary btn-sm">Cancelar</a>
+                            <input type="submit" class="btn btn-primary btn-sm" value="Salvar">
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 </div>
-
-
-
-
 
 <%- include('../../partials/footer') %>

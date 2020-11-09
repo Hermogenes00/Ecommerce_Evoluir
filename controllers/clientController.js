@@ -21,10 +21,10 @@ router.get('/buscarCep/:cep', clientAuthentication, async (req, res) => {
 
     try {
         let result = await correio.consultaCEP(args);
-        console.log('Encontrou----------- '+result);
+        console.log('Encontrou----------- ' + result);
         res.json(result)
     } catch (error) {
-        console.log('Erro ao tentar buscar o cep----------- '+error);
+        console.log('Erro ao tentar buscar o cep----------- ' + error);
         res.json({})
     }
 
@@ -101,17 +101,21 @@ router.post('/client/acesso', defaultAuthentication, (req, res) => {
             email: data.email
         }
     }).then(client => {
-        if (bcrypt.compare(data.password, client.password)) {
+        let compare = bcrypt.compareSync(data.password, client.password)
+        console.log('Resultado da comparação----' + compare);
+        if (compare) {
             req.session.client = {
                 id: client.id,
                 nome: client.nome,
                 email: client.email
             }
             res.redirect('/')
+        } else {
+            res.redirect('/client/login')
         }
     }).catch(erro => {
         console.log('Erro ao tentar logar ' + erro);
-        res.redirect('/client/register')
+        res.redirect('/client/login')
     })
 })
 

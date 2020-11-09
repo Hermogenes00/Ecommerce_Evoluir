@@ -144,5 +144,18 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
 })
 
 
+router.get('/admin/products/detail/:id', defaultAuthentication, (req, res) => {
+    let id = req.params.id;
+
+    product.findByPk(id).then(prod => {
+        res.render('admin/products/detail', { product: prod })
+    }).catch(erro => {
+        res.json(erro)
+    })
+
+
+})
+
+
 
 module.exports = router
