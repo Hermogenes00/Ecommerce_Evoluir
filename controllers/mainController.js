@@ -12,9 +12,28 @@ router.get('/main', collaboratorAuthentication, (req, res) => {
     res.render('admin/main/main')
 })
 
+router.get('/main/production', collaboratorAuthentication,(req, res) => {
 
-router.get('/main/production', collaboratorAuthentication, (req, res) => {
     res.render('admin/main/production')
+})
+
+router.get('/main/clients/:client?', collaboratorAuthentication, async (req, res) => {
+    
+    let client = `%${req.params.client}%`;
+    let clts = undefined
+    try {
+
+        if (req.params.client != undefined && req.params.client != 'all') {
+            clts = await clients.findAll({ where: { nome: { [sequelize.Op.like]: client } } })
+        } else {
+            clts = await clients.findAll()
+        }
+
+        res.render('admin/main/clients', { clients: clts })
+
+    } catch (error) {
+        res.json(error)
+    }
 })
 
 router.get('/main/orders/:client?', collaboratorAuthentication, async (req, res) => {

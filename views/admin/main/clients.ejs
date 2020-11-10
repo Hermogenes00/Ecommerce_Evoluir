@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="col offset-md-4">
-            <a href="/admin/products/register" id="btnNovoProduto" class="btn btn-primary btn-sm">Novo Pedido</a>
+            <a href="/admin/products/register" id="btnNovoProduto" class="btn btn-primary btn-sm">Novo Cliente</a>
         </div>
     </div>
 
@@ -20,45 +20,34 @@
     <table class="table table-hover table-sm">
         <thead>
             <tr>
-                <th>#</th>
                 <th>Cliente</th>
-                <th>Status</th>
-                <th>Valor</th>
+                <th>Cnpj/Cpf</th>
+                <th>email</th>
                 <th class="text-center">Ação</th>
             </tr>
         </thead>
         <tbody>
             <% clients.forEach(clt => {%>
 
-            <% clt.pedidos.forEach(pdds=>{%>
             <tr>
-
-                <td>
-                    <a href="#">
-                        <h6 data-id="<%= clt.id %>" onclick="onClick(event)">Pedido: <%= clt.id %></h6>
-                    </a>
-                </td>
                 <td>
                     <h6><%= clt.nome %></h6>
                 </td>
                 <td>
-                    <h6><%= pdds.status %></h6>
+                    <h6><%= clt.cnpjCpf %></h6>
                 </td>
                 <td>
-                    <h6><%= pdds.total %></h6>
+                    <h6><%= clt.email %></h6>
                 </td>
                 <td>
-                    <div class="text-center">                        
-                        <a href="" data-toggle="tooltip" data-placement="top"
-                        title="Ver Pedido" data-target="#exampleModal"><i class="material-icons">visibility</i></a>
+                    <div class="text-center">
+                        <a href="" title="Ver Pedido" data-target="#exampleModal"><i
+                                class="material-icons">visibility</i></a>
                         <a href="" title="Ver Pedido"><i class="material-icons">add_shopping_cart</i></a>
                         <a href="" title="Ver Pedido"><i class="material-icons">check_circle_outline</i></a>
                     </div>
                 </td>
             </tr>
-            <%}) %>
-
-
 
             <%}); %>
 
@@ -70,7 +59,9 @@
 <%- include('../../partials/footer') %>
 
 <script src="/js/ajax.js"></script>
+
 <script>
+   
     let cliente = document.getElementById('cliente')
 
     document.getElementById('btnBuscar').addEventListener('click', () => {
