@@ -12,6 +12,11 @@ router.get('/main', collaboratorAuthentication, (req, res) => {
     res.render('admin/main/main')
 })
 
+
+router.get('/main/production', collaboratorAuthentication, (req, res) => {
+    res.render('admin/main/production')
+})
+
 router.get('/main/orders/:client?', collaboratorAuthentication, async (req, res) => {
 
     let client = `%${req.params.client}%`;
