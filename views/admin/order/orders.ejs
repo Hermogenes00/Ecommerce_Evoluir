@@ -31,6 +31,7 @@
                     <h6><%= o.total %></h6>
                 </td>
                 <td>
+
                     <div class="row">
                         <div class="col-md-2 offset-md-4">
                             <form onsubmit="remover(event,this,'Deseja realmente remover o carrinho?')" method="POST"
@@ -40,7 +41,7 @@
                             </form>
                         </div>
                         <div class="col-md-2">
-                            <form onsubmit="remover(event,this,'Deseja realmente remover o carrinho?')" method="POST"
+                            <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')" method="POST"
                                 action="/admin/order/delete">
                                 <input type="hidden" name="idOrder" value="<%= o.id %>">
                                 <input type="submit" class="btn btn-sm btn-primary ml-4" value="Finalizar Carrinho">
@@ -62,8 +63,6 @@
         </tbody>
     </table>
 
-
-
 </div>
 
 <%- include('../../partials/footer') %>
@@ -83,7 +82,13 @@
             if (conteudo.style.display == 'none' || conteudo.style.display == '') {
                 conteudo.style.display = 'block'
                 conteudo.innerHTML = '';
+                
                 dados.forEach(item => {
+                    let linkBaixarArquivo = item.arquivo?`<div class="col">
+
+        
+<a class="btn btn-sm btn-outline-primary" href="/uploads/${item.arquivo}"><i class="material-icons">cloud_download</i></a>
+</div>`:''
                     conteudo.innerHTML += `<div class="card border-secondary">
                                 <div class="card-body">
                                     <div class="row">
@@ -100,14 +105,29 @@
                                     Valor: ${item.valor}
                                 </div>
                                 <div class="col">
-                                    <form onsubmit="remover(event,this,'Deseja realmente remover o item?')" method="POST" action="/admin/order/itemOrder/delete">
+                                    <form class="form form-inline" onsubmit="remover(event,this,'Deseja realmente remover o item?')" method="POST" action="/admin/order/itemOrder/delete">
                         <input type="hidden" name="idItem" value="${item.id}">
                         <input type="hidden" name="idPedido" value="${item.pedidoId}">
-                        <input type="submit" class="btn btn-sm btn-danger glyphicon glyphicon-search" value="Remover Item">
-                    </form>
+                        <input type="submit" class="btn btn-sm btn-danger" value="Remover Item">
+                        
+                    </form>                  
                                 </div>
-                            </div>                     
+                               
+                                
                                 </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <form action="/client/upload/${item.id}" class="form form-inline" method="POST" enctype="multipart/form-data" onsubmit="verificaTamanhoArquivo(event,this)">
+    <input type="file" accept=".zip" class="btn btn-outline-success btn-sm form-control mt-2" name="file" id="file">  
+    <input type="submit" class="btn btn-outline-success btn-sm form-control" value="Enviar"> 
+</form>
+                                        
+                                        </div>
+
+                                        ${linkBaixarArquivo}
+                                    
+                                    </div>
+                            </div>  
                             </div>`
                 });
 
@@ -118,13 +138,28 @@
         }
         )
         )
+
+
     }
+
 
     function remover(event, form, msg) {
         event.preventDefault();
         let decisao = confirm(msg)
         if (decisao)
             form.submit()
+    }
+
+    function verificaTamanhoArquivo(event, form) {
+        event.preventDefault()        
+        file = form.children[0]
+
+        let byteToMb = parseFloat(file.files[0].size) * 0.000001;
+        if (byteToMb > 100) {
+            alert('Arquivo não pode ser maior que 100MB')
+        } else {
+            form.submit()
+        }
     }
 
 </script>

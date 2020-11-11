@@ -4,12 +4,32 @@ const clients = require('../models/client')
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
 const orders = require('../models/order');
+const itensOrder = require('../models/itensOrder')
+//Autenticação
 const clientAuthentication = require('../middleware/clientAuthentication');
 const defaultAuthentication = require('../middleware/defaultAuthentication');
+
+//API DOS CORREIORS
 const Correios = require('node-correios')
 
+//MULTER Necessário para fazer upload
+const multer = require('multer')
+const path = require('path')
+let enderecoImagem = undefined;
 
 
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/uploads')
+    },
+    filename: (req, file, cb) => {
+
+        enderecoImagem = file.originalname + '-' + Date.now() + path.extname(file.originalname)
+        cb(null, enderecoImagem)
+    }
+})
+
+let upload = multer({ storage: storage })
 
 router.get('/buscarCep/:cep', clientAuthentication, async (req, res) => {
     let cep = req.params.cep;
@@ -28,6 +48,26 @@ router.get('/buscarCep/:cep', clientAuthentication, async (req, res) => {
         res.json({})
     }
 
+})
+
+router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
+    let idItem = req.params.item;
+
+    try {
+        await itensOrder.update({ arquivo: enderecoImagem }, { where: { id: idItem } })
+        res.send('Arquivo salvo com sucesso')
+    } catch (error) {
+        res.json(error)
+    }
+
+})
+
+router.get('/client/download/:arquivo', clientAuthentication, (req, res) => {
+
+    let arquivo = req.params.arquivo;
+    let enderecoArquivo = `uploads/`
+
+    res.download(enderecoArquivo, arquivo)
 })
 
 router.get('/client/register', defaultAuthentication, (req, res) => {
@@ -100,6 +140,7 @@ router.post('/client/acesso', defaultAuthentication, (req, res) => {
         where: {
             email: data.email
         }
+
     }).then(client => {
         let compare = bcrypt.compareSync(data.password, client.password)
         console.log('Resultado da comparação----' + compare);

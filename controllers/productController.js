@@ -62,11 +62,11 @@ router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
             propriedadeDivisao: data.propriedadeDivisao,
             qtd: data.qtd
         }).then((product) => {
-            res.redirect('/admin/products')
+            res.redirect('/admin/products/find/')
         }).catch(erro => {
             console.log('Erro ao tentar salvar produtos ' + erro);
             console.log(data);
-            res.redirect('/admin/products')
+            res.redirect('/admin/products/find/')
         })
     }
 })
@@ -91,7 +91,7 @@ router.post('/admin/products/update', collaboratorAuthentication, (req, res) => 
             propriedadeDivisao: data.propriedadeDivisao,
 
         }, { where: { id: data.id } }).then(() => {
-            res.redirect('/')
+            res.redirect('/admin/products/find/')
         }).catch(erro => {
             res.json(erro)
         })

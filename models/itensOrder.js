@@ -11,6 +11,10 @@ const itensOrder = connection.define('itensPedido', {
     qtd: {
         type: sequelize.DECIMAL(10,2),
         allowNull: false
+    },
+    arquivo:{
+        type: sequelize.TEXT,
+        allowNull:true
     }
 })
 

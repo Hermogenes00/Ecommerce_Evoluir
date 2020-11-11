@@ -29,6 +29,7 @@ const collaboratorController = require('./controllers/collaboratorController');
 const orderController = require('./controllers/orderController');
 const mainController = require('./controllers/mainController');
 const utilsController = require('./controllers/utilsController');
+
 //Session
 app.use(session({
     secret: 'cloneLoja',
@@ -48,6 +49,14 @@ app.use('/', mainController)
 app.use('/', utilsController)
 
 //app.use('/', userController)
+
+
+//View engine ejs
+app.set('view engine', 'ejs')
+
+//Arquivos estáticos
+app.use(express.static('public'))
+app.use(express.static('uploads'))
 
 //Rotas
 
@@ -84,11 +93,7 @@ app.get('/logout', defaultAuthentication, (req, res) => {
     res.redirect('/')
 })
 
-//View engine ejs
-app.set('view engine', 'ejs')
 
-//Arquivos estáticos
-app.use(express.static('public'))
 
 app.listen(8090, () => {
     console.log('Servidor iniciado');
