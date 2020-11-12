@@ -24,7 +24,7 @@ let dragLeave = function (e) {
 }
 
 let drop = function (e) {
-    alert('CHEGOU NO DROP')
+    
     //this.classList.remove('dragging')
     e.target.classList.remove('border-primary')
 }

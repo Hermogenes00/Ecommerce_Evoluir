@@ -21,9 +21,11 @@ router.post('/collaborator/update', collaboratorAuthentication, (req, res) => {
 
 router.get('/collaborator/login', (req, res) => {
     if (req.session.collaborator) {
-        res.redirect
+        res.redirect('/main')
+    }else{
+        res.render('admin/collaborator/login')
     }
-    res.render('admin/collaborator/login')
+    
 })
 
 router.post('/collaborator/acesso', async (req, res) => {
