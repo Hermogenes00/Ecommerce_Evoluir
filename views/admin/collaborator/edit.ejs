@@ -1,0 +1,114 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbaradmin') %>
+
+<div class="container">
+    <div class="card mt-2">
+        <div class="card-header">
+            <h5 class="card-title">Colaborador</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="/collaborator/update">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="nome">Nome Completo</label>
+                        <input type="text" value="<%=collaborator.nome%>" class="form-control form-control-sm"
+                            name="nome" id="nome">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email">Email</label>
+                        <input type="email" value="<%=collaborator.email%>" name="email"
+                            class="form-control form-control-sm" id="email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="password">Senha</label>
+                        <input type="password" readonly disabled name="password" placeholder="*******"
+                            class="form-control form-control-sm" id="password">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="cnpjCpf">Cpf/Cnpj</label>
+                        <input type="number" value="<%=collaborator.cnpjCpf%>" class="form-control form-control-sm"
+                            name="cnpjCpf" id="cnpjCpf">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="tel">Tel</label>
+                        <input type="tel" value="<%=collaborator.tel%>" pattern="[0-9]{2} [0-9]{4}-[0-9]{4}"
+                            placeholder="00 0000-0000" class="form-control form-control-sm" name="tel" id="tel">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="cel1">Cel 1</label>
+                        <input type="tel" value="<%=collaborator.cel1%>" pattern="[0-9]{2} [0-9]{5}-[0-9]{4}"
+                            placeholder="00 90000-0000" class="form-control form-control-sm" name="cel1" id="cel1">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="cel2">Cel 2</label>
+                        <input type="tel" value="<%=collaborator.cel2%>" pattern="[0-9]{2} [0-9]{5}-[0-9]{4}"
+                            placeholder="00 90000-0000" class="form-control form-control-sm" name="cel2" id="cel2">
+                    </div>
+                </div>
+                <hr>
+
+                <div class="form-row">
+                    <div class="col-md-2">
+                        <label for="cep">Cep</label>
+                        <input type="number" value="<%=collaborator.cep%>" class="form-control form-control-sm"
+                            name="cep" id="cep">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="rua">Rua</label>
+                        <input type="text" value="<%=collaborator.rua%>" class="form-control form-control-sm"
+                            value="asdfasd" name="rua" id="rua">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="bairro">Bairro</label>
+                        <input type="text" value="<%=collaborator.bairro%>" class="form-control form-control-sm"
+                            name="bairro" id="bairro">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="numero">Nº</label>
+                        <input type="text" value="<%=collaborator.numero%>" class="form-control form-control-sm"
+                            name="numero" id="numero">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="complemento">Complemento</label>
+                        <input type="text" value="<%=collaborator.complemento%>" class="form-control form-control-sm"
+                            name="complemento" id="complemento">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-3 offset-md-10">
+                        <input type="hidden" name="id" value="<%= collaborator.id %> ">
+                        <a href="" class="btn btn-outline-primary">Cancelar</a>
+                        <input type="submit" class="btn btn-outline-primary" value="Salvar">
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
+<script>
+
+    let formData = new FormData();
+
+    let inputs = document.querySelectorAll('input')
+
+    let dados = [...inputs]
+    let params = {}
+
+    for (d in dados) {
+        params[dados[d].name] = dados[d].value;
+    }
+
+    requisicaoPost('http://localhost:8090/client/save', params, response => {
+        console.log(response);
+    })
+
+</script>

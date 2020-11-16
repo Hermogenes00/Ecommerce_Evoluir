@@ -11,9 +11,6 @@
                 <btn class="btn btn-outline-secondary btn-sm" id="btnBuscar" name="btnBuscar">Buscar</a>
             </div>
         </div>
-        <div class="col offset-md-4">
-            <a href="/admin/products/register" id="btnNovoProduto" class="btn btn-primary btn-sm">Novo Pedido</a>
-        </div>
     </div>
 
 
@@ -48,11 +45,17 @@
                     <h6><%= pdds.total %></h6>
                 </td>
                 <td>
-                    <div class="text-center">                        
-                        <a href="" data-toggle="tooltip" data-placement="top"
-                        title="Ver Pedido" data-target="#exampleModal"><i class="material-icons">visibility</i></a>
-                        <a href="" title="Ver Pedido"><i class="material-icons">add_shopping_cart</i></a>
-                        <a href="" title="Ver Pedido"><i class="material-icons">check_circle_outline</i></a>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <form action="/order/resume/" method="POST">
+                                    <input type="hidden" name="idOrder" value="<%= clt.id %>">
+                                    <input data-toggle="tooltip" data-placement="top" title="Ver Ficha"
+                                        data-target="#exampleModal" type="submit" class="btn btn-danger btn-sm"
+                                        value="Ver Ficha">
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </td>
             </tr>

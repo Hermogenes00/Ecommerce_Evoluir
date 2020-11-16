@@ -17,7 +17,7 @@ function requisicao(endereco, callback) {
 }
 
 function requisicaoPost(endereco, data, callback) {
-    
+
     let xhr = new XMLHttpRequest()
     xhr.open('POST', endereco, true);
     //xhr.setRequestHeader('Content-type','application/json')
@@ -37,5 +37,6 @@ function buscarCep(cep, callback) {
 
     requisicao('http://localhost:8090/buscarCep/' + cep, (response) => {
         callback(response)
+
     })
 }

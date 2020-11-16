@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
 const orders = require('../models/order');
 const itensOrder = require('../models/itensOrder')
+
 //Autenticação
 const clientAuthentication = require('../middleware/clientAuthentication');
 const defaultAuthentication = require('../middleware/defaultAuthentication');
@@ -32,7 +33,7 @@ let storage = multer.diskStorage({
 
 let upload = multer({ storage: storage })
 
-router.get('/buscarCep/:cep', clientAuthentication, async (req, res) => {
+router.get('/buscarCep/:cep', async (req, res) => {
     let cep = req.params.cep;
     args = {
         cep: cep
@@ -56,7 +57,7 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
 
     try {
         await itensOrder.update({ arquivo: enderecoImagem }, { where: { id: idItem } })
-        res.send('Arquivo salvo com sucesso')
+        res.redirect('/client/order')
     } catch (error) {
         res.json(error)
     }

@@ -1,0 +1,85 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbaradmin') %>
+
+<div class="container mt-3">
+
+    <div class="row">
+        <div class="input-group col-md-6 mb-3">
+            <input id="colaborador" name="colaborador" type="text" class="form-control form-control-sm"
+                placeholder="Buscar colaborador">
+            <div class="input-group-append">
+                <btn class="btn btn-outline-secondary btn-sm" id="btnBuscar" name="btnBuscar">Buscar</a>
+            </div>
+        </div>
+        <div class="col offset-md-4">
+            <a href="/collaborator/new" id="btnNovoColaborador" class="btn btn-primary btn-sm">Novo Colaborador</a>
+        </div>
+    </div>
+
+
+    <table class="table table-hover table-sm">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>email</th>
+                <th class="text-center">Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% collaborators.forEach(clt => {%>
+
+            <tr>
+                <td>
+                    <h6><%= clt.nome %></h6>
+                </td>
+                <td>
+                    <h6><%= clt.email %></h6>
+                </td>
+                <td>
+                    <div>
+
+                        <form method="POST" class="form form-inline" action="/collaborator/delete" onsubmit="deleteCollaborator(event,this)">
+                            <input type="hidden" name="id" value="<%= clt.id %> ">
+                            <a href="/collaborator/edit/<%= clt.id %> " title="Editar" data-target="#exampleModal"><i
+                                    class="material-icons" data-toggle="tooltip" data-placement="top"
+                                    title="Editar Colaborador">person</i></a>
+                            <input type="submit" value="Excluir" id="btnExcluir" class="btn btn-outline-danger btn-sm">
+                        </form>
+
+                    </div>
+                </td>
+            </tr>
+
+            <%}); %>
+
+        </tbody>
+    </table>
+
+</div>
+
+<%- include('../../partials/footer') %>
+
+<script src="/js/ajax.js"></script>
+
+<script>
+
+    let colaborador = document.getElementById('colaborador')
+
+    document.getElementById('btnBuscar').addEventListener('click', () => {
+        document.location.href = colaborador.value ? colaborador.value : 'all'
+    })
+
+    let btnExcluir = document.getElementById('btnExcluir')
+
+    function deleteCollaborator(event, form) {
+        
+        event.preventDefault()
+        
+        let flagConfirm = confirm('Clique em ok para confirmar a exclusão')
+
+        if(flagConfirm){
+            form.submit()
+        }
+    }
+
+</script>

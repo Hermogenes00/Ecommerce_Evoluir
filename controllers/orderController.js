@@ -7,7 +7,7 @@ const product = require('../models/product')
 const client = require('../models/client')
 const clientAuthentication = require('../middleware/clientAuthentication')
 const defaultAuthentication = require('../middleware/defaultAuthentication')
-
+const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 
 router.post('/admin/order/delete', clientAuthentication, async (req, res) => {
 
@@ -161,10 +161,32 @@ router.get('/admin/products/detail/:id', defaultAuthentication, (req, res) => {
     }).catch(erro => {
         res.json(erro)
     })
-
-
 })
 
+router.post('/order/resume', collaboratorAuthentication,async (req, res) => {
+    let data = req.body;
+
+    try {
+        let ord = await orders.findOne({ where: { id: data.idOrder }, include: client })
+        let itens = await itensOrder.findAll({
+            where: {
+                pedidoId: data.idOrder
+            }, include: product
+        })
+
+        if (ord) {
+
+            if (itens) {
+
+                res.render('admin/order/resume', { ord: ord, itens: itens })
+            }
+
+        }
+
+    } catch (error) {
+        res.json(error)
+    }
+})
 
 router.post('/cart/finish/', clientAuthentication, async (req, res) => {
 
@@ -193,9 +215,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
     } catch (error) {
         res.json(error)
     }
-
-
-
+    
 })
 
 
