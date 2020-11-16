@@ -4,6 +4,8 @@ const sequelize = require('sequelize')
 const router = express.Router();
 const slug = require('slugify')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+const multer = require('multer')
+
 
 router.get('/admin/products/find/:product?', collaboratorAuthentication, async (req, res) => {
 

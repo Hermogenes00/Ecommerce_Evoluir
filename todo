@@ -1,0 +1,8 @@
+Rodapé
+Cálculo de frete View Carrinho
+dashboard Painel Colaborador (http://localhost:8090/main/)
+Ver Movimentações de determinados clientes rota (http://localhost:8090/main/clients/)
+Produção (dragAndDrop), realizar alteração de status no banco de determinados rota (http://localhost:8090/main/production)
+(FEITO)Remoção do carrinho em caso de não haver item
+Sistema não irá trabalhar com os correios, mas sim com transportadora (Aguardando retorno de Cleison)
+Realizar Upload do gabarito no próprio servidor | Informar apenas link para um servidor externo (ex: googleDrive)

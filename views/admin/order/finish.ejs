@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col">Total: <%= ord.total %> </div>
                 <div class="col">Frete: <%= ord.valorFrete %> </div>
-                <div class="col">Data: <%= ord.createdAt %></div>
+                <div class="col">Data: <%= ord.createdAt.toLocaleString('pt-br') %></div>
             </div>
             <hr>
             <h6 class="text-center">Itens do Pedido</h6>
@@ -49,7 +49,6 @@
                             <td><%= item.produto.nome %> </td>
                             <td><%= item.qtd %></td>
                             <td><%= item.valor %></td>
-
                         </tr>
                         <%})%>
 
@@ -84,7 +83,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer">Rodapé</div>
+        
     </div>
     <div id="areaPagamento">
         <div class="row">
@@ -92,8 +91,7 @@
                 <button class="btn btn-outline-primary mt-3">Cancelar Confirmação de pagamento</button>
                 <button class="btn btn-primary mt-3">Confirmar Informações acima e Realizar pagamento</button>
             </div>
-        </div>
-        
+        </div>        
     </div>
 </div>
 

@@ -40,9 +40,7 @@ router.post('/admin/order/itemOrder/delete', clientAuthentication, async (req, r
         if (ords) {
             let total = parseFloat(0);
 
-            console.log('ords.ItensPedidos ------------------------------' + ords.itensPedidos);
             if (ords.itensPedidos) {
-                console.log('Caiu ---------------------------------------');
                 ords.itensPedidos.forEach(item => {
                     total += parseFloat(item.valor)
                 })
@@ -50,6 +48,12 @@ router.post('/admin/order/itemOrder/delete', clientAuthentication, async (req, r
 
             try {
                 await orders.update({ total: total }, { where: { id: data.idPedido } })
+
+                //Verifica se tem algo no carrinho, caso não, irá excluir o carrinho
+                if (!ords.itensPedidos.length > 0) {
+                    await orders.destroy({ where: { id: ords.id } })
+                }
+
             } catch (error) {
                 res.send('Erro ao tentar atualizar valores do pedido' + error)
             }
@@ -163,7 +167,7 @@ router.get('/admin/products/detail/:id', defaultAuthentication, (req, res) => {
     })
 })
 
-router.post('/order/resume', collaboratorAuthentication,async (req, res) => {
+router.post('/order/resume', collaboratorAuthentication, async (req, res) => {
     let data = req.body;
 
     try {
@@ -175,16 +179,15 @@ router.post('/order/resume', collaboratorAuthentication,async (req, res) => {
         })
 
         if (ord) {
-
-            if (itens) {
-
-                res.render('admin/order/resume', { ord: ord, itens: itens })
-            }
-
+            res.render('admin/order/resume', { ord: ord, itens: itens })
+        }
+        else {
+            console.log('RESULTADO------------' + JSON.parse(ord));
+            res.redirect('/main/orders/');
         }
 
     } catch (error) {
-        res.json(error)
+        res.json('Erro ao tentar consultar a ficha ' + error)
     }
 })
 
@@ -215,7 +218,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
     } catch (error) {
         res.json(error)
     }
-    
+
 })
 
 

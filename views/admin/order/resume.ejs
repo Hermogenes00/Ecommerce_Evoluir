@@ -31,7 +31,8 @@
             <div class="row">
                 <div class="col">Total: <%= ord.total %> </div>
                 <div class="col">Frete: <%= ord.valorFrete %> </div>
-                <div class="col">Data: <%= ord.createdAt %></div>
+                <div class="col">Data: <%= ord.createdAt.toLocaleString('pt-br') %></div>
+                <div class="col">Status: <%= ord.status %> </div>
             </div>
             <hr>
             <h6 class="text-center">Itens do Pedido</h6>
@@ -88,7 +89,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer">Rodapé</div>
+        
     </div>
 </div>
 
