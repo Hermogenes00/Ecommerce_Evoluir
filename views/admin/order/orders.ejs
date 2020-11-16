@@ -12,6 +12,7 @@
                 <th>#</th>
                 <th>Status</th>
                 <th>Valor Total</th>
+                <th>Frete</th>
                 <th class="text-center">Ação</th>
             </tr>
         </thead>
@@ -42,7 +43,7 @@
                         </div>
                         <div class="col-md-2">
                             <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')" method="POST"
-                                action="/admin/order/delete">
+                                action="/cart/finish">
                                 <input type="hidden" name="idOrder" value="<%= o.id %>">
                                 <input type="submit" class="btn btn-sm btn-primary ml-4" value="Finalizar Carrinho">
                             </form>
@@ -82,9 +83,9 @@
             if (conteudo.style.display == 'none' || conteudo.style.display == '') {
                 conteudo.style.display = 'block'
                 conteudo.innerHTML = '';
-                
+
                 dados.forEach(item => {
-                    let linkBaixarArquivo = item.arquivo?`<div class="col">
+                    let linkBaixarArquivo = item.arquivo ? `<div class="col">
 
         
 <a class="btn btn-sm btn-outline-primary" href="/uploads/${item.arquivo}"><i class="material-icons">cloud_download</i></a>
@@ -119,7 +120,7 @@
                                     <div class="col">
                                         <form action="/client/upload/${item.id}" class="form form-inline" method="POST" enctype="multipart/form-data" onsubmit="verificaTamanhoArquivo(event,this)">
     <input type="file" accept=".zip" class="btn btn-outline-success btn-sm form-control mt-2" name="file" id="file">  
-    <input type="submit" class="btn btn-outline-success btn-sm form-control" value="Enviar"> 
+    <input type="submit" class="btn btn-outline-success btn-sm form-control mt-2" value="Enviar"> 
 </form>
                                         
                                         </div>
@@ -151,7 +152,7 @@
     }
 
     function verificaTamanhoArquivo(event, form) {
-        event.preventDefault()        
+        event.preventDefault()
         file = form.children[0]
 
         let byteToMb = parseFloat(file.files[0].size) * 0.000001;

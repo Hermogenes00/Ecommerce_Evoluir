@@ -157,5 +157,35 @@ router.get('/admin/products/detail/:id', defaultAuthentication, (req, res) => {
 })
 
 
+router.post('/cart/finish/', clientAuthentication, async (req, res) => {
+
+    let data = req.body;
+    console.log(data);
+
+    try {
+        console.log('CHEGOU NA CONSULTA ------------');
+
+        let result = await orders.findOne({ where: { id: data.idOrder }, include: itensOrder })
+
+        if (result) {
+            let clt = await client.findByPk(result.clienteId)
+            if (clt) {
+                obj = {
+                    cliente: clt,
+                    pedido: result
+                }
+            }
+        }
+        res.render('admin/order/finish', { result: obj })
+    } catch (error) {
+        res.json(error)
+    }
+
+
+
+})
+
+
+
 
 module.exports = router
