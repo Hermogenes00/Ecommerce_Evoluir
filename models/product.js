@@ -55,7 +55,6 @@ const product = connection.define('produtos', {
 })
 
 
-
 //product.sync({ alter: true })
 
 module.exports = product

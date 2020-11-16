@@ -9,14 +9,14 @@
         <div class="card-header">Cliente</div>
         <div class="card-body">
             <div class="row">
-                <div class="col">Nome <%= result.cliente.nome %> </div>
-                <div class="col">Cpf <%= result.cliente.cnpjCpf %></div>
-                <div class="col">Email <%= result.cliente.email %></div>
+                <div class="col">Nome <%= ord.cliente.nome %> </div>
+                <div class="col">Cpf <%= ord.cliente.cnpjCpf %></div>
+                <div class="col">Email <%= ord.cliente.email %></div>
             </div>
             <div class="row">
-                <div class="col">Contato <%= result.cliente.tel %></div>
-                <div class="col">Tel <%= result.cliente.cel1 %></div>
-                <div class="col">Tel <%= result.cliente.cel2 %></div>
+                <div class="col">Contato <%= ord.cliente.tel %></div>
+                <div class="col">Tel <%= ord.cliente.cel1 %></div>
+                <div class="col">Tel <%= ord.cliente.cel2 %></div>
             </div>
         </div>
         <div class="card-footer">Rodapé</div>
@@ -25,9 +25,9 @@
         <div class="card-header">Pedido</div>
         <div class="card-body">
             <div class="row">
-                <div class="col">Total: <%= result.pedido.total %> </div>
-                <div class="col">Frete: <%= result.pedido.valorFrete %> </div>
-                <div class="col">Tel: <%= result.pedido.createdAt %></div>
+                <div class="col">Total: <%= ord.total %> </div>
+                <div class="col">Frete: <%= ord.valorFrete %> </div>
+                <div class="col">Data: <%= ord.createdAt %></div>
             </div>
             <hr>
             <h6 class="text-center">Itens do Pedido</h6>
@@ -35,38 +35,65 @@
                 <table class="table table-borderless">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">Cod</th>
+                            <th scope="col">Produto</th>
+                            <th scope="col">Qtd</th>
+                            <th scope="col">Valor</th>
+
                         </tr>
                     </thead>
                     <tbody>
+                        <% itens.forEach(item=>{%>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <td><%= item.id %> </td>
+                            <td><%= item.produto.nome %> </td>
+                            <td><%= item.qtd %></td>
+                            <td><%= item.valor %></td>
+
                         </tr>
+                        <%})%>
+
+
                     </tbody>
                 </table>
             </div>
 
         </div>
-        <div class="card-footer">Rodapé</div>
+        <div class="card-footer">Total: R$<%= ord.total %> </div>
     </div>
     <div class="card mt-3">
-        <div class="card-header">Endereço</div>
+        <div class="card-header">Endereço de entrega</div>
         <div class="card-body">
-            Corpo
+            <div class="row">
+                <div class="col">
+                    Endereço: <%= ord.cliente.rua %>
+                </div>
+                <div class="col">
+                    Bairro: <%= ord.cliente.bairro %>
+                </div>
+                <div class="col">
+                    Nº: <%= ord.cliente.numero %>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    Complemento: <%= ord.cliente.complemento %> 
+                </div>
+                <div class="col">
+                    Cep: <%= ord.cliente.cep %> 
+                </div>
+            </div>
         </div>
         <div class="card-footer">Rodapé</div>
+    </div>
+    <div id="areaPagamento">
+        <div class="row">
+            <div class="col text-center">
+                <button class="btn btn-outline-primary mt-3">Cancelar Confirmação de pagamento</button>
+                <button class="btn btn-primary mt-3">Confirmar Informações acima e Realizar pagamento</button>
+            </div>
+        </div>
+        
     </div>
 </div>
 

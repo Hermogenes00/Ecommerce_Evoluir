@@ -80,8 +80,11 @@ router.post('/collaborator/save', async (req, res) => {
                 nome: clb.nome,
                 email: clb.email
             }
+
+            res.redirect('/main')
         }
     } catch (error) {
+        res.redirect('/collaborator/new')
         console.log(error);
     }
 })

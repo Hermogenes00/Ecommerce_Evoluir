@@ -27,27 +27,36 @@ router.post('/admin/order/itemOrder/delete', clientAuthentication, async (req, r
     try {
         await itensOrder.destroy({ where: { id: data.idItem } })
     } catch (error) {
-        res.send('Erro ao tentar realiar a exclusão do item' + erro)
+        res.send('Erro ao tentar realizar a exclusão do item' + error)
     }
 
-
-    orders.findOne({ where: { id: data.idPedido }, include: itensOrder }).then(async ords => {
-
-        let total = 0;
-
-        ords.itensPedidos.forEach(item => {
-            total += item.valor
+    try {
+        let ords = await orders.findOne({
+            where: {
+                id: data.idPedido
+            }, include: itensOrder
         })
 
-        try {
-            await orders.update({ total: total }, { where: { id: data.idPedido } })
-        } catch (error) {
-            res.send('Erro ao tentar atualizar valores do pedido' + erro)
-        }
+        if (ords) {
+            let total = parseFloat(0);
 
-    }).catch(erro => {
-        res.send('Ops. Ocorreu um erro ao tentar realizar a operação.----' + erro)
-    })
+            console.log('ords.ItensPedidos ------------------------------' + ords.itensPedidos);
+            if (ords.itensPedidos) {
+                console.log('Caiu ---------------------------------------');
+                ords.itensPedidos.forEach(item => {
+                    total += parseFloat(item.valor)
+                })
+            }
+
+            try {
+                await orders.update({ total: total }, { where: { id: data.idPedido } })
+            } catch (error) {
+                res.send('Erro ao tentar atualizar valores do pedido' + error)
+            }
+        }
+    } catch (error) {
+        res.send('Erro ao tentar atualizar valores do pedido' + error)
+    }
 
     res.redirect('/client/order')
 })
@@ -165,18 +174,22 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
     try {
         console.log('CHEGOU NA CONSULTA ------------');
 
-        let result = await orders.findOne({ where: { id: data.idOrder }, include: itensOrder })
+        let ord = await orders.findOne({ where: { id: data.idOrder }, include: client })
+        let itens = await itensOrder.findAll({
+            where: {
+                pedidoId: data.idOrder
+            }, include: product
+        })
 
-        if (result) {
-            let clt = await client.findByPk(result.clienteId)
-            if (clt) {
-                obj = {
-                    cliente: clt,
-                    pedido: result
-                }
+        if (ord) {
+
+            if (itens) {
+
+                res.render('admin/order/finish', { ord: ord, itens: itens })
             }
+
         }
-        res.render('admin/order/finish', { result: obj })
+
     } catch (error) {
         res.json(error)
     }
