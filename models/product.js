@@ -16,7 +16,11 @@ const product = connection.define('produtos', {
         type: sequelize.STRING,
         allowNull: false
     },
-    tamFinal: {
+    tamFinalAltura: {
+        type: sequelize.STRING,
+        allowNull: false
+    },
+    tamFinalLargura: {
         type: sequelize.STRING,
         allowNull: false
     },
@@ -36,7 +40,11 @@ const product = connection.define('produtos', {
         type: sequelize.DECIMAL(10, 2),
         allowNull: false
     },
-    tamSangria: {
+    tamSangriaAltura: {
+        type: sequelize.STRING,
+        allowNull: false
+    },
+    tamSangriaLargura:{
         type: sequelize.STRING,
         allowNull: false
     },
