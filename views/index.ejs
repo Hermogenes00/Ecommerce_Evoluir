@@ -20,8 +20,9 @@
                     <p style="margin-bottom: 0%; text-align: left;">Ref: <%= product.material %> </p>
 
                     <div class="card-text mt-2">
-                        <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
-                            title="Baixar gabarito">Baixar Gabarito</a>
+                        <% if(product.gabarito){ %>
+                            <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm">Baixar Gabarito</a>    
+                        <%} %>
                         <a href="/admin/products/detail/<%= product.id %> " data-toggle="tooltip" data-placement="top"
                             title="Ver detalhes" class="btn btn-primary btn-sm">Detalhes</a>
                     </div>

@@ -5,7 +5,45 @@ const router = express.Router();
 const slug = require('slugify')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 const multer = require('multer')
+const path = require('path')
 
+
+//Configuração do multer, para upload e download dos gabaritos
+let enderecoImagem = null;
+
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/gabarito')
+    },
+    filename: (req, file, cb) => {
+        enderecoImagem = `${file.originalname}-${Date.now() + path.extname(file.originalname)}`
+        cb(null, enderecoImagem)
+    }
+})
+
+let upload = multer({
+    storage: storage
+})
+
+
+
+
+//Rotas------------------------
+
+router.post('/admin/product/upload/:productId', upload.single('file'), (req, res) => {
+    
+    let productId = req.params.productId
+
+    products.update({
+        gabarito: enderecoImagem
+    }, { where: { id: productId } }).then(() => {
+        res.redirect('/admin/products/find/')
+    }).catch(error => {
+        console.log('Erro ao tentar enviar gabarito-----' + error);
+        res.send('Ops, houve um erro ao tentar realizar esta operação, tente novamente, caso o erro persista entre em contato com o suporte')
+    })
+
+})
 
 router.get('/admin/products/find/:product?', collaboratorAuthentication, async (req, res) => {
 

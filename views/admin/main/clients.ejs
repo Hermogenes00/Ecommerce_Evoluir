@@ -40,7 +40,10 @@
                     <div class="text-center">
                         <a href="" title="Ver Pedido" data-target="#exampleModal"><i
                                 class="material-icons">visibility</i></a>
-                        <a href="" title="Ver Pedido"><i class="material-icons">add_shopping_cart</i></a>
+                        <a href="" data-toggle="modal" onclick="verCarrinho(event)" data-target="#exampleModal"
+                            data-whatever="@getbootstrap"><i class="material-icons" data-clientId="<%=clt.id%>"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Ver Carrinho">add_shopping_cart</i></a>
                         <a href="" title="Ver Pedido"><i class="material-icons">check_circle_outline</i></a>
                     </div>
                 </td>
@@ -51,18 +54,84 @@
         </tbody>
     </table>
 
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Carrinho</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col" id="modal-cliente"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="modal-total"></div>
+                        <div class="col" id="modal-status"></div>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cod</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Qtd</th>
+                                <th scope="col">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-tabela">
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
 
 <%- include('../../partials/footer') %>
 
-<script src="/js/ajax.js"></script>
 
 <script>
-   
-    let cliente = document.getElementById('cliente')
 
-    document.getElementById('btnBuscar').addEventListener('click', () => {
-        document.location.href = cliente.value ? cliente.value : 'all'
-    })
+    let cliente = document.getElementById('modal-cliente')
+    let status = document.getElementById('modal-status')
+    let total = document.getElementById('modal-total')
+    let tabela = document.getElementById('modal-tabela')
+
+    function verCarrinho(event) {
+
+        let clientId = event.target.dataset.clientid
+
+        requisicao(`http://localhost:8090/main/order/${clientId}`, response => {
+            let objJson = JSON.parse(response)
+
+            cliente.innerHTML = `Cliente: ${objJson.ord.cliente.nome}`
+            status.innerHTML = `Status: ${objJson.ord.status}`
+            total.innerHTML = `Total: ${objJson.ord.total}`
+
+            tabela.innerHTML = '';
+            objJson.items.forEach(item => {
+                let arquivo = item.arquivo ? `<a target="_blank" href="/uploads/${item.arquivo}" class="btn btn-warning btn-sm">Baixar Arquivo</a>` : ''
+                tabela.innerHTML += `<tr>
+                    <td>${item.id}</td>
+                    <td>${item.produto.nome}</td>
+                    <td>${item.qtd}</td>
+                    <td>${item.valor}</td>
+                    <td>${arquivo}</td>
+                    </tr>`
+            })
+        })
+    }
+
 
 </script>

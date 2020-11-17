@@ -51,6 +51,10 @@ const product = connection.define('produtos', {
     slug: {
         type: sequelize.STRING,
         allowNull: false
+    },
+    gabarito: {
+        type: sequelize.TEXT,
+        allowNull: true
     }
 })
 

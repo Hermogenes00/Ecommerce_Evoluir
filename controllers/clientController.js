@@ -17,6 +17,8 @@ const Correios = require('node-correios')
 const multer = require('multer')
 const path = require('path')
 
+
+//Configuração do Multer - Para realização de upload e download
 let enderecoImagem = undefined;
 
 
@@ -32,6 +34,9 @@ let storage = multer.diskStorage({
 })
 
 let upload = multer({ storage: storage })
+
+
+//Rotas
 
 router.get('/buscarCep/:cep', async (req, res) => {
     let cep = req.params.cep;
@@ -62,14 +67,6 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
         res.json(error)
     }
 
-})
-
-router.get('/client/download/:arquivo', clientAuthentication, (req, res) => {
-
-    let arquivo = req.params.arquivo;
-    let enderecoArquivo = `uploads/`
-
-    res.download(enderecoArquivo, arquivo)
 })
 
 router.get('/client/register', defaultAuthentication, (req, res) => {

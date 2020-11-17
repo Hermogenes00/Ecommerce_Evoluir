@@ -57,6 +57,7 @@ app.set('view engine', 'ejs')
 //Arquivos estáticos
 app.use(express.static('public'))
 app.use(express.static('uploads'))
+app.use(express.static('gabarito'))
 
 //Rotas
 
