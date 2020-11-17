@@ -6,6 +6,7 @@ const slug = require('slugify')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 const multer = require('multer')
 const path = require('path')
+const fs = require('fs')
 
 
 //Configuração do multer, para upload e download dos gabaritos
@@ -22,17 +23,34 @@ let storage = multer.diskStorage({
 })
 
 let upload = multer({
-    storage: storage
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (path.extname(file.originalname) == '.rar') {
+            cb(null, true)
+        } else {
+            cb(null, false)
+        }
+    }
 })
-
-
-
 
 //Rotas------------------------
 
-router.post('/admin/product/upload/:productId', upload.single('file'), (req, res) => {
-    
+router.post('/admin/product/upload/:productId', upload.single('file'), async (req, res) => {
+
     let productId = req.params.productId
+
+    try {
+        let prod = await products.findByPk(productId);
+        if (prod.gabarito) {
+            fs.unlink('public/gabarito/' + prod.gabarito, (err) => {
+                if (err) {
+                    console.log('Erro ao tentar excluir o arquivo');
+                }
+            })
+        }
+    } catch (error) {
+        console.log('Erro ao tentar localizar o produto ' + error);
+    }
 
     products.update({
         gabarito: enderecoImagem

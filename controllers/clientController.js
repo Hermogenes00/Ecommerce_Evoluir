@@ -28,18 +28,23 @@ let storage = multer.diskStorage({
         cb(null, 'public/uploads')
     },
     filename: (req, file, cb) => {
-        
-        if (path.extname(file.originalname) == '.pdf') {
-            enderecoImagem = file.originalname + '-' + Date.now() + path.extname(file.originalname)
-        } else {
-            enderecoImagem = null
-        }
-
+        enderecoImagem = file.originalname + '-' + Date.now() + path.extname(file.originalname)
         cb(null, enderecoImagem)
     }
-})
+}
+)
 
-let upload = multer({ storage: storage })
+
+let upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (path.extname(file.originalname) == '.pdf') {
+            cb(null, true)
+        } else {
+            cb(null, false)
+        }
+    }
+})
 
 
 //Rotas
