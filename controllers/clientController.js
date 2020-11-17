@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
 const orders = require('../models/order');
 const itensOrder = require('../models/itensOrder')
+const fs = require('fs')
 
 //Autenticação
 const clientAuthentication = require('../middleware/clientAuthentication');
@@ -27,8 +28,13 @@ let storage = multer.diskStorage({
         cb(null, 'public/uploads')
     },
     filename: (req, file, cb) => {
+        
+        if (path.extname(file.originalname) == '.pdf') {
+            enderecoImagem = file.originalname + '-' + Date.now() + path.extname(file.originalname)
+        } else {
+            enderecoImagem = null
+        }
 
-        enderecoImagem = file.originalname + '-' + Date.now() + path.extname(file.originalname)
         cb(null, enderecoImagem)
     }
 })
@@ -61,8 +67,22 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
     let idItem = req.params.item;
 
     try {
-        await itensOrder.update({ arquivo: enderecoImagem }, { where: { id: idItem } })
-        res.redirect('/client/order')
+
+        let itemOrder = await itensOrder.findOne({ where: { id: idItem } })
+        if (itemOrder) {
+            if (itemOrder.arquivo) {
+                fs.unlink('public/uploads/' + itemOrder.arquivo, (err) => {
+                    if (err) {
+                        console.log('Erro ao tentar excluir o arquivo->' + err);
+                    }
+                })
+            }
+
+            await itensOrder.update({ arquivo: enderecoImagem }, { where: { id: idItem } })
+
+            res.redirect('/client/order')
+        }
+
     } catch (error) {
         res.json(error)
     }

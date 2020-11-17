@@ -1,7 +1,16 @@
 Rodapé (AGUARDANDO ENVIO POR PARTE DESIGNER)
+implementar cálculo de produto (largura vs altura) referência (https://zapgrafica.com.br/loja/servico/compra/adesivos/metro-quadrado/vinil-branco-brilho/4X0-1unid-VBBM2)
 completar dados para cadastro do colaborador.
 dashboard Painel Colaborador (BLOCOS: CARRINHO, PAGOS, TOTAL DE PAGOS POR CLIENTE) (http://localhost:8090/main/)
 Ver Movimentações de determinados clientes rota (http://localhost:8090/main/clients/)
 Produção (dragAndDrop), realizar alteração de status no banco de determinados rota (http://localhost:8090/main/production)
 Sistema não irá trabalhar com os correios, mas sim com transportadora (Aguardando retorno de Cleison)
 REALIZAR MELHORIAS NA INTERFACE DA LISTAGEM DE PRODUTOS
+INCLUSÃO DO MÓDULO FINANCEIRO
+INCLUSÃO DO MÓDULO FISCAL
+
+
+
+
+
+DAR CONTINUIDADE NA VALIDAÇÃO DO ENVIO DO ARQUIVO (UPLOAD-CLIENTE)
