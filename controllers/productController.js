@@ -110,16 +110,16 @@ router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
             nome: data.nome,
             descricao: data.descricao,
             codRef: data.codRef,
-            tamFinalAltura: data.tamFinalAltura,
-            tamFinalLargura: data.tamFinalLargura,
-            vlrProduto: parseFloat(data.vlrProduto),
+            tamFinalAltura: data.tamFinalAltura.replace('.','').replace(',','.'),
+            tamFinalLargura: data.tamFinalLargura.replace('.','').replace(',','.'),
+            vlrProduto: data.vlrProduto.replace('.','').replace(',','.'),
             material: data.material,
-            gramatura: parseFloat(data.gramatura),
-            peso: parseFloat(data.peso),
-            tamSangriaAltura: data.tamSangriaAltura,
-            tamSangriaLargura: data.tamSangriaLargura,
+            gramatura: data.gramatura.replace('.','').replace(',','.'),
+            peso: data.peso.replace('.','').replace(',','.'),
+            tamSangriaAltura: data.tamSangriaAltura.replace('.','').replace(',','.'),
+            tamSangriaLargura: data.tamSangriaLargura.replace('.','').replace(',','.'),
             slug: slug(data.nome),
-            propriedadeDivisao: data.propriedadeDivisao,
+            propriedadeDivisao: parseInt(data.propriedadeDivisao),
             qtd: data.qtd
         }).then((product) => {
             res.redirect('/admin/products/find/')
@@ -131,9 +131,12 @@ router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
     }
 })
 
+
+
 router.post('/admin/products/update', collaboratorAuthentication, (req, res) => {
 
     let data = req.body;
+    console.log(data);
 
     if (data != undefined) {
 
@@ -141,17 +144,17 @@ router.post('/admin/products/update', collaboratorAuthentication, (req, res) => 
             nome: data.nome,
             descricao: data.descricao,
             codRef: data.codRef,
-            tamFinalAltura: data.tamFinalAltura,
-            tamFinalLargura: data.tamFinalLargura,
-            vlrProduto: parseFloat(data.vlrProduto),
+            tamFinalAltura: data.tamFinalAltura.replace('.','').replace(',','.'),
+            tamFinalLargura: data.tamFinalLargura.replace('.','').replace(',','.'),
+            vlrProduto: data.vlrProduto.replace('.','').replace(',','.'),
             material: data.material,
-            gramatura: parseFloat(data.gramatura),
-            peso: parseFloat(data.peso),
-            tamSangriaAltura: data.tamSangriaAltura,
-            tamSangriaLargura: data.tamSangriaLargura,
+            gramatura: data.gramatura.replace('.','').replace(',','.'),
+            peso: data.peso.replace('.','').replace(',','.'),
+            tamSangriaAltura: data.tamSangriaAltura.replace('.','').replace(',','.'),
+            tamSangriaLargura: data.tamSangriaLargura.replace('.','').replace(',','.'),
             slug: slug(data.nome),
-            propriedadeDivisao: data.propriedadeDivisao,
-
+            propriedadeDivisao: parseInt(data.propriedadeDivisao),
+            qtd: data.qtd
         }, { where: { id: data.id } }).then(() => {
             res.redirect('/admin/products/find/')
         }).catch(erro => {

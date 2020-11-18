@@ -3,6 +3,20 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
 
-function porta(){
+function porta() {
     return '8090';
+}
+
+function getMoney(str) {
+    return parseInt(str.replace(/[\D]+/g, ''));
+}
+
+function formatReal(str) {
+    let valor = getMoney(str)
+    var tmp = valor + '';
+    tmp = tmp.replace(/([0-9]{2})$/g, ",$1");
+    if (tmp.length > 6)
+        tmp = tmp.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+
+    return tmp;
 }

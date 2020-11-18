@@ -51,7 +51,7 @@
                     <h6><%= o.status %></h6>
                 </td>
                 <td>
-                    <h6><%= o.total %></h6>
+                    <h6><%= parseFloat(o.total).toLocaleString('pt-br') %></h6>
                 </td>
                 <td>
 
@@ -125,7 +125,7 @@
                                     Qtd: ${item.qtd}
                                 </div>
                                 <div class="col">
-                                    Valor: ${item.valor}
+                                    Valor: ${parseFloat(item.valor).toLocaleString('pt-br')}
                                 </div>
                                 <div class="col">
                                     <form class="form form-inline" onsubmit="remover(event,this,'Deseja realmente remover o item?')" method="POST" action="/admin/order/itemOrder/delete">

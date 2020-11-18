@@ -24,8 +24,8 @@
                 <th scope="col">ID</th>
                 <th scope="col">NOME</th>
                 <th scope="col">VALOR</th>
-                <th scope="col">TAMANHO C/SANGRIA</th>
-                <th scope="col">TAMANHO FINAL</th>
+                <th scope="col">TAM C/ SANGRIA</th>
+                <th scope="col">TAM FINAL</th>
                 <th scope="col">AÇÃO</th>
             </tr>
         </thead>
@@ -33,10 +33,12 @@
             <% products.forEach(product=>{ %>
             <tr>
                 <th scope="row"><%= product.id %></th>
-                <td><%= product.nome %></td>
-                <td><%= product.vlrProduto %></td>
-                <td><%= product.tamSangria %></td>
-                <td><%= product.tamFinal %></td>
+                <td><%=product.nome %></td>
+                <td><%=parseFloat(product.vlrProduto).toLocaleString('pt-br')%></td>
+                <td><%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
+                </td>
+                <td><%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
+                </td>
                 <td>
                     <a href="/admin/products/edit/<%= product.id %>" class="btn btn-warning btn-sm">Editar</a>
                     <a href="/admin/products/edit/<%= product.id %>" class="btn btn-danger btn-sm">Excluir</a>

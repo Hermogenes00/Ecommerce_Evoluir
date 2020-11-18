@@ -25,8 +25,8 @@
         <div class="card-header">Pedido</div>
         <div class="card-body">
             <div class="row">
-                <div class="col">Total: <%= ord.total %> </div>
-                <div class="col">Frete: <%= ord.valorFrete %> </div>
+                <div class="col">Total: <%= parseFloat(ord.total).toLocaleString('pt-br') %> </div>
+                <div class="col">Frete: <%= parseFloat(ord.valorFrete).toLocaleString('pt-br') %> </div>
                 <div class="col">Data: <%= ord.createdAt.toLocaleString('pt-br') %></div>
             </div>
             <hr>
@@ -48,7 +48,7 @@
                             <td><%= item.id %> </td>
                             <td><%= item.produto.nome %> </td>
                             <td><%= item.qtd %></td>
-                            <td><%= item.valor %></td>
+                            <td><%= parseFloat(item.valor).toLocaleString('pt-br') %></td>
                         </tr>
                         <%})%>
 
@@ -58,7 +58,7 @@
             </div>
 
         </div>
-        <div class="card-footer">Total: R$<%= ord.total %> </div>
+        <div class="card-footer">Total: <%= parseFloat(ord.total).toLocaleString('pt-br') %></div>
     </div>
     <div class="card mt-3">
         <div class="card-header">Endereço de entrega</div>

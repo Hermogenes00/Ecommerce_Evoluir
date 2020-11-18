@@ -15,9 +15,9 @@
                 <div class="card-body">
                     <p class="card-title"><%= product.nome %> </p>
                     <p style="margin-bottom: 0%; text-align: left;">Ref: <%= product.codRef %> </p>
-                    <p style="margin-bottom: 0%; text-align: left;">Ref: <%= product.tamSangria %> </p>
-                    <p style="margin-bottom: 0%; text-align: left;">Ref: <%= product.tamFinal %> </p>
-                    <p style="margin-bottom: 0%; text-align: left;">Ref: <%= product.material %> </p>
+                    <p style="margin-bottom: 0%; text-align: left;">Tam Arte: <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %></p>
+                    <p style="margin-bottom: 0%; text-align: left;">Tam Final: <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %></p>
+                    <p style="margin-bottom: 0%; text-align: left;">Impressão: Digital </p>
 
                     <div class="card-text mt-2">
                         <% if(product.gabarito){ %>

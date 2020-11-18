@@ -13,21 +13,28 @@
         </div>
 
         <div class="col">
+
+
             <h3>Sobre o produto</h3>
-            <p><%= product.descricao %> </p>
+
+            
+            <div class="" data-descricao="<%= product.descricao %>" id="descricao">
+
+            </div>
             <h3>Descrição Técnica</h3>
             <p style="margin-bottom: 0%;">Ref: <%= product.codRef %> </p>
-            <p style="margin-bottom: 0%;">Tamanho Final: <%= product.tamFinal %> </p>
+            <p style="margin-bottom: 0%;">Tamanho Final: <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %></p>
+            <p style="margin-bottom: 0%;">Tamanho c/Sangria: <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %></p>
             <p style="margin-bottom: 0%;">Material: <%= product.material %> </p>
             <p style="margin-bottom: 0%;">Gramatura: <%= product.gramatura %> </p>
             <p style="margin-bottom: 0%;">Peso: <%= product.peso %> </p>
-            <p style="margin-bottom: 0%;">Tamanho c/Sangria: <%= product.tamSangria %> </p>
+            
         </div>
 
         <% if(user.nome != 'Visitante'){%>
         <div class="col">
             <div class="card">
-                
+
                 <div class="card-header">Add ao Carrinho</div>
                 <div class="card-body">
 
@@ -114,6 +121,12 @@
 </script>
 
 
+<script>
+    let divDescricao = document.getElementById('descricao');
+    let texto = divDescricao.dataset.descricao
+    let conteudoHtml = new DOMParser().parseFromString(texto, 'text/html')
+    divDescricao.innerHTML = conteudoHtml.body.innerHTML
+</script>
 
 
 

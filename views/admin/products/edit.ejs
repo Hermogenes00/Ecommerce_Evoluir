@@ -12,39 +12,51 @@
                 <div class="row">
                     <div class="col">
                         <label for="nome">Nome</label>
-                        <input type="text" value="<%= product.nome %> " name="nome" id="nome"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="col">
-                        <label for="descricao">Descricao</label>
-                        <input type="text" value="<%= product.descricao %> " name="descricao" id="descricao"
+                        <input type="text" value="<%= product.nome %>" name="nome" id="nome"
                             class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="codRef">Cod.Ref</label>
-                        <input type="text" value="<%= product.codRef %> " name="codRef" id="codRef"
+                        <input type="text" value="<%= product.codRef %>" name="codRef" id="codRef"
                             class="form-control form-control-sm">
                     </div>
                 </div>
                 <hr>
                 <div class="row">
+
+                    <div class="col">
+                        <label for="descricao">Descricao</label>
+                        <textarea name="descricao" id="descricao"><%= product.descricao %></textarea>
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row">
                     <div class="col-md-3">
                         <label for="tamFinalAltura">Tam.Final-Altura</label>
-                        <input type="text" name="tamFinalAltura" id="tamFinalAltura" required class="form-control form-control-sm">
+                        <input type="text" placeholder="150" name="tamFinalAltura"
+                            value="<%= parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>" id="tamFinalAltura"
+                            required class="form-control form-control-sm">
                     </div>
                     <div class="col-md-3">
                         <label for="tamFinalLargura">Tam.Final-Largura</label>
-                        <input type="text" name="tamFinalLargura" id="tamFinalLargura" required class="form-control form-control-sm">
+                        <input type="text" placeholder="150" name="tamFinalLargura"
+                            value="<%= parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>"
+                            id="tamFinalLargura" required class="form-control form-control-sm">
                     </div>
 
                     <div class="col">
                         <label for="tamSangriaLargura">Tam.Sangria-Largura</label>
-                        <input type="text" name="tamSangriaLargura" id="tamSangriaLargura" required
+                        <input type="text" placeholder="150"
+                            value="<%= parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>"
+                            name="tamSangriaLargura" id="tamSangriaLargura" required
                             class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="tamSangriaAltura">Tam.Sangria-Altura</label>
-                        <input type="text" name="tamSangriaAltura" id="tamSangriaAltura" required class="form-control form-control-sm">
+                        <input type="text" placeholder="150"
+                            value="<%= parseFloat(product.tamSangriaAltura).toLocaleString('pt-br') %>"
+                            name="tamSangriaAltura" id="tamSangriaAltura" required class="form-control form-control-sm">
                     </div>
                 </div>
 
@@ -52,27 +64,26 @@
 
                     <div class="col">
                         <label for="material">Material</label>
-                        <input type="text" value="<%= product.material %> " name="material" id="material"
+                        <input type="text" value="<%= product.material %>" name="material" id="material"
                             class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="gramatura">Gramatura</label>
-                        <input type="text" value="<%= product.gramatura %> " name="gramatura" id="gramatura"
+                        <input type="text" value="<%= parseFloat(product.gramatura).toLocaleString('pt-br') %>" name="gramatura" id="gramatura"
                             class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="peso">Peso</label>
-                        <input type="text" value="<%= product.peso %> " name="peso" id="peso"
+                        <input type="text" placeholder="Ex: 150" value="<%= parseFloat(product.peso).toLocaleString('pt-br') %>" name="peso" id="peso"
                             class="form-control form-control-sm">
                     </div>
                 </div>
                 <hr>
                 <div class="row">
-
                     <div class="col">
                         <label for="vlrProduto">Vlr Produto</label>
-                        <input type="text" value="<%= product.vlrProduto %> " name="vlrProduto" id="vlrProduto"
-                            class="form-control form-control-sm">
+                        <input type="text" value="<%= parseFloat(product.vlrProduto).toLocaleString('pt-br') %>"
+                            name="vlrProduto" id="vlrProduto" class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="qtd">Quantidade</label>
@@ -80,21 +91,18 @@
                             class="form-control form-control-sm">
                     </div>
                     <div class="col">
-                        <label for="qtd">Propriedade de Divisão</label>
+                        <label for="propriedadeDivisao">Propriedade de Divisão</label>
                         <input type="number" value="<%=product.propriedadeDivisao%>" name="propriedadeDivisao"
                             id="propriedadeDivisao" class="form-control form-control-sm">
                     </div>
                 </div>
 
-                <input type="hidden" name="id" value="<%= product.id %> ">
+                <input type="hidden" name="id" value="<%= product.id %>">
 
-                <div class="card-footer" style="float: right;">
-                    <div class="row">
-                        <div class="col">
-                            <a href="/admin/products/find/" class="btn btn-outline-primary btn-sm">Cancelar</a>
-                            <input type="submit" class="btn btn-primary btn-sm" value="Atualizar Produto">
-                        </div>
-                    </div>
+                <div class="mt-3" style=" float: right;">
+                    <a href="/collaborator/find/all" class="btn btn-outline-primary">Cancelar</a>
+                    <input type="submit" class="btn btn-primary" value="Salvar">
+
                 </div>
 
             </form>
@@ -102,6 +110,32 @@
     </div>
 </div>
 
+
+<script>
+
+    let inputs = document.querySelectorAll('input')
+
+    for (item in inputs) {
+        switch (inputs[item].name) {
+            case 'vlrProduto':
+            case 'tamFinalAltura':
+            case 'tamFinalLargura':
+            case 'tamSangriaAltura':
+            case 'tamSangriaLargura':
+            case 'peso':
+            case 'gramatura':
+                inputs[item].addEventListener('input', (event) => {
+                    if (event.target.value) {
+                        let valorFormatado = formatReal(event.target.value)
+                        event.target.value = valorFormatado
+                    }
+
+                })
+                break;
+        }
+    }
+
+</script>
 
 
 <%- include('../../partials/footer') %>
