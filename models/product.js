@@ -70,6 +70,7 @@ product.belongsTo(category)
 category.hasMany(product)
 product.belongsTo(subCategory)
 subCategory.hasMany(product)
-product.sync({ alter: true })
+
+//product.sync({ alter: true })
 
 module.exports = product

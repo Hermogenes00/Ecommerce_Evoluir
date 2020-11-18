@@ -1,0 +1,95 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbaradmin') %>
+
+<div class="container">
+    <div class="card mt-3">
+        <div class="card-header">
+            <h6>Categoria-SubCategoria</h6>
+        </div>
+        <div class="card-body">
+            <form class="form" action="">
+                <div class="row">
+                    <div class="col">
+                        <label for="categoria">Categoria</label>
+                        <input type="text" name="categoria" id="categoria" class="form-control form-control-sm">
+                        <button class="btn btn-primary form-control form-control-sm mt-2">Adicionar</button>
+                    </div>
+                    <div class="col">
+                        <label for="categoria">SubCategoria</label>
+                        <input type="text" name="categoria" id="categoria" class="form-control form-control-sm">
+                        <button class="btn btn-primary form-control form-control-sm mt-2">Adicionar</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="row mt-3">
+
+                    <div class="col">
+                        <h5>Categorias</h5>
+                        <div class="input-group mb-2">
+                            <input id="cliente" name="cliente" type="text" class="form-control form-control-sm"
+                                placeholder="Buscar Categoria">
+                            <div class="input-group-append">
+                                <btn class="btn btn-outline-secondary btn-sm" id="btnBuscar" name="btnBuscar">Buscar</a>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h5>SubCategorias</h5>
+                        <div class="input-group mb-2">
+                            <input id="cliente" name="cliente" type="text" class="form-control form-control-sm"
+                                placeholder="Buscar SubCategoria">
+                            <div class="input-group-append">
+                                <btn class="btn btn-outline-secondary btn-sm" id="btnBuscar" name="btnBuscar">Buscar</a>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                            <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col mt-2">
+                        <h5 class="text-center">Vinculações</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="listCategoria">Categoria</label>
+                        <select name="listCategoria" class="form-control form-control-sm" id="listCategoria">
+                            <option value="">Categoria x</option>
+                            <option value="">Categoria x</option>
+                            <option value="">Categoria x</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="listCategoria">SubCategoria</label>
+                        <select name="listCategoria" class="form-control form-control-sm" id="listCategoria">
+                            <option value="">Categoria x</option>
+                            <option value="">Categoria x</option>
+                            <option value="">Categoria x</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <button class="btn btn-primary form-control form-control-sm">Vincular</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>

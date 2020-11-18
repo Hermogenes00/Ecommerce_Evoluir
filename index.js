@@ -31,6 +31,7 @@ const collaboratorController = require('./controllers/collaboratorController');
 const orderController = require('./controllers/orderController');
 const mainController = require('./controllers/mainController');
 const utilsController = require('./controllers/utilsController');
+const categoryController = require('./controllers/categoryController')
 
 //Session
 app.use(session({
@@ -50,6 +51,7 @@ app.use('/', orderController)
 app.use('/', collaboratorController)
 app.use('/', mainController)
 app.use('/', utilsController)
+app.use('/', categoryController)
 
 //app.use('/', userController)
 
