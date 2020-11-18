@@ -104,6 +104,11 @@
 
 <script>
 
+    let cliente = document.getElementById('cliente')
+    document.getElementById('btnBuscar').addEventListener('click', () => {
+        document.location.href = cliente.value ? cliente.value : 'all'
+    })
+    
     function verCarrinho(event) {
 
         let cliente = document.getElementById('modal-cliente')
