@@ -21,6 +21,8 @@ const itensOrder = require('./models/itensOrder')
 const products = require('./models/product')
 const client = require('./models/client')
 const collaborator = require('./models/collaborator')
+const category = require('./models/category')
+const subCategory = require('./models/subCategory')
 
 //Importação dos controllers
 const productController = require('./controllers/productController');

@@ -6,9 +6,13 @@ const category = connection.define('categorias', {
     nome: {
         type: sequelize.STRING,
         allowNull: false
+    },
+    slug:{
+        type: sequelize.STRING,
+        allowNull: false
     }
 })
 
-//categoria.sync({ force: true })
+//category.sync({ alter:true })
 
 module.exports = category
