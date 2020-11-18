@@ -1,7 +1,8 @@
 const connection = require('../database/connection')
 const sequelize = require('sequelize')
-const express = require('express')
 const category = require('../models/category')
+const products = require('../models/product')
+
 const subCategory = connection.define('subcategorias', {
     nome: {
         type: sequelize.STRING,
@@ -12,6 +13,7 @@ const subCategory = connection.define('subcategorias', {
 subCategory.belongsTo(category)
 category.hasMany(subCategory)
 
-subCategory.sync({ alter: true })
+
+//subCategory.sync({ alter: true })
 
 module.exports = subCategory

@@ -1,7 +1,7 @@
 const connection = require('../database/connection')
 const sequelize = require('sequelize')
-const express = require('express')
-const itensOrder = require('./itensOrder')
+const subCategory = require('./subCategory')
+const category = require('./category')
 
 const product = connection.define('produtos', {
     nome: {
@@ -66,7 +66,10 @@ const product = connection.define('produtos', {
     }
 })
 
-
-//product.sync({ alter: true })
+product.belongsTo(category)
+category.hasMany(product)
+product.belongsTo(subCategory)
+subCategory.hasMany(product)
+product.sync({ alter: true })
 
 module.exports = product
