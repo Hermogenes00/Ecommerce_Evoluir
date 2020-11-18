@@ -66,6 +66,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col" id="modal-cliente"></div>
+                        <div class="col" id="modal-idPedido"></div>
                     </div>
                     <div class="row">
                         <div class="col" id="modal-total"></div>
@@ -103,22 +104,32 @@
 
 <script>
 
-    let cliente = document.getElementById('modal-cliente')
-    let status = document.getElementById('modal-status')
-    let total = document.getElementById('modal-total')
-    let tabela = document.getElementById('modal-tabela')
-
     function verCarrinho(event) {
+
+        let cliente = document.getElementById('modal-cliente')
+        cliente.innerHTML = ''
+        let status = document.getElementById('modal-status')
+        status.innerHTML = ''
+        let total = document.getElementById('modal-total')
+        total.innerHTML = ''
+        let tabela = document.getElementById('modal-tabela')
+        tabela.innerHTML = ''
+        let idPedido = document.getElementById('modal-idPedido')
+        idPedido.innerHTML = ''
+
+
 
         let clientId = event.target.dataset.clientid
 
         requisicao(`http://localhost:8090/main/order/${clientId}`, response => {
             let objJson = JSON.parse(response)
 
+            console.log(objJson);
+
             cliente.innerHTML = `Cliente: ${objJson.ord.cliente.nome}`
             status.innerHTML = `Status: ${objJson.ord.status}`
-            total.innerHTML = `Total: ${objJson.ord.total}`
-
+            total.innerHTML = `Total: ${parseFloat(objJson.ord.total).toLocaleString("pt-br")}`
+            idPedido.innerHTML = `Pedido: ${objJson.ord.id}`
             tabela.innerHTML = '';
             objJson.items.forEach(item => {
                 let arquivo = item.arquivo ? `<a target="_blank" href="/uploads/${item.arquivo}" class="btn btn-warning btn-sm">Baixar Arquivo</a>` : ''
@@ -126,7 +137,7 @@
                     <td>${item.id}</td>
                     <td>${item.produto.nome}</td>
                     <td>${item.qtd}</td>
-                    <td>${item.valor}</td>
+                    <td>${parseFloat(objJson.ord.total).toLocaleString("pt-br")}</td>
                     <td>${arquivo}</td>
                     </tr>`
             })

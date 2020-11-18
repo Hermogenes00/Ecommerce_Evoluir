@@ -34,11 +34,12 @@ let upload = multer({
 })
 
 //Rotas------------------------
-
 router.post('/admin/product/upload/:productId', upload.single('file'), async (req, res) => {
 
     let productId = req.params.productId
-
+    if (!req.file) {
+        res.redirect('/admin/products/find/')
+    }
     try {
         let prod = await products.findByPk(productId);
         if (prod.gabarito) {
@@ -57,7 +58,6 @@ router.post('/admin/product/upload/:productId', upload.single('file'), async (re
     }, { where: { id: productId } }).then(() => {
         res.redirect('/admin/products/find/')
     }).catch(error => {
-        console.log('Erro ao tentar enviar gabarito-----' + error);
         res.send('Ops, houve um erro ao tentar realizar esta operação, tente novamente, caso o erro persista entre em contato com o suporte')
     })
 
@@ -110,14 +110,14 @@ router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
             nome: data.nome,
             descricao: data.descricao,
             codRef: data.codRef,
-            tamFinalAltura: data.tamFinalAltura.replace('.','').replace(',','.'),
-            tamFinalLargura: data.tamFinalLargura.replace('.','').replace(',','.'),
-            vlrProduto: data.vlrProduto.replace('.','').replace(',','.'),
+            tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
+            tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
+            vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
             material: data.material,
-            gramatura: data.gramatura.replace('.','').replace(',','.'),
-            peso: data.peso.replace('.','').replace(',','.'),
-            tamSangriaAltura: data.tamSangriaAltura.replace('.','').replace(',','.'),
-            tamSangriaLargura: data.tamSangriaLargura.replace('.','').replace(',','.'),
+            gramatura: data.gramatura.replace('.', '').replace(',', '.'),
+            peso: data.peso.replace('.', '').replace(',', '.'),
+            tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
+            tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
             slug: slug(data.nome),
             propriedadeDivisao: parseInt(data.propriedadeDivisao),
             qtd: data.qtd
@@ -144,14 +144,14 @@ router.post('/admin/products/update', collaboratorAuthentication, (req, res) => 
             nome: data.nome,
             descricao: data.descricao,
             codRef: data.codRef,
-            tamFinalAltura: data.tamFinalAltura.replace('.','').replace(',','.'),
-            tamFinalLargura: data.tamFinalLargura.replace('.','').replace(',','.'),
-            vlrProduto: data.vlrProduto.replace('.','').replace(',','.'),
+            tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
+            tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
+            vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
             material: data.material,
-            gramatura: data.gramatura.replace('.','').replace(',','.'),
-            peso: data.peso.replace('.','').replace(',','.'),
-            tamSangriaAltura: data.tamSangriaAltura.replace('.','').replace(',','.'),
-            tamSangriaLargura: data.tamSangriaLargura.replace('.','').replace(',','.'),
+            gramatura: data.gramatura.replace('.', '').replace(',', '.'),
+            peso: data.peso.replace('.', '').replace(',', '.'),
+            tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
+            tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
             slug: slug(data.nome),
             propriedadeDivisao: parseInt(data.propriedadeDivisao),
             qtd: data.qtd

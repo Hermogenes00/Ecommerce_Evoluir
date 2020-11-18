@@ -36,6 +36,7 @@ app.use(session({
     cookie: { sameSite: 'lax', maxAge: new Date().getTime() + 9999, expires: false }
 }))
 
+
 //BodyParser
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
@@ -93,8 +94,6 @@ app.get('/logout', defaultAuthentication, (req, res) => {
     req.session.nome = undefined;
     res.redirect('/')
 })
-
-
 
 app.listen(8090, () => {
     console.log('Servidor iniciado');
