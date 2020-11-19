@@ -1,6 +1,8 @@
 const express = require('express');
 const products = require('../models/product')
 const sequelize = require('sequelize')
+const category = require('../models/category')
+const subCategory = require('../models/subCategory')
 const router = express.Router();
 const slug = require('slugify')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
@@ -92,7 +94,7 @@ router.get('/admin/products/register', collaboratorAuthentication, (req, res) =>
 router.get('/admin/products/edit/:id', collaboratorAuthentication, (req, res) => {
     let id = req.params.id;
 
-    products.findByPk(id).then(product => {
+    products.findOne({ where: { id: id }, include: [{ model: category }, { model: subCategory }] }).then(product => {
         res.render('admin/products/edit', { product: product })
     }).catch(erro => {
         res.json(erro)
@@ -103,7 +105,6 @@ router.get('/admin/products/edit/:id', collaboratorAuthentication, (req, res) =>
 router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
 
     let data = req.body;
-
     if (data != undefined) {
 
         products.create({
@@ -120,7 +121,9 @@ router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
             tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
             slug: slug(data.nome),
             propriedadeDivisao: parseInt(data.propriedadeDivisao),
-            qtd: data.qtd
+            qtd: data.qtd,
+            categoriaId: data.categoria,
+            subcategoriaId: data.subCategoria
         }).then((product) => {
             res.redirect('/admin/products/find/')
         }).catch(erro => {
@@ -154,7 +157,9 @@ router.post('/admin/products/update', collaboratorAuthentication, (req, res) => 
             tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
             slug: slug(data.nome),
             propriedadeDivisao: parseInt(data.propriedadeDivisao),
-            qtd: data.qtd
+            qtd: data.qtd,
+            categoriaId: data.categoria,
+            subCategoriaId: data.subCategoria
         }, { where: { id: data.id } }).then(() => {
             res.redirect('/admin/products/find/')
         }).catch(erro => {

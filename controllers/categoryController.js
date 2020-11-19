@@ -5,7 +5,8 @@ const slug = require('slugify')
 const router = express.Router()
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 
-router.get('/category/categories', collaboratorAuthentication, async (req, res) => {
+router.get('/category/categories/:json?', collaboratorAuthentication, async (req, res) => {
+
 
     let cat = []
     let subCats = []
@@ -16,8 +17,14 @@ router.get('/category/categories', collaboratorAuthentication, async (req, res) 
         console.log('Ops, não foi possível realizar esta operação, tente novamente, caso o problema persista, entre em contato com o suporte->' + error);
         res.send('Ops, não foi possível realizar esta operação, tente novamente, caso o problema persista, entre em contato com o suporte')
     }
-
-    res.render('admin/category/categories', { categories: cat, subCategories: subCats })
+    if (!req.params.json) {
+        res.render('admin/category/categories', { categories: cat, subCategories: subCats })
+    } else {
+        res.json({
+            categories: cat,
+            subCategories: subCats
+        })
+    }
 })
 
 router.post('/category/save', collaboratorAuthentication, async (req, res) => {
@@ -121,10 +128,33 @@ router.get('/category/subcategory/find/:id', collaboratorAuthentication, async (
     }
 })
 
+
+router.get('/category/subCategoryByCategory/:mode?/:idCategory?', collaboratorAuthentication, async (req, res) => {
+    let idCategory = req.params.idCategory;
+    let mode = req.params.mode
+    let scat = []
+    if (idCategory) {
+        try {
+            scat = await subCategory.findAll({
+                where: {
+                    categoriaId: idCategory
+                }
+            })
+        } catch (error) {
+            console.log('Ops, não foi possível realizar esta operação, tente novamente, caso o problema persista, entre em contato com o suporte->' + error);
+            res.send('Ops, não foi possível realizar esta operação, tente novamente, caso o problema persista, entre em contato com o suporte')
+        }
+        if (mode == 'json') {
+            res.json({ subCategories: scat })
+        }
+    }
+})
+
 router.post('/category/updateName/:table', collaboratorAuthentication, async (req, res) => {
 
     let updateTable = req.params.table
     let data = req.body;
+
     if (updateTable == 'cat') {
         try {
             await category.update({

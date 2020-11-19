@@ -15,10 +15,26 @@
                         <input type="text" value="<%= product.nome %>" name="nome" id="nome"
                             class="form-control form-control-sm">
                     </div>
+
+                </div>
+                <div class="row">
                     <div class="col">
                         <label for="codRef">Cod.Ref</label>
                         <input type="text" value="<%= product.codRef %>" name="codRef" id="codRef"
                             class="form-control form-control-sm">
+                    </div>
+                    <div class="col">
+                        <label for="codRef">Categoria</label>
+                        <select onchange="localizarSubCategoria(event)" name="categoria" data-id="<%=product.categoria.id %>" id="categoria"
+                            class="form-control form-control-sm">
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="codRef">SubCategoria</label>
+                        <select name="subCategoria" id="subCategoria" class="form-control form-control-sm">
+
+                            <option value="<%=product.subcategoria.id %>"><%=product.subcategoria.nome %></option>
+                        </select>
                     </div>
                 </div>
                 <hr>
@@ -69,12 +85,13 @@
                     </div>
                     <div class="col">
                         <label for="gramatura">Gramatura</label>
-                        <input type="text" value="<%= parseFloat(product.gramatura).toLocaleString('pt-br') %>" name="gramatura" id="gramatura"
-                            class="form-control form-control-sm">
+                        <input type="text" value="<%= parseFloat(product.gramatura).toLocaleString('pt-br') %>"
+                            name="gramatura" id="gramatura" class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="peso">Peso</label>
-                        <input type="text" placeholder="Ex: 150" value="<%= parseFloat(product.peso).toLocaleString('pt-br') %>" name="peso" id="peso"
+                        <input type="text" placeholder="Ex: 150"
+                            value="<%= parseFloat(product.peso).toLocaleString('pt-br') %>" name="peso" id="peso"
                             class="form-control form-control-sm">
                     </div>
                 </div>
@@ -111,31 +128,8 @@
 </div>
 
 
-<script>
-
-    let inputs = document.querySelectorAll('input')
-
-    for (item in inputs) {
-        switch (inputs[item].name) {
-            case 'vlrProduto':
-            case 'tamFinalAltura':
-            case 'tamFinalLargura':
-            case 'tamSangriaAltura':
-            case 'tamSangriaLargura':
-            case 'peso':
-            case 'gramatura':
-                inputs[item].addEventListener('input', (event) => {
-                    if (event.target.value) {
-                        let valorFormatado = formatReal(event.target.value)
-                        event.target.value = valorFormatado
-                    }
-
-                })
-                break;
-        }
-    }
-
-</script>
 
 
 <%- include('../../partials/footer') %>
+
+<script src="/js/categoria.js"></script>

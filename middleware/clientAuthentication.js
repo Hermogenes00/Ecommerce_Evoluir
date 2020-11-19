@@ -1,7 +1,9 @@
-function clientAuthentication(req, res, next) {
 
+
+async function clientAuthentication(req, res, next) {
+    
     if (req.session.client) {
-        res.locals.user = {...req.session.client};
+        res.locals.user = { ...req.session.client };
         next();
     } else {
         res.redirect('/client/login')

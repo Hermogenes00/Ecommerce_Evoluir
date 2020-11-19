@@ -95,17 +95,4 @@ router.get('/main/order/:clientId?', collaboratorAuthentication, async (req, res
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = router;

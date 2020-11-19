@@ -32,13 +32,13 @@ const orderController = require('./controllers/orderController');
 const mainController = require('./controllers/mainController');
 const utilsController = require('./controllers/utilsController');
 const categoryController = require('./controllers/categoryController')
+const storeController = require('./controllers/storeController')
 
 //Session
 app.use(session({
     secret: 'cloneLoja',
     cookie: { sameSite: 'lax', maxAge: new Date().getTime() + 9999, expires: false }
 }))
-
 
 //BodyParser
 app.use(bodyparser.urlencoded({ extended: false }))
@@ -52,6 +52,7 @@ app.use('/', collaboratorController)
 app.use('/', mainController)
 app.use('/', utilsController)
 app.use('/', categoryController)
+app.use('/', storeController)
 
 //app.use('/', userController)
 
@@ -66,8 +67,8 @@ app.use(express.static('gabarito'))
 
 //Rotas
 
-app.get('/', defaultAuthentication, (req, res) => {
-
+app.get('/', defaultAuthentication, async (req, res) => {
+    
     products.findAll().then(products => {
 
         res.render('index', { products: products })
