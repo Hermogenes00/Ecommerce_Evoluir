@@ -1,0 +1,243 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbaradmin') %>
+
+<div class="container mt-3">
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Categorias
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <form method="POST" action="/category/save">
+                                <label for="categoria">Nome</label>
+                                <input type="text" name="nome" id="nome" class="form-control form-control-sm" required>
+                                <input type="submit" class="btn btn-primary form-control form-control-sm mt-2"
+                                    value="Adicionar">
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        SubCategorias
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+
+                    <form action="/subCategory/save" method="POST">
+                        <div class="row">
+                            <div class="col">
+                                <label for="categoria">Categoria</label>
+                                <select name="idCategoria" id="idCategoria" class="form-control form-control-sm">
+                                    <% categories.forEach(cat=>{%>
+                                    <option value="<%= cat.id %>"><%= cat.nome %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+
+                            <div class="col">
+                                <label for="categoria">SubCategoria</label>
+                                <input type="text" required class="form-control form-control-sm" name="subCategoria"
+                                    id="subCategoria">
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <input type="submit" value="Vincular"
+                                    class="btn btn-primary form-control form-control-sm">
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
+                    data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Vinculações
+                </button>
+            </h2>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+
+            <form action="/category/bond" method="post">
+
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="categoria">Categoria</label>
+                        <select name="idCategoria" id="idCategoria" class="form-control form-control-sm">
+                            <% categories.forEach(cat=>{%>
+                            <option value="<%= cat.id %>"><%= cat.nome %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <label for="categoria">SubCategoria</label>
+                        <select name="idSubCategoria" id="idSubCategoria" class="form-control form-control-sm">
+                            <% subCategories.forEach(scat=>{%>
+                            <option value="<%= scat.id %>"><%= scat.nome %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <input type="submit" value="Vincular" class="btn btn-primary form-control form-control-sm">
+                    </div>
+                </div>
+
+
+            </form>
+
+
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">SubCategoria</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% categories.forEach(cat=>{%>
+                        <% if(cat.subcategorias){%>
+                        <% cat.subcategorias.forEach(subCat=>{%>
+                        <tr>
+
+                            <th scope="row">1</th>
+                            <td>
+                                <a href="" data-toggle="modal" data-target="#exampleModal"
+                                    onclick="buscarCategoria(event)" data-id="<%=cat.id%>">
+                                    <%= cat.nome %>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="" data-toggle="modal" data-target="#exampleModal"
+                                    onclick=" buscarSubCategoria(event)" data-id="<%=subCat.id%>"><%= subCat.nome %></a>
+                            </td>
+                        </tr>
+                        <%}) %>
+                        <% }%>
+                        <%}) %>
+
+                    </tbody>
+                </table>
+                <hr>
+                <h5>Categorias Sem Vínculo</h5>
+                <div class="list-group">
+                    <% categories.forEach(cat=>{%>
+                    <% if(cat.subcategorias.length == 0){%>
+                    <a href="#" class="list-group-item list-group-item-action"><%= cat.nome %> </a>
+                    <%} %>
+                    <%}) %>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formAlterarNome" action="" method="post">
+
+                        <div class="row">
+                            <div class="col" id="modal-cliente">
+                                <input type="hidden" value="" id="idAlterarNome" name="idAlterarNome">
+                                <input type="text" class="form-control form-control-sm"
+                                    placeholder="Informe o novo nome" name="inputName" id="inputName">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <input type="submit" id="btnAlterarNome" value="Salvar"
+                                    class="btn btn-primary form-control form-control-sm">
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>
+
+<script>
+
+    let inputName = document.getElementById('inputName')
+    let inputIdAlterarNome = document.getElementById('idAlterarNome')
+
+    let formAlterarNome = document.getElementById('formAlterarNome')
+    //formAlterarNome.action = '/category/subcategory/find/'
+
+    function buscarCategoria(event) {
+        inputName.value = '';
+        inputIdAlterarNome.value = ''
+        let id = event.target.dataset.id
+        requisicao('/category/find/' + id, (response => {
+
+            let objJson = JSON.parse(response)
+            inputName.value = objJson.nome
+            inputIdAlterarNome.value = id
+            formAlterarNome.action = '/category/updateName/cat'
+
+        }))
+    }
+
+    function buscarSubCategoria(event) {
+        inputName.value = '';
+        inputIdAlterarNome.value = ''
+
+        let id = event.target.dataset.id
+        requisicao('/category/subcategory/find/' + id, (response => {
+            let objJson = JSON.parse(response)
+            inputName.value = objJson.nome
+            inputIdAlterarNome.value = id
+            formAlterarNome.action = '/category/updateName/scat'
+
+        }))
+    }
+
+</script>

@@ -7,6 +7,10 @@ const subCategory = connection.define('subcategorias', {
     nome: {
         type: sequelize.STRING,
         allowNull: false
+    },
+    slug: {
+        type: sequelize.STRING,
+        allowNull: false
     }
 })
 
