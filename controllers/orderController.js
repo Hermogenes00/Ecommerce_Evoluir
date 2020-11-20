@@ -5,9 +5,26 @@ const itensOrder = require('../models/itensOrder')
 const constants = require('../utils/constants');
 const product = require('../models/product')
 const client = require('../models/client')
+const category = require('../models/category')
+const subCategory = require('../models/subCategory')
 const clientAuthentication = require('../middleware/clientAuthentication')
 const defaultAuthentication = require('../middleware/defaultAuthentication')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+
+
+
+//Criação do middleware para menu
+router.use(async (req, res, next) => {
+    try {
+        res.locals.menu = await category.findAll({ include: subCategory })
+    } catch (error) {
+        console.log('Erro ao tentar consultar as categorias->' + error);
+    }
+    next()
+})
+
+
+
 
 router.post('/admin/order/delete', clientAuthentication, async (req, res) => {
 

@@ -5,6 +5,20 @@ const collaboratorAuthentication = require('../middleware/collaboratorAuthentica
 const bcrypt = require('bcrypt')
 const collaborators = require('../models/collaborator')
 const salt = bcrypt.genSaltSync(10)
+const category = require('../models/category')
+const subCategory = require('../models/subCategory')
+
+
+//Criação do middleware para menu
+router.use(async (req, res, next) => {
+    try {
+        res.locals.menu = await category.findAll({ include: subCategory })
+    } catch (error) {
+        console.log('Erro ao tentar consultar as categorias->' + error);
+    }
+    next()
+})
+
 
 router.get('/collaborator/perfil', collaboratorAuthentication, async (req, res) => {
 

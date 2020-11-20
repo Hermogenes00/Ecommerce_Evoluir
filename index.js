@@ -3,7 +3,8 @@ const bodyparser = require('body-parser')
 const app = express();
 const session = require('express-session');
 const connection = require('./database/connection')
-const localStorage = require('local-storage')
+const cookie = require('cookie-parser')
+const flash = require('express-flash')
 const clientAuthentication = require('./middleware/clientAuthentication')
 const defaultAuthentication = require('./middleware/defaultAuthentication')
 
@@ -34,11 +35,17 @@ const utilsController = require('./controllers/utilsController');
 const categoryController = require('./controllers/categoryController')
 const storeController = require('./controllers/storeController')
 
-//Session
+//Session e Cookie
+app.use(cookie('cloneloja'))
+
 app.use(session({
     secret: 'cloneLoja',
-    cookie: { sameSite: 'lax', maxAge: new Date().getTime() + 9999, expires: false }
+    saveUninitialized: true,
+    cookie: { maxAge: new Date().getTime() + 9999 }
 }))
+
+//Flash Messages
+app.use(flash())
 
 //BodyParser
 app.use(bodyparser.urlencoded({ extended: false }))
@@ -65,10 +72,21 @@ app.use(express.static('public'))
 app.use(express.static('uploads'))
 app.use(express.static('gabarito'))
 
+//Criação do middleware para menu
+
+app.use(async (req, res, next) => {
+    try {
+        res.locals.menu = await category.findAll({ include: subCategory })
+    } catch (error) {
+        console.log('Erro ao tentar consultar as categorias->' + error);
+    }
+    next()
+})
+
 //Rotas
 
 app.get('/', defaultAuthentication, async (req, res) => {
-    
+
     products.findAll().then(products => {
 
         res.render('index', { products: products })

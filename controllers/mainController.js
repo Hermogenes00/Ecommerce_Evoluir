@@ -8,6 +8,19 @@ const itemsOrders = require('../models/itensOrder')
 const products = require('../models/product')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication');
 const sequelize = require('sequelize');
+const category = require('../models/category')
+const subCategory = require('../models/subCategory')
+
+//Criação do middleware para menu
+router.use(async (req, res, next) => {
+    try {
+        res.locals.menu = await category.findAll({ include: subCategory })
+    } catch (error) {
+        console.log('Erro ao tentar consultar as categorias->' + error);
+    }
+    next()
+})
+
 
 
 router.get('/main', collaboratorAuthentication, (req, res) => {

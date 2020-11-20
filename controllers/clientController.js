@@ -6,6 +6,8 @@ const salt = bcrypt.genSaltSync(10)
 const orders = require('../models/order');
 const itensOrder = require('../models/itensOrder')
 const fs = require('fs')
+const category = require('../models/category')
+const subCategory = require('../models/subCategory')
 
 //Autenticação
 const clientAuthentication = require('../middleware/clientAuthentication');
@@ -44,6 +46,16 @@ let upload = multer({
             cb(null, false)
         }
     }
+})
+
+//Criação do middleware para menu
+router.use(async (req, res, next) => {
+    try {
+        res.locals.menu = await category.findAll({ include: subCategory })
+    } catch (error) {
+        console.log('Erro ao tentar consultar as categorias->' + error);
+    }
+    next()
 })
 
 

@@ -1,5 +1,6 @@
 
 function collaboratorAuthentication(req, res, next) {
+
     if (req.session.collaborator) {
         res.locals.collaborator = req.session.collaborator
         next()

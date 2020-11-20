@@ -11,9 +11,22 @@ const path = require('path')
 const fs = require('fs')
 
 
+
+//Criação do middleware para menu
+router.use(async (req, res, next) => {
+    try {
+        res.locals.menu = await category.findAll({ include: subCategory })
+    } catch (error) {
+        console.log('Erro ao tentar consultar as categorias->' + error);
+    }
+    next()
+})
+
+
 //Configuração do multer, para upload e download dos gabaritos
 let enderecoImagem = null;
 
+//Criação do middleware para menu
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/gabarito')

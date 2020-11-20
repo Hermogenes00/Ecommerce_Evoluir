@@ -1,5 +1,6 @@
 
 async function defaultAuthentication(req, res, next) {
+  
     if (req.session.client) {
         res.locals.user = { ...req.session.client };
     } else {
@@ -8,6 +9,7 @@ async function defaultAuthentication(req, res, next) {
         }
     }
     next()
+    
 }
 
 module.exports = defaultAuthentication;

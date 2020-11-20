@@ -1,6 +1,22 @@
 const express = require('express')
 const router = express.Router();
 const defaultAuthentication = require('../middleware/defaultAuthentication');
+const category = require('../models/category')
+const subCategory = require('../models/subCategory')
+
+
+
+//Criação do middleware para menu
+router.use(async (req, res, next) => {
+    try {
+        res.locals.menu = await category.findAll({ include: subCategory })
+    } catch (error) {
+        console.log('Erro ao tentar consultar as categorias->' + error);
+    }
+    next()
+})
+
+
 
 router.get('/buscarCep/:cep', defaultAuthentication, async (req, res) => {
     let cep = req.params.cep;
