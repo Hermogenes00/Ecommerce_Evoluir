@@ -40,9 +40,12 @@ let storage = multer.diskStorage({
 let upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
+        console.log('Nome do arquivo---------' + file.originalname);
         if (path.extname(file.originalname) == '.pdf') {
+            req.flash('success', `Arquivo enviado com sucesso`)
             cb(null, true)
         } else {
+            req.flash('error', 'Arquivo deve estar em extensão .pdf')
             cb(null, false)
         }
     }
@@ -240,12 +243,15 @@ router.get('/client/edit', clientAuthentication, (req, res) => {
 router.get('/client/order', clientAuthentication, async (req, res) => {
 
     let idClient = req.session.client.id;
-
+    let message = {
+        error: req.flash('error'),
+        success: req.flash('success')
+    }
     try {
         let objOrders = await orders.findAll({ where: { clienteId: idClient } });
-        res.render('admin/order/orders', { orders: objOrders })
+        res.render('admin/order/orders', { orders: objOrders, message: message })
     } catch (error) {
-        console.log('Erro ao buscar pedidos: ' + error);
+        console.log('Erro ao buscar pedidos: ' + error)
         res.send('Erro ' + error)
     }
 })

@@ -11,7 +11,6 @@ const path = require('path')
 const fs = require('fs')
 
 
-
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
     try {
@@ -39,12 +38,22 @@ let storage = multer.diskStorage({
 
 let upload = multer({
     storage: storage,
+
     fileFilter: (req, file, cb) => {
-        if (path.extname(file.originalname) == '.rar') {
-            cb(null, true)
+
+        if (file.originalname != '' || file.originalname != null || file.originalname != undefined) {
+            if (path.extname(file.originalname) != '.rar') {
+                req.flash('error', 'Arquivo deve estar em extensão .rar')
+                cb(null, false)
+            } else {
+                req.flash('success', `Arquivo enviado com sucesso `+file.originalname)
+                cb(null, true)
+            }
         } else {
+            req.flash('error', 'Arquivo vazio')
             cb(null, false)
         }
+
     }
 })
 
@@ -52,29 +61,32 @@ let upload = multer({
 router.post('/admin/product/upload/:productId', upload.single('file'), async (req, res) => {
 
     let productId = req.params.productId
-    if (!req.file) {
-        res.redirect('/admin/products/find/')
-    }
-    try {
-        let prod = await products.findByPk(productId);
-        if (prod.gabarito) {
-            fs.unlink('public/gabarito/' + prod.gabarito, (err) => {
-                if (err) {
-                    console.log('Erro ao tentar excluir o arquivo');
-                }
-            })
+
+    if (enderecoImagem) {
+        try {
+            let prod = await products.findByPk(productId);
+            if (prod.gabarito) {
+                fs.unlink('public/gabarito/' + prod.gabarito, (err) => {
+                    if (err) {
+                        console.log('Erro ao tentar excluir o arquivo');
+                    }
+                })
+            }
+        } catch (error) {
+            console.log('Erro ao tentar localizar o produto ' + error);
         }
-    } catch (error) {
-        console.log('Erro ao tentar localizar o produto ' + error);
+
+        products.update({
+            gabarito: enderecoImagem
+        }, { where: { id: productId } }).then(() => {
+            enderecoImagem = null
+        }).catch(error => {
+            res.send('Ops, houve um erro ao tentar realizar esta operação, tente novamente, caso o erro persista entre em contato com o suporte')
+        })
     }
 
-    products.update({
-        gabarito: enderecoImagem
-    }, { where: { id: productId } }).then(() => {
-        res.redirect('/admin/products/find/')
-    }).catch(error => {
-        res.send('Ops, houve um erro ao tentar realizar esta operação, tente novamente, caso o erro persista entre em contato com o suporte')
-    })
+    res.redirect('/admin/products/find/')
+
 
 })
 
@@ -82,6 +94,12 @@ router.get('/admin/products/find/:product?', collaboratorAuthentication, async (
 
     let prod = `%${req.params.product}%`;
     let prods = [{}]
+
+    let message = {
+        error: req.flash('error'),
+        success: req.flash('success')
+    }
+
     try {
         if (req.params.product && req.params.product != 'all') {
             prods = await products.findAll({ where: { nome: { [sequelize.Op.like]: prod } } });
@@ -90,7 +108,7 @@ router.get('/admin/products/find/:product?', collaboratorAuthentication, async (
                 prods = await products.findAll();
         }
         if (prods != undefined) {
-            res.render('admin/products/products', { products: prods })
+            res.render('admin/products/products', { products: prods, message: message })
         } else {
             res.json('Ops. Não foi possível realizar este procedimento, tente novamente, caso o problema persista, entre em contato com o suporte')
         }
@@ -118,7 +136,7 @@ router.get('/admin/products/edit/:id', collaboratorAuthentication, (req, res) =>
 router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
 
     let data = req.body;
-    
+
     if (data != undefined) {
 
         products.create({

@@ -2,10 +2,24 @@
 <%- include('../../partials/navbarhome') %>
 
 
-
-
 <div class="container mt-3">
 
+    <% if(message.error.length>0){%> 
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erro</strong> <%=message.error%>.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <%} %> 
+        <% if(message.success.length>0){%> 
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Parabéns</strong> <%=message.success%>.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            <%} %> 
 
     <div class="card mb-3">
         <div class="card-header">Calcular Frete</div>
