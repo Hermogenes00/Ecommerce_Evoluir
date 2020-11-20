@@ -118,6 +118,7 @@ router.get('/admin/products/edit/:id', collaboratorAuthentication, (req, res) =>
 router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
 
     let data = req.body;
+    
     if (data != undefined) {
 
         products.create({
@@ -152,8 +153,7 @@ router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
 router.post('/admin/products/update', collaboratorAuthentication, (req, res) => {
 
     let data = req.body;
-    console.log(data);
-
+    console.log('DADOS DA SUBCATEGORIA');
     if (data != undefined) {
 
         products.update({
@@ -172,7 +172,7 @@ router.post('/admin/products/update', collaboratorAuthentication, (req, res) => 
             propriedadeDivisao: parseInt(data.propriedadeDivisao),
             qtd: data.qtd,
             categoriaId: data.categoria,
-            subCategoriaId: data.subCategoria
+            subcategoriaId: data.subCategoria
         }, { where: { id: data.id } }).then(() => {
             res.redirect('/admin/products/find/')
         }).catch(erro => {

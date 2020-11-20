@@ -17,7 +17,7 @@ router.use(async (req, res, next) => {
 })
 
 
-router.post('/products/find', defaultAuthentication, async (req, res) => {
+router.post('/products/find/', defaultAuthentication, async (req, res) => {
     let data = req.body
     let name = `%${data.name}%`
     let prod = []
