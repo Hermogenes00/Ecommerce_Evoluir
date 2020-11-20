@@ -2,6 +2,7 @@ const sequelize = require('sequelize')
 const connection = require('../database/connection')
 const itensOrder = require('../models/itensOrder')
 const client = require('../models/client')
+const address = require('../models/address')
 
 const orders = connection.define('pedidos', {
     total: {
@@ -43,10 +44,12 @@ const orders = connection.define('pedidos', {
 client.hasMany(orders)
 orders.belongsTo(client)
 
-
 itensOrder.belongsTo(orders)
 orders.hasMany(itensOrder)
 
+
+orders.belongsTo(address)
+address.hasMany(orders)
 
 //orders.sync({alter:true})
 //itensOrder.sync({alter:true})

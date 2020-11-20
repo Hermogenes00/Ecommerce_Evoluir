@@ -51,6 +51,14 @@ const client = connection.define('clientes', {
     complemento: {
         type: sequelize.STRING,
         allowNull: false
+    },
+    cidade: {
+        type: sequelize.STRING,
+        allowNull: false
+    },
+    uf: {
+        type: sequelize.STRING,
+        allowNull: false
     }
 })
 

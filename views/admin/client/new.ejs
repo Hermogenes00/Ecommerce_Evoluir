@@ -66,6 +66,19 @@
                     </div>
 
                     <div class="form-group col-md-4">
+                        <label for="rua">Cidade</label>
+                        <input type="text" readonly required class="form-control form-control-sm"  name="cidade"
+                            id="cidade">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="rua">Uf</label>
+                        <input type="text" readonly required class="form-control form-control-sm"  name="uf"
+                            id="uf">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
                         <label for="rua">Rua</label>
                         <input type="text" required class="form-control form-control-sm" value="asdfasd" name="rua"
                             id="rua">
@@ -84,41 +97,10 @@
                     </div>
                     <button type="submit" class="btn btn-primary form-control">Cadastrar</button>
                 </div>
-
-
             </form>
         </div>
     </div>
 </div>
 
 <%- include('../../partials/footer') %>
-
-<script>
-
-    let formData = new FormData();
-
-    let inputs = document.querySelectorAll('input')
-
-    let dados = [...inputs]
-    let params = {}
-
-    for (d in dados) {
-        params[dados[d].name] = dados[d].value;
-    }
-
-    requisicaoPost('http://localhost:8090/client/save', params, response => {
-        console.log(response);
-    })
-
-    let cep = document.getElementById('cep');
-
-    document.getElementById('btnCep').addEventListener('click', (event) => {
-        buscarCep(cep.value, response => {
-            objResponse = JSON.parse(response)
-            document.getElementById('rua').value = objResponse.logradouro
-            document.getElementById('bairro').value = objResponse.bairro
-            document.getElementById('complemento').value = objResponse.complemento
-        });
-    })
-
-</script>
+<script src="/js/cliente.js"></script>

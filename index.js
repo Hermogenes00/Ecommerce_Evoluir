@@ -24,6 +24,7 @@ const client = require('./models/client')
 const collaborator = require('./models/collaborator')
 const category = require('./models/category')
 const subCategory = require('./models/subCategory')
+const address = require('./models/address')
 
 //Importação dos controllers
 const productController = require('./controllers/productController');
@@ -34,6 +35,7 @@ const mainController = require('./controllers/mainController');
 const utilsController = require('./controllers/utilsController');
 const categoryController = require('./controllers/categoryController')
 const storeController = require('./controllers/storeController')
+const addressController = require('./controllers/addressController')
 
 //Session e Cookie
 app.use(cookie('cloneloja'))
@@ -60,6 +62,7 @@ app.use('/', mainController)
 app.use('/', utilsController)
 app.use('/', categoryController)
 app.use('/', storeController)
+app.use('/', addressController)
 
 //app.use('/', userController)
 

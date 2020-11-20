@@ -50,6 +50,14 @@ const collaborator = connection.define('usuarios', {
         type: sequelize.STRING,
         allowNull: false
     },
+    cidade: {
+        type: sequelize.STRING,
+        allowNull: false
+    },
+    uf: {
+        type: sequelize.STRING,
+        allowNull: false
+    }
 
 })
 
@@ -59,7 +67,6 @@ collaborator.sync({alter:true}).then(clb => {
 }).catch(error => {
     console.log(error);
 })
-
 */
 
 module.exports = collaborator;

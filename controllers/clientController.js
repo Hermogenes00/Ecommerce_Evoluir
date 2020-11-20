@@ -8,6 +8,7 @@ const itensOrder = require('../models/itensOrder')
 const fs = require('fs')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
+const address = require('../models/address')
 
 //Autenticação
 const clientAuthentication = require('../middleware/clientAuthentication');
@@ -123,7 +124,6 @@ router.post('/client/save', defaultAuthentication, async (req, res) => {
             validation = true;
         }
     }
-
     if (validation) {
         try {
             let client = await clients.create({
@@ -138,7 +138,20 @@ router.post('/client/save', defaultAuthentication, async (req, res) => {
                 rua: data.rua,
                 bairro: data.bairro,
                 numero: data.numero,
-                complemento: data.complemento
+                complemento: data.complemento,
+                cidade: data.cidade,
+                uf: data.uf
+            })
+
+            let adr = await address.create({
+                cep: data.cep,
+                cidade: data.cidade,
+                uf: data.uf,
+                rua: data.rua,
+                bairro: data.bairro,
+                numero: data.numero,
+                complemento: data.complemento,
+                clienteId: client.id
             })
 
             if (client) {
@@ -202,6 +215,7 @@ router.post('/client/acesso', defaultAuthentication, (req, res) => {
 router.post('/client/update', clientAuthentication, (req, res) => {
     let id = req.session.client.id;
     let data = req.body
+
     clients.update({
         email: data.email,
         nome: data.nome,
@@ -213,7 +227,9 @@ router.post('/client/update', clientAuthentication, (req, res) => {
         rua: data.rua,
         bairro: data.bairro,
         numero: data.numero,
-        complemento: data.complemento
+        complemento: data.complemento,
+        uf: data.uf,
+        cidade: data.cidade
     }, { where: { id: id } }).then(client => {
         req.session.client = {
             id: id,
