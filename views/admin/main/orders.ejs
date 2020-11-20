@@ -17,7 +17,7 @@
     <table class="table table-hover table-sm">
         <thead>
             <tr>
-                <th>#</th>
+                <th>Pedido</th>
                 <th>Cliente</th>
                 <th>Status</th>
                 <th>Valor</th>
@@ -29,10 +29,9 @@
 
             <% clt.pedidos.forEach(pdds=>{%>
             <tr>
-
                 <td>
                     <a href="#">
-                        <h6 data-id="<%= clt.id %>" onclick="onClick(event)">Pedido: <%= clt.id %></h6>
+                        <h6 data-id="<%= clt.id %>" onclick="onClick(event)"><%= clt.id %></h6>
                     </a>
                 </td>
                 <td>

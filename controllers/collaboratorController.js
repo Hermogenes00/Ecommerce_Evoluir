@@ -19,7 +19,6 @@ router.use(async (req, res, next) => {
     next()
 })
 
-
 router.get('/collaborator/perfil', collaboratorAuthentication, async (req, res) => {
 
     let collaborator = await collaborators.findByPk(req.session.collaborator.id)
@@ -52,7 +51,16 @@ router.post('/collaborator/update', collaboratorAuthentication, async (req, res)
     try {
         await collaborators.update({
             nome: data.nome,
-            email: data.email
+            email: data.email,
+            tel: data.tel,
+            cnpjCpf: data.cnpjCpf,
+            cel1: data.cel1,
+            cel2: data.cel2,
+            cep: data.cep,
+            rua: data.rua,
+            bairro: data.bairro,
+            numero: data.numero,
+            complemento: data.complemento
         }, { where: { id: data.id } })
         res.redirect('/collaborator/find/all')
     } catch (error) {
@@ -132,7 +140,16 @@ router.post('/collaborator/save', collaboratorAuthentication, async (req, res) =
         const clb = await collaborators.create({
             nome: data.nome,
             email: data.email,
-            password: bcrypt.hashSync(data.password, salt)
+            password: bcrypt.hashSync(data.password, salt),
+            tel: data.tel,
+            cnpjCpf: data.cnpjCpf,
+            cel1: data.cel1,
+            cel2: data.cel2,
+            cep: data.cep,
+            rua: data.rua,
+            bairro: data.bairro,
+            numero: data.numero,
+            complemento: data.complemento
         })
         if (clb) {
             res.redirect('/collaborator/find/all');
