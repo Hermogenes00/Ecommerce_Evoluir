@@ -1,0 +1,104 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbarhome') %>
+
+
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Novo Endereço de Entrega</h5>
+        </div>
+        <div class="card-body">
+            <form onsubmit="salvar(event,this)" action="/client/address/new" method="POST">
+                <div class="form-row">
+                    <input type="hidden" name="idAddress" id="idAddress">
+                    <div class="form-group col-md-3">
+                        <label for="rua">Cep</label>
+                        <div class="input-group  ">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary btn-sm" type="button" id="btnCep">Buscar
+                                    Cep</button>
+                            </div>
+                            <input type="number" name="cep" id="cep" class="form-control form-control-sm"
+                                placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="rua">Cidade</label>
+                        <input type="text" readonly required class="form-control form-control-sm" name="cidade"
+                            id="cidade">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="rua">Uf</label>
+                        <input type="text" readonly required class="form-control form-control-sm" name="uf" id="uf">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="rua">Rua</label>
+                        <input type="text" required class="form-control form-control-sm" name="rua" id="rua">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="bairro">Bairro</label>
+                        <input type="text" required class="form-control form-control-sm" name="bairro" id="bairro">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="numero">Nº</label>
+                        <input type="text" required class="form-control form-control-sm" name="numero" id="numero">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="complemento">Complemento</label>
+                        <input type="text" class="form-control form-control-sm" name="complemento" id="complemento">
+                    </div>
+                    <button type="submit" class="btn btn-primary form-control">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h5>Listagem de Endereços</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Cep</th>
+                        <th scope="col">Rua</th>
+                        <th scope="col">Nº</th>
+                        <th scope="col">Bairro</th>
+                        <th scope="col">Cidade</th>
+                        <th scope="col">UF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% adr.forEach(endereco=>{ %>
+                    <tr>
+                        <td>
+                            <button onclick="carregarInputs(event)" id="editar" data-idAddress="<%= endereco.id %>"
+                                data-toggle="tooltip" title="Editar" class="btn btn-outline-primary btn-sm">
+                                <i data-idAddress="<%= endereco.id %>" onclick="carregarInputs(event)"
+                                    class="material-icons">create</i>
+                            </button>
+
+                        </td>
+                        <td><%= endereco.cep %> </td>
+                        <td><%= endereco.rua %></td>
+                        <td><%= endereco.numero %> </td>
+                        <td><%= endereco.bairro %> </td>
+                        <td><%= endereco.cidade %> </td>
+                        <td><%= endereco.uf %> </td>
+                    </tr>
+                    <% }) %>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
+<script src="/js/cliente.js"></script>
+<script src="/js/address.js"></script>
