@@ -7,6 +7,7 @@ const product = require('../models/product')
 const client = require('../models/client')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
+const address = require('../models/address')
 const clientAuthentication = require('../middleware/clientAuthentication')
 const defaultAuthentication = require('../middleware/defaultAuthentication')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
@@ -211,31 +212,52 @@ router.post('/order/resume', collaboratorAuthentication, async (req, res) => {
 router.post('/cart/finish/', clientAuthentication, async (req, res) => {
 
     let data = req.body;
-    console.log(data);
+    let idClient = req.session.client.id
 
     try {
         console.log('CHEGOU NA CONSULTA ------------');
 
-        let ord = await orders.findOne({ where: { id: data.idOrder }, include: client })
-        let itens = await itensOrder.findAll({
-            where: {
-                pedidoId: data.idOrder
-            }, include: product
+        let ord = await orders.findOne({
+            where: { clienteId: idClient, status: 'CARRINHO' },
+            include: [{ model: client }, { model: address }]
         })
 
-        if (ord) {
+        let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
+        let adr = await address.findAll({ where: { clienteId: ord.cliente.id } })
+        
+        res.render('admin/order/finish', { ord: ord,itens: itens, address: adr })
 
-            if (itens) {
-
-                res.render('admin/order/finish', { ord: ord, itens: itens })
-            }
-
-        }
 
     } catch (error) {
-        res.json(error)
+        res.send('Erro---------' + error)
     }
 
+})
+
+router.post('/cart/address/update', clientAuthentication, async (req, res) => {
+    let data = req.body
+    let idClient = req.session.client.id
+
+    try {
+
+        await orders.update({
+            enderecoId: data.idAddress
+        }, { where: { clienteId: idClient, status: 'CARRINHO' } })
+
+        let ord = await orders.findOne({
+            where: { clienteId: idClient, status: 'CARRINHO' },
+            include: [{ model: client }, { model: address }]
+        })
+
+        let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
+
+        let adr = await address.findAll({ where: { clienteId: idClient } })
+
+        res.render('admin/order/finish', { ord: ord, itens: itens, address: adr })
+
+    } catch (error) {
+        console.log('Erro ao tentar atualizar o endereço do carrinho-->' + error);
+    }
 })
 
 
