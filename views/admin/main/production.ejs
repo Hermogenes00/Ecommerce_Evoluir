@@ -19,20 +19,23 @@
     <ul class="list-group">
         <div class="row">
             <div class="col-md-4 area" style="padding-left: 5px;">
-                <li class="list-group-item" draggable="true">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <small> Cliente: Hermógenes Batista dos Santos Neto </small>
-                            <div class="card-text">
-                                <p style="margin-top: 5px;">Produto: Lona Preto Fosco</p>
-                                <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
-                                    title="Baixar Arquivo"><i class="material-icons">cloud_download</i></a>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Ver detalhes"
-                                    class="btn btn-primary btn-sm"><i class="material-icons">more_horiz</i></a>
+                <% itens.forEach(item=>{ %>
+                    <li class="list-group-item" data-idOrder="<%=item.pedido.id%> " draggable="true">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <small> Cliente: Hermógenes Batista dos Santos Neto </small>
+                                <div class="card-text">
+                                    <p style="margin-top: 5px;"><%= item.produto.nome %></p>
+                                    <a href="/uploads/<%= item.arquivo %> " class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
+                                        title="Baixar Arquivo"><i class="material-icons">cloud_download</i></a>
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Ver detalhes"
+                                        class="btn btn-primary btn-sm"><i class="material-icons">more_horiz</i></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                <% }) %>
+               
                 <li class="list-group-item" draggable="true">
                     <div class="card text-center">
                         <a href="#">
@@ -100,4 +103,4 @@
 
 
 <%- include('../../partials/footer') %>
-<script src="/js/dragAndDrop.js"></script>
+<script src="/js/production.js"></script>

@@ -1,15 +1,23 @@
 const express = require('express')
 const router = express.Router();
-const clients = require('../models/client')
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
-const orders = require('../models/order');
-const itemsOrders = require('../models/itensOrder')
-const products = require('../models/product')
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication');
+
 const sequelize = require('sequelize');
+
+//Middleware authentication
+const collaboratorAuthentication = require('../middleware/collaboratorAuthentication');
+
+
+//Models
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
+const orders = require('../models/order');
+const products = require('../models/product')
+const clients = require('../models/client')
+const itemsOrders = require('../models/itensOrder');
+const product = require('../models/product');
+
 
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
@@ -27,10 +35,20 @@ router.get('/main', collaboratorAuthentication, (req, res) => {
     res.render('admin/main/main')
 })
 
-router.get('/main/production', collaboratorAuthentication, (req, res) => {
-
-    res.render('admin/main/production')
+router.get('/main/production/status/update/:id',collaboratorAuthentication,(req,res)=>{
+    //Dar continuidade
 })
+
+router.get('/main/production', collaboratorAuthentication, async (req, res) => {
+
+    try {
+        let itens = await itemsOrders.findAll({ include: [{ model: product }, { model: orders }] })
+        res.render('admin/main/production', { itens: itens })
+    } catch (error) {
+        console.log('Erro ao tentar carregas itens dos pedidos-->' + error);
+    }
+})
+
 
 router.get('/main/clients/:client?', collaboratorAuthentication, async (req, res) => {
 

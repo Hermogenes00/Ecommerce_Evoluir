@@ -5,16 +5,19 @@ const order = require('../models/order')
 
 const itensOrder = connection.define('itensPedido', {
     valor: {
-        type: sequelize.DECIMAL(10,2),
+        type: sequelize.DECIMAL(10, 2),
         allowNull: false
     },
     qtd: {
-        type: sequelize.DECIMAL(10,2),
+        type: sequelize.DECIMAL(10, 2),
         allowNull: false
     },
-    arquivo:{
+    arquivo: {
         type: sequelize.TEXT,
-        allowNull:true
+        allowNull: true
+    }, status: {
+        type: sequelize.TEXT,
+        allowNull: true
     }
 })
 
