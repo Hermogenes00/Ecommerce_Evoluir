@@ -5,10 +5,11 @@
 <div class="container">
     <div class="card mb-4">
         <div class="card-header">
-            <h5>Novo Endereço de Entrega</h5>
+            <h5>Endereço de Entrega</h5>
+            <button onclick="limparFormulario(event)" class="btn btn-outline-primary">Novo Endereço</button>
         </div>
         <div class="card-body">
-            <form onsubmit="salvar(event,this)" action="/client/address/new" method="POST">
+            <form onsubmit="salvar(event,this)" id="formEndereco" action="/client/address/new" method="POST">
                 <div class="form-row">
                     <input type="hidden" name="idAddress" id="idAddress">
                     <div class="form-group col-md-3">
@@ -51,7 +52,7 @@
                         <label for="complemento">Complemento</label>
                         <input type="text" class="form-control form-control-sm" name="complemento" id="complemento">
                     </div>
-                    <button type="submit" class="btn btn-primary form-control">Cadastrar</button>
+                    <button type="submit" id="btnCadastrar" class="btn btn-primary form-control">Cadastrar</button>
                 </div>
             </form>
         </div>

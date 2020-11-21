@@ -1,4 +1,13 @@
+
 let inputIdAddress = document.getElementById('idAddress');
+let btnCadastrar = document.getElementById('btnCadastrar')
+let formEndereco = document.getElementById('formEndereco')
+
+function limparFormulario(event) {
+    formEndereco.reset()
+    btnCadastrar.innerHTML = 'Cadastrar'
+    inputIdAddress.value = 0
+}
 
 function carregarInputs(event) {
     requisicao('/client/address/json/' + event.target.dataset.idaddress, response => {
@@ -12,6 +21,8 @@ function carregarInputs(event) {
         document.getElementById('cidade').value = obj.cidade
         document.getElementById('uf').value = obj.uf
         document.getElementById('complemento').value = obj.complemento
+
+        btnCadastrar.innerHTML = 'Salvar'
     })
 }
 

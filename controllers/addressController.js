@@ -58,7 +58,7 @@ router.post('/client/address/update', clientAuthentication, async (req, res) => 
     let data = req.body;
     let idClient = req.session.client.id;
     let adr = []
-    
+    res.json(data)
     try {
         await address.update({
             cep: data.cep,
@@ -69,7 +69,7 @@ router.post('/client/address/update', clientAuthentication, async (req, res) => 
             numero: data.numero,
             complemento: data.complemento,
             clienteId: idClient
-        }, { where: { clienteId: idClient, idAddress: data.idAddress } })
+        }, { where: { clienteId: idClient, id: data.idAddress } })
 
         adr = await address.findAll({ where: { clienteId: idClient } })
 
