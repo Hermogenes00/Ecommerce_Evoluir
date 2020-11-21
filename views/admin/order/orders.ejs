@@ -21,84 +21,69 @@
               </div>
             <%} %> 
 
-    <div class="card mb-3">
-        <div class="card-header">Calcular Frete</div>
+    <div class="card">
+        <div class="card-header"><span class="display-4">Meu carrinho</span></div>
         <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <input type="text" placeholder="Informe aqui o cep" class="form-control" name="cep" id="cep">
-                    <button id="btnCalcular" class="btn btn-primary btn-sm form-control mt-2">Calcular</button>
-                </div>
-                <div class="col">
-                    <h6 class="text-center">Resultado</h6>
-                    <h6>Cidade</h6>
-                    <h6>Rua</h6>
-                    <h6>Bairro</h6>
-                    <h6>Valor</h6>
-                </div>
-
-            </div>
-
+            <table class="table table-sm table-borderless">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Status</th>
+                        <th>Valor Total</th>
+                        <th>Frete</th>
+                        <th class="text-center">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.forEach(o => {%>
+                    <tr>
+        
+                        <td>
+                            <a href="#">
+                                <h6 data-id="<%= o.id %>" onclick="onClick(event)">Ver itens</h6>
+                            </a>
+                        </td>
+                        <td>
+                            <h6><%= o.status %></h6>
+                        </td>
+                        <td>
+                            <h6><%= parseFloat(o.total).toLocaleString('pt-br') %></h6>
+                        </td>
+                        <td>
+        
+                            <div class="row">
+                                <div class="col-md-2 offset-md-4">
+                                    <form onsubmit="remover(event,this,'Deseja realmente remover o carrinho?')" method="POST"
+                                        action="/admin/order/delete">
+                                        <input type="hidden" name="idOrder" value="<%= o.id %>">
+                                        <input type="submit" class="btn btn-sm btn-danger" value="Limpar Carrinho">
+                                    </form>
+                                </div>
+                                <div class="col-md-2">
+                                    <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')" method="POST"
+                                        action="/cart/finish">
+                                        <input type="hidden" name="idOrder" value="<%= o.id %>">
+                                        <input type="submit" class="btn btn-sm btn-primary ml-4" value="Finalizar Carrinho">
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <div class="row">
+                                <div id="conteudo<%= o.id %>" class="col" style="display: none;"> </div>
+                            </div>
+                        </td>
+                    </tr>
+        
+                    <%}); %>
+        
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <table class="table table-sm table-borderless">
-        <thead class="thead-dark">
-            <tr>
-                <th>#</th>
-                <th>Status</th>
-                <th>Valor Total</th>
-                <th>Frete</th>
-                <th class="text-center">Ação</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% orders.forEach(o => {%>
-            <tr>
-
-                <td>
-                    <a href="#">
-                        <h6 data-id="<%= o.id %>" onclick="onClick(event)">Ver itens</h6>
-                    </a>
-                </td>
-                <td>
-                    <h6><%= o.status %></h6>
-                </td>
-                <td>
-                    <h6><%= parseFloat(o.total).toLocaleString('pt-br') %></h6>
-                </td>
-                <td>
-
-                    <div class="row">
-                        <div class="col-md-2 offset-md-4">
-                            <form onsubmit="remover(event,this,'Deseja realmente remover o carrinho?')" method="POST"
-                                action="/admin/order/delete">
-                                <input type="hidden" name="idOrder" value="<%= o.id %>">
-                                <input type="submit" class="btn btn-sm btn-danger" value="Limpar Carrinho">
-                            </form>
-                        </div>
-                        <div class="col-md-2">
-                            <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')" method="POST"
-                                action="/cart/finish">
-                                <input type="hidden" name="idOrder" value="<%= o.id %>">
-                                <input type="submit" class="btn btn-sm btn-primary ml-4" value="Finalizar Carrinho">
-                            </form>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="6">
-                    <div class="row">
-                        <div id="conteudo<%= o.id %>" class="col" style="display: none;"> </div>
-                    </div>
-                </td>
-            </tr>
-
-            <%}); %>
-
-        </tbody>
-    </table>
+   
 
 </div>
 

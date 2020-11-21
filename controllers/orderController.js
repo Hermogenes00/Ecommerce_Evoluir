@@ -189,7 +189,7 @@ router.post('/order/resume', collaboratorAuthentication, async (req, res) => {
     let data = req.body;
 
     try {
-        let ord = await orders.findOne({ where: { id: data.idOrder }, include: client })
+        let ord = await orders.findOne({ where: { id: data.idOrder }, include: [{ model: client }, { model: address }] })
         let itens = await itensOrder.findAll({
             where: {
                 pedidoId: data.idOrder
@@ -224,8 +224,8 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
 
         let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
         let adr = await address.findAll({ where: { clienteId: ord.cliente.id } })
-        
-        res.render('admin/order/finish', { ord: ord,itens: itens, address: adr })
+
+        res.render('admin/order/finish', { ord: ord, itens: itens, address: adr })
 
 
     } catch (error) {
