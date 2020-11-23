@@ -4,22 +4,22 @@
 
 <div class="container mt-3">
 
-    <% if(message.error.length>0){%> 
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Erro</strong> <%=message.error%>.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        <%} %> 
-        <% if(message.success.length>0){%> 
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Parabéns</strong> <%=message.success%>.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            <%} %> 
+    <% if(message.error.length>0){%>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Erro</strong> <%=message.error%>.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <%} %>
+    <% if(message.success.length>0){%>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Parabéns</strong> <%=message.success%>.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <%} %>
 
     <div class="card">
         <div class="card-header"><span class="display-4">Meu carrinho</span></div>
@@ -37,7 +37,7 @@
                 <tbody>
                     <% orders.forEach(o => {%>
                     <tr>
-        
+
                         <td>
                             <a href="#">
                                 <h6 data-id="<%= o.id %>" onclick="onClick(event)">Ver itens</h6>
@@ -50,20 +50,21 @@
                             <h6><%= parseFloat(o.total).toLocaleString('pt-br') %></h6>
                         </td>
                         <td>
-        
+
                             <div class="row">
                                 <div class="col-md-2 offset-md-4">
-                                    <form onsubmit="remover(event,this,'Deseja realmente remover o carrinho?')" method="POST"
-                                        action="/admin/order/delete">
+                                    <form onsubmit="remover(event,this,'Deseja realmente remover o carrinho?')"
+                                        method="POST" action="/admin/order/delete">
                                         <input type="hidden" name="idOrder" value="<%= o.id %>">
                                         <input type="submit" class="btn btn-sm btn-danger" value="Limpar Carrinho">
                                     </form>
                                 </div>
                                 <div class="col-md-2">
-                                    <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')" method="POST"
-                                        action="/cart/finish">
+                                    <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')"
+                                        method="POST" action="/cart/finish">
                                         <input type="hidden" name="idOrder" value="<%= o.id %>">
-                                        <input type="submit" class="btn btn-sm btn-primary ml-4" value="Finalizar Carrinho">
+                                        <input type="submit" class="btn btn-sm btn-primary ml-4"
+                                            value="Finalizar Carrinho">
                                     </form>
                                 </div>
                             </div>
@@ -76,14 +77,14 @@
                             </div>
                         </td>
                     </tr>
-        
+
                     <%}); %>
-        
+
                 </tbody>
             </table>
         </div>
     </div>
-   
+
 
 </div>
 
@@ -167,9 +168,19 @@
 
     function remover(event, form, msg) {
         event.preventDefault();
-        let decisao = confirm(msg)
-        if (decisao)
-            form.submit()
+        Swal.fire({
+            title: 'Confirmação',
+            text: msg,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit()
+            }
+        })
     }
 
     function verificaTamanhoArquivo(event, form) {
@@ -178,7 +189,7 @@
 
         let byteToMb = parseFloat(file.files[0].size) * 0.000001;
         if (byteToMb > 100) {
-            alert('Arquivo não pode ser maior que 100MB')
+            Swal.fire('Arquivo não pode ser maior que 100MB')
         } else {
             form.submit()
         }

@@ -215,7 +215,6 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
     let idClient = req.session.client.id
 
     try {
-        console.log('CHEGOU NA CONSULTA ------------');
 
         let ord = await orders.findOne({
             where: { clienteId: idClient, status: 'CARRINHO' },
@@ -223,10 +222,18 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
         })
 
         let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
-        let adr = await address.findAll({ where: { clienteId: ord.cliente.id } })
 
-        res.render('admin/order/finish', { ord: ord, itens: itens, address: adr })
+        let noFiles = itens.filter(item => {
+            return item.arquivo == null || item.arquivo == '';
+        })
 
+        if (noFiles.length > 0) {
+            req.flash('error','Verifique se todos os produtos, estão com os seus respectivos arquivos')
+            res.redirect('/client/order')
+        } else {
+            let adr = await address.findAll({ where: { clienteId: ord.cliente.id } })
+            res.render('admin/order/finish', { ord: ord, itens: itens, address: adr })
+        }
 
     } catch (error) {
         res.send('Erro---------' + error)

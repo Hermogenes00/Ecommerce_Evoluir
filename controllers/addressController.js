@@ -33,6 +33,7 @@ router.post('/client/address/new', clientAuthentication, async (req, res) => {
 
     let data = req.body;
     let idClient = req.session.client.id;
+    
     let adr = []
     try {
         await address.create({
@@ -58,7 +59,7 @@ router.post('/client/address/update', clientAuthentication, async (req, res) => 
     let data = req.body;
     let idClient = req.session.client.id;
     let adr = []
-    res.json(data)
+    
     try {
         await address.update({
             cep: data.cep,

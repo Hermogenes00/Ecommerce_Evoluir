@@ -53,7 +53,8 @@
                     <%= product.id %>
                 </td>
                 <td><%=product.nome %> <% if(product.gabarito){ %>
-                    <a href="/gabarito/<%=product.gabarito%>"><i data-toggle="tooltip" title="Baixar Gabarito" class="material-icons">get_app</i> </a>
+                    <a href="/gabarito/<%=product.gabarito%>"><i data-toggle="tooltip" title="Baixar Gabarito"
+                            class="material-icons">get_app</i> </a>
                     <%} %></td>
                 <td><%=parseFloat(product.vlrProduto).toLocaleString('pt-br')%></td>
                 <td><%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
@@ -67,16 +68,11 @@
                 <td colspan="6">
                     <div class="row">
                         <div class="col">
-
-                            <form class="form form-inline" action="/admin/product/upload/<%= product.id %>"
-                                method="POST" enctype="multipart/form-data">
-                                <input type="file" name="file" accept=".rar" id="file">
-                                <input type="submit" class="btn btn-primary btn-sm" value="Enviar Gabarito">
-                            </form>
+                            <button onclick="enviarGabarito(event,'<%= product.id %>')"
+                                class="btn btn-primary btn-sm">Enviar Gabarito</button>
                         </div>
                     </div>
                 </td>
-
             </tr>
             <%}) %>
         </tbody>
@@ -93,6 +89,23 @@
         document.location.href = buscar.value.length > 0 ? buscar.value : 'all';
     })
 
+    async function enviarGabarito(event, idProduct) {
+
+        event.preventDefault()
+
+        const { value: file } = await Swal.fire({
+            title: 'Selecione o seu arquivo (.pdf)',
+            html: `<form id="formGabarito" class="form form-inline" action="/admin/product/upload/${idProduct}"
+                                method="POST" enctype="multipart/form-data">
+                                <input type="file" name="file" accept=".rar" id="file">
+                                <input type="submit" class="btn btn-primary btn-sm" value="Enviar Gabarito">
+                            </form>`,
+            inputAttributes: {
+                'accept': '.pdf',
+                'aria-label': 'Selecione o seu arquivo pdf'
+            }
+        })
+    }
 
 </script>
 

@@ -111,7 +111,9 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
 })
 
 router.get('/client/register', defaultAuthentication, (req, res) => {
-    res.render('admin/client/new')
+    let data = req.body;
+    let msg = req.flash('error')
+    res.render('admin/client/new', { clt: data, msg: msg })
 })
 
 router.post('/client/save', defaultAuthentication, async (req, res) => {
@@ -164,20 +166,23 @@ router.post('/client/save', defaultAuthentication, async (req, res) => {
                 }
                 res.redirect('/')
             } else {
-                console.log('Erro ao tentar registrar o cliente');
-                res.redirect('/client/register')
+                req.flash('error', 'Campos obrigatórios não podem estar vazio, ou fora do padrão')
+                res.render('admin/client/new', { clt: data, msg: req.flash('error') })
             }
         } catch (error) {
             console.log('Erro ao tentar registrar o cliente: ' + error);
-            res.redirect('/client/register')
+            res.render('admin/client/new', { clt: data, msg: req.flash('error') })
         }
+    } else {
+        req.flash('error', 'Campos obrigatórios não podem estar vazio, ou fora do padrão')
+        res.render('admin/client/new', { clt: data, msg: req.flash('error') })
     }
 
 })
 
 router.get('/client/login', defaultAuthentication, (req, res) => {
-    
-    let msg = req.flash('erro')    
+
+    let msg = req.flash('erro')
     res.render('admin/client/login', { msg: msg })
 })
 
