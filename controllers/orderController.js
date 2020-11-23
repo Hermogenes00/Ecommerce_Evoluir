@@ -8,11 +8,22 @@ const client = require('../models/client')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
+
 const clientAuthentication = require('../middleware/clientAuthentication')
 const defaultAuthentication = require('../middleware/defaultAuthentication')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 
+const mercadoPago = require('mercadopago')
 
+//Chaves para acesso
+const PUBLIC_KEY = 'TEST-37ef8765-47e0-43fe-869d-e80a24018acb'
+const ACCESS_TOKEN = 'TEST-377894632490329-110614-f40817ed0257d721b3238430c7bea7f1-668493060'
+
+//Configuração do mercadopago
+mercadoPago.configure({
+    sandbox: true,
+    access_token: ACCESS_TOKEN
+})
 
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
@@ -213,7 +224,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
 
     let data = req.body;
     let idClient = req.session.client.id
-
+    let description = '';
     try {
 
         let ord = await orders.findOne({
@@ -228,11 +239,55 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
         })
 
         if (noFiles.length > 0) {
-            req.flash('error','Verifique se todos os produtos, estão com os seus respectivos arquivos')
+            req.flash('error', 'Verifique se todos os produtos, estão com os seus respectivos arquivos')
             res.redirect('/client/order')
         } else {
             let adr = await address.findAll({ where: { clienteId: ord.cliente.id } })
-            res.render('admin/order/finish', { ord: ord, itens: itens, address: adr })
+
+            let idPagamento = '' + Date.now()
+            let emailPagador = 'pagador@email.com'
+
+            //#region Teste para implementação do mercado pago         
+            itens.forEach(item => {
+                description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) `
+            })
+
+            let dados = {
+                items: [
+                    item = {
+                        id: idPagamento,
+                        title: description,
+                        quantity: 1,
+                        currency_id: 'BRL',
+                        unit_price: parseFloat(ord.total)
+                    }
+                ],
+                payer: {
+                    email: emailPagador
+                },
+                external_reference: idPagamento
+            }
+
+            try {
+
+                var pagamento = await mercadoPago.preferences.create(dados)
+                global.id = pagamento.body.id
+
+                //console.log(pagamento);
+
+                //Seria neste momento que deveríamos salvar o id e email do pagamento no banco
+                //banco.salvarPagamento({id:idPagamento,email:emailPagador})
+
+                //Redirecionando para a url de checkout
+
+                res.render('admin/order/finish', { ord: ord, itens: itens, address: adr, dados: dados })
+
+            } catch (error) {
+                console.log(error);
+                res.json(error)
+            }
+
+            //#endregion
         }
 
     } catch (error) {

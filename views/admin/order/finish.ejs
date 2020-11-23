@@ -1,9 +1,6 @@
 <%- include('../../partials/header') %>
 <%- include('../../partials/navbarhome') %>
 
-
-
-
 <div class="container-fluid mt-3">
     <div class="card">
         <div class="card-header">Cliente</div>
@@ -107,8 +104,12 @@
     <div id="areaPagamento">
         <div class="row">
             <div class="col text-center">
+                <form action="/payer" method="post">
+                    <script src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
+                        data-preference-id='<%= global.id %>'>
+                        </script>
+                </form>
                 <button class="btn btn-outline-primary mt-3">Cancelar Confirmação de pagamento</button>
-                <button class="btn btn-primary mt-3">Confirmar Informações acima e Realizar pagamento</button>
             </div>
         </div>
     </div>
@@ -175,11 +176,30 @@
     </div>
 </div>
 
+<div class="row mt-2">
+    <div class="col">
 
-
+    </div>
+</div>
 
 
 
 <%- include('../../partials/footer') %>
 
 <script src="/js/ajax.js"></script>
+
+
+<script>
+    let btnMercadoPago = document.querySelector('.mercadopago-button')
+    console.dir(btnMercadoPago)
+    btnMercadoPago.innerHTML = 'Confirmar informações acima e realizar o pagamento'
+    btnMercadoPago.classList.add('btn')
+    btnMercadoPago.classList.add('mt-3')
+    btnMercadoPago.classList.add('btn-primary')
+    btnMercadoPago.classList.remove('mercadopago-button')
+    //btnMercadoPago.style.display = 'none'
+    let btnConfirmacao = document.getElementById('btnConfirmacao')
+    btnConfirmacao.addEventListener('click', (event) => {
+        btnMercadoPago.style.display = 'block'
+    })
+</script>
