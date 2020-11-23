@@ -176,7 +176,9 @@ router.post('/client/save', defaultAuthentication, async (req, res) => {
 })
 
 router.get('/client/login', defaultAuthentication, (req, res) => {
-    res.render('admin/client/login')
+    
+    let msg = req.flash('erro')    
+    res.render('admin/client/login', { msg: msg })
 })
 
 router.get('/client/logout', defaultAuthentication, (req, res) => {
@@ -204,9 +206,11 @@ router.post('/client/acesso', defaultAuthentication, (req, res) => {
             }
             res.redirect('/')
         } else {
+            req.flash('erro', 'Erro ao realizar o login, verifique seu usuário e senha')
             res.redirect('/client/login')
         }
     }).catch(erro => {
+        req.flash('erro', 'Erro ao realizar o login, verifique seu usuário e senha')
         console.log('Erro ao tentar logar ' + erro);
         res.redirect('/client/login')
     })
