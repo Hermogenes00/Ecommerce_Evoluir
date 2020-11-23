@@ -245,7 +245,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
             let adr = await address.findAll({ where: { clienteId: ord.cliente.id } })
 
             let idPagamento = '' + Date.now()
-            let emailPagador = 'pagador@email.com'
+            let emailPagador = ord.cliente.email
 
             //#region Teste para implementação do mercado pago         
             itens.forEach(item => {
@@ -272,7 +272,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
 
                 var pagamento = await mercadoPago.preferences.create(dados)
                 global.id = pagamento.body.id
-
+                
                 //console.log(pagamento);
 
                 //Seria neste momento que deveríamos salvar o id e email do pagamento no banco
