@@ -3,7 +3,7 @@ const router = express.Router();
 const defaultAuthentication = require('../middleware/defaultAuthentication');
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
-
+const Correios = require('node-correios')
 
 
 //Criação do middleware para menu
@@ -16,9 +16,8 @@ router.use(async (req, res, next) => {
     next()
 })
 
-
-
-router.get('/buscarCep/:cep', defaultAuthentication, async (req, res) => {
+router.get('/buscarCep/:cep',defaultAuthentication, async (req, res) => {
+    
     let cep = req.params.cep;
     args = {
         cep: cep

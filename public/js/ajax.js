@@ -35,7 +35,7 @@ function requisicaoPost(endereco, data, callback) {
 
 function buscarCep(cep, callback) {
 
-    requisicao('http://localhost:8090/buscarCep/' + cep, (response) => {
+    requisicao('/buscarCep/' + cep, (response) => {
         callback(response)
 
     })

@@ -16,6 +16,7 @@ requisicaoPost('http://localhost:8090/client/save', params, response => {
 let cep = document.getElementById('cep');
 
 document.getElementById('btnCep').addEventListener('click', (event) => {
+    
     buscarCep(cep.value, response => {
         objResponse = JSON.parse(response)
         if(objResponse.uf != undefined){

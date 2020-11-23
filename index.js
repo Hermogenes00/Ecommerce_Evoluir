@@ -5,6 +5,8 @@ const session = require('express-session');
 const connection = require('./database/connection')
 const cookie = require('cookie-parser')
 const flash = require('express-flash')
+
+//Middleware Authentication
 const clientAuthentication = require('./middleware/clientAuthentication')
 const defaultAuthentication = require('./middleware/defaultAuthentication')
 
