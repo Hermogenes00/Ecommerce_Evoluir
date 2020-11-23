@@ -29,14 +29,21 @@ router.use(async (req, res, next) => {
     next()
 })
 
-
-
 router.get('/main', collaboratorAuthentication, (req, res) => {
     res.render('admin/main/main')
 })
 
-router.get('/main/production/status/update/:id',collaboratorAuthentication,(req,res)=>{
-    //Dar continuidade
+router.get('/main/production/status/update/:id/:status', collaboratorAuthentication, async (req, res) => {
+    let itemId = req.params.id
+    let status = req.params.status
+    try {
+        itemsOrders.update({
+            status: status
+        }, { where: { id: itemId } })
+    } catch (error) {
+        console.log('Erro ao tentar alterar o status de um item do carrinho');
+    }
+
 })
 
 router.get('/main/production', collaboratorAuthentication, async (req, res) => {

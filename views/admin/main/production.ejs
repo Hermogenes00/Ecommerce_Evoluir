@@ -18,78 +18,88 @@
 
     <ul class="list-group">
         <div class="row">
-            <div class="col-md-4 area" style="padding-left: 5px;">
-                <% itens.forEach(item=>{ %>
-                    <li class="list-group-item" data-idOrder="<%=item.pedido.id%> " draggable="true">
+
+            <!--Aguardando-->
+            <div class="col-md-4 area areaAguardando" style="padding-left: 5px;">
+                
+                    <% itens.filter(item=>{return item.status == 'AGUARDANDO'}).forEach(item=>{ %>
+    
+                    <li class="list-group-item" data-id="<%=item.id%>" draggable="true">
                         <div class="card text-center">
                             <div class="card-body">
                                 <small> Cliente: Hermógenes Batista dos Santos Neto </small>
                                 <div class="card-text">
                                     <p style="margin-top: 5px;"><%= item.produto.nome %></p>
-                                    <a href="/uploads/<%= item.arquivo %> " class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
-                                        title="Baixar Arquivo"><i class="material-icons">cloud_download</i></a>
+                                    <a href="/uploads/<%= item.arquivo %> " class="btn btn-warning btn-sm"
+                                        data-toggle="tooltip" data-placement="top" title="Baixar Arquivo"><i
+                                            class="material-icons">cloud_download</i></a>
                                     <a href="#" data-toggle="tooltip" data-placement="top" title="Ver detalhes"
                                         class="btn btn-primary btn-sm"><i class="material-icons">more_horiz</i></a>
                                 </div>
                             </div>
                         </div>
                     </li>
+    
+    
+                    <% }) %>
+                    
+            </div>
+
+
+            <!--Produzindo-->
+            <div class="col-md-4 area areaProduzindo">
+
+                
+
+                <% itens.filter(item=>{return item.status == 'PRODUZINDO'}).forEach(item=>{ %>
+
+                <li class="list-group-item" data-id="<%=item.id%>" draggable="true">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <small> Cliente: Hermógenes Batista dos Santos Neto </small>
+                            <div class="card-text">
+                                <p style="margin-top: 5px;"><%= item.produto.nome %></p>
+                                <a href="/uploads/<%= item.arquivo %> " class="btn btn-warning btn-sm"
+                                    data-toggle="tooltip" data-placement="top" title="Baixar Arquivo"><i
+                                        class="material-icons">cloud_download</i></a>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="Ver detalhes"
+                                    class="btn btn-primary btn-sm"><i class="material-icons">more_horiz</i></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+
                 <% }) %>
-               
-                <li class="list-group-item" draggable="true">
+                
+            </div>
+
+
+
+            <!--Finalizado-->
+            <div class="col-md-4 area areaFinalizado" style="min-height: 400px; min-width: 300px;">
+                
+                <% itens.filter(item=>{return item.status == 'FINALIZADO'}).forEach(item=>{ %>
+
+                <li class="list-group-item" data-id="<%=item.id%>" draggable="true">
                     <div class="card text-center">
-                        <a href="#">
-                            <img width="180px" height="160px"
-                                src="https://s3-sa-east-1.amazonaws.com/arquivosgraficas/midia/1FCAA7EC-0F65-43C2-A490-98C9F1E65A6A/servicos/FEF8E7DE-A295-4B3F-B9B6-D4BBAA62AA95.jpg"
-                                class="card-img-top"></a>
                         <div class="card-body">
-                            <p class="card-title">
-                                Exemplo </p>
-
-
-                            <div class="card-text mt-2">
-                                <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
-                                    title="Baixar Arquivo">Baixar Arquivo</a>
+                            <small> Cliente: Hermógenes Batista dos Santos Neto </small>
+                            <div class="card-text">
+                                <p style="margin-top: 5px;"><%= item.produto.nome %></p>
+                                <a href="/uploads/<%= item.arquivo %> " class="btn btn-warning btn-sm"
+                                    data-toggle="tooltip" data-placement="top" title="Baixar Arquivo"><i
+                                        class="material-icons">cloud_download</i></a>
                                 <a href="#" data-toggle="tooltip" data-placement="top" title="Ver detalhes"
-                                    class="btn btn-primary btn-sm">Detalhes</a>
+                                    class="btn btn-primary btn-sm"><i class="material-icons">more_horiz</i></a>
                             </div>
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item list-group-item-action" draggable="true">
-                    <div class="card text-center">
-                        <a href="#">
-                            <img width="180px" height="160px"
-                                src="https://s3-sa-east-1.amazonaws.com/arquivosgraficas/midia/1FCAA7EC-0F65-43C2-A490-98C9F1E65A6A/servicos/FEF8E7DE-A295-4B3F-B9B6-D4BBAA62AA95.jpg"
-                                class="card-img-top"></a>
-                        <div class="card-body">
-                            <p class="card-title">
-                                Exemplo </p>
 
 
-                            <div class="card-text mt-2">
-                                <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
-                                    title="Baixar Arquivo">Baixar Arquivo</a>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Ver detalhes"
-                                    class="btn btn-primary btn-sm">Detalhes</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item list-group-item-action" draggable="true">4</li>
-                <li class="list-group-item list-group-item-action" draggable="true">5</li>
-            </div>
-            <div class="col-md-4 area">
-                <li class="list-group-item list-group-item-action" draggable="true">2</li>
-                <li class="list-group-item list-group-item-action" draggable="true">3</li>
-                <li class="list-group-item list-group-item-action" draggable="true">4</li>
-                <li class="list-group-item list-group-item-action" draggable="true">5</li>
-            </div>
-            <div class="col-md-4 area">
-                <li class="list-group-item list-group-item-action" draggable="true">2</li>
-                <li class="list-group-item list-group-item-action" draggable="true">3</li>
-                <li class="list-group-item list-group-item-action" draggable="true">4</li>
-                <li class="list-group-item list-group-item-action" draggable="true">5</li>
+                <% }) %>
+                
             </div>
         </div>
 
@@ -103,4 +113,4 @@
 
 
 <%- include('../../partials/footer') %>
-<script src="/js/production.js"></script>
+                <script src="/js/production.js"></script>
