@@ -22,16 +22,16 @@
     <%} %>
 
     <div class="card">
-        <div class="card-header"><span class="display-4">Meu carrinho</span></div>
+        <div class="card-header"><span class="display-4">Meu(s) Pedido(s)</span></div>
         <div class="card-body">
-            <table class="table table-sm table-borderless">
+            <table class="table table-hover table-sm table-borderless">
                 <thead class="thead-dark">
                     <tr>
-                        <th>#</th>
+                        <th>Pedido</th>
                         <th>Status</th>
                         <th>Valor Total</th>
                         <th>Frete</th>
-                        <th class="text-center"></th>
+                        <th>Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,9 +39,16 @@
                     <tr>
 
                         <td>
+                            <% if(o.status !='CANCELADO'){%>
                             <a href="#">
-                                <h6 data-id="<%= o.id %>" onclick="onClick(event)">Ver itens</h6>
+                                <h6 data-id="<%= o.id %>" class="text-center" onclick="onClick(event)"><%= o.id %> </h6>
                             </a>
+                            <%}else{%>
+                                <a href="#">
+                                    <h6 data-id="<%= o.id %>" class="text-center"><%= o.id %> </h6>
+                                </a>
+                            <%} %>
+
                         </td>
                         <td>
                             <h6><%= o.status %></h6>
@@ -50,27 +57,21 @@
                             <h6><%= parseFloat(o.total).toLocaleString('pt-br') %></h6>
                         </td>
                         <td>
-
+                            <h6><%= parseFloat(o.frete).toLocaleString('pt-br') %> </h6>
+                        </td>
+                        <td>
                             <div class="row">
-                                <div class="col-md-2 offset-md-4">
-                                    <form onsubmit="remover(event,this,'Deseja realmente limpar o carrinho?')"
-                                        method="POST" action="/admin/cart/delete">
-                                        <input type="hidden" name="idOrder" value="<%= o.id %>">
-                                        <button data-toggle="tooltip" title="Limpar Carrinho" type="submit"
-                                            class=" btn btn-outline-primary material-icons">cleaning_services</button>
-                                        
-                                    </form>
-                                </div>
-                                <div class="col-md-2">
+                                <% if(o.status !='CANCELADO'){%>
+                                
+                                <i data-toggle="tooltip" title="Realizar Pagamento"
+                                    class="material-icons btn btn-sm btn-outline-primary mr-2">credit_card</i>
 
-                                    <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')"
-                                        action="/cart/finish/" method="POST">
-                                        <input type="hidden" name="idAddress" value="<%= o.endereco.id %>">
-                                        <input type="hidden" name="idOrder" value="<%= o.id %>">
-                                        <button type="submit" data-toggle="tooltip" title="Finalizar Carrinho"
-                                            class=" btn btn-outline-primary material-icons">send</button>
-                                    </form>
-                                </div>
+                                <i data-toggle="tooltip" data-id="<%= o.id %>"
+                                    onclick="cancelarPedido(event,'Deseja realmente cancelar este pedido?')"
+                                    title="Cancelar Pedido"
+                                    class="material-icons btn btn-sm btn-outline-primary">remove_circle_outline</i>
+                                <%} %>
+
                             </div>
                         </td>
                     </tr>
@@ -89,10 +90,9 @@
         </div>
     </div>
 
-
 </div>
 
 <%- include('../../partials/footer') %>
 
 <script src="/js/ajax.js"></script>
-<script src="/js/cart.js"></script>
+<script src="/js/order.js"></script>

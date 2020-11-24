@@ -1,5 +1,7 @@
+
 const express = require('express')
 const router = express.Router();
+
 const orders = require('../models/order')
 const itensOrder = require('../models/itensOrder')
 const product = require('../models/product')
@@ -11,6 +13,7 @@ const address = require('../models/address')
 const clientAuthentication = require('../middleware/clientAuthentication')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 
+const CONSTANTE = require('../utils/constants')
 
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
@@ -36,10 +39,27 @@ router.get('/admin/orders', clientAuthentication, async (req, res) => {
     }
 })
 
+router.get('/order/cancel/:idOrder', clientAuthentication, async (req, res) => {
+
+    let id = req.params.idOrder
+    let ord = {}
+    try {
+        ord = await orders.update({
+            status: CONSTANTE.STATUS_PEDIDO.CANCELADO
+        }, {
+            where: { id: id }
+        })
+        res.json(ord)
+    } catch (error) {
+        console.log('Erro ao tentar cancelar o pedido: ' + error);
+        res.json(ord)
+    }
+
+})
 
 router.post('/order/resume', collaboratorAuthentication, async (req, res) => {
     let data = req.body;
-    
+
     try {
         let ord = await orders.findOne({ where: { id: data.idOrder }, include: [{ model: client }, { model: address }] })
         let itens = await itensOrder.findAll({

@@ -1,6 +1,11 @@
-let constants = {
-    CARRINHO: 'CARRINHO',
-    PORTA:8090,
+let CONSTANTS = {
+    PORTA: 8090,
+    STATUS_PEDIDO: {
+        CANCELADO: 'CANCELADO',
+        PAGAMENTO_REALIZADO: 'PAGAMENTO_REALIZADO',
+        CARRINHO: 'CARRINHO',
+        AGUARDANDO_PAGAMENTO: 'AGUARDANDO PAGAMENTO'
+    }
 }
 
-module.exports = constants;
+module.exports = CONSTANTS;

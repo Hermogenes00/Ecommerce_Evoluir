@@ -10,6 +10,11 @@ const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
 
+//Sequelize
+const sequelize = require('sequelize')
+
+const CONSTANTES = require('../utils/constants')
+
 //Autenticação
 const clientAuthentication = require('../middleware/clientAuthentication');
 const defaultAuthentication = require('../middleware/defaultAuthentication');
@@ -71,7 +76,7 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
     try {
 
         let itemOrder = await itensOrder.findOne({ where: { id: idItem } })
-        
+
         if (itemOrder) {
             if (itemOrder.arquivo) {
                 fs.unlink('public/uploads/' + itemOrder.arquivo, (err) => {
@@ -81,8 +86,11 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
                 })
             }
 
-            await itensOrder.update({ arquivo: enderecoImagem }, { where: { id: idItem } })
-
+            if(enderecoImagem){
+                await itensOrder.update({ arquivo: enderecoImagem }, { where: { id: idItem } })
+                enderecoImagem = null
+            }
+            
             res.redirect('/client/cart')
         }
 
@@ -128,7 +136,7 @@ router.post('/client/save', defaultAuthentication, async (req, res) => {
                 uf: data.uf
             })
 
-            let adr = await address.create({
+            await address.create({
                 cep: data.cep,
                 cidade: data.cidade,
                 uf: data.uf,
@@ -248,20 +256,46 @@ router.get('/client/edit', clientAuthentication, (req, res) => {
     })
 
 })
+
 router.get('/client/cart', clientAuthentication, async (req, res) => {
+
+    let idClient = req.session.client.id;
+
+    let message = {
+        error: req.flash('error'),
+        success: req.flash('success')
+    }
+
+    try {
+        let objOrders = await orders.findAll({
+            where: { clienteId: idClient, status: CONSTANTES.STATUS_PEDIDO.CARRINHO },
+            include: [{ model: clients }, { model: itensOrder }, { model: address }]
+        });
+        res.render('admin/cart/cart', { orders: objOrders, message: message })
+    } catch (error) {
+        console.log('Erro ao buscar pedidos: ' + error)
+        res.send('Erro ' + error)
+    }
+
+})
+
+router.get('/client/orders', clientAuthentication, async (req, res) => {
 
     let idClient = req.session.client.id;
     let message = {
         error: req.flash('error'),
         success: req.flash('success')
     }
+
     try {
-        let objOrders = await orders.findAll({ where: { clienteId: idClient } });
-        res.render('admin/cart/cart', { orders: objOrders, message: message })
+        let objOrders = await orders.findAll({ where: { clienteId: idClient, status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO } } });
+
+        res.render('admin/order/orders', { orders: objOrders, message: message })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error)
         res.send('Erro ' + error)
     }
 })
+
 
 module.exports = router

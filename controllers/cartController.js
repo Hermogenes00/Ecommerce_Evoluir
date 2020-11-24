@@ -1,10 +1,13 @@
 const express = require('express')
 const router = express.Router();
 
+//CONSTANTES
+const CONSTANTES = require('../utils/constants')
+
 //Models
 const orders = require('../models/order')
 const itensOrder = require('../models/itensOrder')
-const constants = require('../utils/constants');
+const constantes = require('../utils/constants');
 const product = require('../models/product')
 const client = require('../models/client')
 const category = require('../models/category')
@@ -106,8 +109,8 @@ router.get('/admin/cart/itensCart/:idOrder', clientAuthentication, async (req, r
 router.get('/admin/cart', clientAuthentication, async (req, res) => {
 
     try {
-
-        let objOrders = await orders.findAll();
+        let objOrders = await orders.findAll({ include: [{ model: client }, { model: itensOrder }, { model: address }] });
+        res.json(objOrders)
         res.render('admin/cart/cart', { orders: objOrders })
 
     } catch (error) {
@@ -126,7 +129,7 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
     try {
 
         let objClient = await client.findOne({ where: { id: idClient }, include: address })
-        
+
         let prod = await product.findOne({ where: { id: data.productId } })
 
         let qtdReal = parseFloat(data.qtd) / prod.propriedadeDivisao;
@@ -134,12 +137,12 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
         vlr = parseFloat(qtdReal * prod.vlrProduto);
         console.log("Valor que está sendo salvo no banco: " + vlr);
 
-        order = await orders.findOne({ where: { clienteId: idClient, status: constants.CARRINHO } })
+        order = await orders.findOne({ where: { clienteId: idClient, status: CONSTANTES.STATUS_PEDIDO.CARRINHO } })
 
         if (!order) {
             order = await orders.create({
                 clienteId: idClient,
-                status: constants.CARRINHO,
+                status: CONSTANTES.STATUS_PEDIDO.CARRINHO,
                 cep: objClient.cep,
                 rua: objClient.rua,
                 bairro: objClient.bairro,
@@ -183,10 +186,10 @@ router.post('/cart/address/update', clientAuthentication, async (req, res) => {
 
         await orders.update({
             enderecoId: data.idAddress
-        }, { where: { clienteId: idClient, status: 'CARRINHO' } })
+        }, { where: { id: data.idOrder } })
 
         let ord = await orders.findOne({
-            where: { clienteId: idClient, status: 'CARRINHO' },
+            where: { id: data.idOrder },
             include: [{ model: client }, { model: address }]
         })
 
@@ -209,7 +212,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
     try {
 
         let ord = await orders.findOne({
-            where: { clienteId: idClient, status: 'CARRINHO' },
+            where: { clienteId: idClient, status: CONSTANTES.STATUS_PEDIDO.CARRINHO },
             include: [{ model: client }, { model: address }]
         })
 
@@ -254,13 +257,18 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
                 var pagamento = await mercadoPago.preferences.create(dados)
                 global.id = pagamento.body.id
 
-
                 //console.log(pagamento);
 
                 //Seria neste momento que deveríamos salvar o id e email do pagamento no banco
                 //banco.salvarPagamento({id:idPagamento,email:emailPagador})
 
                 //Redirecionando para a url de checkout
+
+                //Atualiza o status do pedido, para AGUARDANDO PAGAMENTO
+                await orders.update({
+                    status: constantes.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
+                }, { where: { id: ord.id } })
+
 
                 res.render('admin/cart/finish', { ord: ord, itens: itens, address: adr, dados: dados })
 

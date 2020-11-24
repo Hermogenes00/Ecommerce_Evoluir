@@ -150,6 +150,7 @@
                                 <td>
                                     <form action="/cart/address/update" method="POST">
                                         <input type="hidden" name="idAddress" value="<%= adr.id %>">
+                                        <input type="hidden" name="idOrder" value="<%= ord.id %>">
                                         <button type="submit"
                                             class=" btn btn-outline-primary material-icons">upgrade</button>
                                     </form>
