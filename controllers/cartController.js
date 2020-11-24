@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router();
+
+//Models
 const orders = require('../models/order')
 const itensOrder = require('../models/itensOrder')
 const constants = require('../utils/constants');
@@ -8,7 +10,10 @@ const client = require('../models/client')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
+
 const mercadoPago = require('../mercadoPago/mercadoPago')
+
+//Middleware Authentication
 const clientAuthentication = require('../middleware/clientAuthentication')
 
 
@@ -168,8 +173,6 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
     }
 
 })
-
-
 
 
 router.post('/cart/address/update', clientAuthentication, async (req, res) => {

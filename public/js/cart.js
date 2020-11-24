@@ -12,16 +12,17 @@ function onClick(event) {
             conteudo.innerHTML = '';
 
             dados.forEach(item => {
-                let linkBaixarArquivo = item.arquivo ? `<div class="col">
-
-    
-<a class="btn btn-sm btn-outline-primary" href="/uploads/${item.arquivo}"><i class="material-icons">cloud_download</i></a>
-</div>`: ''
+                let linkBaixarArquivo = item.arquivo ? `    
+<a class="btn btn-sm btn-outline-primary form-control" href="/uploads/${item.arquivo}"><i class="material-icons">cloud_download</i></a>
+`: ''
                 conteudo.innerHTML += `<div class="card border-secondary">
                             <div class="card-body">
                                 <div class="row">
                             <div class="col">
                                 Cod:${item.produto.id}
+                                <button onclick="enviarArquivo(event,${item.id})"
+                                class="btn btn-primary btn-sm">Enviar Arquivo</button>
+                                
                             </div>
                             <div class="col">
                                 Item: ${item.produto.nome}
@@ -43,18 +44,7 @@ function onClick(event) {
                            
                             
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <form action="/client/upload/${item.id}" class="form form-inline" method="POST" enctype="multipart/form-data" onsubmit="verificaTamanhoArquivo(event,this)">
-<input type="file" accept=".pdf" class="btn btn-outline-success btn-sm form-control mt-2" name="file" id="file">  
-<input type="submit" class="btn btn-outline-success btn-sm form-control mt-2" value="Enviar"> 
-</form>
-                                    
-                                    </div>
-
-                                    ${linkBaixarArquivo}
-                                
-                                </div>
+                            ${linkBaixarArquivo}
                         </div>  
                         </div>`
             });
@@ -70,6 +60,23 @@ function onClick(event) {
 
 }
 
+async function enviarArquivo(event, idProduct) {
+
+    event.preventDefault()
+
+    const { value: file } = await Swal.fire({
+        title: 'Selecione o seu arquivo (.pdf)',
+        html: `<form id="formGabarito" class="form form-inline" action="/client/upload/${idProduct}"
+                            method="POST" enctype="multipart/form-data">
+                            <input type="file" name="file" accept=".pdf" id="file">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Enviar Gabarito">
+                        </form>`,
+        inputAttributes: {
+            'accept': '.pdf',
+            'aria-label': 'Selecione o seu arquivo pdf'
+        }
+    })
+}
 
 function remover(event, form, msg) {
     event.preventDefault();

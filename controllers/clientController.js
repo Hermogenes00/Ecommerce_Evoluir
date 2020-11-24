@@ -71,6 +71,7 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
     try {
 
         let itemOrder = await itensOrder.findOne({ where: { id: idItem } })
+        
         if (itemOrder) {
             if (itemOrder.arquivo) {
                 fs.unlink('public/uploads/' + itemOrder.arquivo, (err) => {
@@ -86,6 +87,7 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
         }
 
     } catch (error) {
+        console.log(error);
         res.json(error)
     }
 
