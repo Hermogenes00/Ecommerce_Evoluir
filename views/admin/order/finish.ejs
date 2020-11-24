@@ -106,7 +106,8 @@
             <div class="col text-center">
                 <form action="/payer" method="post">
                     <script src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
-                        data-preference-id='<%= global.id %>'>
+                        data-preference-id='<%= global.id %>'
+                        data-button-label="Confirmar informações acima e realizar o pagamento">
                         </script>
                 </form>
                 <button class="btn btn-outline-primary mt-3">Cancelar Confirmação de pagamento</button>
@@ -190,16 +191,11 @@
 
 
 <script>
+
     let btnMercadoPago = document.querySelector('.mercadopago-button')
     console.dir(btnMercadoPago)
-    btnMercadoPago.innerHTML = 'Confirmar informações acima e realizar o pagamento'
     btnMercadoPago.classList.add('btn')
     btnMercadoPago.classList.add('mt-3')
     btnMercadoPago.classList.add('btn-primary')
-    btnMercadoPago.classList.remove('mercadopago-button')
-    //btnMercadoPago.style.display = 'none'
-    let btnConfirmacao = document.getElementById('btnConfirmacao')
-    btnConfirmacao.addEventListener('click', (event) => {
-        btnMercadoPago.style.display = 'block'
-    })
+    //btnMercadoPago.classList.remove('mercadopago-button')
 </script>
