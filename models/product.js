@@ -44,7 +44,7 @@ const product = connection.define('produtos', {
         type: sequelize.DECIMAL(10, 2),
         allowNull: false
     },
-    tamSangriaLargura:{
+    tamSangriaLargura: {
         type: sequelize.DECIMAL(10, 2),
         allowNull: false
     },
@@ -63,6 +63,10 @@ const product = connection.define('produtos', {
     gabarito: {
         type: sequelize.TEXT,
         allowNull: true
+    },
+    previsaoProducao: {
+        type: sequelize.INTEGER,
+        allowNull: false
     }
 })
 

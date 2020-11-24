@@ -156,7 +156,8 @@ router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
             propriedadeDivisao: parseInt(data.propriedadeDivisao),
             qtd: data.qtd,
             categoriaId: data.categoria,
-            subcategoriaId: data.subCategoria
+            subcategoriaId: data.subCategoria,
+            previsaoProducao: data.previsaoProducao
         }).then((product) => {
             res.redirect('/admin/products/find/')
         }).catch(erro => {
@@ -199,7 +200,8 @@ router.post('/admin/products/update', collaboratorAuthentication, (req, res) => 
             propriedadeDivisao: parseInt(data.propriedadeDivisao),
             qtd: data.qtd,
             categoriaId: data.categoria,
-            subcategoriaId: data.subCategoria
+            subcategoriaId: data.subCategoria,
+            previsaoProducao: data.previsaoProducao
         }, { where: { id: data.id } }).then(() => {
             res.redirect('/admin/products/find/')
         }).catch(erro => {
