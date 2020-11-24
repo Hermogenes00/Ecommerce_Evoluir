@@ -82,7 +82,7 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
 
             await itensOrder.update({ arquivo: enderecoImagem }, { where: { id: idItem } })
 
-            res.redirect('/client/order')
+            res.redirect('/client/cart')
         }
 
     } catch (error) {
@@ -226,7 +226,7 @@ router.post('/client/update', clientAuthentication, (req, res) => {
             nome: data.nome,
             email: data.email
         }
-        res.redirect('/client/order')
+        res.redirect('/client/cart')
     }).catch(error => {
         console.log(error);
         res.send(`Ops, ocorreu um erro ao tentar realizar esta operação, tente novamente,
@@ -246,7 +246,7 @@ router.get('/client/edit', clientAuthentication, (req, res) => {
     })
 
 })
-router.get('/client/order', clientAuthentication, async (req, res) => {
+router.get('/client/cart', clientAuthentication, async (req, res) => {
 
     let idClient = req.session.client.id;
     let message = {
@@ -255,7 +255,7 @@ router.get('/client/order', clientAuthentication, async (req, res) => {
     }
     try {
         let objOrders = await orders.findAll({ where: { clienteId: idClient } });
-        res.render('admin/order/orders', { orders: objOrders, message: message })
+        res.render('admin/cart/cart', { orders: objOrders, message: message })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error)
         res.send('Erro ' + error)

@@ -38,15 +38,14 @@
                 </td>
                 <td>
                     <div class="text-center">
-                        <a href="" title="Ver Pedido" data-target="#exampleModal"><i
-                                class="material-icons" data-toggle="tooltip" data-placement="top"
-                                title="Comprados">monetization_on</i></a>
+                        <a href="" title="Ver Pedido" data-target="#exampleModal"><i class="material-icons"
+                                data-toggle="tooltip" data-placement="top" title="Comprados">monetization_on</i></a>
                         <a href="" data-toggle="modal" onclick="verCarrinho(event)" data-target="#exampleModal"
                             data-whatever="@getbootstrap"><i class="material-icons" data-clientId="<%=clt.id%>"
                                 data-toggle="tooltip" data-placement="top"
                                 title="Ver Carrinho">add_shopping_cart</i></a>
-                        <a href="" title="Ver Pedido"><i class="material-icons" data-toggle="tooltip" data-placement="top"
-                            title="Análise">analytics</i></a>
+                        <a href="" title="Ver Pedido"><i class="material-icons" data-toggle="tooltip"
+                                data-placement="top" title="Análise">analytics</i></a>
                     </div>
                 </td>
             </tr>
@@ -106,11 +105,11 @@
 
 <script>
 
-let cliente = document.getElementById('cliente')
+    let cliente = document.getElementById('cliente')
     document.getElementById('btnBuscar').addEventListener('click', () => {
         document.location.href = cliente.value ? cliente.value : 'all'
     })
-    
+
     function verCarrinho(event) {
 
         let cliente = document.getElementById('modal-cliente')
@@ -128,7 +127,7 @@ let cliente = document.getElementById('cliente')
 
         let clientId = event.target.dataset.clientid
 
-        requisicao(`http://localhost:8090/main/order/${clientId}`, response => {
+        requisicao(`/main/orders/${clientId}`, response => {
             let objJson = JSON.parse(response)
 
             console.log(objJson);

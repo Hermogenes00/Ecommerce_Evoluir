@@ -63,25 +63,28 @@
     <div class="card mt-3">
         <div class="card-header">Endereço de entrega</div>
         <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    Endereço: <%= ord.endereco.rua %>
+            <% if(ord.endereco){%>
+                <div class="row">
+                    <div class="col">
+                        Endereço: <%= ord.endereco.rua %>
+                    </div>
+                    <div class="col">
+                        Bairro: <%= ord.endereco.bairro %>
+                    </div>
+                    <div class="col">
+                        Nº: <%= ord.endereco.numero %>
+                    </div>
                 </div>
-                <div class="col">
-                    Bairro: <%= ord.endereco.bairro %>
+                <div class="row">
+                    <div class="col">
+                        Complemento: <%= ord.endereco.complemento %>
+                    </div>
+                    <div class="col">
+                        Cep: <%= ord.endereco.cep %>
+                    </div>
                 </div>
-                <div class="col">
-                    Nº: <%= ord.endereco.numero %>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    Complemento: <%= ord.endereco.complemento %>
-                </div>
-                <div class="col">
-                    Cep: <%= ord.endereco.cep %>
-                </div>
-            </div>
+            <%} %>
+            
         </div>
 
     </div>

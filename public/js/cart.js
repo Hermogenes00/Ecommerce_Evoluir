@@ -2,7 +2,7 @@
 function onClick(event) {
 
 
-    requisicao(`http://localhost:8090/admin/order/itensOrder/` + event.target.dataset.id, (data => {
+    requisicao(`/admin/cart/itensCart/` + event.target.dataset.id, (data => {
 
         let dados = JSON.parse(data)
         let conteudo = document.getElementById('conteudo' + event.target.dataset.id)
@@ -33,7 +33,7 @@ function onClick(event) {
                                 Valor: ${parseFloat(item.valor).toLocaleString('pt-br')}
                             </div>
                             <div class="col">
-                                <form class="form form-inline" onsubmit="remover(event,this,'Deseja realmente remover o item?')" method="POST" action="/admin/order/itemOrder/delete">
+                                <form class="form form-inline" onsubmit="remover(event,this,'Deseja realmente remover o item?')" method="POST" action="/admin/cart/itemCart/delete">
                     <input type="hidden" name="idItem" value="${item.id}">
                     <input type="hidden" name="idPedido" value="${item.pedidoId}">
                     <input type="submit" class="btn btn-sm btn-danger" value="Remover Item">

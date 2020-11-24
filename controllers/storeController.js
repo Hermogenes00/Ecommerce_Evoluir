@@ -1,15 +1,22 @@
 const express = require('express');
-const products = require('../models/product')
-const orders = require('../models/order')
-const itemsOrders = require('../models/itensOrder')
 const router = express.Router();
 const sequelize = require('sequelize');
+
+//Middlewares Authentication
 const defaultAuthentication = require('../middleware/defaultAuthentication')
 const clientAuthentication = require('../middleware/clientAuthentication')
+
+//Models
 const category = require('../models/category')
 const subCategory = require('../models/subCategory');
+const address = require('../models/address')
+const itensOrder = require('../models/itensOrder')
+const products = require('../models/product')
+const orders = require('../models/order')
+const client = require('../models/client')
 
-
+//MercadoPago
+const mercadoPago = require('../mercadoPago/mercadoPago')
 
 
 //Criação do middleware para menu
@@ -61,6 +68,8 @@ router.get('/products/findBySubCategory/:slug', defaultAuthentication, async (re
         console.log('Erro ao pesquisar o produto-->' + error)
     }
 })
+
+
 
 router.get('/pagar', async (req, res) => {
 

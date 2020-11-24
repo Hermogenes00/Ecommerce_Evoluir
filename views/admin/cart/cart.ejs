@@ -53,8 +53,8 @@
 
                             <div class="row">
                                 <div class="col-md-2 offset-md-4">
-                                    <form onsubmit="remover(event,this,'Deseja realmente remover o carrinho?')"
-                                        method="POST" action="/admin/order/delete">
+                                    <form onsubmit="remover(event,this,'Deseja realmente limpar o carrinho?')"
+                                        method="POST" action="/admin/cart/delete">
                                         <input type="hidden" name="idOrder" value="<%= o.id %>">
                                         <input type="submit" class="btn btn-sm btn-danger" value="Limpar Carrinho">
                                     </form>
@@ -91,4 +91,4 @@
 <%- include('../../partials/footer') %>
 
 <script src="/js/ajax.js"></script>
-<script src="/js/orders.js"></script>
+<script src="/js/cart.js"></script>

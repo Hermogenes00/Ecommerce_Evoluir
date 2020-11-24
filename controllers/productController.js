@@ -6,6 +6,7 @@ const subCategory = require('../models/subCategory')
 const router = express.Router();
 const slug = require('slugify')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+const defaultAuthentication = require('../middleware/defaultAuthentication')
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
@@ -43,10 +44,10 @@ let upload = multer({
 
         if (file.originalname != '' || file.originalname != null || file.originalname != undefined) {
             if (path.extname(file.originalname) != '.rar') {
-                req.flash('error', 'Arquivo deve estar em extensão .rar')                
+                req.flash('error', 'Arquivo deve estar em extensão .rar')
                 cb(null, false)
             } else {
-                req.flash('success', `Arquivo enviado com sucesso `+file.originalname)
+                req.flash('success', `Arquivo enviado com sucesso ` + file.originalname)
                 cb(null, true)
             }
         } else {
@@ -166,7 +167,15 @@ router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
     }
 })
 
+router.get('/admin/products/detail/:id', defaultAuthentication, (req, res) => {
+    let id = req.params.id;
 
+    products.findByPk(id).then(prod => {
+        res.render('admin/products/detail', { product: prod })
+    }).catch(erro => {
+        res.json(erro)
+    })
+})
 
 router.post('/admin/products/update', collaboratorAuthentication, (req, res) => {
 

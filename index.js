@@ -38,6 +38,7 @@ const utilsController = require('./controllers/utilsController');
 const categoryController = require('./controllers/categoryController')
 const storeController = require('./controllers/storeController')
 const addressController = require('./controllers/addressController')
+const cartController = require('./controllers/cartController')
 
 //Session e Cookie
 app.use(cookie('cloneloja'))
@@ -65,6 +66,7 @@ app.use('/', utilsController)
 app.use('/', categoryController)
 app.use('/', storeController)
 app.use('/', addressController)
+app.use('/', cartController)
 
 //app.use('/', userController)
 

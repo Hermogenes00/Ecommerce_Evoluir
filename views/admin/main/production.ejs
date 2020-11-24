@@ -21,35 +21,35 @@
 
             <!--Aguardando-->
             <div class="col-md-4 area areaAguardando" style="padding-left: 5px;">
-                
-                    <% itens.filter(item=>{return item.status == 'AGUARDANDO'}).forEach(item=>{ %>
-    
-                    <li class="list-group-item" data-id="<%=item.id%>" draggable="true">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <small> Cliente: Hermógenes Batista dos Santos Neto </small>
-                                <div class="card-text">
-                                    <p style="margin-top: 5px;"><%= item.produto.nome %></p>
-                                    <a href="/uploads/<%= item.arquivo %> " class="btn btn-warning btn-sm"
-                                        data-toggle="tooltip" data-placement="top" title="Baixar Arquivo"><i
-                                            class="material-icons">cloud_download</i></a>
-                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Ver detalhes"
-                                        class="btn btn-primary btn-sm"><i class="material-icons">more_horiz</i></a>
-                                </div>
+
+                <% itens.filter(item=>{return item.status == 'AGUARDANDO'}).forEach(item=>{ %>
+
+                <li class="list-group-item" data-id="<%=item.id%>" draggable="true">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <small> Cliente: Hermógenes Batista dos Santos Neto </small>
+                            <div class="card-text">
+                                <p style="margin-top: 5px;"><%= item.produto.nome %></p>
+                                <a href="/uploads/<%= item.arquivo %> " class="btn btn-warning btn-sm"
+                                    data-toggle="tooltip" data-placement="top" title="Baixar Arquivo"><i
+                                        class="material-icons">cloud_download</i></a>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="Ver detalhes"
+                                    class="btn btn-primary btn-sm"><i class="material-icons">more_horiz</i></a>
                             </div>
                         </div>
-                    </li>
-    
-    
-                    <% }) %>
-                    
+                    </div>
+                </li>
+
+
+                <% }) %>
+
             </div>
 
 
             <!--Produzindo-->
             <div class="col-md-4 area areaProduzindo">
 
-                
+
 
                 <% itens.filter(item=>{return item.status == 'PRODUZINDO'}).forEach(item=>{ %>
 
@@ -71,14 +71,14 @@
 
 
                 <% }) %>
-                
+
             </div>
 
 
 
             <!--Finalizado-->
             <div class="col-md-4 area areaFinalizado" style="min-height: 400px; min-width: 300px;">
-                
+
                 <% itens.filter(item=>{return item.status == 'FINALIZADO'}).forEach(item=>{ %>
 
                 <li class="list-group-item" data-id="<%=item.id%>" draggable="true">
@@ -99,7 +99,7 @@
 
 
                 <% }) %>
-                
+
             </div>
         </div>
 
@@ -113,4 +113,4 @@
 
 
 <%- include('../../partials/footer') %>
-                <script src="/js/production.js"></script>
+<script src="/js/production.js"></script>

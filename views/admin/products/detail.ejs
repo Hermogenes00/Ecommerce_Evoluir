@@ -17,18 +17,22 @@
 
             <h3>Sobre o produto</h3>
 
-            
+
             <div class="" data-descricao="<%= product.descricao %>" id="descricao">
 
             </div>
             <h3>Descrição Técnica</h3>
             <p style="margin-bottom: 0%;">Ref: <%= product.codRef %> </p>
-            <p style="margin-bottom: 0%;">Tamanho Final: <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %></p>
-            <p style="margin-bottom: 0%;">Tamanho c/Sangria: <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %></p>
+            <p style="margin-bottom: 0%;">Tamanho Final:
+                <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
+            </p>
+            <p style="margin-bottom: 0%;">Tamanho c/Sangria:
+                <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
+            </p>
             <p style="margin-bottom: 0%;">Material: <%= product.material %> </p>
             <p style="margin-bottom: 0%;">Gramatura: <%= product.gramatura %> </p>
             <p style="margin-bottom: 0%;">Peso: <%= product.peso %> </p>
-            
+
         </div>
 
         <% if(user.nome != 'Visitante'){%>
@@ -96,38 +100,6 @@
 
 </div>
 
-<script>
-
-    let qtd = document.getElementsByName('qtd')
-    let vlrel = document.getElementById('vlrel');
-    let idProduto = document.getElementById('idProduto')
-    let vlrTotalel = document.getElementById('vlrTotal');
-
-    let propriedadeDivisao = parseFloat(qtd[0].dataset.propriedadedivisao);
-
-    //console.log(qtd[0].dataset.propriedadedivisao);
-    //Formatando valor do item
-
-    qtd[0].addEventListener('change', (event) => {
-
-        let qtd = parseInt(event.target.value) / propriedadeDivisao;
-
-        vlrTotalel.innerText = (qtd * parseFloat(vlrel.innerText)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
-        vlrel.toLocaleString('pt-br')
-
-
-    })
-
-</script>
-
-
-<script>
-    let divDescricao = document.getElementById('descricao');
-    let texto = divDescricao.dataset.descricao
-    let conteudoHtml = new DOMParser().parseFromString(texto, 'text/html')
-    divDescricao.innerHTML = conteudoHtml.body.innerHTML
-</script>
-
-
+<script src="/js/product.js"></script>
 
 <%- include('../../partials/footer') %>

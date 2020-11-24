@@ -6,7 +6,6 @@ const router = express.Router()
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 
 
-
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
     try {
