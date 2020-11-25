@@ -1,4 +1,5 @@
 
+console.log((30.8112).toLocaleString('pt-BR'));
 
 let vlrel = document.getElementById('vlrel');
 let idProduto = document.getElementById('idProduto')
@@ -6,25 +7,21 @@ let vlrTotalel = document.getElementById('vlrTotal');
 
 let formaMedicao = document.getElementById('formaMedicao')
 
-function vlrTotalMetroQuadrado(largura, altura) {
-    let result = 0
-    if (largura != undefined && !isNaN(largura)) {
-        if (altura != undefined && !isNaN(altura)) {
-            result = largura * altura
-            vlrTotalel.innerHTML = parseFloat(result).toLocaleString('pt-br')
-            return result
+function vlrTotalMetroQuadrado(largura, altura, callback) {
+    let floatLargura, floatAltura;
+    floatLargura = largura.replace('.', '').replace(',', '.')
+    floatAltura = altura.replace('.', '').replace(',', '.')
 
-        } else {
-            vlrTotalel.innerHTML = parseFloat('0').toLocaleString('pt-br')
-            return 0;
+    if (floatLargura != undefined && !isNaN(floatLargura)) {
+        if (floatAltura != undefined && !isNaN(floatAltura)) {
+            result = (floatLargura * floatAltura) * parseFloat(vlrel.innerHTML)
+            callback(result)
         }
-    } else {
-        vlrTotalel.innerHTML = parseFloat('0').toLocaleString('pt-br')
-        return 0;
     }
-}
 
-if (formaMedicao.und == 'und') {
+
+}
+if (formaMedicao.dataset.und == 'und') {
 
     let qtd = document.getElementsByName('qtd')
 
@@ -49,13 +46,19 @@ if (formaMedicao.und == 'und') {
     largura.addEventListener('keyup', (event) => {
         let result = formatReal(event.target.value)
         event.target.value = result;
-        vlrTotalMetroQuadrado(largura.value, altura.value)
+        vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
+            
+            vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR')
+        }))
     })
 
     altura.addEventListener('keyup', (event) => {
         let result = formatReal(event.target.value)
         event.target.value = result;
-        vlrTotalMetroQuadrado(largura.value, altura.value)
+        vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
+            
+            vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR')
+        }))
     })
 }
 

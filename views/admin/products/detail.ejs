@@ -33,6 +33,7 @@
             <p style="margin-bottom: 0%;">Gramatura: <%= product.gramatura %> </p>
             <p style="margin-bottom: 0%;">Peso: <%= product.peso %> </p>
             <p style="margin-bottom: 0%;">Produção: <%= product.previsaoProducao %> dias úteis </p>
+            <p style="margin-bottom: 0%;">Und: <%= product.und=='metroQuadrado'?'Metro Quadrado':'Und' %> </p>
         </div>
 
 
@@ -59,8 +60,8 @@
                             <div class="col">
                                 <input type="hidden" name="productId" value="<%= product.id %>">
                                 <label for="alturar">Altura</label>
-                                <input type="text" onkeyup="formatReal(this.value)"
-                                    class="form-control form-control-sm" name="altura" id="altura">
+                                <input type="text" onkeyup="formatReal(this.value)" class="form-control form-control-sm"
+                                    name="altura" id="altura">
 
                                 <label for="largura">Largura</label>
                                 <input type="text" class="form-control form-control-sm" name="largura" id="largura">
@@ -89,6 +90,11 @@
                         <% if(user.nome != 'Visitante'){%>
                         <input type="submit" class="btn btn-danger form-control mt-3" data-toggle="tooltip"
                             data-placement="top" title="Adicionar ao carrinho" value="Comprar">
+                        <% }else{%>
+                            <a href="" class="text-center">
+                                <h5>Faça login ou cadastre-se</h5>
+                            </a>
+                        
                         <% }%>
 
                     </form>
