@@ -31,9 +31,9 @@ router.use(async (req, res, next) => {
     next()
 })
 
-router.get('/order/pay/:idOrder', clientAuthentication, async (req, res) => {
+router.post('/order/pay/', clientAuthentication, async (req, res) => {
 
-    let idOrder = req.params.idOrder;
+    let idOrder = req.body.idOrder;
     try {
         let ord = await orders.findOne({
             where: { id: idOrder, clienteId: req.session.client.id },
@@ -45,7 +45,7 @@ router.get('/order/pay/:idOrder', clientAuthentication, async (req, res) => {
 
             let idPagamento = '' + Date.now()
             let emailPagador = ord.cliente.email
-            let description =''
+            let description = ''
             itens.forEach(item => {
                 description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) `
             })
@@ -97,7 +97,7 @@ router.get('/admin/orders', clientAuthentication, async (req, res) => {
 
     try {
 
-        let objOrders = await orders.findAll();
+        let objOrders = await orders.findAll({ where: { clienteId: req.session.client.id } });
         res.render('admin/order/orders', { orders: objOrders })
 
     } catch (error) {
@@ -106,23 +106,7 @@ router.get('/admin/orders', clientAuthentication, async (req, res) => {
     }
 })
 
-router.get('/order/cancel/:idOrder', clientAuthentication, async (req, res) => {
 
-    let id = req.params.idOrder
-    let ord = {}
-    try {
-        ord = await orders.update({
-            status: CONSTANTE.STATUS_PEDIDO.CANCELADO
-        }, {
-            where: { id: id }
-        })
-        res.json(ord)
-    } catch (error) {
-        console.log('Erro ao tentar cancelar o pedido: ' + error);
-        res.json(ord)
-    }
-
-})
 
 router.post('/order/resume', collaboratorAuthentication, async (req, res) => {
     let data = req.body;

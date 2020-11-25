@@ -63,13 +63,17 @@
                             <div class="row">
                                 <% if(o.status !='CANCELADO'){%>
 
-                                <a href="/order/pay/<%= o.id %>"
-                                    class="material-icons btn btn-sm btn-outline-primary mr-2" data-toggle="tooltip"
-                                    title="Realizar Pagamento">credit_card</a>
-                                <i data-toggle="tooltip" data-id="<%= o.id %>"
-                                    onclick="cancelarPedido(event,'Deseja realmente cancelar este pedido?')"
-                                    title="Cancelar Pedido"
-                                    class="material-icons btn btn-sm btn-outline-primary">remove_circle_outline</i>
+                                <form action="/order/pay/" method="post">
+                                    <input type="hidden" name="idOrder" value="<%= o.id %>">
+                                    <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                        data-toggle="tooltip" title="Realizar Pagamento">credit_card</button>
+                                </form>
+                                <form onsubmit="cancelarPedido(event,'Deseja realmente cancelar este pedido?',this)"
+                                    action="/order/cancel" method="post">
+                                    <input type="hidden" name="idOrder" value="<%= o.id %>">
+                                    <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                        data-toggle="tooltip" title="Cancelar Pedido">remove_circle_outline</button>
+                                </form>
                                 <%} %>
 
                             </div>

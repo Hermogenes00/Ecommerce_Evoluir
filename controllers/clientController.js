@@ -86,11 +86,11 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
                 })
             }
 
-            if(enderecoImagem){
+            if (enderecoImagem) {
                 await itensOrder.update({ arquivo: enderecoImagem }, { where: { id: idItem } })
                 enderecoImagem = null
             }
-            
+
             res.redirect('/client/cart')
         }
 
@@ -288,13 +288,36 @@ router.get('/client/orders', clientAuthentication, async (req, res) => {
     }
 
     try {
-        let objOrders = await orders.findAll({ where: { clienteId: idClient, status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO } } });
+        let objOrders = await orders.findAll({
+            where: {
+                clienteId: idClient,
+                status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO }
+            }
+        });
 
         res.render('admin/order/orders', { orders: objOrders, message: message })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error)
         res.send('Erro ' + error)
     }
+})
+
+router.post('/order/cancel', clientAuthentication, async (req, res) => {
+
+    let data = req.body
+    let ord = {}
+    try {
+        ord = await orders.update({
+            status: CONSTANTES.STATUS_PEDIDO.CANCELADO
+        }, {
+            where: { id: data.idOrder}
+        })
+        res.redirect('/client/orders')
+    } catch (error) {
+        console.log('Erro ao tentar cancelar o pedido: ' + error);
+        res.json(ord)
+    }
+
 })
 
 

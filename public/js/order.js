@@ -98,7 +98,8 @@ function verificaTamanhoArquivo(event, form) {
     }
 }
 
-function cancelarPedido(event,msg) {
+function cancelarPedido(event,msg,form) {
+    event.preventDefault()
     Swal.fire({
         title: 'Confirmação',
         text: msg,
@@ -109,16 +110,7 @@ function cancelarPedido(event,msg) {
         confirmButtonText: 'OK'
     }).then((result) => {
         if (result.isConfirmed) {
-            requisicao('/order/cancel/' + event.target.dataset.id, response => {
-                if (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Pedido cancelado com sucesso',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                }
-            })
+            form.submit()
         }
     })
 }
