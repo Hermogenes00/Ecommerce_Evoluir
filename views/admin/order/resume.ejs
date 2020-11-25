@@ -40,6 +40,8 @@
                             <th scope="col">Cod</th>
                             <th scope="col">Produto</th>
                             <th scope="col">Qtd</th>
+                            <th scope="col">Altura</th>
+                            <th scope="col">Largura</th>
                             <th scope="col">Valor</th>
 
                         </tr>
@@ -50,6 +52,8 @@
                             <td><%= item.id %> </td>
                             <td><%= item.produto.nome %> </td>
                             <td><%= item.qtd %></td>
+                            <td><%= item.altura!=null?item.altura:'---' %> </td>
+                            <td><%= item.largura!=null?item.largura:'---' %> </td>
                             <td><%= parseFloat(item.valor).toLocaleString('pt-br') %></td>
                         </tr>
                         <%})%>

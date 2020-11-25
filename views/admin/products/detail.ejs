@@ -59,11 +59,11 @@
                             <div class="col">
                                 <input type="hidden" name="productId" value="<%= product.id %>">
                                 <label for="alturar">Altura</label>
-                                <input type="text" onkeyup="formatReal(this.value)" class="form-control form-control-sm"
+                                <input type="text" required onkeyup="formatReal(this.value)" class="form-control form-control-sm"
                                     name="altura" id="altura">
 
                                 <label for="largura">Largura</label>
-                                <input type="text" class="form-control form-control-sm" name="largura" id="largura">
+                                <input type="text" required class="form-control form-control-sm" name="largura" id="largura">
                             </div>
                             <% } %>
 
