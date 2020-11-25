@@ -35,7 +35,7 @@
             <p style="margin-bottom: 0%;">Produção: <%= product.previsaoProducao %> dias úteis </p>
         </div>
 
-        <% if(user.nome != 'Visitante'){%>
+
         <div class="col">
             <div class="card">
 
@@ -43,7 +43,8 @@
                 <div class="card-body">
 
                     <form action="/admin/cart/add" class="form" method="post">
-                        <div class="row">
+                        <div id="formaMedicao" data-und="<%= product.und %>" class="row">
+                            <% if(product.und=='und'){ %>
                             <div class="col">
                                 <input type="hidden" name="productId" value="<%= product.id %>">
                                 <label for="qtd">Quantidade</label>
@@ -54,6 +55,18 @@
                                     <%} %>
                                 </select>
                             </div>
+                            <%  }else{%>
+                            <div class="col">
+                                <input type="hidden" name="productId" value="<%= product.id %>">
+                                <label for="alturar">Altura</label>
+                                <input type="text" onkeyup="formatReal(this.value)"
+                                    class="form-control form-control-sm" name="altura" id="altura">
+
+                                <label for="largura">Largura</label>
+                                <input type="text" class="form-control form-control-sm" name="largura" id="largura">
+                            </div>
+                            <% } %>
+
                         </div>
                         <br>
                         <div class="row">
@@ -73,28 +86,15 @@
                             </div>
                         </div>
 
+                        <% if(user.nome != 'Visitante'){%>
                         <input type="submit" class="btn btn-danger form-control mt-3" data-toggle="tooltip"
                             data-placement="top" title="Adicionar ao carrinho" value="Comprar">
+                        <% }%>
 
                     </form>
                 </div>
             </div>
         </div>
-        <%}else{ %>
-        <div class="col">
-            <div class="card">
-                <div class="card-header">Login</div>
-                <div class="card-body">
-                    <form action="" class="form">
-                        <input type="text" name="" placeholder="email" class="form-control" id="">
-                        <input type="password" name="" placeholder="******" class="form-control mt-2" id="">
-                        <input type="submit" class="btn btn-success form-control mt-3" value="Logar">
-                        <a href="/client/register" class="btn btn-primary btn-sm form-control mt-2">Fazer cadastro</a>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <% } %>
 
     </div>
 

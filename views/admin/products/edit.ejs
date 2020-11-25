@@ -25,8 +25,8 @@
                     </div>
                     <div class="col">
                         <label for="codRef">Categoria</label>
-                        <select onchange="localizarSubCategoria(event)" name="categoria" data-id="<%=product.categoria.id %>" id="categoria"
-                            class="form-control form-control-sm">
+                        <select onchange="localizarSubCategoria(event)" name="categoria"
+                            data-id="<%=product.categoria.id %>" id="categoria" class="form-control form-control-sm">
                         </select>
                     </div>
                     <div class="col">
@@ -109,17 +109,18 @@
                     <div class="col">
                         <label for="qtd">Und</label>
                         <select name="und" id="und" class="form-control form-control-sm">
-                            <option value="und">Und</option>
-                            <option value="metroQuadrado">M²</option>
+                            <option <%=product.und=='und'?'selected':'' %> value="und">Und</option>
+                            <option <%=product.und=='metroQuadrado'?'selected':''%> value="metroQuadrado">M²</option>
                         </select>
-                    </div>
+                    </div>                   
                     <div class="col">
                         <label for="qtd">Prev. Produção</label>
-                        <input type="number" name="previsaoProducao" id="previsaoProducao" class="form-control form-control-sm">
+                        <input type="number" name="previsaoProducao" id="previsaoProducao"
+                            class="form-control form-control-sm" value="<%=product.previsaoProducao%>">
                     </div>
                     <div class="col">
                         <label for="propriedadeDivisao">Propriedade de Divisão</label>
-                        <input type="number" value="<%=product.propriedadeDivisao%>" name="propriedadeDivisao"
+                        <input type="number" required value="<%=product.propriedadeDivisao%>" name="propriedadeDivisao"
                             id="propriedadeDivisao" class="form-control form-control-sm">
                     </div>
                 </div>
