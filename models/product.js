@@ -67,6 +67,10 @@ const product = connection.define('produtos', {
     previsaoProducao: {
         type: sequelize.INTEGER,
         allowNull: false
+    },
+    und:{
+        type: sequelize.STRING,
+        allowNull: false
     }
 })
 

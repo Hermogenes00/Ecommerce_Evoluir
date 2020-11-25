@@ -4,10 +4,13 @@
 <div class="container mt-4">
 
 
-    <div class="row">
-        <div class="card-deck">
-            <% products.forEach(product=>{ %>
-            <div class="card border-light">
+    <div class="row row-cols-1 row-cols-md-4">
+        <% products.forEach(product=>{ %>
+
+
+
+        <div class="col mb-3">
+            <div class="card h-100 border-light">
                 <div class="card-body">
                     <a href="/admin/products/detail/<%= product.id %>">
                         <img width="180px" height="160px"
@@ -23,18 +26,21 @@
                     </small><br>
                     <small style="margin-bottom: 0%; text-align: left;">Impressão: Digital </small><br>
                 </div>
-                <div class="card-footer text-center">
-                    <% if(product.gabarito){ %>
-                    <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm">Baixar Gabarito</a>
-                    <%} %>
-                    <a href="/admin/products/detail/<%= product.id %> " data-toggle="tooltip" data-placement="top"
-                        title="Ver detalhes" class="btn btn-primary btn-sm">Detalhes</a>
+                <div class="row">
+                    <div class="col text-center">
+                        <% if(product.gabarito){ %>
+                        <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm">Baixar Gabarito</a>
+                        <%} %>
+                        <a href="/admin/products/detail/<%= product.id %> " data-toggle="tooltip" data-placement="top"
+                            title="Ver detalhes" class="btn btn-primary btn-sm">Detalhes</a>
+                    </div>
                 </div>
             </div>
-            <%}) %>
         </div>
-    </div>
 
+
+        <%}) %>
+    </div>
 </div>
 
 

@@ -157,7 +157,8 @@ router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
             qtd: data.qtd,
             categoriaId: data.categoria,
             subcategoriaId: data.subCategoria,
-            previsaoProducao: data.previsaoProducao
+            previsaoProducao: data.previsaoProducao,
+            und: data.und
         }).then((product) => {
             res.redirect('/admin/products/find/')
         }).catch(erro => {
@@ -201,7 +202,8 @@ router.post('/admin/products/update', collaboratorAuthentication, (req, res) => 
             qtd: data.qtd,
             categoriaId: data.categoria,
             subcategoriaId: data.subCategoria,
-            previsaoProducao: data.previsaoProducao
+            previsaoProducao: data.previsaoProducao,
+            und: data.und
         }, { where: { id: data.id } }).then(() => {
             res.redirect('/admin/products/find/')
         }).catch(erro => {
