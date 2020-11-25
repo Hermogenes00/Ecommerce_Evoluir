@@ -7,7 +7,6 @@ Ver Movimentações de determinados clientes rota (http://localhost:8090/main/cl
 
 (PARCIALMENTE CONCLUÍDO) Produção (dragAndDrop), realizar alteração de status no banco de determinados rota (http://localhost:8090/main/production)
 
-Sistema não irá trabalhar com os correios, mas sim com transportadora (Aguardando retorno de Cleison)
 
 REALIZAR MELHORIAS NA INTERFACE DA LISTAGEM DE PRODUTOS
 
@@ -31,6 +30,7 @@ STATUS DO PEDIDO (CARRINHO, AGUARDANDO PAGAMENTO, PAGAMENTO REALIZADO, CANCELADO
 
 CONFIGURAR O BOTÃO DE REALIZAR PAGAMENTO NA VIEW http://localhost:8090/client/orders
 
-implementar cálculo de produto (largura vs altura) referência (https://zapgrafica.com.br/loja/servico/compra/adesivos/metro-quadrado/vinil-branco-brilho/4X0-1unid-VBBM2)
+TABELA PAGAMENTO (PEDIDO_ID, EXTERNAL_REFERENCE,TOTAL)
 
-TABELA PAGAMENTO (PEDIDO_ID, EXTERNAL_REFERENCE,TOTAL,)
+IMPLEMENTAR MÉTODOS DE ENVIO (PADRÃO(TRANSPORTADORA),CORRERIOS,SEDEX, PAC)
+Estudar documentação ->https://www.npmjs.com/package/node-correios, ler o pdf que está na pasta de downloads
