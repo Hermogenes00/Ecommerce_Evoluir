@@ -15,8 +15,17 @@ const itensOrder = connection.define('itensPedido', {
     arquivo: {
         type: sequelize.TEXT,
         allowNull: true
-    }, status: {
+    }, 
+    status: {
         type: sequelize.TEXT,
+        allowNull: true
+    },
+    altura: {
+        type: sequelize.DECIMAL(10, 2),
+        allowNull: true
+    },
+    largura: {
+        type: sequelize.DECIMAL(10, 2),
         allowNull: true
     }
 })

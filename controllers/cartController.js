@@ -110,8 +110,13 @@ router.get('/admin/cart/itensCart/:idOrder', clientAuthentication, async (req, r
 router.get('/admin/cart', clientAuthentication, async (req, res) => {
 
     try {
-        let objOrders = await orders.findAll({ include: [{ model: client }, { model: itensOrder }, { model: address }] });
-        res.json(objOrders)
+        let objOrders = await orders.findAll({
+            include: [
+                { model: client },
+                { model: itensOrder },
+                { model: address }]
+        });
+
         res.render('admin/cart/cart', { orders: objOrders })
 
     } catch (error) {
@@ -124,6 +129,8 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
 
     let data = req.body;
     let order = undefined;
+    let qtdReal = undefined;
+    let objItem = {}
 
     let idClient = req.session.client.id;
 
@@ -133,10 +140,6 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
 
         let prod = await product.findOne({ where: { id: data.productId } })
 
-        let qtdReal = parseFloat(data.qtd) / prod.propriedadeDivisao;
-
-        vlr = parseFloat(qtdReal * prod.vlrProduto);
-        console.log("Valor que está sendo salvo no banco: " + vlr);
 
         order = await orders.findOne({ where: { clienteId: idClient, status: CONSTANTES.STATUS_PEDIDO.CARRINHO } })
 
@@ -153,24 +156,50 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
             })
         }
 
-        itemOrder = await itensOrder.create({
-            valor: vlr,
-            qtd: data.qtd,
-            pedidoId: order.id,
-            produtoId: data.productId
-        })
+        if (prod.und == 'und') {
+            qtdReal = parseFloat(data.qtd) / prod.propriedadeDivisao;
 
-        ord = await orders.findOne({ where: { id: order.id }, include: itensOrder })
+            vlr = parseFloat(qtdReal * prod.vlrProduto);
 
-        let result = parseFloat(0.0);
+            objItem = {
+                valor: vlr,
+                qtd: data.qtd,
+                pedidoId: order.id,
+                produtoId: data.productId
+            }
 
-        ord.itensPedidos.forEach(async item => {
-            result += parseFloat(item.valor)
-        })
+        } else {
+            let metroTotal = parseFloat(data.altura.replace('.', '').replace(',', '.')) * parseFloat(data.largura.replace('.', '').replace(',', '.'))
+            let vlrFinal = metroTotal * prod.vlrProduto
+            qtdReal = 1;
+            objItem = {
+                valor: vlrFinal,
+                qtd: qtdReal,
+                pedidoId: order.id,
+                produtoId: data.productId,
+                altura: parseFloat(data.altura.replace('.', '').replace(',', '.')),
+                largura: parseFloat(data.largura.replace('.', '').replace(',', '.'))
+            }
 
-        await orders.update({ total: result }, { where: { id: order.id } })
+        }
 
-        res.redirect('/client/cart')
+        if (objItem) {
+
+            itemOrder = await itensOrder.create(objItem)
+
+            ord = await orders.findOne({ where: { id: order.id }, include: itensOrder })
+
+            let result = parseFloat(0.0);
+
+            ord.itensPedidos.forEach(async item => {
+                result += parseFloat(item.valor)
+            })
+
+            await orders.update({ total: result }, { where: { id: order.id } })
+
+            res.redirect('/client/cart')
+        }
+
 
     } catch (err) {
         res.json("Ocorreu um erro: " + err)
@@ -264,11 +293,11 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
                     referencia: pagamento.body.external_reference,
                     pedidoId: ord.id
                 })
-                
+
                 await orders.update({
                     status: constantes.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
                 }, { where: { id: ord.id } })
-                
+
                 res.render('admin/cart/finish', { ord: ord, itens: itens, address: adr, dados: dados })
 
             } catch (error) {

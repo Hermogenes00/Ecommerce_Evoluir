@@ -13,41 +13,71 @@ function onClick(event) {
 
             dados.forEach(item => {
                 let linkBaixarArquivo = item.arquivo ? `    
-<a class="btn btn-sm btn-outline-primary form-control" href="/uploads/${item.arquivo}"><i class="material-icons">cloud_download</i></a>
+<a class="btn btn-sm btn-outline-primary" href="/uploads/${item.arquivo}">Baixar Arquivo<i class="material-icons">cloud_download</i></a>
 `: ''
-                conteudo.innerHTML += `<div class="card border-secondary">
-                            <div class="card-body">
-                                <div class="row">
-                            <div class="col">
-                                Cod:${item.produto.id}
-                                <button onclick="enviarArquivo(event,${item.id})"
-                                class="btn btn-primary btn-sm">Enviar Arquivo</button>
-                                
-                            </div>
-                            <div class="col">
-                                Item: ${item.produto.nome}
-                            </div>
-                            <div class="col">
-                                Qtd: ${item.qtd}
-                            </div>
-                            <div class="col">
-                                Valor: ${parseFloat(item.valor).toLocaleString('pt-br')}
-                            </div>
-                            <div class="col">
-                                <form class="form form-inline" onsubmit="remover(event,this,'Deseja realmente remover o item?')" method="POST" action="/admin/cart/itemCart/delete">
-                    <input type="hidden" name="idItem" value="${item.id}">
-                    <input type="hidden" name="idPedido" value="${item.pedidoId}">
-                    <button data-toggle="tooltip" title="Limpar Carrinho" type="submit"
-                                            class=" btn btn-outline-primary material-icons">delete</button>
+                conteudo.innerHTML += `
+                
+                
+                <div class="card bg-light mb-3">
+                <div class="card-body">
+        
+                    <div class="row">
+                        <div class="col">
+                            <button onclick="enviarArquivo(event,${item.id})" class="btn btn-primary btn-sm">Enviar
+                                Arquivo</button>
+                        </div>
+        
+                        <div class="col">                    
+                            <form class="form form-inline" onsubmit="remover(event,this,'Deseja realmente remover o item?')"
+                                method="POST" action="/admin/cart/itemCart/delete">
+                                <input type="hidden" name="idItem" value="${item.id}">
+                                <input type="hidden" name="idPedido" value="${item.pedidoId}">
+                                <button data-toggle="tooltip" title="Remover Item" type="submit"
+                                    class=" btn btn-danger btn-sm">Remover Item</button>
+                            </form>
+        
+                        </div>
+                    </div>
                     
-                </form>                  
-                            </div>
-                           
-                            
-                            </div>
-                            ${linkBaixarArquivo}
-                        </div>  
-                        </div>`
+                    <div class="row">
+                        <div class="col">
+                            <small>Cod: ${item.produto.id} </small>
+                        </div>                       
+                        <div class="col">
+                            <small>Item: ${item.produto.nome}</small>
+                        </div>
+                        <div class="col">
+                        <small>Valor:R$ ${parseFloat(item.valor).toLocaleString('pt-br')}</small>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <small>Qtd: ${item.qtd}</small>
+                        </div>                      
+                        <div class="col">
+                            <small>Und: ${item.produto.und == 'metroQuadrado' ? 'Metro Quadrado' : 'Und'}</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <small>Altura: ${item.altura}</small>
+                        </div>
+        
+                        <div class="col">
+                            <small>Largura: ${item.largura}</small>
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                    <div class="col">
+                    <small>${linkBaixarArquivo} </small>
+                </div>
+        
+                    </div>
+        
+                </div>
+            </div>
+                `
             });
 
         } else {
