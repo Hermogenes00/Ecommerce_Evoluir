@@ -9,9 +9,15 @@ const client = require('../models/client')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
+const payment = require('../models/payment')
 
 const clientAuthentication = require('../middleware/clientAuthentication')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+
+
+//Mercado pago
+const mercadoPago = require('../mercadoPago/mercadoPago')
+
 
 const CONSTANTE = require('../utils/constants')
 
@@ -25,6 +31,67 @@ router.use(async (req, res, next) => {
     next()
 })
 
+router.get('/order/pay/:idOrder', clientAuthentication, async (req, res) => {
+
+    let idOrder = req.params.idOrder;
+    try {
+        let ord = await orders.findOne({
+            where: { id: idOrder, clienteId: req.session.client.id },
+            include: [{ model: client }, { model: address }]
+        })
+        if (ord) {
+            let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
+            let adrss = await address.findAll({ where: { clienteId: ord.cliente.id } })
+
+            let idPagamento = '' + Date.now()
+            let emailPagador = ord.cliente.email
+            let description =''
+            itens.forEach(item => {
+                description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) `
+            })
+
+            let dados = {
+                items: [
+                    item = {
+                        id: idPagamento,
+                        title: description,
+                        quantity: 1,
+                        currency_id: 'BRL',
+                        unit_price: parseFloat(ord.total)
+                    }
+                ],
+                payer: {
+                    email: emailPagador,
+                    name: ord.cliente.nome
+                },
+                external_reference: idPagamento
+            }
+
+            var pagamento = await mercadoPago.preferences.create(dados)
+            global.id = pagamento.body.id
+
+            let pay = await payment.findOne({ where: { pedidoId: ord.id } })
+
+            if (pay) {
+                await payment.update({
+                    total: parseFloat(ord.total),
+                    referencia: pagamento.body.external_reference,
+                    pedidoId: ord.id
+                }, { where: { id: pay.id } })
+            } else {
+                await payment.create({
+                    total: parseFloat(ord.total),
+                    referencia: pagamento.body.external_reference,
+                    pedidoId: ord.id
+                })
+            }
+
+            res.render('admin/order/pay', { ord: ord, itens: itens, address: adrss })
+        }
+    } catch (error) {
+        console.log('Erro ao tentar carregar tabelas na rota /order/pay/:idOrder ->' + error);
+    }
+})
 
 router.get('/admin/orders', clientAuthentication, async (req, res) => {
 

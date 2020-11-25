@@ -1,6 +1,5 @@
 Rodapé (PARCIALMENTE CONCLUÍDO)
 
-implementar cálculo de produto (largura vs altura) referência (https://zapgrafica.com.br/loja/servico/compra/adesivos/metro-quadrado/vinil-branco-brilho/4X0-1unid-VBBM2)
 
 dashboard Painel Colaborador (BLOCOS: CARRINHO, PAGOS, TOTAL DE PAGOS POR CLIENTE) (http://localhost:8090/main/)
 
@@ -31,3 +30,7 @@ TRABALHAR NAS VALIDAÇÕES DOS FORMULÁRIOS
 STATUS DO PEDIDO (CARRINHO, AGUARDANDO PAGAMENTO, PAGAMENTO REALIZADO, CANCELADO)
 
 CONFIGURAR O BOTÃO DE REALIZAR PAGAMENTO NA VIEW http://localhost:8090/client/orders
+
+implementar cálculo de produto (largura vs altura) referência (https://zapgrafica.com.br/loja/servico/compra/adesivos/metro-quadrado/vinil-branco-brilho/4X0-1unid-VBBM2)
+
+TABELA PAGAMENTO (PEDIDO_ID, EXTERNAL_REFERENCE,TOTAL,)

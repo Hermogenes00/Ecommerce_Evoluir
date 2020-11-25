@@ -1,0 +1,202 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbarhome') %>
+
+<div class="container-fluid mt-3">
+    <div class="card">
+        <div class="card-header">Cliente</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">Nome <%= ord.cliente.nome %> </div>
+                <div class="col">Cpf <%= ord.cliente.cnpjCpf %></div>
+                <div class="col">Email <%= ord.cliente.email %></div>
+            </div>
+            <div class="row">
+                <div class="col">Contato <%= ord.cliente.tel %></div>
+                <div class="col">Tel <%= ord.cliente.cel1 %></div>
+                <div class="col">Tel <%= ord.cliente.cel2 %></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card mt-3">
+        <div class="card-header">Pedido</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">Total: <%= parseFloat(ord.total).toLocaleString('pt-br') %> </div>
+                <div class="col">Frete: <%= parseFloat(ord.valorFrete).toLocaleString('pt-br') %> </div>
+                <div class="col">Data: <%= ord.createdAt.toLocaleString('pt-br') %></div>
+            </div>
+            <hr>
+            <h6 class="text-center">Itens do Pedido</h6>
+            <div class="table-responsive container">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">Cod</th>
+                            <th scope="col">Produto</th>
+                            <th scope="col">Qtd</th>
+                            <th scope="col">Valor</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% itens.forEach(item=>{%>
+                        <tr>
+                            <td><%= item.id %> </td>
+                            <td><%= item.produto.nome %> </td>
+                            <td><%= item.qtd %></td>
+                            <td><%= parseFloat(item.valor).toLocaleString('pt-br') %></td>
+                        </tr>
+                        <%})%>
+
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="card-footer">Total: <%= parseFloat(ord.total).toLocaleString('pt-br') %></div>
+    </div>
+    <div class="card mt-3">
+        <div class="card-header">Endereço de entrega
+            <button data-toggle="modal" data-target="#exampleModal" class="btn btn-primary btn-sm">Mudar endereço de
+                Entrega</button>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 offset-md-3">
+                    <span style="font-weight: bold;">Endereço:</span>
+                    <%=(ord.enderecoId>0)?ord.endereco.rua:ord.cliente.rua %>
+                </div>
+                <div class="col-md-3">
+                    <span style="font-weight: bold;">Bairro:</span>
+                    <%=(ord.enderecoId>0)?ord.endereco.bairro:ord.cliente.bairro %>
+                </div>
+                <div class="col-md-3">
+                    <span style="font-weight: bold;">Nº:</span>
+                    <%=(ord.enderecoId>0)?ord.endereco.numero:ord.cliente.numero %>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-3 offset-md-3">
+                    <span style="font-weight: bold;">Cep:</span>
+                    <%=(ord.enderecoId>0)?ord.endereco.cep:ord.cliente.cep %>
+                </div>
+                <div class="col-md-3">
+                    <span style="font-weight: bold;">Cidade:</span>
+                    <%=(ord.enderecoId>0)?ord.endereco.cidade:ord.cliente.cidade %>
+                </div>
+                <div class="col-md-3">
+                    <span style="font-weight: bold;">UF:</span> <%=(ord.enderecoId>0)?ord.endereco.uf:ord.cliente.uf %>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 offset-md-3">
+                    <span style="font-weight: bold;">Complemento:</span>
+                    <%=(ord.enderecoId>0)?ord.endereco.complemento:ord.cliente.complemento %>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="areaPagamento">
+        <div class="row">
+            <div class="col text-center">
+                <form action="/payer" method="post">
+                    <script src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
+                        data-preference-id='<%= global.id %>'
+                        data-button-label="Confirmar informações acima e realizar o pagamento">
+                        </script>
+                </form>
+                <button class="btn btn-outline-primary mt-3">Cancelar Confirmação de pagamento</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!----------------Modal-------------------->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Listagem de endereços
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <a href="/client/address" class="btn btn-primary btn-sm">Novo endereço</a>
+                <form id="formAlterarNome" action="" method="post">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Cep</th>
+                                <th scope="col">Rua</th>
+                                <th scope="col">Nº</th>
+                                <th scope="col">Bairro</th>
+                                <th scope="col">Cidade</th>
+                                <th scope="col">Uf</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%address.forEach(adr=>{%>
+
+                            <tr>
+                                <td>
+                                    <form action="/cart/address/update" method="POST">
+                                        <input type="hidden" name="idAddress" value="<%= adr.id %>">
+                                        <input type="hidden" name="idOrder" value="<%= ord.id %>">
+                                        <button type="submit"
+                                            class=" btn btn-outline-primary material-icons">upgrade</button>
+                                    </form>
+                                </td>
+                                <td><%= adr.cep %></td>
+                                <td><%= adr.rua %></td>
+                                <td><%= adr.numero %></td>
+                                <td><%= adr.bairro %></td>
+                                <td><%= adr.cidade %></td>
+                                <td><%= adr.uf %></td>
+                            </tr>
+
+                            <% })%>
+
+                        </tbody>
+                    </table>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col">
+
+    </div>
+</div>
+
+
+
+<%- include('../../partials/footer') %>
+
+<script src="/js/ajax.js"></script>
+
+
+<script>
+
+    let btnMercadoPago = document.querySelector('.mercadopago-button')
+    console.dir(btnMercadoPago)
+    btnMercadoPago.classList.add('btn')
+    btnMercadoPago.classList.add('mt-3')
+    btnMercadoPago.classList.add('btn-primary')
+    //btnMercadoPago.classList.remove('mercadopago-button')
+</script>

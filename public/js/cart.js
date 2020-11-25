@@ -37,7 +37,8 @@ function onClick(event) {
                                 <form class="form form-inline" onsubmit="remover(event,this,'Deseja realmente remover o item?')" method="POST" action="/admin/cart/itemCart/delete">
                     <input type="hidden" name="idItem" value="${item.id}">
                     <input type="hidden" name="idPedido" value="${item.pedidoId}">
-                    <input type="submit" class="btn btn-sm btn-danger" value="Remover Item">
+                    <button data-toggle="tooltip" title="Limpar Carrinho" type="submit"
+                                            class=" btn btn-outline-primary material-icons">delete</button>
                     
                 </form>                  
                             </div>

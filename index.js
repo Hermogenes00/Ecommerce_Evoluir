@@ -27,6 +27,7 @@ const collaborator = require('./models/collaborator')
 const category = require('./models/category')
 const subCategory = require('./models/subCategory')
 const address = require('./models/address')
+const payment = require('./models/payment')
 
 //Importação dos controllers
 const productController = require('./controllers/productController');

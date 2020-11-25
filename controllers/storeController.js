@@ -69,7 +69,7 @@ router.get('/products/findBySubCategory/:slug', defaultAuthentication, async (re
     }
 })
 
-
+//Rota para teste de pagamento....
 
 router.get('/pagar', async (req, res) => {
 

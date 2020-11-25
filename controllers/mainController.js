@@ -36,11 +36,14 @@ router.get('/main', collaboratorAuthentication, (req, res) => {
 router.get('/main/production/status/update/:id/:status', collaboratorAuthentication, async (req, res) => {
     let itemId = req.params.id
     let status = req.params.status
+    let result = {}
     try {
-        itemsOrders.update({
+        result = await itemsOrders.update({
             status: status
         }, { where: { id: itemId } })
+        res.json(result)
     } catch (error) {
+        res.json(result)
         console.log('Erro ao tentar alterar o status de um item do carrinho');
     }
 

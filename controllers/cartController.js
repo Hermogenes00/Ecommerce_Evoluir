@@ -13,6 +13,7 @@ const client = require('../models/client')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
+const payment = require('../models/payment')
 
 const mercadoPago = require('../mercadoPago/mercadoPago')
 
@@ -247,7 +248,8 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
                     }
                 ],
                 payer: {
-                    email: emailPagador
+                    email: emailPagador,
+                    name: ord.cliente.nome
                 },
                 external_reference: idPagamento
             }
@@ -257,19 +259,16 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
                 var pagamento = await mercadoPago.preferences.create(dados)
                 global.id = pagamento.body.id
 
-                //console.log(pagamento);
-
-                //Seria neste momento que deveríamos salvar o id e email do pagamento no banco
-                //banco.salvarPagamento({id:idPagamento,email:emailPagador})
-
-                //Redirecionando para a url de checkout
-
-                //Atualiza o status do pedido, para AGUARDANDO PAGAMENTO
+                await payment.create({
+                    total: parseFloat(ord.total),
+                    referencia: pagamento.body.external_reference,
+                    pedidoId: ord.id
+                })
+                
                 await orders.update({
                     status: constantes.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
                 }, { where: { id: ord.id } })
-
-
+                
                 res.render('admin/cart/finish', { ord: ord, itens: itens, address: adr, dados: dados })
 
             } catch (error) {

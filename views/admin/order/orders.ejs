@@ -44,9 +44,9 @@
                                 <h6 data-id="<%= o.id %>" class="text-center" onclick="onClick(event)"><%= o.id %> </h6>
                             </a>
                             <%}else{%>
-                                <a href="#">
-                                    <h6 data-id="<%= o.id %>" class="text-center"><%= o.id %> </h6>
-                                </a>
+                            <a href="#">
+                                <h6 data-id="<%= o.id %>" class="text-center"><%= o.id %> </h6>
+                            </a>
                             <%} %>
 
                         </td>
@@ -62,10 +62,10 @@
                         <td>
                             <div class="row">
                                 <% if(o.status !='CANCELADO'){%>
-                                
-                                <i data-toggle="tooltip" title="Realizar Pagamento"
-                                    class="material-icons btn btn-sm btn-outline-primary mr-2">credit_card</i>
 
+                                <a href="/order/pay/<%= o.id %>"
+                                    class="material-icons btn btn-sm btn-outline-primary mr-2" data-toggle="tooltip"
+                                    title="Realizar Pagamento">credit_card</a>
                                 <i data-toggle="tooltip" data-id="<%= o.id %>"
                                     onclick="cancelarPedido(event,'Deseja realmente cancelar este pedido?')"
                                     title="Cancelar Pedido"
