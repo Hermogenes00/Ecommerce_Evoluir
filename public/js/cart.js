@@ -173,7 +173,12 @@ function calcPrecoPrazo(event) {
 
         if (!obj.error) {
 
-            colPrazo.innerHTML = `De ${obj.PrazoEntrega} dia(s) à ${parseInt(obj.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.  `
+            if (obj.PrazoEntrega > 0){
+                colPrazo.innerHTML = `De ${obj.PrazoEntrega} dia(s) à ${parseInt(obj.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.`
+            }else{
+                colPrazo.innerHTML = `De 3 dias úteis à 5 dias úteis, após a produção do último item`
+            }
+               
             colValor.innerHTML = obj.Valor
             valorFrete.innerHTML = obj.Valor
 
@@ -183,7 +188,6 @@ function calcPrecoPrazo(event) {
 
             valorFinal.innerHTML = (vlrFrete + valor).toLocaleString('pt-br')
 
-            
         }
 
     })

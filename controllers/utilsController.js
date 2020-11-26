@@ -47,36 +47,47 @@ router.get('/buscarCep/:cep', defaultAuthentication, async (req, res) => {
 })
 
 router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega', clientAuthentication, async (req, res) => {
+
     let idOrder = req.params.idPedido
     let metodoEntrega = req.params.metodoEntrega
-    let codigoServico = undefined;
-    let ord = undefined;
-
-    for (codigo in CONSTANTE.CODIGO_SERVICO_CORREIOS) {
-        if (codigo == metodoEntrega) {
-            codigoServico = CONSTANTE.CODIGO_SERVICO_CORREIOS[codigo]
-        }
-    }
+    let codigoServico = undefined
+    let ord = undefined
+    let result = undefined
 
     try {
-        let result = await correio.calcPrecoPrazo({
-            nCdEmpresa: null,
-            sDsSenha: null,
-            nCdServico: '' + codigoServico,
-            sCepOrigem: '48030000',
-            sCepDestino: '13408136',
-            nVlPeso: '1',
-            nCdFormato: 1,
-            nVlComprimento: 15,
-            nVlAltura: 1,
-            nVlLargura: 10,
-            nVlDiametro: 5,
-            sCdMaoPropria: 'N',
-            nVlValorDeclarado: 0,
-            sCdAvisoRecebimento: 'N'
 
-        })
+        if (metodoEntrega != 'BALCAO') {
+            for (codigo in CONSTANTE.CODIGO_SERVICO_CORREIOS) {
+                if (codigo == metodoEntrega) {
+                    codigoServico = CONSTANTE.CODIGO_SERVICO_CORREIOS[codigo]
+                }
+            }
 
+            result = await correio.calcPrecoPrazo({
+                nCdEmpresa: null,
+                sDsSenha: null,
+                nCdServico: '' + codigoServico,
+                sCepOrigem: '48030000',
+                sCepDestino: '13408136',
+                nVlPeso: '1',
+                nCdFormato: 1,
+                nVlComprimento: 15,
+                nVlAltura: 1,
+                nVlLargura: 10,
+                nVlDiametro: 5,
+                sCdMaoPropria: 'N',
+                nVlValorDeclarado: 0,
+                sCdAvisoRecebimento: 'N'
+
+            })
+        } else {
+            result = [
+                {
+                    Valor: '0.00',
+                    PrazoEntrega: '0'
+                }
+            ]
+        }
 
         //Alterando o valor de frete no pedido
         let valor = parseFloat(result[0].Valor.replace('.', '').replace(',', '.'))
@@ -85,12 +96,12 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega', clientAuthentic
         try {
             ord = await orders.findByPk(idOrder)
             if (ord) {
-                
+
                 let valorFinal = parseFloat(valor) + parseFloat(ord.total)
                 await orders.update({
                     valorFrete: valor,
                     valorFinal: valorFinal,
-                    metodoEnvio:metodoEntrega
+                    metodoEnvio: metodoEntrega
                 }, { where: { id: idOrder, clienteId: req.session.client.id } })
             }
 
@@ -108,6 +119,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega', clientAuthentic
             error: error
         })
     }
+
 })
 
 module.exports = router

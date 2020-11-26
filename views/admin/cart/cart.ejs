@@ -113,7 +113,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="radio" data-idOrder="<%=o.id %>" value="BALCAO" name="radio_metodo"
+                        <td><input type="radio" onclick="calcPrecoPrazo(event)" <%=o.metodoEnvio=='BALCAO'?'checked':'' %> data-idOrder="<%=o.id %>" value="BALCAO" name="radio_metodo"
                                 id="radio_metodo"> RETIRAR NO BALCÃO</td>
                         <td>De 3 dias úteis à 5 dias úteis, após a produção do último item</td>
                         <td>0,00</td>
@@ -121,14 +121,16 @@
                     <tr>
                         <td>
                             <input type="radio" data-idOrder="<%=o.id %>" onclick="calcPrecoPrazo(event)"
-                                value="PAC_VISTA" name="radio_metodo" id="radio_metodo"> PAC
+                                value="PAC_VISTA" <%=o.metodoEnvio=='PAC_VISTA'?'checked':'' %> name="radio_metodo"
+                                id="radio_metodo"> PAC
                         </td>
                         <td>....</td>
                         <td>....</td>
                     </tr>
                     <tr>
                         <td><input type="radio" data-idOrder="<%=o.id %>" onclick="calcPrecoPrazo(event)"
-                                value="SEDEX_VISTA" name="radio_metodo" id="radio_metodo"> SEDEX</td>
+                                value="SEDEX_VISTA" <%=o.metodoEnvio=='SEDEX_VISTA'?'checked':'' %> name="radio_metodo"
+                                id="radio_metodo"> SEDEX</td>
                         <td>....</td>
                         <td>....</td>
                     </tr>

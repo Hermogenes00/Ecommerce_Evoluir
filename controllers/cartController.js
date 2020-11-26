@@ -62,7 +62,7 @@ router.post('/admin/cart/itemCart/delete', clientAuthentication, async (req, res
         if (ords) {
             let total = parseFloat(0);
 
-            if (ords.itensPedidos) {
+            if (ords.itensPedidos.length > 0) {
                 ords.itensPedidos.forEach(item => {
                     total += parseFloat(item.valor)
                 })
@@ -192,8 +192,8 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
             ord = await orders.findOne({ where: { id: order.id }, include: itensOrder })
 
             let result = parseFloat(0.0);
-            
-            
+
+
             ord.itensPedidos.forEach(async item => {
                 result += parseFloat(item.valor)
             })
