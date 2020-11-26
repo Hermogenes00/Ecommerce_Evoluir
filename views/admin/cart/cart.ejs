@@ -29,8 +29,9 @@
                     <tr>
                         <th>#</th>
                         <th>Status</th>
-                        <th>Valor Total</th>
+                        <th>Valor</th>
                         <th>Frete</th>
+                        <th>Total</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
@@ -47,7 +48,13 @@
                             <h6><%= o.status %></h6>
                         </td>
                         <td>
-                            <h6><%= parseFloat(o.total).toLocaleString('pt-br') %></h6>
+                            <h6 id="valorSFrete" data-valorsfrete="<%= o.total %>"><%= o.total %></h6>
+                        </td>
+                        <td>
+                            <h6 id="valorFrete"><%= parseFloat(o.valorFrete).toLocaleString('pt-br') %></h6>
+                        </td>
+                        <td>
+                            <h6 id="valorFinal"><%= parseFloat(o.valorFinal).toLocaleString('pt-br') %></h6>
                         </td>
                         <td>
 
@@ -89,6 +96,8 @@
         </div>
     </div>
 
+
+    <% orders.forEach(o=>{%>
     <div class="card mt-2">
         <div class="card-header">
             <h5>Método de Envio</h5>
@@ -104,26 +113,46 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="radio" data-idOrder="<%=orders[0].id %>" value="BALCAO" name="radio_metodo" id="radio_metodo"> RETIRAR NO BALCÃO</td>
+                        <td><input type="radio" data-idOrder="<%=o.id %>" value="BALCAO" name="radio_metodo"
+                                id="radio_metodo"> RETIRAR NO BALCÃO</td>
                         <td>De 3 dias úteis à 5 dias úteis, após a produção do último item</td>
                         <td>0,00</td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="radio" data-idOrder="<%=orders[0].id %>"  onclick="calcPrecoPrazo(event)" value="PAC_VISTA" name="radio_metodo" id="radio_metodo"> PAC
+                            <input type="radio" data-idOrder="<%=o.id %>" onclick="calcPrecoPrazo(event)"
+                                value="PAC_VISTA" name="radio_metodo" id="radio_metodo"> PAC
                         </td>
                         <td>....</td>
                         <td>....</td>
                     </tr>
                     <tr>
-                        <td><input type="radio" data-idOrder="<%=orders[0].id %>" onclick="calcPrecoPrazo(event)" value="SEDEX_VISTA" name="radio_metodo" id="radio_metodo"> SEDEX</td>
+                        <td><input type="radio" data-idOrder="<%=o.id %>" onclick="calcPrecoPrazo(event)"
+                                value="SEDEX_VISTA" name="radio_metodo" id="radio_metodo"> SEDEX</td>
                         <td>....</td>
                         <td>....</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col offset-md-10">
+                    <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')" action="/cart/finish/"
+                        method="POST">
+                        <input type="hidden" name="idAddress" value="<%= orders[0].endereco.id %>">
+                        <input type="hidden" name="idOrder" value="<%= orders[0].id %>">
+                        <button type="submit" data-toggle="tooltip" title="Finalizar Carrinho"
+                            class=" btn btn-outline-primary">Finalizar Carrinho</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
     </div>
+    <% }) %>
+
+
 
 </div>
 

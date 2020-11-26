@@ -68,8 +68,10 @@ router.post('/admin/cart/itemCart/delete', clientAuthentication, async (req, res
                 })
             }
 
+            let valorFinal = total + parseFloat(ord.valorFrete)
+
             try {
-                await orders.update({ total: total }, { where: { id: data.idPedido } })
+                await orders.update({ total: total, valorFinal: valorFinal }, { where: { id: data.idPedido } })
 
                 //Verifica se tem algo no carrinho, caso não, irá excluir o carrinho
                 if (!ords.itensPedidos.length > 0) {
@@ -190,12 +192,14 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
             ord = await orders.findOne({ where: { id: order.id }, include: itensOrder })
 
             let result = parseFloat(0.0);
-
+            
+            
             ord.itensPedidos.forEach(async item => {
                 result += parseFloat(item.valor)
             })
 
-            await orders.update({ total: result }, { where: { id: order.id } })
+            let valorFinal = result + parseFloat(ord.valorFrete)
+            await orders.update({ total: result, valorFinal: valorFinal }, { where: { id: order.id } })
 
             res.redirect('/client/cart')
         }

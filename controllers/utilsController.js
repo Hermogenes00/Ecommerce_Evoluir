@@ -50,15 +50,13 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega', clientAuthentic
     let idOrder = req.params.idPedido
     let metodoEntrega = req.params.metodoEntrega
     let codigoServico = undefined;
-    let ord = undefined
+    let ord = undefined;
 
     for (codigo in CONSTANTE.CODIGO_SERVICO_CORREIOS) {
         if (codigo == metodoEntrega) {
             codigoServico = CONSTANTE.CODIGO_SERVICO_CORREIOS[codigo]
         }
     }
-
-
 
     try {
         let result = await correio.calcPrecoPrazo({
@@ -81,12 +79,22 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega', clientAuthentic
 
 
         //Alterando o valor de frete no pedido
-        let valor = parseFloat(console.log(result[0].Valor.replace('.', '').replace(',', '.')));
+        let valor = parseFloat(result[0].Valor.replace('.', '').replace(',', '.'))
+
 
         try {
-            await orders.update({
-                valorFrete: 123
-            }, { where: { id: idOrder, clienteId: req.session.client.id } })
+            ord = await orders.findByPk(idOrder)
+            if (ord) {
+                
+                let valorFinal = parseFloat(valor) + parseFloat(ord.total)
+                await orders.update({
+                    valorFrete: valor,
+                    valorFinal: valorFinal,
+                    metodoEnvio:metodoEntrega
+                }, { where: { id: idOrder, clienteId: req.session.client.id } })
+            }
+
+
         } catch (error) {
             console.log('Erro ao tentar alterar o valor de frete no pedido-->' + error);
         }
@@ -97,8 +105,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega', clientAuthentic
     } catch (error) {
         console.log('Erro ao tentar calcularPreço e Prazo--->' + error);
         res.json({
-            error: error,
-            order: ord
+            error: error
         })
     }
 })

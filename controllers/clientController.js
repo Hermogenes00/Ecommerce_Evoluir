@@ -271,6 +271,7 @@ router.get('/client/cart', clientAuthentication, async (req, res) => {
             where: { clienteId: idClient, status: CONSTANTES.STATUS_PEDIDO.CARRINHO },
             include: [{ model: clients }, { model: itensOrder }, { model: address }]
         });
+        
         res.render('admin/cart/cart', { orders: objOrders, message: message })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error)

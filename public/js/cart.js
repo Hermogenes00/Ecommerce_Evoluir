@@ -156,6 +156,9 @@ function calcPrecoPrazo(event) {
     let tr = event.target.parentElement.parentElement
     let colPrazo = [...tr.children][1]
     let colValor = [...tr.children][2]
+    let valorSFrete = document.getElementById('valorSFrete')
+    let valorFrete = document.getElementById('valorFrete')
+    let valorFinal = document.getElementById('valorFinal')
 
     colPrazo.innerHTML = `<div class="spinner-border text-dark" role="status">
     <span class="sr-only">Loading...</span>
@@ -166,11 +169,21 @@ function calcPrecoPrazo(event) {
   </div>`
 
     requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`, response => {
-        let item = JSON.parse(`${response}`)
-        console.log(item);
-        if (!item.error) {
-            colPrazo.innerHTML = `De ${item.PrazoEntrega} dia(s) à ${parseInt(item.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.  `
-            colValor.innerHTML = item.Valor
+        let obj = JSON.parse(`${response}`)
+
+        if (!obj.error) {
+
+            colPrazo.innerHTML = `De ${obj.PrazoEntrega} dia(s) à ${parseInt(obj.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.  `
+            colValor.innerHTML = obj.Valor
+            valorFrete.innerHTML = obj.Valor
+
+            let vlrFrete, valor;
+            vlrFrete = parseFloat(obj.Valor.replace('.', '').replace(',', '.'))
+            valor = parseFloat(valorSFrete.dataset.valorsfrete)
+
+            valorFinal.innerHTML = (vlrFrete + valor).toLocaleString('pt-br')
+
+            
         }
 
     })

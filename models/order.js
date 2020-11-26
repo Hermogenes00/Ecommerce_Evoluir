@@ -37,6 +37,15 @@ const orders = connection.define('pedidos', {
         type: sequelize.DECIMAL(10, 2),
         allowNull: false,
         defaultValue: 0
+    },
+    valorFinal:{
+        type: sequelize.DECIMAL(10, 2),
+        allowNull: false,
+        defaultValue: 0
+    },
+    metodoEnvio:{
+        type: sequelize.STRING,
+        allowNull: true
     }
 })
 
