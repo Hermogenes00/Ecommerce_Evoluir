@@ -151,3 +151,28 @@ function buscarCep() {
         });
     })
 }
+
+function calcPrecoPrazo(event) {
+    let tr = event.target.parentElement.parentElement
+    let colPrazo = [...tr.children][1]
+    let colValor = [...tr.children][2]
+
+    colPrazo.innerHTML = `<div class="spinner-border text-dark" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>`
+
+    colValor.innerHTML = `<div class="spinner-border text-dark" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>`
+
+    requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`, response => {
+        let item = JSON.parse(`${response}`)
+        console.log(item);
+        if (!item.error) {
+            colPrazo.innerHTML = `De ${item.PrazoEntrega} dia(s) à ${parseInt(item.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.  `
+            colValor.innerHTML = item.Valor
+        }
+
+    })
+
+}
