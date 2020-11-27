@@ -1,12 +1,10 @@
 Rodapé (PARCIALMENTE CONCLUÍDO)
 
-
 dashboard Painel Colaborador (BLOCOS: CARRINHO, PAGOS, TOTAL DE PAGOS POR CLIENTE) (http://localhost:8090/main/)
 
 Ver Movimentações de determinados clientes rota (http://localhost:8090/main/clients/)
 
 (PARCIALMENTE CONCLUÍDO) Produção (dragAndDrop), realizar alteração de status no banco de determinados rota (http://localhost:8090/main/production)
-
 
 REALIZAR MELHORIAS NA INTERFACE DA LISTAGEM DE PRODUTOS
 
@@ -35,4 +33,4 @@ TABELA PAGAMENTO (PEDIDO_ID, EXTERNAL_REFERENCE,TOTAL)
 IMPLEMENTAR MÉTODOS DE ENVIO (PADRÃO(TRANSPORTADORA),CORRERIOS,SEDEX, PAC)
 Estudar documentação ->https://www.npmjs.com/package/node-correios, ler o pdf que está na pasta de downloads
 
-INCLUIR OPÇÃO PARA MUDAR ENDEREÇO DE ENTREGA NO CARRINHO (SEMELHANTE A VIEW FINISH)
+PENSAR EM COMO IMPLEMENTAR O TIPO DE ENTREGA (RETIRAR NA BASE)

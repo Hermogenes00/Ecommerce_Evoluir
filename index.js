@@ -28,6 +28,8 @@ const category = require('./models/category')
 const subCategory = require('./models/subCategory')
 const address = require('./models/address')
 const payment = require('./models/payment')
+const deliveryRegion = require('./models/deliveryRegion')
+
 
 //Importação dos controllers
 const productController = require('./controllers/productController');
@@ -40,6 +42,8 @@ const categoryController = require('./controllers/categoryController')
 const storeController = require('./controllers/storeController')
 const addressController = require('./controllers/addressController')
 const cartController = require('./controllers/cartController')
+const deliveryRegionController = require('./controllers/deliveryRegionController')
+
 
 //Session e Cookie
 app.use(cookie('cloneloja'))
@@ -68,7 +72,7 @@ app.use('/', categoryController)
 app.use('/', storeController)
 app.use('/', addressController)
 app.use('/', cartController)
-
+app.use('/',deliveryRegionController)
 //app.use('/', userController)
 
 

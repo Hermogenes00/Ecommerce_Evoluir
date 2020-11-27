@@ -28,13 +28,12 @@ router.use(async (req, res, next) => {
     next()
 })
 
-router.get('/buscarCep/:cep', defaultAuthentication, async (req, res) => {
+router.get('/buscarCep/:cep', async (req, res) => {
 
     let cep = req.params.cep;
     args = {
         cep: cep
     }
-
     try {
         let result = await correio.consultaCEP(args);
         console.log('Encontrou----------- ' + result);

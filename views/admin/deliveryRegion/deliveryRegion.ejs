@@ -1,0 +1,55 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbaradmin') %>
+
+<div class="container mt-3">
+
+    <div class="row">
+        <div class="col">
+            <input type="text" placeholder="Busque por uma cidade" name="" class="form-control form-control-sm" id="">
+        </div>
+    </div>
+    <hr>
+    <a href="/main/deliveryRegion/create" class="btn btn-primary btn-sm mb-2" style="float: right;">Add Região</a>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Cep</th>
+                <th scope="col">Logradouro</th>
+                <th scope="col">Numero</th>
+                <th scope="col">Bairro</th>
+                <th scope="col">Cidade</th>
+                <th scope="col">Uf</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% dlvReg.forEach(item=>{%>
+
+            <tr data-toggle="tooltip" title="<%= item.estabelecimento %>">
+                <td><%= item.cep %> </td>
+                <td><%= item.rua %></td>
+                <td><%= item.numero %></td>
+                <td><%= item.bairro %></td>
+                <td><%= item.cidade %></td>
+                <td><%= item.uf %></td>
+                <td>
+                    <form onsubmit="excluirRegiao(event,this)" action="/main/deliveryRegion/delete" method="post">
+                        <input type="hidden" name="id" value="<%= item.id %>">
+                        <button class="btn btn-primary btn-sm material-icons">delete</button>
+                    </form>
+                </td>
+            </tr>
+
+            <% }) %>
+
+
+
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<%- include('../../partials/footer') %>
+<script src="/js/deliveryRegion.js"></script>

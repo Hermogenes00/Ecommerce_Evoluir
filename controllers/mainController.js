@@ -17,6 +17,7 @@ const products = require('../models/product')
 const clients = require('../models/client')
 const itemsOrders = require('../models/itensOrder');
 const product = require('../models/product');
+const address = require('../models/address');
 
 
 //Criação do middleware para menu
@@ -29,8 +30,21 @@ router.use(async (req, res, next) => {
     next()
 })
 
-router.get('/main', collaboratorAuthentication, (req, res) => {
-    res.render('admin/main/main')
+router.get('/main', collaboratorAuthentication, async (req, res) => {
+    try {
+
+        let ords = await orders.findAll({
+            attributes: [
+                'id',
+                [sequelize.fn('SUM', sequelize.col('valorFinal')), 'total']
+            ]
+        })
+        res.render('admin/main/main', { ords: ords })
+    } catch (error) {
+
+    }
+
+
 })
 
 router.get('/main/production/status/update/:id/:status', collaboratorAuthentication, async (req, res) => {
