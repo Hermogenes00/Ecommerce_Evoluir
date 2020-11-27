@@ -23,6 +23,7 @@
 
     <div class="card">
         <div class="card-header"><span class="display-4">Meu carrinho</span></div>
+        <% if(ord){%>
         <div class="card-body">
             <table class="table table-sm table-borderless">
                 <thead class="thead-dark">
@@ -36,25 +37,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% orders.forEach(o => {%>
+
                     <tr>
 
                         <td>
                             <a href="#">
-                                <h6 data-id="<%= o.id %>" onclick="onClick(event)">Ver itens</h6>
+                                <h6 data-id="<%= ord.id %>" onclick="onClick(event)">Ver itens</h6>
                             </a>
                         </td>
                         <td>
-                            <h6><%= o.status %></h6>
+                            <h6><%= ord.status %></h6>
                         </td>
                         <td>
-                            <h6 id="valorSFrete" data-valorsfrete="<%= o.total %>"><%= o.total %></h6>
+                            <h6 id="valorSFrete" data-valorsfrete="<%= ord.total %>"><%= ord.total %></h6>
                         </td>
                         <td>
-                            <h6 id="valorFrete"><%= parseFloat(o.valorFrete).toLocaleString('pt-br') %></h6>
+                            <h6 id="valorFrete"><%= parseFloat(ord.valorFrete).toLocaleString('pt-br') %></h6>
                         </td>
                         <td>
-                            <h6 id="valorFinal"><%= parseFloat(o.valorFinal).toLocaleString('pt-br') %></h6>
+                            <h6 id="valorFinal"><%= parseFloat(ord.valorFinal).toLocaleString('pt-br') %></h6>
                         </td>
                         <td>
 
@@ -62,7 +63,7 @@
                                 <div class="col-md-2 offset-md-4">
                                     <form onsubmit="remover(event,this,'Deseja realmente limpar o carrinho?')"
                                         method="POST" action="/admin/cart/delete">
-                                        <input type="hidden" name="idOrder" value="<%= o.id %>">
+                                        <input type="hidden" name="idOrder" value="<%= ord.id %>">
                                         <button data-toggle="tooltip" title="Limpar Carrinho" type="submit"
                                             class=" btn btn-outline-primary material-icons">cleaning_services</button>
 
@@ -72,8 +73,8 @@
 
                                     <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')"
                                         action="/cart/finish/" method="POST">
-                                        <input type="hidden" name="idAddress" value="<%= o.endereco.id %>">
-                                        <input type="hidden" name="idOrder" value="<%= o.id %>">
+                                        <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
+                                        <input type="hidden" name="idOrder" value="<%= ord.id %>">
                                         <button type="submit" data-toggle="tooltip" title="Finalizar Carrinho"
                                             class=" btn btn-outline-primary material-icons">send</button>
                                     </form>
@@ -84,12 +85,12 @@
                     <tr>
                         <td colspan="6">
                             <div class="row">
-                                <div id="conteudo<%= o.id %>" class="col" style="display: none;"> </div>
+                                <div id="conteudo<%= ord.id %>" class="col" style="display: none;"> </div>
                             </div>
                         </td>
                     </tr>
 
-                    <%}); %>
+
 
                 </tbody>
             </table>
@@ -98,18 +99,22 @@
             <div class="row">
                 <div class="col">
                     <small style="font-weight: bold;">Endereço de Entrega</small>
-                    <small>Rua:------ Bairro:-------- Nº:-------- Cidade:------- Uf:------- Cep: ---------</small>
+                    <small>Rua:<%=ord.endereco.rua %> | Bairro: <%=ord.endereco.bairro %> | Nº:
+                        <%=ord.endereco.numero %> | Cidade: <%=ord.endereco.cidade %> | Uf: <%=ord.endereco.uf %> | Cep:
+                        <%=ord.endereco.cep %></small>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-primary btn-sm">Mudar Endereço</button>
+                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Mudar Endereço</button>
                 </div>
             </div>
-            
+
         </div>
     </div>
 
+    <!--Modal Endereço-->
+    <%- include('../../partials/cart/modalEndereco') %>
 
-    <% orders.forEach(o=>{%>
+
     <div class="card mt-2">
         <div class="card-header">
             <h5>Método de Envio</h5>
@@ -125,24 +130,25 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="radio" onclick="calcPrecoPrazo(event)" <%=o.metodoEnvio=='BALCAO'?'checked':'' %> data-idOrder="<%=o.id %>" value="BALCAO" name="radio_metodo"
-                                id="radio_metodo"> RETIRAR NO BALCÃO</td>
+                        <td><input type="radio" onclick="calcPrecoPrazo(event)"
+                                <%=ord.metodoEnvio=='BALCAO'?'checked':'' %> data-idOrder="<%=ord.id %>" value="BALCAO"
+                                name="radio_metodo" id="radio_metodo"> RETIRAR NO BALCÃO</td>
                         <td>De 3 dias úteis à 5 dias úteis, após a produção do último item</td>
                         <td>0,00</td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="radio" data-idOrder="<%=o.id %>" onclick="calcPrecoPrazo(event)"
-                                value="PAC_VISTA" <%=o.metodoEnvio=='PAC_VISTA'?'checked':'' %> name="radio_metodo"
+                            <input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
+                                value="PAC_VISTA" <%=ord.metodoEnvio=='PAC_VISTA'?'checked':'' %> name="radio_metodo"
                                 id="radio_metodo"> PAC
                         </td>
                         <td>....</td>
                         <td>....</td>
                     </tr>
                     <tr>
-                        <td><input type="radio" data-idOrder="<%=o.id %>" onclick="calcPrecoPrazo(event)"
-                                value="SEDEX_VISTA" <%=o.metodoEnvio=='SEDEX_VISTA'?'checked':'' %> name="radio_metodo"
-                                id="radio_metodo"> SEDEX</td>
+                        <td><input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
+                                value="SEDEX_VISTA" <%=ord.metodoEnvio=='SEDEX_VISTA'?'checked':'' %>
+                                name="radio_metodo" id="radio_metodo"> SEDEX</td>
                         <td>....</td>
                         <td>....</td>
                     </tr>
@@ -154,8 +160,8 @@
                 <div class="col offset-md-10">
                     <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')" action="/cart/finish/"
                         method="POST">
-                        <input type="hidden" name="idAddress" value="<%= orders[0].endereco.id %>">
-                        <input type="hidden" name="idOrder" value="<%= orders[0].id %>">
+                        <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
+                        <input type="hidden" name="idOrder" value="<%= ord.id %>">
                         <button type="submit" data-toggle="tooltip" title="Finalizar Carrinho"
                             class=" btn btn-outline-primary">Finalizar Carrinho</button>
                     </form>
@@ -164,13 +170,13 @@
 
         </div>
     </div>
-    <% }) %>
-
-
-
+    <%} %>
+</div>
 </div>
 
+
 <%- include('../../partials/footer') %>
+
 
 <script src="/js/ajax.js"></script>
 <script src="/js/cart.js"></script>

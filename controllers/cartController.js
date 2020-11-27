@@ -82,6 +82,8 @@ router.post('/admin/cart/itemCart/delete', clientAuthentication, async (req, res
                 res.send('Erro ao tentar atualizar valores do pedido' + error)
             }
         }
+
+        res.redirect('/client/cart')
     } catch (error) {
         res.send('Erro ao tentar atualizar valores do pedido' + error)
     }
@@ -119,6 +121,7 @@ router.get('/admin/cart', clientAuthentication, async (req, res) => {
                 { model: address }]
         });
 
+        
         res.render('admin/cart/cart', { orders: objOrders })
 
     } catch (error) {
@@ -212,8 +215,8 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
 })
 
 
-router.post('/cart/address/update', clientAuthentication, async (req, res) => {
-    let data = req.body
+router.get('/cart/address/update/:idOrder/:idAddress', clientAuthentication, async (req, res) => {
+    let data = req.params
     let idClient = req.session.client.id
 
     try {
@@ -230,7 +233,7 @@ router.post('/cart/address/update', clientAuthentication, async (req, res) => {
         let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
 
         let adr = await address.findAll({ where: { clienteId: idClient } })
-
+        
         res.render('admin/cart/finish', { ord: ord, itens: itens, address: adr })
 
     } catch (error) {

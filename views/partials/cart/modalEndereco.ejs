@@ -1,0 +1,57 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Listagem de endereços
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <a href="/client/address" class="btn btn-primary btn-sm">Novo endereço</a>
+                <form id="formAlterarNome" action="" method="post">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Cep</th>
+                                <th scope="col">Rua</th>
+                                <th scope="col">Nº</th>
+                                <th scope="col">Bairro</th>
+                                <th scope="col">Cidade</th>
+                                <th scope="col">Uf</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%address.forEach(adr=>{%>
+
+                            <tr>
+                                <td>
+                                    <button type="button"
+                                        class=" btn btn-outline-primary material-icons">upgrade</button>
+
+                                </td>
+                                <td><%= adr.cep %></td>
+                                <td><%= adr.rua %></td>
+                                <td><%= adr.numero %></td>
+                                <td><%= adr.bairro %></td>
+                                <td><%= adr.cidade %></td>
+                                <td><%= adr.uf %></td>
+                            </tr>
+
+                            <% })%>
+
+                        </tbody>
+                    </table>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -267,12 +267,14 @@ router.get('/client/cart', clientAuthentication, async (req, res) => {
     }
 
     try {
-        let objOrders = await orders.findAll({
+        let objOrders = await orders.findOne({
             where: { clienteId: idClient, status: CONSTANTES.STATUS_PEDIDO.CARRINHO },
             include: [{ model: clients }, { model: itensOrder }, { model: address }]
         });
-        
-        res.render('admin/cart/cart', { orders: objOrders, message: message })
+
+        let adr = await address.findAll({ where: { clienteId: req.session.client.id } })
+
+        res.render('admin/cart/cart', { ord: objOrders, message: message, address: adr })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error)
         res.send('Erro ' + error)
@@ -311,7 +313,7 @@ router.post('/order/cancel', clientAuthentication, async (req, res) => {
         ord = await orders.update({
             status: CONSTANTES.STATUS_PEDIDO.CANCELADO
         }, {
-            where: { id: data.idOrder}
+            where: { id: data.idOrder }
         })
         res.redirect('/client/orders')
     } catch (error) {

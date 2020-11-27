@@ -121,72 +121,8 @@
 </div>
 
 <!----------------Modal-------------------->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                Listagem de endereços
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+<%- include('../../partials/cart/modalEndereco') %>
 
-            <div class="modal-body">
-                <a href="/client/address" class="btn btn-primary btn-sm">Novo endereço</a>
-                <form id="formAlterarNome" action="" method="post">
-
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Cep</th>
-                                <th scope="col">Rua</th>
-                                <th scope="col">Nº</th>
-                                <th scope="col">Bairro</th>
-                                <th scope="col">Cidade</th>
-                                <th scope="col">Uf</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <%address.forEach(adr=>{%>
-
-                            <tr>
-                                <td>
-                                    <form action="/cart/address/update" method="POST">
-                                        <input type="hidden" name="idAddress" value="<%= adr.id %>">
-                                        <input type="hidden" name="idOrder" value="<%= ord.id %>">
-                                        <button type="submit"
-                                            class=" btn btn-outline-primary material-icons">upgrade</button>
-                                    </form>
-                                </td>
-                                <td><%= adr.cep %></td>
-                                <td><%= adr.rua %></td>
-                                <td><%= adr.numero %></td>
-                                <td><%= adr.bairro %></td>
-                                <td><%= adr.cidade %></td>
-                                <td><%= adr.uf %></td>
-                            </tr>
-
-                            <% })%>
-
-                        </tbody>
-                    </table>
-
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row mt-2">
-    <div class="col">
-
-    </div>
-</div>
 
 
 
