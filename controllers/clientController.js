@@ -263,7 +263,8 @@ router.get('/client/cart', clientAuthentication, async (req, res) => {
 
     let message = {
         error: req.flash('error'),
-        success: req.flash('success')
+        success: req.flash('success'),
+        metodoEnvio: req.flash('metodoEnvio')
     }
 
     try {

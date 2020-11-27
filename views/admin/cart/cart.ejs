@@ -20,6 +20,14 @@
         </button>
     </div>
     <%} %>
+    <% if(message.metodoEnvio.length>0){%>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <%=message.metodoEnvio%>.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <%} %>
 
     <div class="card">
         <div class="card-header"><span class="display-4">Meu carrinho</span></div>
@@ -61,7 +69,7 @@
 
                             <div class="row">
                                 <div class="col-md-2 offset-md-4">
-                                    <form onsubmit="remover(event,this,'Deseja realmente limpar o carrinho?')"
+                                    <form onsubmit="confirmForm(event,this,'Deseja realmente limpar o carrinho?')"
                                         method="POST" action="/admin/cart/delete">
                                         <input type="hidden" name="idOrder" value="<%= ord.id %>">
                                         <button data-toggle="tooltip" title="Limpar Carrinho" type="submit"
@@ -71,7 +79,7 @@
                                 </div>
                                 <div class="col-md-2">
 
-                                    <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')"
+                                    <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')"
                                         action="/cart/finish/" method="POST">
                                         <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
                                         <input type="hidden" name="idOrder" value="<%= ord.id %>">
@@ -158,7 +166,7 @@
         <div class="card-footer">
             <div class="row">
                 <div class="col offset-md-10">
-                    <form onsubmit="remover(event,this,'Deseja realmente finalizar o carrinho?')" action="/cart/finish/"
+                    <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')" action="/cart/finish/"
                         method="POST">
                         <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
                         <input type="hidden" name="idOrder" value="<%= ord.id %>">

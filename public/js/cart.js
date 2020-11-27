@@ -109,7 +109,7 @@ async function enviarArquivo(event, idProduct) {
     })
 }
 
-function remover(event, form, msg) {
+function confirmForm(event, form, msg) {
     event.preventDefault();
     Swal.fire({
         title: 'Confirmação',
@@ -173,12 +173,12 @@ function calcPrecoPrazo(event) {
 
         if (!obj.error) {
 
-            if (obj.PrazoEntrega > 0){
+            if (obj.PrazoEntrega > 0) {
                 colPrazo.innerHTML = `De ${obj.PrazoEntrega} dia(s) à ${parseInt(obj.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.`
-            }else{
+            } else {
                 colPrazo.innerHTML = `De 3 dias úteis à 5 dias úteis, após a produção do último item`
             }
-               
+
             colValor.innerHTML = obj.Valor
             valorFrete.innerHTML = obj.Valor
 
@@ -188,6 +188,10 @@ function calcPrecoPrazo(event) {
 
             valorFinal.innerHTML = (vlrFrete + valor).toLocaleString('pt-br')
 
+        } else {
+            colPrazo.innerHTML = `Falha ao tentar consultar`
+            colValor.innerHTML = `Falha ao tentar consultar`
+            valorFrete.innerHTML = `Falha ao tentar consultar`
         }
 
     })

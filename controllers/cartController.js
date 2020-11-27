@@ -121,7 +121,7 @@ router.get('/admin/cart', clientAuthentication, async (req, res) => {
                 { model: address }]
         });
 
-        
+
         res.render('admin/cart/cart', { orders: objOrders })
 
     } catch (error) {
@@ -233,7 +233,7 @@ router.get('/cart/address/update/:idOrder/:idAddress', clientAuthentication, asy
         let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
 
         let adr = await address.findAll({ where: { clienteId: idClient } })
-        
+
         res.json({ ord: ord, itens: itens, address: adr })
 
     } catch (error) {
@@ -253,16 +253,21 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
             include: [{ model: client }, { model: address }]
         })
 
+
         let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
 
         let noFiles = itens.filter(item => {
             return item.arquivo == null || item.arquivo == '';
         })
-
         if (noFiles.length > 0) {
             req.flash('error', 'Verifique se todos os produtos, estão com os seus respectivos arquivos')
             res.redirect('/client/cart')
-        } else {
+        }
+        if (!ord.metodoEnvio) {
+            req.flash('metodoEnvio', 'Escolha uma das opções abaixo para realizar a entrega do produto')
+            res.redirect('/client/cart')
+        }
+        else {
             let adr = await address.findAll({ where: { clienteId: ord.cliente.id } })
 
             let idPagamento = '' + Date.now()
