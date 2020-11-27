@@ -21,13 +21,13 @@
     </div>
     <%} %>
     <% if(message.metodoEnvio.length>0){%>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <%=message.metodoEnvio%>.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <%} %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <%=message.metodoEnvio%>.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <%} %>
 
     <div class="card">
         <div class="card-header"><span class="display-4">Meu carrinho</span></div>
@@ -112,7 +112,8 @@
                         <%=ord.endereco.cep %></small>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Mudar Endereço</button>
+                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Mudar
+                        Endereço</button>
                 </div>
             </div>
 
@@ -137,6 +138,7 @@
                     </tr>
                 </thead>
                 <tbody>
+
                     <tr>
                         <td><input type="radio" onclick="calcPrecoPrazo(event)"
                                 <%=ord.metodoEnvio=='BALCAO'?'checked':'' %> data-idOrder="<%=ord.id %>" value="BALCAO"
@@ -162,12 +164,32 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!--Retirar na base-->
+            <div class="card">
+                <div class="card-header"><input type="radio" name="radio_metodo" id="radio_metodo"> Retirar na base</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="estado">Estado</label>
+                            <select name="estado" class="form-control form-control-sm" id=""></select>
+                        </div>
+                        <div class="col">
+                            <label for="cidade">Cidade</label>
+                            <select name="cidade" class="form-control form-control-sm" id=""></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
+
         <div class="card-footer">
             <div class="row">
                 <div class="col offset-md-10">
-                    <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')" action="/cart/finish/"
-                        method="POST">
+                    <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')"
+                        action="/cart/finish/" method="POST">
                         <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
                         <input type="hidden" name="idOrder" value="<%= ord.id %>">
                         <button type="submit" data-toggle="tooltip" title="Finalizar Carrinho"

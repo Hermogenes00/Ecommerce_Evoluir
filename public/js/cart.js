@@ -126,6 +126,7 @@ function confirmForm(event, form, msg) {
     })
 }
 
+
 function verificaTamanhoArquivo(event, form) {
     event.preventDefault()
     file = form.children[0]
