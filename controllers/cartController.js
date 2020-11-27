@@ -234,7 +234,7 @@ router.get('/cart/address/update/:idOrder/:idAddress', clientAuthentication, asy
 
         let adr = await address.findAll({ where: { clienteId: idClient } })
         
-        res.render('admin/cart/finish', { ord: ord, itens: itens, address: adr })
+        res.json({ ord: ord, itens: itens, address: adr })
 
     } catch (error) {
         console.log('Erro ao tentar atualizar o endereço do carrinho-->' + error);
