@@ -1,4 +1,5 @@
 const express = require('express')
+const sequelize = require('sequelize')
 const collaboratoAuthentication = require('../middleware/collaboratorAuthentication')
 const router = express.Router()
 const deliveryRegion = require('../models/deliveryRegion')
@@ -45,8 +46,9 @@ router.post('/main/deliveryRegion/save', collaboratoAuthentication, async (req, 
             bairro: data.bairro,
             numero: data.numero,
             complemento: data.complemento,
-            estabelecimento:data.estabelecimento
-        })       
+            ibge: data.ibge,
+            estabelecimento: data.estabelecimento
+        })
 
         res.redirect('/main/deliveryRegion')
 
@@ -54,6 +56,35 @@ router.post('/main/deliveryRegion/save', collaboratoAuthentication, async (req, 
         console.log('Erro ao tentar localizar regiões de entregas -->' + error);
     }
 
+})
+
+router.get('/main/deliveryRegion/uf', async (req, res) => {
+
+    let estados = []
+    try {
+        estados = await deliveryRegion.findAll({
+            attributes: ['uf', 'id'],
+            group: ['uf']
+        })
+
+        res.json(estados)
+
+
+    } catch (error) {
+        console.log('Erro ao tentar buscar estados->' + error);
+        res.json([])
+    }
+
+})
+
+router.get('/main/deliveryRegion/cidadeByUf/:uf', async (req, res) => {
+    try {
+        let cidades = await deliveryRegion.findAll({ where: { uf: req.params.uf }, group: ['ibge'] })
+        res.json(cidades)
+    } catch (error) {
+        console.log('Erro ao buscar cidades->' + error);
+        res.json([])
+    }
 })
 
 

@@ -23,7 +23,15 @@ document.getElementById('btnCep').addEventListener('click', (event) => {
             document.getElementById('rua').value = objResponse.logradouro
             document.getElementById('bairro').value = objResponse.bairro
             document.getElementById('uf').value = objResponse.uf
-            document.getElementById('cidade').value = objResponse.localidade            
+            document.getElementById('cidade').value = objResponse.localidade
+            
+            //Haverá este campo na view create - deliveryRegion
+            let ibge = document.getElementById('ibge');
+            if(ibge){
+                ibge.value = objResponse.ibge
+            }
+
+
         }else{
             alert('Cep não localizado')
         }

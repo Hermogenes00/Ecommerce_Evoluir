@@ -167,16 +167,28 @@
 
             <!--Retirar na base-->
             <div class="card">
-                <div class="card-header"><input type="radio" name="radio_metodo" id="radio_metodo"> Retirar na base</div>
+                <div class="card-header">
+                    <input type="radio" onclick="calcPrecoPrazo(event)" value="RETIRA_BASE"
+                        <%=ord.metodoEnvio=='RETIRA_BASE'?'checked':'' %> name="radio_metodo" id="radio_metodo">
+                    Retirar na base
+                    <span>15 dias úteis após a produção do último item</span>
+                    <span style="float: right;">Valor:R$ 30,00</span>
+
+                </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="estado">Estado</label>
-                            <select name="estado" class="form-control form-control-sm" id=""></select>
+                            <select onchange="buscarCidadeByUf(event)" name="selectEstado"
+                                class="form-control form-control-sm" id="selectEstado">
+                                <option value=""></option>
+                            </select>
                         </div>
                         <div class="col">
-                            <label for="cidade">Cidade</label>
-                            <select name="cidade" class="form-control form-control-sm" id=""></select>
+                            <label for="cidade">Localidade</label>
+                            <select name="selectCidade" class="form-control form-control-sm" id="selectCidade">
+                                <option value=""></option>
+                            </select>
                         </div>
                     </div>
                 </div>

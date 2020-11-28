@@ -14,7 +14,8 @@ let CONSTANTS = {
         SEDEX_12: '40169',
         SEDEX_10: '40215',
         SEDEX_HOJE_VAREJO: '40290'
-    }
+    },
+    RETIRA_BASE:'RETIRA_BASE'
 
 }
 

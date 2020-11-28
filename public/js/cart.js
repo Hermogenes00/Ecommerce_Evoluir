@@ -1,4 +1,27 @@
 
+requisicao('/main/deliveryRegion/uf', response => {
+    let objResponse = JSON.parse(response)
+    let selectEstado = document.getElementById('selectEstado')
+    objResponse.forEach(item => {
+        selectEstado.innerHTML += `<option value="${item.uf}">${item.uf}</option>`;
+    })
+
+
+    console.log(objResponse);
+})
+
+
+function buscarCidadeByUf(event) {
+    requisicao(`/main/deliveryRegion/cidadeByUf/${event.target.value}`, response => {
+        let objResponse = JSON.parse(response)
+        let selectCidade = document.getElementById('selectCidade')
+        selectCidade.innerHTML = ''
+        objResponse.forEach(item => {
+            selectCidade.innerHTML += `<option value="${item.id}">Rua: ${item.rua} Nº: ${item.numero} Bairro: ${item.bairro} Cidade: ${item.cidade} Estabelecimento: ${item.estabelecimento}</option>`;
+        })
+    })
+}
+
 function onClick(event) {
 
 
@@ -160,41 +183,78 @@ function calcPrecoPrazo(event) {
     let valorSFrete = document.getElementById('valorSFrete')
     let valorFrete = document.getElementById('valorFrete')
     let valorFinal = document.getElementById('valorFinal')
+    let response = undefined;
+
 
     colPrazo.innerHTML = `<div class="spinner-border text-dark" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>`
+        <span class="sr-only">Loading...</span>
+      </div>`
 
     colValor.innerHTML = `<div class="spinner-border text-dark" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>`
+        <span class="sr-only">Loading...</span>
+      </div>`
 
-    requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`, response => {
-        let obj = JSON.parse(`${response}`)
 
-        if (!obj.error) {
 
-            if (obj.PrazoEntrega > 0) {
-                colPrazo.innerHTML = `De ${obj.PrazoEntrega} dia(s) à ${parseInt(obj.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.`
+    if (event.target.value == 'RETIRA_BASE') {
+        let selectCidade = document.getElementById('selectCidade')
+        requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}/${selectCidade.value}`, result => {
+            response = result
+
+            let obj = JSON.parse(`${response[0]}`)
+
+            if (!obj.error) {
+
+                if (obj.PrazoEntrega > 0) {
+                    colPrazo.innerHTML = `De ${obj.PrazoEntrega} dia(s) à ${parseInt(obj.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.`
+                } else {
+                    colPrazo.innerHTML = `De 3 dias úteis à 5 dias úteis, após a produção do último item`
+                }
+
+                colValor.innerHTML = obj.Valor
+                valorFrete.innerHTML = obj.Valor
+
+                let vlrFrete, valor;
+                vlrFrete = parseFloat(obj.Valor.replace('.', '').replace(',', '.'))
+                valor = parseFloat(valorSFrete.dataset.valorsfrete)
+
+                valorFinal.innerHTML = (vlrFrete + valor).toLocaleString('pt-br')
+
             } else {
-                colPrazo.innerHTML = `De 3 dias úteis à 5 dias úteis, após a produção do último item`
+                colPrazo.innerHTML = `Falha ao tentar consultar`
+                colValor.innerHTML = `Falha ao tentar consultar`
+                valorFrete.innerHTML = `Falha ao tentar consultar`
             }
+        })
+    } else {
+        requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`, result => {
+            response = result
 
-            colValor.innerHTML = obj.Valor
-            valorFrete.innerHTML = obj.Valor
+            let obj = JSON.parse(`${response}`)
+            console.dir(obj)
+            if (!obj.error) {
 
-            let vlrFrete, valor;
-            vlrFrete = parseFloat(obj.Valor.replace('.', '').replace(',', '.'))
-            valor = parseFloat(valorSFrete.dataset.valorsfrete)
+                if (obj.PrazoEntrega > 0) {
+                    colPrazo.innerHTML = `De ${obj.PrazoEntrega} dia(s) à ${parseInt(obj.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.`
+                } else {
+                    colPrazo.innerHTML = `De 3 dias úteis à 5 dias úteis, após a produção do último item`
+                }
 
-            valorFinal.innerHTML = (vlrFrete + valor).toLocaleString('pt-br')
+                colValor.innerHTML = obj.Valor
+                valorFrete.innerHTML = obj.Valor
 
-        } else {
-            colPrazo.innerHTML = `Falha ao tentar consultar`
-            colValor.innerHTML = `Falha ao tentar consultar`
-            valorFrete.innerHTML = `Falha ao tentar consultar`
-        }
+                let vlrFrete, valor;
+                vlrFrete = parseFloat(obj.Valor.replace('.', '').replace(',', '.'))
+                valor = parseFloat(valorSFrete.dataset.valorsfrete)
 
-    })
+                valorFinal.innerHTML = (vlrFrete + valor).toLocaleString('pt-br')
+
+            } else {
+                colPrazo.innerHTML = `Falha ao tentar consultar`
+                colValor.innerHTML = `Falha ao tentar consultar`
+                valorFrete.innerHTML = `Falha ao tentar consultar`
+            }
+        })
+    }
 
 }

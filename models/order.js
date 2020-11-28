@@ -46,6 +46,10 @@ const orders = connection.define('pedidos', {
     metodoEnvio:{
         type: sequelize.STRING,
         allowNull: true
+    },
+    localidadeEntregaId:{
+        type: sequelize.INTEGER,
+        allowNull: true
     }
 })
 

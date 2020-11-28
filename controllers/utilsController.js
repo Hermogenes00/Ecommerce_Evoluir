@@ -36,7 +36,6 @@ router.get('/buscarCep/:cep', async (req, res) => {
     }
     try {
         let result = await correio.consultaCEP(args);
-        console.log('Encontrou----------- ' + result);
         res.json(result)
     } catch (error) {
         console.log('Erro ao tentar buscar o cep----------- ' + error);
@@ -45,79 +44,128 @@ router.get('/buscarCep/:cep', async (req, res) => {
 
 })
 
-router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega', clientAuthentication, async (req, res) => {
+router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntrega?', clientAuthentication, async (req, res) => {
 
     let idOrder = req.params.idPedido
     let metodoEntrega = req.params.metodoEntrega
+    let idLocalidadeEntrega = req.params.idLocalidadeEntrega;
     let codigoServico = undefined
     let ord = undefined
     let result = undefined
+    let valor = 0.00
 
-    try {
-
-        if (metodoEntrega != 'BALCAO') {
-            for (codigo in CONSTANTE.CODIGO_SERVICO_CORREIOS) {
-                if (codigo == metodoEntrega) {
-                    codigoServico = CONSTANTE.CODIGO_SERVICO_CORREIOS[codigo]
-                }
-            }
-
-            result = await correio.calcPrecoPrazo({
-                nCdEmpresa: null,
-                sDsSenha: null,
-                nCdServico: '' + codigoServico,
-                sCepOrigem: '48030000',
-                sCepDestino: '13408136',
-                nVlPeso: '1',
-                nCdFormato: 1,
-                nVlComprimento: 15,
-                nVlAltura: 1,
-                nVlLargura: 10,
-                nVlDiametro: 5,
-                sCdMaoPropria: 'N',
-                nVlValorDeclarado: 0,
-                sCdAvisoRecebimento: 'N'
-
-            })
-        } else {
-            result = [
-                {
-                    Valor: '0.00',
-                    PrazoEntrega: '0'
-                }
-            ]
-        }
-
-        //Alterando o valor de frete no pedido
-        let valor = parseFloat(result[0].Valor.replace('.', '').replace(',', '.'))
+    let objUpdate = {
+        valorFrete: 0.00,
+        valorFinal: 0.00,
+        metodoEnvio: metodoEntrega,
+        localidadeEntregaId: null
+    }
 
 
+    ord = await orders.findByPk(idOrder)
+
+
+    if (ord) {
+        console.log('----------------------Chegou no 0-----------------------------');
         try {
-            ord = await orders.findByPk(idOrder)
-            if (ord) {
+
+            if (metodoEntrega != 'BALCAO' && metodoEntrega != CONSTANTE.RETIRA_BASE) {
+                console.log('Chegou no 1')
+                for (codigo in CONSTANTE.CODIGO_SERVICO_CORREIOS) {
+                    if (codigo == metodoEntrega) {
+                        codigoServico = CONSTANTE.CODIGO_SERVICO_CORREIOS[codigo]
+                    }
+                }
+
+                result = await correio.calcPrecoPrazo({
+                    nCdEmpresa: null,
+                    sDsSenha: null,
+                    nCdServico: '' + codigoServico,
+                    sCepOrigem: '48030000',
+                    sCepDestino: '13408136',
+                    nVlPeso: '1',
+                    nCdFormato: 1,
+                    nVlComprimento: 15,
+                    nVlAltura: 1,
+                    nVlLargura: 10,
+                    nVlDiametro: 5,
+                    sCdMaoPropria: 'N',
+                    nVlValorDeclarado: 0,
+                    sCdAvisoRecebimento: 'N'
+
+                })
+
+                //Alterando o valor de frete no pedido
+                valor = parseFloat(result[0].Valor.replace('.', '').replace(',', '.'))
 
                 let valorFinal = parseFloat(valor) + parseFloat(ord.total)
-                await orders.update({
-                    valorFrete: valor,
-                    valorFinal: valorFinal,
-                    metodoEnvio: metodoEntrega
-                }, { where: { id: idOrder, clienteId: req.session.client.id } })
+
+                objUpdate.valorFrete = valor
+                objUpdate.valorFinal = valorFinal
+                objUpdate.metodoEnvio = metodoEntrega
+                objUpdate.localidadeEntregaId = null
+
+                try {
+                    await orders.update(objUpdate,
+                        { where: { id: idOrder, clienteId: req.session.client.id } })
+                    res.json(result[0])
+                } catch (error) {
+                    console.log('Erro ao tentar alterar o pedido', error);
+                }
+
+            } else if (metodoEntrega == CONSTANTE.RETIRA_BASE) {
+                console.log('Chegou no 2')
+                result = [
+                    {
+                        Valor: '30.00',
+                        PrazoEntrega: '15'
+                    }
+                ]
+
+                //Alterando o valor de frete no pedido
+                valor = parseFloat(result[0].Valor.replace('.', '').replace(',', '.'))
+
+                let valorFinal = parseFloat(valor) + parseFloat(ord.total)
+
+                objUpdate.valorFrete = valor
+                objUpdate.valorFinal = valorFinal
+                objUpdate.metodoEnvio = metodoEntrega
+                objUpdate.localidadeEntregaId = idLocalidadeEntrega
+
+                await orders.update(objUpdate,
+                    { where: { id: idOrder, clienteId: req.session.client.id } })
+
+            } else {
+                console.log('Chegou no 3')
+                result = [
+                    {
+                        Valor: '30.00',
+                        PrazoEntrega: '3'
+                    }
+                ]
+                //Alterando o valor de frete no pedido
+                valor = parseFloat(result[0].Valor.replace('.', '').replace(',', '.'))
+
+                let valorFinal = parseFloat(valor) + parseFloat(ord.total)
+
+                objUpdate.valorFrete = valor
+                objUpdate.valorFinal = valorFinal
+                objUpdate.metodoEnvio = metodoEntrega
+                objUpdate.localidadeEntregaId = idLocalidadeEntrega
+
+                await orders.update(objUpdate,
+                    { where: { id: idOrder, clienteId: req.session.client.id } })
+
             }
 
-
         } catch (error) {
-            console.log('Erro ao tentar alterar o valor de frete no pedido-->' + error);
+            console.log('Erro ao tentar calcularPreço e Prazo--->' + error);
+            res.json({
+                error: error
+            })
         }
-
-        res.json(result[0])
-
-
-    } catch (error) {
-        console.log('Erro ao tentar calcularPreço e Prazo--->' + error);
-        res.json({
-            error: error
-        })
     }
+
 
 })
 

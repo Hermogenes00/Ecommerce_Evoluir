@@ -28,6 +28,10 @@ const deliveryRegion = connection.define('regiaoEntrega', {
         type: sequelize.STRING,
         allowNull: false
     },
+    ibge: {
+        type: sequelize.STRING,
+        allowNull: false
+    },
     uf: {
         type: sequelize.STRING,
         allowNull: false
