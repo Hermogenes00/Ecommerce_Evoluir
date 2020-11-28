@@ -108,7 +108,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                 try {
                     await orders.update(objUpdate,
                         { where: { id: idOrder, clienteId: req.session.client.id } })
-                    res.json(result[0])
+
                 } catch (error) {
                     console.log('Erro ao tentar alterar o pedido', error);
                 }
@@ -165,8 +165,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
             })
         }
     }
-
-
+    res.json(result[0])
 })
 
 module.exports = router

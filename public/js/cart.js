@@ -178,25 +178,32 @@ function buscarCep() {
 
 function calcPrecoPrazo(event) {
     let tr = event.target.parentElement.parentElement
-    let colPrazo = [...tr.children][1]
-    let colValor = [...tr.children][2]
-    let valorSFrete = document.getElementById('valorSFrete')
-    let valorFrete = document.getElementById('valorFrete')
-    let valorFinal = document.getElementById('valorFinal')
+    let colPrazo = undefined
+    let colValor = undefined
+    let valorSFrete = undefined
+    let valorFrete = undefined
+    let valorFinal = undefined
     let response = undefined;
 
+    if (event.target.value != 'RETIRA_BASE') {
 
-    colPrazo.innerHTML = `<div class="spinner-border text-dark" role="status">
+        colPrazo = [...tr.children][1]
+        colValor = [...tr.children][2]
+        valorSFrete = document.getElementById('valorSFrete')
+        valorFrete = document.getElementById('valorFrete')
+        valorFinal = document.getElementById('valorFinal')
+
+        colPrazo.innerHTML = `<div class="spinner-border text-dark" role="status">
         <span class="sr-only">Loading...</span>
       </div>`
 
-    colValor.innerHTML = `<div class="spinner-border text-dark" role="status">
+        colValor.innerHTML = `<div class="spinner-border text-dark" role="status">
         <span class="sr-only">Loading...</span>
       </div>`
-
-
+    }
 
     if (event.target.value == 'RETIRA_BASE') {
+        console.log('é RETIRA_BASE');
         let selectCidade = document.getElementById('selectCidade')
         requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}/${selectCidade.value}`, result => {
             response = result
@@ -205,13 +212,6 @@ function calcPrecoPrazo(event) {
 
             if (!obj.error) {
 
-                if (obj.PrazoEntrega > 0) {
-                    colPrazo.innerHTML = `De ${obj.PrazoEntrega} dia(s) à ${parseInt(obj.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.`
-                } else {
-                    colPrazo.innerHTML = `De 3 dias úteis à 5 dias úteis, após a produção do último item`
-                }
-
-                colValor.innerHTML = obj.Valor
                 valorFrete.innerHTML = obj.Valor
 
                 let vlrFrete, valor;
