@@ -253,7 +253,6 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
             include: [{ model: client }, { model: address }]
         })
 
-
         let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
 
         let noFiles = itens.filter(item => {
@@ -262,9 +261,11 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
         if (noFiles.length > 0) {
             req.flash('error', 'Verifique se todos os produtos, estão com os seus respectivos arquivos')
             res.redirect('/client/cart')
-        }
-        if (!ord.metodoEnvio) {
+        } else if (!ord.metodoEnvio) {
             req.flash('metodoEnvio', 'Escolha uma das opções abaixo para realizar a entrega do produto')
+            res.redirect('/client/cart')
+        } else if (ord.metodoEnvio == constantes.RETIRA_BASE && !ord.localidadeEntregaId) {
+            req.flash('metodoEnvio', 'Conclua a seleção de escolha do endereço de retirada da base')
             res.redirect('/client/cart')
         }
         else {
@@ -272,6 +273,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
 
             let idPagamento = '' + Date.now()
             let emailPagador = ord.cliente.email
+
 
             //#region Teste para implementação do mercado pago         
             itens.forEach(item => {

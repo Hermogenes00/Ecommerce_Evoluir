@@ -1,12 +1,18 @@
 
+let selectCidade = document.getElementById('selectCidade')
+selectCidade.addEventListener('change', (event) => {
+    requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
+        result => {
+            console.log(result);
+        })
+})
+
 requisicao('/main/deliveryRegion/uf', response => {
     let objResponse = JSON.parse(response)
     let selectEstado = document.getElementById('selectEstado')
     objResponse.forEach(item => {
         selectEstado.innerHTML += `<option value="${item.uf}">${item.uf}</option>`;
     })
-
-
     console.log(objResponse);
 })
 
@@ -144,6 +150,9 @@ function confirmForm(event, form, msg) {
         confirmButtonText: 'OK'
     }).then((result) => {
         if (result.isConfirmed) {
+            if (form.action == '/cart/finish/') {
+                alert('é cart finish')
+            }
             form.submit()
         }
     })
@@ -176,22 +185,22 @@ function buscarCep() {
     })
 }
 
+
+
 function calcPrecoPrazo(event) {
+
     let tr = event.target.parentElement.parentElement
     let colPrazo = undefined
     let colValor = undefined
-    let valorSFrete = undefined
-    let valorFrete = undefined
-    let valorFinal = undefined
+    let valorSFrete = document.getElementById('valorSFrete')
+    let valorFrete = document.getElementById('valorFrete')
+    let valorFinal = document.getElementById('valorFinal')
     let response = undefined;
 
     if (event.target.value != 'RETIRA_BASE') {
 
         colPrazo = [...tr.children][1]
         colValor = [...tr.children][2]
-        valorSFrete = document.getElementById('valorSFrete')
-        valorFrete = document.getElementById('valorFrete')
-        valorFinal = document.getElementById('valorFinal')
 
         colPrazo.innerHTML = `<div class="spinner-border text-dark" role="status">
         <span class="sr-only">Loading...</span>
@@ -203,13 +212,12 @@ function calcPrecoPrazo(event) {
     }
 
     if (event.target.value == 'RETIRA_BASE') {
-        console.log('é RETIRA_BASE');
-        let selectCidade = document.getElementById('selectCidade')
+
         requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}/${selectCidade.value}`, result => {
             response = result
 
-            let obj = JSON.parse(`${response[0]}`)
-
+            let obj = JSON.parse(response)
+            console.log(obj);
             if (!obj.error) {
 
                 valorFrete.innerHTML = obj.Valor
@@ -221,12 +229,15 @@ function calcPrecoPrazo(event) {
                 valorFinal.innerHTML = (vlrFrete + valor).toLocaleString('pt-br')
 
             } else {
-                colPrazo.innerHTML = `Falha ao tentar consultar`
-                colValor.innerHTML = `Falha ao tentar consultar`
-                valorFrete.innerHTML = `Falha ao tentar consultar`
+                colPrazo.innerHTML = `Falha ao tentar consultar, tente novamente mais tarde`
+                colValor.innerHTML = `Falha ao tentar consultar, tente novamente mais tarde`
+                valorFrete.innerHTML = `Falha ao tentar consultar, tente novamente mais tarde`
             }
         })
+
+
     } else {
+        console.log(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`);
         requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`, result => {
             response = result
 

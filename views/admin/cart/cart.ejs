@@ -30,7 +30,7 @@
     <%} %>
 
     <div class="card">
-        <div class="card-header"><span class="display-4">Meu carrinho</span></div>
+        <div class="card-header"><span class="display-4">Meu carrinho</span> <i class="material-icons" style="font-size: 50px;">shopping_cart</i></div>
         <% if(ord){%>
         <div class="card-body">
             <table class="table table-sm table-borderless">
@@ -77,142 +77,141 @@
 
                                     </form>
                                 </div>
-                                <div class="col-md-2">
-
-                                    <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')"
-                                        action="/cart/finish/" method="POST">
+                                <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')"
+                                    action="/cart/finish/" method="POST">
+                                    <div class="col-md-2">
                                         <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
                                         <input type="hidden" name="idOrder" value="<%= ord.id %>">
                                         <button type="submit" data-toggle="tooltip" title="Finalizar Carrinho"
                                             class=" btn btn-outline-primary material-icons">send</button>
-                                    </form>
-                                </div>
+                                </form>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="6">
-                            <div class="row">
-                                <div id="conteudo<%= ord.id %>" class="col" style="display: none;"> </div>
-                            </div>
-                        </td>
-                    </tr>
-
-
-
-                </tbody>
-            </table>
         </div>
-        <div class="card-footer">
-            <div class="row">
-                <div class="col">
-                    <small style="font-weight: bold;">Endereço de Entrega</small>
-                    <small>Rua:<%=ord.endereco.rua %> | Bairro: <%=ord.endereco.bairro %> | Nº:
-                        <%=ord.endereco.numero %> | Cidade: <%=ord.endereco.cidade %> | Uf: <%=ord.endereco.uf %> | Cep:
-                        <%=ord.endereco.cep %></small>
+        </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <div class="row">
+                    <div id="conteudo<%= ord.id %>" class="col" style="display: none;"> </div>
                 </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Mudar
-                        Endereço</button>
-                </div>
-            </div>
+            </td>
+        </tr>
 
-        </div>
+
+
+        </tbody>
+        </table>
     </div>
-
-    <!--Modal Endereço-->
-    <%- include('../../partials/cart/modalEndereco') %>
-
-
-    <div class="card mt-2">
-        <div class="card-header">
-            <h5>Método de Envio</h5>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col">
+                <small style="font-weight: bold;">Endereço de Entrega</small>
+                <small>Rua:<%=ord.endereco.rua %> | Bairro: <%=ord.endereco.bairro %> | Nº:
+                    <%=ord.endereco.numero %> | Cidade: <%=ord.endereco.cidade %> | Uf: <%=ord.endereco.uf %> | Cep:
+                    <%=ord.endereco.cep %></small>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Mudar
+                    Endereço</button>
+            </div>
         </div>
-        <div class="card-body">
-            <table class=" table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Tipos de Entrega</th>
-                        <th scope="col">Prazo de Entrega</th>
-                        <th scope="col">Valor</th>
-                    </tr>
-                </thead>
-                <tbody>
 
-                    <tr>
-                        <td><input type="radio" onclick="calcPrecoPrazo(event)"
-                                <%=ord.metodoEnvio=='BALCAO'?'checked':'' %> data-idOrder="<%=ord.id %>" value="BALCAO"
-                                name="radio_metodo" id="radio_metodo"> RETIRAR NO BALCÃO</td>
-                        <td>De 3 dias úteis à 5 dias úteis, após a produção do último item</td>
-                        <td>0,00</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
-                                value="PAC_VISTA" <%=ord.metodoEnvio=='PAC_VISTA'?'checked':'' %> name="radio_metodo"
-                                id="radio_metodo"> PAC
-                        </td>
-                        <td>....</td>
-                        <td>....</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
-                                value="SEDEX_VISTA" <%=ord.metodoEnvio=='SEDEX_VISTA'?'checked':'' %>
-                                name="radio_metodo" id="radio_metodo"> SEDEX</td>
-                        <td>....</td>
-                        <td>....</td>
-                    </tr>
-                </tbody>
-            </table>
+    </div>
+</div>
 
-            <!--Retirar na base-->
-            <div class="card">
-                <div class="card-header">
-                    <input type="radio" onclick="calcPrecoPrazo(event)" value="RETIRA_BASE"
-                        <%=ord.metodoEnvio=='RETIRA_BASE'?'checked':'' %> name="radio_metodo" id="radio_metodo">
-                    Retirar na base
-                    <span>15 dias úteis após a produção do último item</span>
-                    <span style="float: right;">Valor:R$ 30,00</span>
+<!--Modal Endereço-->
+<%- include('../../partials/cart/modalEndereco') %>
 
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label for="estado">Estado</label>
-                            <select onchange="buscarCidadeByUf(event)" name="selectEstado"
-                                class="form-control form-control-sm" id="selectEstado">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            <label for="cidade">Localidade</label>
-                            <select name="selectCidade" class="form-control form-control-sm" id="selectCidade">
-                                <option value=""></option>
-                            </select>
-                        </div>
+
+<div class="card mt-2">
+    <div class="card-header">
+        <h5>Método de Envio</h5>
+    </div>
+    <div class="card-body">
+        <table class=" table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Tipos de Entrega</th>
+                    <th scope="col">Prazo de Entrega</th>
+                    <th scope="col">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><input type="radio" onclick="calcPrecoPrazo(event)" <%=ord.metodoEnvio=='BALCAO'?'checked':'' %>
+                            data-idOrder="<%=ord.id %>" value="BALCAO" name="radio_metodo" id="radio_metodo"> RETIRAR NO
+                        BALCÃO</td>
+                    <td>De 3 dias úteis à 5 dias úteis, após a produção do último item</td>
+                    <td>0,00</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
+                            value="PAC_VISTA" <%=ord.metodoEnvio=='PAC_VISTA'?'checked':'' %> name="radio_metodo"
+                            id="radio_metodo"> PAC
+                    </td>
+                    <td>....</td>
+                    <td>....</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
+                            value="SEDEX_VISTA" <%=ord.metodoEnvio=='SEDEX_VISTA'?'checked':'' %> name="radio_metodo"
+                            id="radio_metodo"> SEDEX</td>
+                    <td>....</td>
+                    <td>....</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--Retirar na base-->
+        <div class="card">
+            <div class="card-header">
+                <input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)" value="RETIRA_BASE"
+                    <%=ord.metodoEnvio=='RETIRA_BASE'?'checked':'' %> name="radio_metodo" id="radio_metodo">
+                Retirar na base
+                <span>15 dias úteis após a produção do último item</span>
+                <span style="float: right;">Valor:R$ 30,00</span>
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="estado">Estado</label>
+                        <select required onchange="buscarCidadeByUf(event)" name="selectEstado"
+                            class="form-control form-control-sm" id="selectEstado">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="cidade">Localidade</label>
+                        <select required name="selectCidade" data-idOrder="<%=ord.id %>" class="form-control form-control-sm" id="selectCidade">
+                            <option value=""></option>
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-        <div class="card-footer">
-            <div class="row">
-                <div class="col offset-md-10">
-                    <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')"
-                        action="/cart/finish/" method="POST">
-                        <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
-                        <input type="hidden" name="idOrder" value="<%= ord.id %>">
-                        <button type="submit" data-toggle="tooltip" title="Finalizar Carrinho"
-                            class=" btn btn-outline-primary">Finalizar Carrinho</button>
-                    </form>
-                </div>
-            </div>
-
-        </div>
     </div>
-    <%} %>
+
+
+
+    <div class="card-footer">
+        <div class="row">
+            <div class="col offset-md-10">
+                <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')" action="/cart/finish/"
+                    method="POST">
+                    <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
+                    <input type="hidden" name="idOrder" value="<%= ord.id %>">
+                    <button type="submit" data-toggle="tooltip" title="Finalizar Carrinho"
+                        class=" btn btn-outline-primary">Finalizar Carrinho</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<%} %>
 </div>
 </div>
 

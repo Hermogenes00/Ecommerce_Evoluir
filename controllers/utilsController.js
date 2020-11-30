@@ -8,7 +8,6 @@ const orders = require('../models/order')
 
 //Middleware Authentication
 const clientAuthentication = require('../middleware/clientAuthentication');
-const defaultAuthentication = require('../middleware/defaultAuthentication');
 
 //Api Correios
 const Correios = require('node-correios');
@@ -64,9 +63,8 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
 
     ord = await orders.findByPk(idOrder)
 
-
     if (ord) {
-        console.log('----------------------Chegou no 0-----------------------------');
+
         try {
 
             if (metodoEntrega != 'BALCAO' && metodoEntrega != CONSTANTE.RETIRA_BASE) {
@@ -113,17 +111,17 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                     console.log('Erro ao tentar alterar o pedido', error);
                 }
 
-            } else if (metodoEntrega == CONSTANTE.RETIRA_BASE) {
-                console.log('Chegou no 2')
+            } else if (metodoEntrega == CONSTANTE.RETIRA_BASE) { //MÉTODO DE ENTREGRA RETIRA BASE
+
                 result = [
                     {
                         Valor: '30.00',
-                        PrazoEntrega: '15'
+                        PrazoEntrega: '15',
                     }
                 ]
 
                 //Alterando o valor de frete no pedido
-                valor = parseFloat(result[0].Valor.replace('.', '').replace(',', '.'))
+                valor = parseFloat(result[0].Valor)
 
                 let valorFinal = parseFloat(valor) + parseFloat(ord.total)
 
@@ -136,7 +134,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                     { where: { id: idOrder, clienteId: req.session.client.id } })
 
             } else {
-                console.log('Chegou no 3')
+
                 result = [
                     {
                         Valor: '30.00',
@@ -151,7 +149,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                 objUpdate.valorFrete = valor
                 objUpdate.valorFinal = valorFinal
                 objUpdate.metodoEnvio = metodoEntrega
-                objUpdate.localidadeEntregaId = idLocalidadeEntrega
+                objUpdate.localidadeEntregaId = null
 
                 await orders.update(objUpdate,
                     { where: { id: idOrder, clienteId: req.session.client.id } })
