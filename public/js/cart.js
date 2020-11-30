@@ -1,11 +1,24 @@
 
 let selectCidade = document.getElementById('selectCidade')
+let selectEstado = document.getElementById('selectEstado')
+
 selectCidade.addEventListener('change', (event) => {
     requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
         result => {
             console.log(result);
         })
 })
+
+selectEstado.addEventListener('change', (event) => {
+    requisicao(`/consultar/CalcPrecoPrazo/${selectCidade.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
+        result => {
+            console.log(result);
+        })
+})
+
+
+
+
 
 requisicao('/main/deliveryRegion/uf', response => {
     let objResponse = JSON.parse(response)
@@ -21,7 +34,7 @@ function buscarCidadeByUf(event) {
     requisicao(`/main/deliveryRegion/cidadeByUf/${event.target.value}`, response => {
         let objResponse = JSON.parse(response)
         let selectCidade = document.getElementById('selectCidade')
-        selectCidade.innerHTML = ''
+        selectCidade.innerHTML = '<option value="">Selecione a cidade...</option>'
         objResponse.forEach(item => {
             selectCidade.innerHTML += `<option value="${item.id}">Rua: ${item.rua} Nº: ${item.numero} Bairro: ${item.bairro} Cidade: ${item.cidade} Estabelecimento: ${item.estabelecimento}</option>`;
         })
