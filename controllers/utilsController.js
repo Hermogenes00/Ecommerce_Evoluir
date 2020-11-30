@@ -1,10 +1,14 @@
 const express = require('express')
 const router = express.Router();
 
+//FileSyste
+const fs = require('fs')
+
 //Models
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const orders = require('../models/order')
+const client = require('../models/client')
 
 //Middleware Authentication
 const clientAuthentication = require('../middleware/clientAuthentication');
@@ -14,7 +18,8 @@ const Correios = require('node-correios');
 let correio = new Correios();
 
 //Constante
-const CONSTANTE = require('../utils/constants')
+const CONSTANTE = require('../utils/constants');
+const { stringify } = require('querystring');
 
 
 //Criação do middleware para menu
@@ -43,6 +48,18 @@ router.get('/buscarCep/:cep', async (req, res) => {
 
 })
 
+
+router.get('/aquivocsv', (req, res) => {
+    fs.readFile('./BAHIA-.csv','utf8', (err, data) => {
+        if (!err) {
+            let values = data.split('\r\n')
+            res.json(values)
+        } else {
+            res.send(err)
+        }
+    })
+})
+
 router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntrega?', clientAuthentication, async (req, res) => {
 
     let idOrder = req.params.idPedido
@@ -61,7 +78,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
     }
 
 
-    ord = await orders.findByPk(idOrder)
+    ord = await orders.findByPk(idOrder, { include: client })
 
     if (ord) {
 
@@ -80,7 +97,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                     sDsSenha: null,
                     nCdServico: '' + codigoServico,
                     sCepOrigem: '48030000',
-                    sCepDestino: '13408136',
+                    sCepDestino: ord.cliente.cep,
                     nVlPeso: '1',
                     nCdFormato: 1,
                     nVlComprimento: 15,

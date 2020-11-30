@@ -45,7 +45,7 @@ router.post('/admin/cart/delete', clientAuthentication, async (req, res) => {
 
 router.post('/admin/cart/itemCart/delete', clientAuthentication, async (req, res) => {
     let data = req.body;
-
+    
     try {
         await itensOrder.destroy({ where: { id: data.idItem } })
     } catch (error) {
