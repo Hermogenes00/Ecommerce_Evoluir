@@ -18,8 +18,6 @@ selectEstado.addEventListener('change', (event) => {
 
 
 
-
-
 requisicao('/main/deliveryRegion/uf', response => {
     let objResponse = JSON.parse(response)
     let selectEstado = document.getElementById('selectEstado')
@@ -230,7 +228,7 @@ function calcPrecoPrazo(event) {
             response = result
 
             let obj = JSON.parse(response)
-            console.log(obj);
+            
             if (!obj.error) {
 
                 valorFrete.innerHTML = obj.Valor
@@ -244,18 +242,18 @@ function calcPrecoPrazo(event) {
             } else {
                 colPrazo.innerHTML = `Falha ao tentar consultar, tente novamente mais tarde`
                 colValor.innerHTML = `Falha ao tentar consultar, tente novamente mais tarde`
-                valorFrete.innerHTML = `Falha ao tentar consultar, tente novamente mais tarde`
+                //valorFrete.innerHTML = `Falha ao tentar consultar, tente novamente mais tarde`
             }
         })
 
 
     } else {
-        console.log(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`);
+        
         requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`, result => {
             response = result
 
             let obj = JSON.parse(`${response}`)
-            console.dir(obj)
+            
             if (!obj.error) {
 
                 if (obj.PrazoEntrega > 0) {

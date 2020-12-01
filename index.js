@@ -6,13 +6,14 @@ const connection = require('./database/connection')
 const cookie = require('cookie-parser')
 const flash = require('express-flash')
 
+
 //Middleware Authentication
 const clientAuthentication = require('./middleware/clientAuthentication')
 const defaultAuthentication = require('./middleware/defaultAuthentication')
 
 //Verificando conexão.
 connection.authenticate().then(() => {
-    console.log('Conectado ao banco');
+
 }).catch(erro => {
     console.log('Erro ao tentar conectar ao banco ' + erro);
 })
@@ -42,7 +43,8 @@ const categoryController = require('./controllers/categoryController')
 const storeController = require('./controllers/storeController')
 const addressController = require('./controllers/addressController')
 const cartController = require('./controllers/cartController')
-const deliveryRegionController = require('./controllers/deliveryRegionController')
+const deliveryRegionController = require('./controllers/deliveryRegionController');
+const gdrive = require('./gdrive');
 
 
 //Session e Cookie
@@ -72,7 +74,7 @@ app.use('/', categoryController)
 app.use('/', storeController)
 app.use('/', addressController)
 app.use('/', cartController)
-app.use('/',deliveryRegionController)
+app.use('/', deliveryRegionController)
 //app.use('/', userController)
 
 
@@ -131,6 +133,6 @@ app.get('/logout', defaultAuthentication, (req, res) => {
 })
 
 app.listen(8090, () => {
-    console.log('Servidor iniciado');
+
 })
 

@@ -7,6 +7,27 @@ let vlrTotalel = document.getElementById('vlrTotal');
 
 let formaMedicao = document.getElementById('formaMedicao')
 
+
+function lerArquivo(files) {
+    if (files) {
+        let imgLocal = document.getElementById('imgLocal')
+        let reader = new FileReader()
+        let file = files[0]        
+
+        if(file){
+            reader.readAsDataURL(file)
+        }else{
+            imgLocal.src=''
+        }
+
+        reader.onloadend = function(){
+            imgLocal.src = reader.result 
+            console.log(reader.result);
+        }
+    }
+}
+
+
 function vlrTotalMetroQuadrado(largura, altura, callback) {
     let floatLargura, floatAltura;
     floatLargura = largura.replace('.', '').replace(',', '.')
@@ -47,7 +68,7 @@ if (formaMedicao.dataset.und == 'und') {
         let result = formatReal(event.target.value)
         event.target.value = result;
         vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
-            
+
             vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR')
         }))
     })
@@ -56,7 +77,7 @@ if (formaMedicao.dataset.und == 'und') {
         let result = formatReal(event.target.value)
         event.target.value = result;
         vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
-            
+
             vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR')
         }))
     })

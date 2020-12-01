@@ -34,3 +34,7 @@ TABELA PAGAMENTO (PEDIDO_ID, EXTERNAL_REFERENCE,TOTAL)
 Estudar documentação ->https://www.npmjs.com/package/node-correios, ler o pdf que está na pasta de downloads
 
 PENSAR EM COMO IMPLEMENTAR O TIPO DE ENTREGA (RETIRAR NA BASE) NA VIEW CARRINHO
+
+LINK PARA VISUALIZAÇÃO DAS PERMISSÕES DE ESCOPO GOOGLE_API -> https://developers.google.com/drive/api/v2/about-auth
+
+DEFINIR COMO AS IMAGENS DEVERÃO SER SALVAS

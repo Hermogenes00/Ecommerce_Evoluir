@@ -1,17 +1,22 @@
 const express = require('express')
 const router = express.Router();
 
-//FileSyste
-const fs = require('fs')
 
 //Models
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const orders = require('../models/order')
 const client = require('../models/client')
+const deliveryRegion = require('../models/deliveryRegion')
 
 //Middleware Authentication
 const clientAuthentication = require('../middleware/clientAuthentication');
+const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+
+
+//GDrive
+const gDrive = require('../gdrive')
+
 
 //Api Correios
 const Correios = require('node-correios');
@@ -19,7 +24,6 @@ let correio = new Correios();
 
 //Constante
 const CONSTANTE = require('../utils/constants');
-const { stringify } = require('querystring');
 
 
 //Criação do middleware para menu
@@ -31,6 +35,7 @@ router.use(async (req, res, next) => {
     }
     next()
 })
+
 
 router.get('/buscarCep/:cep', async (req, res) => {
 
@@ -46,18 +51,6 @@ router.get('/buscarCep/:cep', async (req, res) => {
         res.json({})
     }
 
-})
-
-
-router.get('/aquivocsv', (req, res) => {
-    fs.readFile('./BAHIA-.csv','utf8', (err, data) => {
-        if (!err) {
-            let values = data.split('\r\n')
-            res.json(values)
-        } else {
-            res.send(err)
-        }
-    })
 })
 
 router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntrega?', clientAuthentication, async (req, res) => {
@@ -154,7 +147,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
 
                 result = [
                     {
-                        Valor: '30.00',
+                        Valor: '00.00',
                         PrazoEntrega: '3'
                     }
                 ]
@@ -182,5 +175,8 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
     }
     res.json(result[0])
 })
+
+
+
 
 module.exports = router

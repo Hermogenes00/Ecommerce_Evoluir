@@ -71,7 +71,12 @@ const product = connection.define('produtos', {
     und:{
         type: sequelize.STRING,
         allowNull: false
+    },
+    imagem:{
+        type: sequelize.TEXT,
+        allowNull: true
     }
+
 })
 
 product.belongsTo(category)
