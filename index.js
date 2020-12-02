@@ -13,7 +13,7 @@ const defaultAuthentication = require('./middleware/defaultAuthentication')
 
 //Verificando conexão.
 connection.authenticate().then(() => {
-
+console.log('Conectado ao banco com sucesso!!!');
 }).catch(erro => {
     console.log('Erro ao tentar conectar ao banco ' + erro);
 })

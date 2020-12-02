@@ -1,0 +1,65 @@
+.boards {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.board {
+    border-color: whitesmoke;
+    border-style: dashed;
+}
+
+.dropzone {
+    width: 350px;
+    height: 800px;
+    overflow: auto;
+}
+
+.card {
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: left;
+    min-width: 20px;
+    min-height: 200px;
+    border-style: solid;
+    background-color: white;
+    box-shadow: 0 2px 2px -1px #fd951fcc;
+}
+
+.status.green {
+    background-color: red;
+}
+
+.highlight {
+    background-color: #DCDCDC;
+}
+
+.over {
+    background-color: #ADD8E6;
+}
+
+.is-dragging {
+    border-color: red;
+}
+
+.dropzone {
+    transition: 400ms;
+}
+
+.ghost {
+    opacity: 0.2;
+}
+
+.content {
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.content img{
+    border-radius: 10px;
+}
