@@ -125,7 +125,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
 
                 result = [
                     {
-                        Valor: '30.00',
+                        Valor: 30.00,
                         PrazoEntrega: '15',
                     }
                 ]
@@ -139,6 +139,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                 objUpdate.valorFinal = valorFinal
                 objUpdate.metodoEnvio = metodoEntrega
                 objUpdate.localidadeEntregaId = idLocalidadeEntrega
+                
 
                 await orders.update(objUpdate,
                     { where: { id: idOrder, clienteId: req.session.client.id } })

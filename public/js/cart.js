@@ -228,13 +228,13 @@ function calcPrecoPrazo(event) {
             response = result
 
             let obj = JSON.parse(response)
-            
+            console.log(obj);
             if (!obj.error) {
 
                 valorFrete.innerHTML = obj.Valor
 
                 let vlrFrete, valor;
-                vlrFrete = parseFloat(obj.Valor.replace('.', '').replace(',', '.'))
+                vlrFrete = parseFloat(obj.Valor)
                 valor = parseFloat(valorSFrete.dataset.valorsfrete)
 
                 valorFinal.innerHTML = (vlrFrete + valor).toLocaleString('pt-br')
@@ -248,12 +248,12 @@ function calcPrecoPrazo(event) {
 
 
     } else {
-        
+
         requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`, result => {
             response = result
 
             let obj = JSON.parse(`${response}`)
-            
+
             if (!obj.error) {
 
                 if (obj.PrazoEntrega > 0) {

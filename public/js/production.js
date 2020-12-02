@@ -14,6 +14,8 @@ cards.forEach(card => {
     card.addEventListener('dragstart', dragstart)
     card.addEventListener('drag', drag)
     card.addEventListener('dragend', dragend)
+    card.addEventListener('dragover', dragovercard)
+    card.addEventListener('dragleave', dragleavecard)
 })
 
 
@@ -30,6 +32,17 @@ function dragstart() {
 function drag() {
 
 }
+
+function dragovercard(){
+    log('Sobre o cartão')
+    this.classList.add('card-reference')
+}
+
+function dragleavecard(){
+    log('Removido a classe')
+    this.classList.remove('card-reference')
+}
+
 
 function dragend() {
     dropzones.forEach(dropzone => {
@@ -56,7 +69,9 @@ function dragenter() {
 
 function dragover() {
     const cardDragging = document.querySelector('.is-dragging')
-    this.appendChild(cardDragging)
+    const cardReference = document.querySelector('.card-reference')
+
+    this.insertBefore(cardDragging,cardReference)
 }
 
 function dragleave() {
