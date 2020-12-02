@@ -10,6 +10,11 @@
         <div class="col">
             <img src="https://s3-sa-east-1.amazonaws.com/arquivosgraficas/midia/1FCAA7EC-0F65-43C2-A490-98C9F1E65A6A/servicos/A9DE7AE0-8428-4BC1-8937-585146EBDC90.jpg"
                 alt="">
+<br>
+                <% if(product.gabarito){ %>
+                    <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm form-control">Baixar Gabarito</a>
+                    <%} %>
+              
         </div>
 
         <div class="col">
@@ -33,6 +38,7 @@
             <p style="margin-bottom: 0%;">Peso: <%= product.peso %> </p>
             <p style="margin-bottom: 0%;">Produção: <%= product.previsaoProducao %> dias úteis </p>
             <p style="margin-bottom: 0%;">Und: <%= product.und=='metroQuadrado'?'Metro Quadrado':'Und' %> </p>
+           
         </div>
 
 
