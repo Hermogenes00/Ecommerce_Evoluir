@@ -30,6 +30,7 @@ const subCategory = require('./models/subCategory')
 const address = require('./models/address')
 const payment = require('./models/payment')
 const deliveryRegion = require('./models/deliveryRegion')
+const slide = require('./models/slide')
 
 
 //Importação dos controllers
@@ -44,6 +45,7 @@ const storeController = require('./controllers/storeController')
 const addressController = require('./controllers/addressController')
 const cartController = require('./controllers/cartController')
 const deliveryRegionController = require('./controllers/deliveryRegionController');
+const slideController = require('./controllers/slideController');
 const gdrive = require('./gdrive');
 
 
@@ -75,6 +77,7 @@ app.use('/', storeController)
 app.use('/', addressController)
 app.use('/', cartController)
 app.use('/', deliveryRegionController)
+app.use('/', slideController)
 //app.use('/', userController)
 
 

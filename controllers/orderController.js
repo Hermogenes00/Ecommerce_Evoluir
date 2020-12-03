@@ -47,7 +47,7 @@ router.post('/order/pay/', clientAuthentication, async (req, res) => {
             let emailPagador = ord.cliente.email
             let description = ''
             itens.forEach(item => {
-                description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) `
+                description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) ->Frete: ${ord.valorFrete} `
             })
 
             let dados = {
@@ -57,7 +57,7 @@ router.post('/order/pay/', clientAuthentication, async (req, res) => {
                         title: description,
                         quantity: 1,
                         currency_id: 'BRL',
-                        unit_price: parseFloat(ord.total)
+                        unit_price: parseFloat(ord.valorFinal)
                     }
                 ],
                 payer: {
