@@ -8,21 +8,26 @@ let vlrTotalel = document.getElementById('vlrTotal');
 let formaMedicao = document.getElementById('formaMedicao')
 
 
-function lerArquivo(files) {
-    if (files) {
-        let imgLocal = document.getElementById('imgLocal')
-        let reader = new FileReader()
-        let file = files[0]        
+function lerArquivo(event) {
+    let inputFile = event.target
+    let inputImagem = document.querySelector('#imagem')
 
-        if(file){
+    if (inputFile.files) {
+
+        let imgLocal = document.getElementById('imgLocal')
+        console.dir(imgLocal)
+        let reader = new FileReader()
+        let file = inputFile.files[0]
+
+        if (file) {
             reader.readAsDataURL(file)
-        }else{
-            imgLocal.src=''
+        } else {
+            imgLocal.src = '/images/imagem_default.jpg'
         }
 
-        reader.onloadend = function(){
-            imgLocal.src = reader.result 
-            console.log(reader.result);
+        reader.onloadend = function () {
+            inputImagem.value = reader.result
+            imgLocal.src= reader.result
         }
     }
 }
@@ -42,7 +47,9 @@ function vlrTotalMetroQuadrado(largura, altura, callback) {
 
 
 }
-if (formaMedicao.dataset.und == 'und') {
+
+
+if (formaMedicao != null && formaMedicao.dataset.und == 'und') {
 
     let qtd = document.getElementsByName('qtd')
 

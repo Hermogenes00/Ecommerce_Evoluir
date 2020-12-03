@@ -8,6 +8,8 @@ const sequelize = require('sequelize');
 //Middleware authentication
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication');
 
+//Constantes
+const CONSTANTES = require('../utils/constants')
 
 //Models
 const category = require('../models/category')
@@ -31,20 +33,23 @@ router.use(async (req, res, next) => {
 })
 
 router.get('/main', collaboratorAuthentication, async (req, res) => {
+    let statusCarrinho = CONSTANTES.STATUS_PEDIDO.CARRINHO
     try {
 
-        let ords = await orders.findAll({
-            attributes: [
-                'id',
-                [sequelize.fn('SUM', sequelize.col('valorFinal')), 'total']
-            ]
-        })
-        res.render('admin/main/main', { ords: ords })
-    } catch (error) {
+        let ords = await orders.findAll({ where: { status: statusCarrinho } })
+        
+        let totalCarrinho = ords.reduce((prevVal, obj) => {
+            let valorFinal = parseFloat(obj.valorFinal)
+            return prevVal += valorFinal
+        }, 0)
 
+        res.render('admin/main/main', { totalCarrinho })
+
+    } catch (error) {
+        res.send(error)
     }
 
-    
+
 })
 
 router.get('/main/production/status/update/:id/:status', collaboratorAuthentication, async (req, res) => {
@@ -121,7 +126,7 @@ router.get('/main/order/:clientId?', collaboratorAuthentication, async (req, res
         let ord = await orders.findOne({
             where: {
                 clienteId: clientId,
-                status: 'CARRINHO'
+                status: require('../utils/constants').STATUS_PEDIDO.CARRINHO
             }, include: clients
         })
         if (ord) {

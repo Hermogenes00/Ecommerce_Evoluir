@@ -1,0 +1,23 @@
+<nav id="menu" class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+    <ul id="menuCategoria" class="navbar-nav mr-auto" style="margin-left:10%;">
+        <li class="nav-item">
+            <a href="/" class="nav-link" >Home</a>
+        </li>
+        <% menu.forEach(cat => {%>
+        <% if(cat.subcategorias.length>0){%>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <%= cat.nome%>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <% cat.subcategorias.forEach(scat=>{%>
+                <a class="dropdown-item" href="/products/findBySubCategory/<%=scat.slug%>"><%=scat.nome%></a>
+                <%}) %>
+            </div>
+        </li>
+        <% } %>
+        <%}); %>
+    </ul>
+    
+</nav>

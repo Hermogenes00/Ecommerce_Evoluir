@@ -133,6 +133,6 @@ app.get('/logout', defaultAuthentication, (req, res) => {
 })
 
 app.listen(8090, () => {
-
+console.log('Rodando na porta 8090');
 })
 

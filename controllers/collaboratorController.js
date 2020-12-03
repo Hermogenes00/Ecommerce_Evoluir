@@ -129,7 +129,7 @@ router.post('/collaborator/acesso', async (req, res) => {
 
 })
 
-router.get('/collaborator/new', collaboratorAuthentication, (req, res) => {
+router.get('/collaborator/new', collaboratorAuthentication,(req, res) => {
     res.render('admin/collaborator/new')
 })
 

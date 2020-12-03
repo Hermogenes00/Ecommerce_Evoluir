@@ -44,8 +44,6 @@ address.sync({alter:true}).then(clb => {
     console.log(clb);
 }).catch(error => {
     console.log(error);
-})
-
-*/
+})*/
 
 module.exports = address;

@@ -2,6 +2,7 @@
 <%- include('../../partials/navbaradmin') %>
 
 <script src="/js/product.js"></script>
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
@@ -9,19 +10,22 @@
         </div>
         <div class="card-body">
             <form action="/admin/products/save" method="POST" class="form">
-                <div class="row">
-                    <div class="col">
-                        <input type="file" name="arquivo" id="arquivo" onchange="lerArquivo(this.files)">
-                        <img src="" id="imgLocal" alt="">
+                <div class="row" style="float: left;">
+                    <div class="col-md-3">
+                        <img src="/images/imagem_default.jpg" width="250" height="250" id="imgLocal" alt="">
+                        <input type="file" name="arquivo" class="form-control form-control-sm" id="arquivo"
+                            onchange="lerArquivo(event)">
+                        <input type="hidden" name="imagem" id="imagem">
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col">
                         <label for="nome">Nome</label>
                         <input type="text" name="nome" id="nome" required class="form-control form-control-sm">
                     </div>
                 </div>
-                <hr>
+                
                 <div class="row">
                     <div class="col">
                         <label for="codRef">Cod.Ref</label>
@@ -41,7 +45,7 @@
                         </select>
                     </div>
                 </div>
-                <hr>
+                
                 <div class="row">
                     <div class="col">
                         <label for="descricao">Descricao</label>

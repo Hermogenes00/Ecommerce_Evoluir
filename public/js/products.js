@@ -11,7 +11,7 @@
         event.preventDefault()
 
         const { value: file } = await Swal.fire({
-            title: 'Selecione o seu arquivo (.pdf)',
+            title: 'Selecione o seu arquivo (.rar)',
             html: `<form id="formGabarito" class="form form-inline" action="/admin/product/upload/${idProduct}"
                                 method="POST" enctype="multipart/form-data">
                                 <input type="file" name="file" accept=".rar" id="file">

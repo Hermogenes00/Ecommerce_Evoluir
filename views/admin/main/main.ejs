@@ -9,7 +9,11 @@
             <div class="card">
                 <div class="card-header">Carrinho</div>
                 <div class="card-body">
-                    <h4><%= ords[0].total.toLocaleString('pt-br')  %></h4>
+                    <% if(totalCarrinho){%>
+                    <h4><%= parseFloat(totalCarrinho).toLocaleString('pt-br',{style:'currency',currency:'BRL'}) %></h4>
+                    <% }%>
+
+
                 </div>
                 <a href="#" class="btn btn-outline-primary form-control">Detalhes</a>
             </div>

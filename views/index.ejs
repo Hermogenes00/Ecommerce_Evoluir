@@ -1,21 +1,18 @@
 <%-include('partials/header') %>
-<%-include('partials/navbarhome') %>
+<%-include('partials/navbarlogin') %>
+<%-include('partials/navbarlogo') %>
+<%-include('partials/navbarmenu') %>
+<%- include('partials/navbarslide') %>
 
 <div class="container mt-4">
-
-
     <div class="row row-cols-1 row-cols-md-4">
         <% products.forEach(product=>{ %>
-
-
 
         <div class="col mb-3">
             <div class="card h-100 border-light">
                 <div class="card-body">
                     <a href="/admin/products/detail/<%= product.id %>">
-                        <img width="180px" height="160px"
-                            src="https://s3-sa-east-1.amazonaws.com/arquivosgraficas/midia/1FCAA7EC-0F65-43C2-A490-98C9F1E65A6A/servicos/FEF8E7DE-A295-4B3F-B9B6-D4BBAA62AA95.jpg"
-                            class="card-img-top"></a>
+                        <img width="180px" height="160px" src="<%= product.imagem %> " class="card-img-top"></a>
                     <p class="card-title text-center text-muted"><%= product.nome %></p>
                     <small style="margin-bottom: 0%; text-align: left;">Ref: <%= product.codRef %></small>
                     <small style="margin-bottom: 0%; text-align: left;">Tam Arte:
@@ -37,8 +34,6 @@
                 </div>
             </div>
         </div>
-
-
         <%}) %>
     </div>
 </div>

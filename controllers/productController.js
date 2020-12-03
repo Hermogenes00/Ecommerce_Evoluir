@@ -158,9 +158,11 @@ router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
             categoriaId: data.categoria,
             subcategoriaId: data.subCategoria,
             previsaoProducao: data.previsaoProducao,
-            und: data.und
+            und: data.und,
+            imagem:data.imagem
         }).then((product) => {
-            res.redirect('/admin/products/find/')
+            res.json(data)
+            //res.redirect('/admin/products/find/')
         }).catch(erro => {
             console.log('Erro ao tentar salvar produtos ' + erro);
             console.log(data);
@@ -203,7 +205,8 @@ router.post('/admin/products/update', collaboratorAuthentication, (req, res) => 
             categoriaId: data.categoria,
             subcategoriaId: data.subCategoria,
             previsaoProducao: data.previsaoProducao,
-            und: data.und
+            und: data.und,
+            imagem:data.imagem
         }, { where: { id: data.id } }).then(() => {
             res.redirect('/admin/products/find/')
         }).catch(erro => {
