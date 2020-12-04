@@ -28,3 +28,5 @@ Estudar documentação ->https://www.npmjs.com/package/node-correios, ler o pdf 
 LINK PARA VISUALIZAÇÃO DAS PERMISSÕES DE ESCOPO GOOGLE_API -> https://developers.google.com/drive/api/v2/about-auth
 
 ESTUDAR COMO SERÁ DADO FLUXO DE PAGAMENTO.....
+
+IMPLEMENTAR TODAS AS VALIDAÇÕES POSSÍVEIS REFERENTES A CADASTRO - APÓS ISTO SUBIR O SITE PARA A DIGITAL OCEAN, E DAR INÍCIO A IMPLEMENTAÇÃO DE PAGAMENTO
