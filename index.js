@@ -13,7 +13,7 @@ const defaultAuthentication = require('./middleware/defaultAuthentication')
 
 //Verificando conexão.
 connection.authenticate().then(() => {
-console.log('Conectado ao banco com sucesso!!!');
+    console.log('Conectado ao banco com sucesso!!!');
 }).catch(erro => {
     console.log('Erro ao tentar conectar ao banco ' + erro);
 })
@@ -30,7 +30,7 @@ const subCategory = require('./models/subCategory')
 const address = require('./models/address')
 const payment = require('./models/payment')
 const deliveryRegion = require('./models/deliveryRegion')
-const slide = require('./models/slide')
+const slides = require('./models/slide')
 
 
 //Importação dos controllers
@@ -104,13 +104,16 @@ app.use(async (req, res, next) => {
 
 app.get('/', defaultAuthentication, async (req, res) => {
 
-    products.findAll().then(products => {
+    try {
+        let prods = await products.findAll()
+        let sld = await slides.findAll()
 
-        res.render('index', { products: products })
+        res.render('index', { products: prods, slides: sld })
 
-    }).catch(erro => {
-        res.json(erro)
-    })
+    } catch (error) {
+        console.log('Erro ao carregar Página home->', error);
+        res.send('Ops ocorreu um erro ao tentar carregar a página, tente novamente, caso o erro persista entre em contato com o suporte')
+    }
 
 })
 
@@ -136,6 +139,6 @@ app.get('/logout', defaultAuthentication, (req, res) => {
 })
 
 app.listen(8090, () => {
-console.log('Rodando na porta 8090');
+    console.log('Rodando na porta 8090');
 })
 

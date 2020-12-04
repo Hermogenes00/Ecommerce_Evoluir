@@ -1,19 +1,17 @@
 <%- include('../../partials/header') %>
 <%- include('../../partials/navbaradmin') %>
-
+<script src="/js/slide.js"></script>
 
 
 <div class="container mt-4">
 
-
-    
 
     <div class="row">
         <div class="input-group col-md-6 mb-3">
             <input id="buscar" name="buscar" type="text" class="form-control form-control-sm"
                 placeholder="Bucar slide pelo título">
             <div class="input-group-append">
-                <btn class="btn btn-outline-secondary btn-sm" id="btnBuscar" name="btnBuscar">Buscar</a>
+                <btn class="btn btn-outline-secondary btn-sm" id="btnBuscar" onclick="buscarSlide()" name="btnBuscar">Buscar</a>
             </div>
         </div>
         <div class="col offset-md-4">
@@ -42,7 +40,11 @@
                 <td><img src="<%= slide.imagem %> " alt=""></td>
                 <td>
                     <a href="/admin/slide/edit/<%= slide.id %>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="/admin/slide/edit/<%= slide.id %>" class="btn btn-danger btn-sm">Excluir</a>
+                    <form action="/admin/slide/delete"
+                        onsubmit="confirmacao(event,this,'Deseja realmente excluir este slide?')" method="post">
+                        <input type="hidden" name="id" id="id" value="<%=slide.id%>">
+                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                    </form>
                 </td>
             </tr>
             <%}) %>
