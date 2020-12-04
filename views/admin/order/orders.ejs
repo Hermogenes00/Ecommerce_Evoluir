@@ -56,10 +56,10 @@
                             <h6><%= o.status %></h6>
                         </td>
                         <td>
-                            <h6><%= parseFloat(o.total).toLocaleString('pt-br') %></h6>
+                            <h6><%= parseFloat(o.total).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %></h6>
                         </td>
                         <td>
-                            <h6><%= parseFloat(o.frete).toLocaleString('pt-br') %> </h6>
+                            <h6><%= parseFloat(o.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %> </h6>
                         </td>
                         <td>
                             <div class="row">

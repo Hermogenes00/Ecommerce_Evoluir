@@ -68,27 +68,42 @@
     <div class="card mt-3">
         <div class="card-header">Endereço de entrega</div>
         <div class="card-body">
-            <% if(ord.endereco){%>
-                <div class="row">
-                    <div class="col">
-                        Endereço: <%= ord.endereco.rua %>
-                    </div>
-                    <div class="col">
-                        Bairro: <%= ord.endereco.bairro %>
-                    </div>
-                    <div class="col">
-                        Nº: <%= ord.endereco.numero %>
-                    </div>
+            <div class="row">
+                <div class="col-md-3 offset-md-3">
+                    <span style="font-weight: bold;">Endereço:</span>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.rua:ord.endereco.rua %>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        Complemento: <%= ord.endereco.complemento %>
-                    </div>
-                    <div class="col">
-                        Cep: <%= ord.endereco.cep %>
-                    </div>
+                <div class="col-md-3">
+                    <span style="font-weight: bold;">Bairro:</span>
+
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.bairro:ord.endereco.bairro %>
                 </div>
-            <%} %>
+                <div class="col-md-3">
+                    <span style="font-weight: bold;">Nº:</span>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.numero:ord.endereco.numero %>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-3 offset-md-3">
+                    <span style="font-weight: bold;">Cep:</span>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.cep:ord.endereco.cep %>
+                </div>
+                <div class="col-md-3">
+                    <span style="font-weight: bold;">Cidade:</span>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.cidade:ord.endereco.cidade %>
+                </div>
+                <div class="col-md-3">
+                    <span style="font-weight: bold;">UF:</span>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.uf:ord.endereco.uf %>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 offset-md-3">
+                    <span style="font-weight: bold;">Complemento:</span>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.complemento:ord.endereco.complemento %>
+                </div>
+            </div>
             
         </div>
 

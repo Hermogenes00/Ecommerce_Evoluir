@@ -32,7 +32,8 @@
     <%} %>
 
     <div class="card">
-        <div class="card-header"><span class="display-4">Meu carrinho</span> <i class="material-icons" style="font-size: 50px;">shopping_cart</i></div>
+        <div class="card-header"><span class="display-4">Meu carrinho</span> <i class="material-icons"
+                style="font-size: 50px;">shopping_cart</i></div>
         <% if(ord){%>
         <div class="card-body">
             <table class="table table-sm table-borderless">
@@ -58,13 +59,19 @@
                             <h6><%= ord.status %></h6>
                         </td>
                         <td>
-                            <h6 id="valorSFrete" data-valorsfrete="<%= ord.total %>"><%= parseFloat(ord.total).toLocaleString('pt-br') %></h6>
+                            <h6 id="valorSFrete" data-valorsfrete="<%= ord.total %>">
+                                <%= parseFloat(ord.total).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
+                            </h6>
                         </td>
                         <td>
-                            <h6 id="valorFrete"><%= parseFloat(ord.valorFrete).toLocaleString('pt-br') %></h6>
+                            <h6 id="valorFrete">
+                                <%= parseFloat(ord.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
+                            </h6>
                         </td>
                         <td>
-                            <h6 id="valorFinal"><%= parseFloat(ord.valorFinal).toLocaleString('pt-br') %></h6>
+                            <h6 id="valorFinal">
+                                <%= parseFloat(ord.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
+                            </h6>
                         </td>
                         <td>
 
@@ -186,7 +193,8 @@
                     </div>
                     <div class="col">
                         <label for="cidade">Localidade</label>
-                        <select required name="selectCidade" data-idOrder="<%=ord.id %>" class="form-control form-control-sm" id="selectCidade">
+                        <select required name="selectCidade" data-idOrder="<%=ord.id %>"
+                            class="form-control form-control-sm" id="selectCidade">
                             <option value=""></option>
                         </select>
                     </div>

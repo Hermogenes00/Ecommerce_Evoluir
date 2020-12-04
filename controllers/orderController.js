@@ -10,6 +10,7 @@ const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
 const payment = require('../models/payment')
+const deliveryRegion = require('../models/deliveryRegion')
 
 const clientAuthentication = require('../middleware/clientAuthentication')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
@@ -35,10 +36,12 @@ router.post('/order/pay/', clientAuthentication, async (req, res) => {
 
     let idOrder = req.body.idOrder;
     try {
+       
         let ord = await orders.findOne({
-            where: { id: idOrder, clienteId: req.session.client.id },
-            include: [{ model: client }, { model: address }]
+            where: { id: idOrder },
+            include: [{ model: client }, { model: address }, { model: deliveryRegion }]
         })
+
         if (ord) {
             let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
             let adrss = await address.findAll({ where: { clienteId: ord.cliente.id } })
@@ -112,7 +115,12 @@ router.post('/order/resume', collaboratorAuthentication, async (req, res) => {
     let data = req.body;
 
     try {
-        let ord = await orders.findOne({ where: { id: data.idOrder }, include: [{ model: client }, { model: address }] })
+
+        let ord = await orders.findOne({
+            where: { id: data.idOrder },
+            include: [{ model: client }, { model: address }, { model: deliveryRegion }]
+        })
+
         let itens = await itensOrder.findAll({
             where: {
                 pedidoId: data.idOrder

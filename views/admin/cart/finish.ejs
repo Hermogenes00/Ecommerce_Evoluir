@@ -25,9 +25,14 @@
         <div class="card-header">Pedido</div>
         <div class="card-body">
             <div class="row">
-                <div class="col">Total: <%= parseFloat(ord.total).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) %> </div>
-                <div class="col">Frete: <%= parseFloat(ord.valorFrete).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) %> </div>
-                <div class="col">Data: <%= `${ord.createdAt.getDate()}/${ord.createdAt.getMonth()+1}/${ord.createdAt.getFullYear()}` %></div>
+                <div class="col">Total:
+                    <%= parseFloat(ord.total).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) %> </div>
+                <div class="col">Método de Entrega: <%= ord.metodoEnvio  %> </div>
+                <div class="col">Frete:
+                    <%= parseFloat(ord.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'BRL'})  %> </div>
+                <div class="col">Data:
+                    <%= `${ord.createdAt.getDate()}/${ord.createdAt.getMonth()+1}/${ord.createdAt.getFullYear()}` %>
+                </div>
             </div>
             <hr>
             <h6 class="text-center">Itens do Pedido</h6>
@@ -52,7 +57,8 @@
                             <td><%= item.qtd %></td>
                             <td><%= item.altura!=null?item.altura:'---' %> </td>
                             <td><%= item.largura!=null?item.largura:'---' %> </td>
-                            <td><%= parseFloat(item.valor).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) %></td>
+                            <td><%= parseFloat(item.valor).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) %>
+                            </td>
                         </tr>
                         <%})%>
 
@@ -62,47 +68,52 @@
             </div>
 
         </div>
-        <div class="card-footer">Total: <%= parseFloat(ord.valorFinal).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})%></div>
+        <div class="card-footer">Total:
+            <%= parseFloat(ord.valorFinal).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})%></div>
     </div>
     <div class="card mt-3">
         <div class="card-header">Endereço de entrega
+            <% if(ord.metodoEnvio!='RETIRA_BASE'){%>
             <button data-toggle="modal" data-target="#exampleModal" class="btn btn-primary btn-sm">Mudar endereço de
                 Entrega</button>
+            <%} %>
         </div>
 
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3 offset-md-3">
                     <span style="font-weight: bold;">Endereço:</span>
-                    <%=(ord.enderecoId>0)?ord.endereco.rua:ord.cliente.rua %>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.rua:ord.endereco.rua %>
                 </div>
                 <div class="col-md-3">
                     <span style="font-weight: bold;">Bairro:</span>
-                    <%=(ord.enderecoId>0)?ord.endereco.bairro:ord.cliente.bairro %>
+
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.bairro:ord.endereco.bairro %>
                 </div>
                 <div class="col-md-3">
                     <span style="font-weight: bold;">Nº:</span>
-                    <%=(ord.enderecoId>0)?ord.endereco.numero:ord.cliente.numero %>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.numero:ord.endereco.numero %>
                 </div>
             </div>
             <div class="row">
 
                 <div class="col-md-3 offset-md-3">
                     <span style="font-weight: bold;">Cep:</span>
-                    <%=(ord.enderecoId>0)?ord.endereco.cep:ord.cliente.cep %>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.cep:ord.endereco.cep %>
                 </div>
                 <div class="col-md-3">
                     <span style="font-weight: bold;">Cidade:</span>
-                    <%=(ord.enderecoId>0)?ord.endereco.cidade:ord.cliente.cidade %>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.cidade:ord.endereco.cidade %>
                 </div>
                 <div class="col-md-3">
-                    <span style="font-weight: bold;">UF:</span> <%=(ord.enderecoId>0)?ord.endereco.uf:ord.cliente.uf %>
+                    <span style="font-weight: bold;">UF:</span>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.uf:ord.endereco.uf %>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3 offset-md-3">
                     <span style="font-weight: bold;">Complemento:</span>
-                    <%=(ord.enderecoId>0)?ord.endereco.complemento:ord.cliente.complemento %>
+                    <%=(ord.regiaoEntregaId>0)?ord.regiaoEntrega.complemento:ord.endereco.complemento %>
                 </div>
             </div>
         </div>

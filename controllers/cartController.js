@@ -14,7 +14,7 @@ const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
 const payment = require('../models/payment')
-
+const deliveryRegion = require('../models/deliveryRegion')
 const mercadoPago = require('../mercadoPago/mercadoPago')
 
 //Middleware Authentication
@@ -250,7 +250,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
 
         let ord = await orders.findOne({
             where: { clienteId: idClient, status: CONSTANTES.STATUS_PEDIDO.CARRINHO },
-            include: [{ model: client }, { model: address }]
+            include: [{ model: client }, { model: address },{model:deliveryRegion}]
         })
 
         let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
@@ -264,7 +264,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
         } else if (!ord.metodoEnvio) {
             req.flash('metodoEnvio', 'Escolha uma das opções abaixo para realizar a entrega do produto')
             res.redirect('/client/cart')
-        } else if (ord.metodoEnvio == constantes.RETIRA_BASE && !ord.localidadeEntregaId) {
+        } else if (ord.metodoEnvio == constantes.RETIRA_BASE && !ord.regiaoEntregaId) {
             req.flash('metodoEnvio', 'Conclua a seleção de escolha do endereço de retirada da base')
             res.redirect('/client/cart')
         }
@@ -312,6 +312,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
                     status: constantes.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
                 }, { where: { id: ord.id } })
 
+                
                 res.render('admin/cart/finish', { ord: ord, itens: itens, address: adr, dados: dados })
 
             } catch (error) {

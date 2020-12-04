@@ -12,13 +12,12 @@
 
     <div class="row">
         <div class="col">
-            <img src="https://s3-sa-east-1.amazonaws.com/arquivosgraficas/midia/1FCAA7EC-0F65-43C2-A490-98C9F1E65A6A/servicos/A9DE7AE0-8428-4BC1-8937-585146EBDC90.jpg"
-                alt="">
-<br>
-                <% if(product.gabarito){ %>
-                    <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm form-control">Baixar Gabarito</a>
-                    <%} %>
-              
+            <img src="<%=product.imagem%>" alt="">
+            <br>
+            <% if(product.gabarito){ %>
+            <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm form-control">Baixar Gabarito</a>
+            <%} %>
+
         </div>
 
         <div class="col">
@@ -42,7 +41,7 @@
             <p style="margin-bottom: 0%;">Peso: <%= product.peso %> </p>
             <p style="margin-bottom: 0%;">Produção: <%= product.previsaoProducao %> dias úteis </p>
             <p style="margin-bottom: 0%;">Und: <%= product.und=='metroQuadrado'?'Metro Quadrado':'Und' %> </p>
-           
+
         </div>
 
 
@@ -69,11 +68,12 @@
                             <div class="col">
                                 <input type="hidden" name="productId" value="<%= product.id %>">
                                 <label for="alturar">Altura</label>
-                                <input type="text" required onkeyup="formatReal(this.value)" class="form-control form-control-sm"
-                                    name="altura" id="altura">
+                                <input type="text" required onkeyup="formatReal(this.value)"
+                                    class="form-control form-control-sm" name="altura" id="altura">
 
                                 <label for="largura">Largura</label>
-                                <input type="text" required class="form-control form-control-sm" name="largura" id="largura">
+                                <input type="text" required class="form-control form-control-sm" name="largura"
+                                    id="largura">
                             </div>
                             <% } %>
 
@@ -100,10 +100,10 @@
                         <input type="submit" class="btn btn-danger form-control mt-3" data-toggle="tooltip"
                             data-placement="top" title="Adicionar ao carrinho" value="Comprar">
                         <% }else{%>
-                            <a href="" class="text-center">
-                                <h5>Faça login ou cadastre-se</h5>
-                            </a>
-                        
+                        <a href="" class="text-center">
+                            <h5>Faça login ou cadastre-se</h5>
+                        </a>
+
                         <% }%>
 
                     </form>

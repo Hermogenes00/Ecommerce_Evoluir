@@ -67,7 +67,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
         valorFrete: 0.00,
         valorFinal: 0.00,
         metodoEnvio: metodoEntrega,
-        localidadeEntregaId: null
+        regiaoEntregaId: null
     }
 
 
@@ -111,7 +111,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                 objUpdate.valorFrete = valor
                 objUpdate.valorFinal = valorFinal
                 objUpdate.metodoEnvio = metodoEntrega
-                objUpdate.localidadeEntregaId = null
+                objUpdate.regiaoEntregaId = null
 
                 try {
                     await orders.update(objUpdate,
@@ -138,7 +138,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                 objUpdate.valorFrete = valor
                 objUpdate.valorFinal = valorFinal
                 objUpdate.metodoEnvio = metodoEntrega
-                objUpdate.localidadeEntregaId = idLocalidadeEntrega
+                objUpdate.regiaoEntregaId = idLocalidadeEntrega
                 
 
                 await orders.update(objUpdate,
@@ -160,7 +160,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                 objUpdate.valorFrete = valor
                 objUpdate.valorFinal = valorFinal
                 objUpdate.metodoEnvio = metodoEntrega
-                objUpdate.localidadeEntregaId = null
+                objUpdate.regiaoEntregaId = null
 
                 await orders.update(objUpdate,
                     { where: { id: idOrder, clienteId: req.session.client.id } })

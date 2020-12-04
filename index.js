@@ -5,6 +5,7 @@ const session = require('express-session');
 const connection = require('./database/connection')
 const cookie = require('cookie-parser')
 const flash = require('express-flash')
+const sequelize = require('sequelize')
 
 
 //Middleware Authentication
@@ -101,6 +102,48 @@ app.use(async (req, res, next) => {
 })
 
 //Rotas
+
+app.post('/products/find/', defaultAuthentication, async (req, res) => {
+    let data = req.body
+    let name = `%${data.name}%`
+    let prods = []
+    try {
+
+        let sld = await slides.findAll()
+
+        if (data.name) {
+            prods = await products.findAll({
+                where: {
+                    nome: { [sequelize.Op.like]: name }
+                }
+            })
+        } else {
+            prods = await products.findAll()
+        }
+
+        res.render('index', { products: prods, slides: sld })
+
+    } catch (error) {
+        console.log('Erro ao pesquisar o produto-->' + error)
+    }
+
+})
+
+app.get('/products/findBySubCategory/:slug', defaultAuthentication, async (req, res) => {
+    let slug = req.params.slug
+    let prod = []
+    try {
+        let sld = await slides.findAll()
+        prod = await subCategory.findAll({
+            where: { slug: slug },
+            include: products
+        })
+        res.render('index', { products: prod[0].produtos, slides: sld })
+
+    } catch (error) {
+        console.log('Erro ao pesquisar o produto-->' + error)
+    }
+})
 
 app.get('/', defaultAuthentication, async (req, res) => {
 

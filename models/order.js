@@ -2,6 +2,7 @@ const sequelize = require('sequelize')
 const connection = require('../database/connection')
 const itensOrder = require('../models/itensOrder')
 const client = require('../models/client')
+const deliveryRegion = require('../models/deliveryRegion')
 const address = require('../models/address')
 
 const orders = connection.define('pedidos', {
@@ -33,23 +34,20 @@ const orders = connection.define('pedidos', {
         type: sequelize.STRING,
         allowNull: false
     },
-    valorFrete:{
+    valorFrete: {
         type: sequelize.DECIMAL(10, 2),
         allowNull: false,
         defaultValue: 0
     },
-    valorFinal:{
+    valorFinal: {
         type: sequelize.DECIMAL(10, 2),
         allowNull: false,
         defaultValue: 0
     },
-    metodoEnvio:{
+    metodoEnvio: {
         type: sequelize.STRING,
-        allowNull: true
-    },
-    localidadeEntregaId:{
-        type: sequelize.INTEGER,
-        allowNull: true
+        allowNull: true,
+        defaultValue: null
     }
 })
 
@@ -63,6 +61,9 @@ orders.hasMany(itensOrder)
 
 orders.belongsTo(address)
 address.hasMany(orders)
+
+orders.belongsTo(deliveryRegion)
+deliveryRegion.hasMany(orders)
 
 //orders.sync({alter:true})
 //itensOrder.sync({alter:true})
