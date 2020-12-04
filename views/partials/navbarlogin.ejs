@@ -1,11 +1,16 @@
 <nav id="menu" class="navbar navbar-expand-lg navbar-dark bg-primary">
-    
+
     <ul class="navbar-nav ml-auto">
 
         <%if(user.nome == 'Visitante'){%>
         <li class="nav-item">
-            <a href="/client/login" title="Entrar/Criar Conta" class="nav-link" style="color: white;"><i
-                    class="material-icons">account_circle</i></a>
+
+            <a href="/client/login" data-toggle="tooltip" title="Entrar/Criar Conta" class="nav-link"
+                style="color: white;">
+                Olá Visitante
+                <i class="fas fa-user-circle"></i>
+            </a>
+            
         </li>
         <%}else{%>
         <li class="nav-item dropdown">
@@ -14,11 +19,26 @@
                 Olá <%= user.nome %>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/client/cart">Carrinho</a>
-                <a class="dropdown-item" href="/client/orders">Pedidos</a>
-                <a class="dropdown-item" href="/client/edit">Meu Cadastro</a>
-                <a class="dropdown-item" href="/client/address">Endereços de Entrega</a>
-                <a class="dropdown-item" href="/client/logout">Sair</a>
+                <a class="dropdown-item" href="/client/cart">
+                    <i class="fas fa-shopping-cart btn-outline-primary"></i>
+                    Carrinho
+                </a>
+                <a class="dropdown-item" href="/client/orders">
+                    <i class="fas fa-shopping-basket btn-outline-primary"></i>
+                    Pedidos
+                </a>
+                <a class="dropdown-item" href="/client/edit">
+                    <i class="fas fa-address-book btn-outline-primary"></i>
+                    Meu Cadastro
+                </a>
+                <a class="dropdown-item" href="/client/address">
+                    <i class="fas fa-map-marked-alt btn-outline-primary"></i>
+                    Endereços de Entrega
+                </a>
+                <a class="dropdown-item" href="/client/logout">
+                    <i class="fas fa-door-open btn-outline-primary"></i>
+                    Sair
+                </a>
             </div>
         </li>
         <li class="nav-item">
