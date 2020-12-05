@@ -3,6 +3,19 @@
 
 <script src="/js/product.js"></script>
 
+
+<div class="container mt-2">
+    <% if(message.nome.length>0){%>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= message.nome %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <%} %>
+
+</div>
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
@@ -12,44 +25,48 @@
             <form action="/admin/products/save" method="POST" class="form">
                 <div class="row" style="float: left;">
                     <div class="col-md-3">
-                        <img src="/images/imagem_default.jpg" width="250" height="250" id="imgLocal" alt="">
+                        <img src="<%= product.imagem?product.imagem:'/images/imagem_default.jpg'%>" width="250"
+                            height="250" id="imgLocal" alt="">
                         <input type="file" name="arquivo" class="form-control form-control-sm" id="arquivo"
                             onchange="lerArquivo(event)">
-                        <input type="hidden" name="imagem" id="imagem">
+                        <input type="hidden" name="imagem" value="<%= product.imagem %>" id="imagem">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col">
                         <label for="nome">Nome</label>
-                        <input type="text" name="nome" id="nome" required class="form-control form-control-sm">
+                        <input type="text" value="<%= product.nome %>" name="nome" id="nome"
+                            class="form-control form-control-sm">
                     </div>
+
                 </div>
-                
                 <div class="row">
                     <div class="col">
                         <label for="codRef">Cod.Ref</label>
-                        <input type="text" name="codRef" id="codRef" class="form-control form-control-sm">
+                        <input type="text" value="<%= product.codRef %>" name="codRef" id="codRef"
+                            class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="codRef">Categoria</label>
-                        <select onchange="localizarSubCategoria(event)" name="categoria" id="categoria"
-                            class="form-control form-control-sm">
-                            <option value=""></option>
+                        <select onchange="localizarSubCategoria(event)" name="categoria" data-id="<%=product.id %>"
+                            id="categoria" class="form-control form-control-sm">
                         </select>
                     </div>
                     <div class="col">
                         <label for="codRef">SubCategoria</label>
                         <select name="subCategoria" id="subCategoria" class="form-control form-control-sm">
-                            <option value=""></option>
+                            <option></option>
                         </select>
                     </div>
                 </div>
-                
+                <hr>
+
                 <div class="row">
+
                     <div class="col">
                         <label for="descricao">Descricao</label>
-                        <textarea name="descricao" id="descricao"></textarea>
+                        <textarea name="descricao" id="descricao"><%= product.descricao %></textarea>
                     </div>
 
                 </div>
@@ -57,24 +74,29 @@
                 <div class="row">
                     <div class="col-md-3">
                         <label for="tamFinalAltura">Tam.Final-Altura</label>
-                        <input type="text" placeholder="150" name="tamFinalAltura" id="tamFinalLargura" required
-                            class="form-control form-control-sm">
+                        <input type="text" placeholder="150" name="tamFinalAltura"
+                            value="<%= product.tamFinalAltura?parseFloat(product.tamFinalAltura).toLocaleString('pt-br'):'0,00'%>"
+                            id="tamFinalAltura" required class="form-control form-control-sm">
                     </div>
                     <div class="col-md-3">
                         <label for="tamFinalLargura">Tam.Final-Largura</label>
-                        <input type="text" placeholder="150" name="tamFinalLargura" id="tamFinalLargura" required
-                            class="form-control form-control-sm">
+                        <input type="text" placeholder="150" name="tamFinalLargura"
+                            value="<%= product.tamFinalLargura?parseFloat(product.tamFinalLargura).toLocaleString('pt-br'):'0,00' %>"
+                            id="tamFinalLargura" required class="form-control form-control-sm">
                     </div>
 
                     <div class="col">
                         <label for="tamSangriaLargura">Tam.Sangria-Largura</label>
-                        <input type="text" placeholder="150" name="tamSangriaLargura" id="tamSangriaLargura" required
+                        <input type="text" placeholder="150"
+                            value="<%= product.tamSangriaLargura?parseFloat(product.tamSangriaLargura).toLocaleString('pt-br'):'0,00' %>"
+                            name="tamSangriaLargura" id="tamSangriaLargura" required
                             class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="tamSangriaAltura">Tam.Sangria-Altura</label>
-                        <input type="text" placeholder="150" name="tamSangriaAltura" id="tamSangriaAltura" required
-                            class="form-control form-control-sm">
+                        <input type="text" placeholder="150"
+                            value="<%= product.tamSangriaAltura?parseFloat(product.tamSangriaAltura).toLocaleString('pt-br'):'0,00' %>"
+                            name="tamSangriaAltura" id="tamSangriaAltura" required class="form-control form-control-sm">
                     </div>
                 </div>
 
@@ -82,46 +104,53 @@
 
                     <div class="col">
                         <label for="material">Material</label>
-                        <input type="text" name="material" id="material" required class="form-control form-control-sm">
+                        <input type="text" value="<%= product.material %>" name="material" id="material"
+                            class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="gramatura">Gramatura</label>
-                        <input type="text" placeholder="150" name="gramatura" id="gramatura" required
-                            class="form-control form-control-sm">
+                        <input type="text"
+                            value="<%= product.gramatura?parseFloat(product.gramatura).toLocaleString('pt-br'):'0,00' %>"
+                            name="gramatura" id="gramatura" class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="peso">Peso</label>
-                        <input type="text" placeholder="150" name="peso" id="peso" required
-                            class="form-control form-control-sm">
+                        <input type="text" placeholder="Ex: 150"
+                            value="<%= product.peso?parseFloat(product.peso).toLocaleString('pt-br'):'0,00' %>"
+                            name="peso" id="peso" class="form-control form-control-sm">
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col">
                         <label for="vlrProduto">Vlr Produto</label>
-                        <input type="text" name="vlrProduto" id="vlrProduto" required
-                            class="form-control form-control-sm">
+                        <input type="text"
+                            value="<%= product.vlrProduto?parseFloat(product.vlrProduto).toLocaleString('pt-br'):'0,00' %>"
+                            name="vlrProduto" id="vlrProduto" class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="qtd">Quantidade</label>
-                        <input type="text" name="qtd" id="qtd" class="form-control form-control-sm">
+                        <input type="text" value="<%=product.qtd?product.qtd:'0,00'%>" name="qtd" id="qtd"
+                            class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="qtd">Und</label>
                         <select name="und" id="und" class="form-control form-control-sm">
-                            <option value="und">Und</option>
-                            <option value="metroQuadrado">M²</option>
+                            <option <%=product.und=='und'?'selected':'' %> value="und">Und</option>
+                            <option <%=product.und=='metroQuadrado'?'selected':''%> value="metroQuadrado">M²</option>
                         </select>
                     </div>
                     <div class="col">
                         <label for="qtd">Prev. Produção</label>
                         <input type="number" name="previsaoProducao" id="previsaoProducao"
-                            class="form-control form-control-sm">
+                            class="form-control form-control-sm"
+                            value="<%=product.previsaoProducao?product.previsaoProducao:'0,00'%>">
                     </div>
                     <div class="col">
                         <label for="propriedadeDivisao">Propriedade de Divisão</label>
-                        <input type="number" required placeholder="150" name="propriedadeDivisao"
-                            id="propriedadeDivisao" required class="form-control form-control-sm">
+                        <input type="number" required
+                            value="<%=product.propriedadeDivisao?product.propriedadeDivisao:'0,00'%>"
+                            name="propriedadeDivisao" id="propriedadeDivisao" class="form-control form-control-sm">
                     </div>
                 </div>
 

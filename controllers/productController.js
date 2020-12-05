@@ -109,7 +109,7 @@ router.get('/admin/products/find/:product?', collaboratorAuthentication, async (
                 prods = await products.findAll();
         }
         if (prods != undefined) {
-            res.render('admin/products/products', { products: prods, message: message })
+            res.render('admin/products/products', { products: prods, message })
         } else {
             res.json('Ops. Não foi possível realizar este procedimento, tente novamente, caso o problema persista, entre em contato com o suporte')
         }
@@ -119,9 +119,7 @@ router.get('/admin/products/find/:product?', collaboratorAuthentication, async (
 
 })
 
-router.get('/admin/products/register', collaboratorAuthentication, (req, res) => {
-    res.render('admin/products/new')
-})
+
 
 router.get('/admin/products/edit/:id', collaboratorAuthentication, (req, res) => {
     let id = req.params.id;
@@ -133,42 +131,79 @@ router.get('/admin/products/edit/:id', collaboratorAuthentication, (req, res) =>
     })
 })
 
+router.get('/admin/products/register', collaboratorAuthentication, (req, res) => {
 
-router.post('/admin/products/save', collaboratorAuthentication, (req, res) => {
-
-    let data = req.body;
-
-    if (data != undefined) {
-
-        products.create({
-            nome: data.nome,
-            descricao: data.descricao,
-            codRef: data.codRef,
-            tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
-            tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
-            vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
-            material: data.material,
-            gramatura: data.gramatura.replace('.', '').replace(',', '.'),
-            peso: data.peso.replace('.', '').replace(',', '.'),
-            tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
-            tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
-            slug: slug(data.nome),
-            propriedadeDivisao: parseInt(data.propriedadeDivisao),
-            qtd: data.qtd,
-            categoriaId: data.categoria,
-            subcategoriaId: data.subCategoria,
-            previsaoProducao: data.previsaoProducao,
-            und: data.und,
-            imagem:data.imagem
-        }).then((product) => {
-            res.json(data)
-            //res.redirect('/admin/products/find/')
-        }).catch(erro => {
-            console.log('Erro ao tentar salvar produtos ' + erro);
-            console.log(data);
-            res.redirect('/admin/products/find/')
-        })
+    let product = {
+        categoria: {},
+        subcategoria: {}
     }
+
+    res.render('admin/products/new', {
+        product,
+        message: { nome: [] }
+    })
+})
+
+
+
+router.post('/admin/products/save', collaboratorAuthentication, async (req, res) => {
+
+    let data = req.body
+    let flagErro = false
+
+    let message = {
+        nome: []
+    }
+
+    //#region Validações
+
+
+    let slugNome = slug(data.nome)
+    let slugs = await products.findAll({ where: { slug: slugNome } })
+    if (slugs.length > 0) {
+        req.flash('nome', 'Já existe um produto com este nome. Por gentileza, informe um novo nome para o produto')
+        flagErro = true
+    }
+
+    //#endregion
+    if (flagErro) {
+        message.nome = req.flash('nome')
+        res.render('admin/products/new', { message: message, product: data })
+
+    } else {
+        if (data != undefined) {
+
+            products.create({
+                nome: data.nome,
+                descricao: data.descricao,
+                codRef: data.codRef,
+                tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
+                tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
+                vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
+                material: data.material,
+                gramatura: data.gramatura.replace('.', '').replace(',', '.'),
+                peso: data.peso.replace('.', '').replace(',', '.'),
+                tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
+                tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
+                slug: slug(data.nome),
+                propriedadeDivisao: parseInt(data.propriedadeDivisao),
+                qtd: data.qtd,
+                categoriaId: data.categoria,
+                subcategoriaId: data.subCategoria,
+                previsaoProducao: data.previsaoProducao,
+                und: data.und,
+                imagem: data.imagem
+            }).then((product) => {
+                req.flash('success', 'Produto adicionado com sucesso!!!')
+                res.redirect('/admin/products/find/')
+            }).catch(erro => {
+                console.log('Erro ao tentar salvar produtos ' + erro);
+                res.render('admin/products/new', { product: data })
+            })
+        }
+    }
+
+
 })
 
 router.get('/admin/products/detail/:id', defaultAuthentication, (req, res) => {
@@ -206,7 +241,7 @@ router.post('/admin/products/update', collaboratorAuthentication, (req, res) => 
             subcategoriaId: data.subCategoria,
             previsaoProducao: data.previsaoProducao,
             und: data.und,
-            imagem:data.imagem
+            imagem: data.imagem
         }, { where: { id: data.id } }).then(() => {
             res.redirect('/admin/products/find/')
         }).catch(erro => {
