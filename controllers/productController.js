@@ -67,6 +67,8 @@ let upload = multer({
 })
 
 //Rotas------------------------
+
+
 router.post('/admin/product/upload/:productId', upload.single('file'), async (req, res) => {
 
     let productId = req.params.productId
@@ -126,7 +128,6 @@ router.get('/admin/products/find/:product?', collaboratorAuthentication, async (
     }
 
 })
-
 
 //Esta página irá carregar um produto ou incluir um produto
 router.get('/admin/products/product/:id?', collaboratorAuthentication, async (req, res) => {
@@ -210,7 +211,6 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
     } catch (error) {
         console.log('Erro ao tentar comparar produtos com o slug->', error);
     }
-
 
     //#endregion
 

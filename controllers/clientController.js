@@ -19,12 +19,17 @@ const CONSTANTES = require('../utils/constants')
 const clientAuthentication = require('../middleware/clientAuthentication');
 const defaultAuthentication = require('../middleware/defaultAuthentication');
 
+//Validação
+let validate = require('../validations/clientValidation')
+
+
 //API DOS CORREIORS
 const Correios = require('node-correios')
 
 //MULTER Necessário para fazer upload
 const multer = require('multer')
-const path = require('path')
+const path = require('path');
+
 
 
 //Configuração do Multer - Para realização de upload e download
@@ -101,24 +106,68 @@ router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
 
 })
 
-router.get('/client/register', defaultAuthentication, (req, res) => {
-    let data = req.body;
+router.get('/clients/client/:id?', defaultAuthentication, async (req, res) => {
+
+    let clt = req.body;
     let msg = req.flash('error')
-    res.render('admin/client/new', { clt: data, msg: msg })
+
+    try {
+        if (req.session.client) {
+            clt = await clients.findByPk(req.session.client.id)
+        }
+    } catch (error) {
+        console.log('Erro ao tentar carregar o client->', error);
+    }
+
+    res.render('admin/clients/client', { clt, msg })
 })
 
+
 router.post('/client/save', defaultAuthentication, async (req, res) => {
+    let data = req.body
+    let msg = []
 
-    let data = req.body;
-    let validation = false;
 
-    for (client in data) {
-        if (data[client] != null) {
-            validation = true;
-        }
+    //#region Validação
+    let validResult = validate.validate({
+        nome: data.nome,
+        cnpjCpf: data.cnpjCpf,
+        email: data.email,
+        password: data.password,
+        tel: data.tel,
+        cel1: data.cel1,
+        cel2: data.cel2,
+        cep: data.cep,
+        numero: data.numero
+    })
+
+    if (validResult.error) {
+        msg.push(validResult.error.details[0].message)
+        return res.render('admin/clients/client', { clt: data, msg })
     }
-    if (validation) {
-        try {
+
+    try {
+        let validCnpjCpf = undefined
+
+        if (data.id > 0) {
+            validCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf, id: { [sequelize.Op.not]: data.id } } })
+        } else {
+            validCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf } })
+        }
+
+        if (validCnpjCpf) {
+            msg.push('CnpjCpf já cadastrado no sistema')
+            return res.render('admin/clients/client', { clt: data, msg })
+        }
+    } catch (error) {
+        console.log('Erro ao tentar buscar clientes pelo cpf->', error);
+        return res.render('admin/clients/client', { clt: data, msg })
+    }
+    //#endregion
+
+    try {
+        if (data.id <= 0) {
+
             let client = await clients.create({
                 email: data.email,
                 nome: data.nome,
@@ -147,26 +196,39 @@ router.post('/client/save', defaultAuthentication, async (req, res) => {
                 clienteId: client.id
             })
 
-            if (client) {
-                req.session.client = undefined;
-                //Cria uma sessão                
-                req.session.client = {
-                    id: client.id,
-                    nome: client.nome,
-                    email: client.email
-                }
-                res.redirect('/')
-            } else {
-                req.flash('error', 'Campos obrigatórios não podem estar vazio, ou fora do padrão')
-                res.render('admin/client/new', { clt: data, msg: req.flash('error') })
+            req.session.client = undefined;
+            //Cria uma sessão                
+            req.session.client = {
+                id: client.id,
+                nome: client.nome,
+                email: client.email
             }
-        } catch (error) {
-            console.log('Erro ao tentar registrar o cliente: ' + error);
-            res.render('admin/client/new', { clt: data, msg: req.flash('error') })
+            return res.redirect('/')
+        } else {
+
+            clients.update({
+                email: data.email,
+                nome: data.nome,
+                cnpjCpf: data.cnpjCpf,
+                tel: data.tel,
+                cel1: data.cel1,
+                cel2: data.cel2,
+                cep: data.cep,
+                rua: data.rua,
+                bairro: data.bairro,
+                numero: data.numero,
+                complemento: data.complemento,
+                uf: data.uf,
+                cidade: data.cidade
+            }, { where: { id: data.id } }).then(() => {
+                return res.redirect('/client/logout')
+            }).catch(error => {
+                console.log('Erro ao tentar alterar cliente', error);
+                return res.render('admin/clients/client', { clt: data, msg })
+            })
         }
-    } else {
-        req.flash('error', 'Campos obrigatórios não podem estar vazio, ou fora do padrão')
-        res.render('admin/client/new', { clt: data, msg: req.flash('error') })
+    } catch (error) {
+        return res.redirect('/')
     }
 
 })
@@ -174,7 +236,7 @@ router.post('/client/save', defaultAuthentication, async (req, res) => {
 router.get('/client/login', defaultAuthentication, (req, res) => {
 
     let msg = req.flash('erro')
-    res.render('admin/client/login', { msg: msg })
+    res.render('admin/clients/login', { msg: msg })
 })
 
 router.get('/client/logout', defaultAuthentication, (req, res) => {
@@ -210,51 +272,6 @@ router.post('/client/acesso', defaultAuthentication, (req, res) => {
         console.log('Erro ao tentar logar ' + erro);
         res.redirect('/client/login')
     })
-})
-
-router.post('/client/update', clientAuthentication, (req, res) => {
-    let id = req.session.client.id;
-    let data = req.body
-
-    clients.update({
-        email: data.email,
-        nome: data.nome,
-        cnpjCpf: data.cnpjCpf,
-        tel: data.tel,
-        cel1: data.cel1,
-        cel2: data.cel2,
-        cep: data.cep,
-        rua: data.rua,
-        bairro: data.bairro,
-        numero: data.numero,
-        complemento: data.complemento,
-        uf: data.uf,
-        cidade: data.cidade
-    }, { where: { id: id } }).then(client => {
-        req.session.client = {
-            id: id,
-            nome: data.nome,
-            email: data.email
-        }
-        res.redirect('/client/cart')
-    }).catch(error => {
-        console.log(error);
-        res.send(`Ops, ocorreu um erro ao tentar realizar esta operação, tente novamente,
-        caso o problema persista entre em contato com o suporte`)
-    })
-})
-
-router.get('/client/edit', clientAuthentication, (req, res) => {
-    let id = req.session.client.id;
-
-    clients.findByPk(id).then(client => {
-        res.render('admin/client/edit', { user: client })
-    }).catch(error => {
-        console.log(error);
-        res.send(`Ops, ocorreu um erro ao tentar realizar esta operação, tente novamente,
-         caso o problema persista entre em contato com o suporte`)
-    })
-
 })
 
 router.get('/client/cart', clientAuthentication, async (req, res) => {
