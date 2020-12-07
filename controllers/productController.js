@@ -5,12 +5,20 @@ const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const router = express.Router();
 const slug = require('slugify')
+
+//Middleware Authentication
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 const defaultAuthentication = require('../middleware/defaultAuthentication')
+
+//Tratamento dos arquivo (upload gabarito)
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 
+
+//Validation
+let validation = require('../validations/productValidation');
+const { validate } = require('../validations/productValidation');
 
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
@@ -140,7 +148,7 @@ router.get('/admin/products/register', collaboratorAuthentication, (req, res) =>
 
     res.render('admin/products/new', {
         product,
-        message: { nome: [] }
+        message: { erro: [] }
     })
 })
 
@@ -152,27 +160,56 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
     let flagErro = false
 
     let message = {
-        nome: []
+        erro: []
     }
 
-    //#region Validações
+    //#region Validações    
+    const validResult = validation.validate({
+        nome: data.nome,
+        descricao: data.descricao,
+        tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
+        tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
+        vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
+        material: data.material,
+        gramatura: data.gramatura.replace('.', '').replace(',', '.'),
+        peso: data.peso.replace('.', '').replace(',', '.'),
+        tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
+        tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
+        propriedadeDivisao: parseInt(data.propriedadeDivisao),
+        qtd: data.qtd,
+        categoriaId: data.categoria,
+        subcategoriaId: data.subCategoria,
+        previsaoProducao: data.previsaoProducao,
+        und: data.und,
+        imagem: data.imagem
 
+    })
+
+    if (validResult.error) {
+        req.flash('erro', validResult.error.details[0].message)
+
+        message.erro = req.flash('erro')
+        
+        return res.render('admin/products/new', { message: message, product: data })
+    }
 
     let slugNome = slug(data.nome)
+
     let slugs = await products.findAll({ where: { slug: slugNome } })
+
     if (slugs.length > 0) {
-        req.flash('nome', 'Já existe um produto com este nome. Por gentileza, informe um novo nome para o produto')
+        req.flash('erro', 'Já existe um produto com este nome. Por gentileza, informe um novo nome para o produto')
         flagErro = true
     }
 
     //#endregion
     if (flagErro) {
-        message.nome = req.flash('nome')
+        message.erro = req.flash('erro')
         res.render('admin/products/new', { message: message, product: data })
 
     } else {
         if (data != undefined) {
-
+            
             products.create({
                 nome: data.nome,
                 descricao: data.descricao,

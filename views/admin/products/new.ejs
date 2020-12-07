@@ -5,9 +5,9 @@
 
 
 <div class="container mt-2">
-    <% if(message.nome.length>0){%>
+    <% if(message.erro.length>0){%>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <%= message.nome %>
+        <%= message.erro %>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -75,27 +75,27 @@
                     <div class="col-md-3">
                         <label for="tamFinalAltura">Tam.Final-Altura</label>
                         <input type="text" placeholder="150" name="tamFinalAltura"
-                            value="<%= product.tamFinalAltura?parseFloat(product.tamFinalAltura).toLocaleString('pt-br'):'0,00'%>"
+                            value="<%= product.tamFinalAltura?product.tamFinalAltura:'0,00'%>"
                             id="tamFinalAltura" required class="form-control form-control-sm">
                     </div>
                     <div class="col-md-3">
                         <label for="tamFinalLargura">Tam.Final-Largura</label>
                         <input type="text" placeholder="150" name="tamFinalLargura"
-                            value="<%= product.tamFinalLargura?parseFloat(product.tamFinalLargura).toLocaleString('pt-br'):'0,00' %>"
+                            value="<%= product.tamFinalLargura?product.tamFinalLargura:'0,00' %>"
                             id="tamFinalLargura" required class="form-control form-control-sm">
                     </div>
 
                     <div class="col">
                         <label for="tamSangriaLargura">Tam.Sangria-Largura</label>
                         <input type="text" placeholder="150"
-                            value="<%= product.tamSangriaLargura?parseFloat(product.tamSangriaLargura).toLocaleString('pt-br'):'0,00' %>"
+                            value="<%= product.tamSangriaLargura?product.tamSangriaLargura:'0,00' %>"
                             name="tamSangriaLargura" id="tamSangriaLargura" required
                             class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="tamSangriaAltura">Tam.Sangria-Altura</label>
                         <input type="text" placeholder="150"
-                            value="<%= product.tamSangriaAltura?parseFloat(product.tamSangriaAltura).toLocaleString('pt-br'):'0,00' %>"
+                            value="<%= product.tamSangriaAltura?product.tamSangriaAltura:'0,00' %>"
                             name="tamSangriaAltura" id="tamSangriaAltura" required class="form-control form-control-sm">
                     </div>
                 </div>
@@ -110,13 +110,13 @@
                     <div class="col">
                         <label for="gramatura">Gramatura</label>
                         <input type="text"
-                            value="<%= product.gramatura?parseFloat(product.gramatura).toLocaleString('pt-br'):'0,00' %>"
+                            value="<%= product.gramatura?product.gramatura:'0,00' %>"
                             name="gramatura" id="gramatura" class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="peso">Peso</label>
                         <input type="text" placeholder="Ex: 150"
-                            value="<%= product.peso?parseFloat(product.peso).toLocaleString('pt-br'):'0,00' %>"
+                            value="<%= product.peso?product.peso:'0,00' %>"
                             name="peso" id="peso" class="form-control form-control-sm">
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                     <div class="col">
                         <label for="vlrProduto">Vlr Produto</label>
                         <input type="text"
-                            value="<%= product.vlrProduto?parseFloat(product.vlrProduto).toLocaleString('pt-br'):'0,00' %>"
+                            value="<%= product.vlrProduto?product.vlrProduto:'0,00' %>"
                             name="vlrProduto" id="vlrProduto" class="form-control form-control-sm">
                     </div>
                     <div class="col">
