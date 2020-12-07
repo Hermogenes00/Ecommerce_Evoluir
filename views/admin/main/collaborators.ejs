@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="col offset-md-4">
-            <a href="/collaborator/new" id="btnNovoColaborador" class="btn btn-primary btn-sm">Novo Colaborador</a>
+            <a href="/admin/collaborators/collaborator" id="btnNovoColaborador" class="btn btn-primary btn-sm">Novo Colaborador</a>
         </div>
     </div>
 
@@ -40,7 +40,7 @@
 
                         <form method="POST" class="form form-inline" action="/collaborator/delete" onsubmit="deleteCollaborator(event,this)">
                             <input type="hidden" name="id" value="<%= clt.id %> ">
-                            <a href="/collaborator/edit/<%= clt.id %> " title="Editar" data-target="#exampleModal"><i
+                            <a href="/admin/collaborators/collaborator/<%= clt.id %> " title="Editar" data-target="#exampleModal"><i
                                     class="material-icons" data-toggle="tooltip" data-placement="top"
                                     title="Editar Colaborador">person</i></a>
                             <input type="submit" value="Excluir" id="btnExcluir" class="btn btn-outline-danger btn-sm">
