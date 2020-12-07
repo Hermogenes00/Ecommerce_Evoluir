@@ -128,42 +128,41 @@ router.get('/admin/products/find/:product?', collaboratorAuthentication, async (
 })
 
 
-
-router.get('/admin/products/edit/:id', collaboratorAuthentication, (req, res) => {
-    let id = req.params.id;
-
-    products.findOne({ where: { id: id }, include: [{ model: category }, { model: subCategory }] }).then(product => {
-        res.render('admin/products/edit', { product: product })
-    }).catch(erro => {
-        res.json(erro)
-    })
-})
-
-router.get('/admin/products/register', collaboratorAuthentication, (req, res) => {
-
+//Esta página irá carregar um produto ou incluir um produto
+router.get('/admin/products/product/:id?', collaboratorAuthentication, async (req, res) => {
     let product = {
         categoria: {},
         subcategoria: {}
     }
 
-    res.render('admin/products/new', {
+    let message = {
+        erro: []
+    }
+
+    if (req.params.id) {
+        try {
+            product = await products.findByPk(req.params.id)
+        } catch (error) {
+            console.log('Erro ao tentar localizar produto->', error);
+            return res.redirect('/admin/products/product/')
+        }
+    }
+
+    res.render('admin/products/product', {
         product,
         message: { erro: [] }
     })
 })
 
-
-
 router.post('/admin/products/save', collaboratorAuthentication, async (req, res) => {
 
     let data = req.body
     let flagErro = false
-
     let message = {
         erro: []
     }
 
-    //#region Validações    
+    //#region Validação
     const validResult = validation.validate({
         nome: data.nome,
         descricao: data.descricao,
@@ -187,61 +186,101 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
 
     if (validResult.error) {
         req.flash('erro', validResult.error.details[0].message)
-
         message.erro = req.flash('erro')
-        
-        return res.render('admin/products/new', { message: message, product: data })
+        return res.render('admin/products/product', { message: message, product: data })
     }
+
 
     let slugNome = slug(data.nome)
-
     let slugs = await products.findAll({ where: { slug: slugNome } })
 
-    if (slugs.length > 0) {
-        req.flash('erro', 'Já existe um produto com este nome. Por gentileza, informe um novo nome para o produto')
-        flagErro = true
+    try {
+        if (data.id != undefined || data.id > 0) {
+            slugs = await products.findAll({ where: { slug: slugNome, [sequelize.Op.not]: data.id } })
+            if (slugs.length > 0) {
+                req.flash('erro', 'Já existe um produto com este nome. Por gentileza, informe um novo nome para o produto')
+                flagErro = true
+            }
+        } else {
+            if (slugs.length > 0) {
+                req.flash('erro', 'Já existe um produto com este nome. Por gentileza, informe um novo nome para o produto')
+                flagErro = true
+            }
+        }
+    } catch (error) {
+        console.log('Erro ao tentar comparar produtos com o slug->', error);
     }
 
+
     //#endregion
+
     if (flagErro) {
         message.erro = req.flash('erro')
-        res.render('admin/products/new', { message: message, product: data })
-
+        res.render('admin/products/product', { message: message, product: data })
     } else {
         if (data != undefined) {
-            
-            products.create({
-                nome: data.nome,
-                descricao: data.descricao,
-                codRef: data.codRef,
-                tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
-                tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
-                vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
-                material: data.material,
-                gramatura: data.gramatura.replace('.', '').replace(',', '.'),
-                peso: data.peso.replace('.', '').replace(',', '.'),
-                tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
-                tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
-                slug: slug(data.nome),
-                propriedadeDivisao: parseInt(data.propriedadeDivisao),
-                qtd: data.qtd,
-                categoriaId: data.categoria,
-                subcategoriaId: data.subCategoria,
-                previsaoProducao: data.previsaoProducao,
-                und: data.und,
-                imagem: data.imagem
-            }).then((product) => {
-                req.flash('success', 'Produto adicionado com sucesso!!!')
-                res.redirect('/admin/products/find/')
-            }).catch(erro => {
-                console.log('Erro ao tentar salvar produtos ' + erro);
-                res.render('admin/products/new', { product: data })
-            })
+            if (data.id != undefined && data.id <= 0) {
+                products.create({
+                    nome: data.nome,
+                    descricao: data.descricao,
+                    codRef: data.codRef,
+                    tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
+                    tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
+                    vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
+                    material: data.material,
+                    gramatura: data.gramatura.replace('.', '').replace(',', '.'),
+                    peso: data.peso.replace('.', '').replace(',', '.'),
+                    tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
+                    tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
+                    slug: slug(data.nome),
+                    propriedadeDivisao: parseInt(data.propriedadeDivisao),
+                    qtd: data.qtd,
+                    categoriaId: data.categoria,
+                    subcategoriaId: data.subCategoria,
+                    previsaoProducao: data.previsaoProducao,
+                    und: data.und,
+                    imagem: data.imagem
+                }).then((product) => {
+                    req.flash('success', 'Produto adicionado com sucesso!!!')
+                    res.redirect('/admin/products/find/')
+                }).catch(erro => {
+                    console.log('Erro ao tentar salvar produtos ' + erro);
+                    res.render('admin/products/product', { product: data })
+                })
+            } else {
+                products.update({
+                    nome: data.nome,
+                    descricao: data.descricao,
+                    codRef: data.codRef,
+                    tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
+                    tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
+                    vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
+                    material: data.material,
+                    gramatura: data.gramatura.replace('.', '').replace(',', '.'),
+                    peso: data.peso.replace('.', '').replace(',', '.'),
+                    tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
+                    tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
+                    slug: slug(data.nome),
+                    propriedadeDivisao: parseInt(data.propriedadeDivisao),
+                    qtd: data.qtd,
+                    categoriaId: data.categoria,
+                    subcategoriaId: data.subCategoria,
+                    previsaoProducao: data.previsaoProducao,
+                    und: data.und,
+                    imagem: data.imagem
+                }, { where: { id: data.id } }).then(() => {
+                    req.flash('success', 'Alterações realizadas com sucesso!!!')
+                    res.redirect('/admin/products/find/')
+                }).catch(erro => {
+                    res.json(erro)
+                })
+            }
+
         }
     }
 
-
 })
+
 
 router.get('/admin/products/detail/:id', defaultAuthentication, (req, res) => {
     let id = req.params.id;
@@ -252,42 +291,5 @@ router.get('/admin/products/detail/:id', defaultAuthentication, (req, res) => {
         res.json(erro)
     })
 })
-
-router.post('/admin/products/update', collaboratorAuthentication, (req, res) => {
-
-    let data = req.body;
-    console.log('DADOS DA SUBCATEGORIA');
-    if (data != undefined) {
-
-        products.update({
-            nome: data.nome,
-            descricao: data.descricao,
-            codRef: data.codRef,
-            tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
-            tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
-            vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
-            material: data.material,
-            gramatura: data.gramatura.replace('.', '').replace(',', '.'),
-            peso: data.peso.replace('.', '').replace(',', '.'),
-            tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
-            tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
-            slug: slug(data.nome),
-            propriedadeDivisao: parseInt(data.propriedadeDivisao),
-            qtd: data.qtd,
-            categoriaId: data.categoria,
-            subcategoriaId: data.subCategoria,
-            previsaoProducao: data.previsaoProducao,
-            und: data.und,
-            imagem: data.imagem
-        }, { where: { id: data.id } }).then(() => {
-            res.redirect('/admin/products/find/')
-        }).catch(erro => {
-            res.json(erro)
-        })
-
-    }
-
-})
-
 
 module.exports = router

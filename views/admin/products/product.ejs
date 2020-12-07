@@ -75,27 +75,27 @@
                     <div class="col-md-3">
                         <label for="tamFinalAltura">Tam.Final-Altura</label>
                         <input type="text" placeholder="150" name="tamFinalAltura"
-                            value="<%= product.tamFinalAltura?product.tamFinalAltura:'0,00'%>"
-                            id="tamFinalAltura" required class="form-control form-control-sm">
+                            value="<%= product.tamFinalAltura?product.tamFinalAltura.replace('.',','):'0,00'%>" id="tamFinalAltura"
+                            required class="form-control form-control-sm">
                     </div>
                     <div class="col-md-3">
                         <label for="tamFinalLargura">Tam.Final-Largura</label>
                         <input type="text" placeholder="150" name="tamFinalLargura"
-                            value="<%= product.tamFinalLargura?product.tamFinalLargura:'0,00' %>"
-                            id="tamFinalLargura" required class="form-control form-control-sm">
+                            value="<%= product.tamFinalLargura?product.tamFinalLargura.replace('.',','):'0,00' %>" id="tamFinalLargura"
+                            required class="form-control form-control-sm">
                     </div>
 
                     <div class="col">
                         <label for="tamSangriaLargura">Tam.Sangria-Largura</label>
                         <input type="text" placeholder="150"
-                            value="<%= product.tamSangriaLargura?product.tamSangriaLargura:'0,00' %>"
+                            value="<%= product.tamSangriaLargura?product.tamSangriaLargura.replace('.',','):'0,00' %>"
                             name="tamSangriaLargura" id="tamSangriaLargura" required
                             class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="tamSangriaAltura">Tam.Sangria-Altura</label>
                         <input type="text" placeholder="150"
-                            value="<%= product.tamSangriaAltura?product.tamSangriaAltura:'0,00' %>"
+                            value="<%= product.tamSangriaAltura?product.tamSangriaAltura.replace('.',','):'0,00' %>"
                             name="tamSangriaAltura" id="tamSangriaAltura" required class="form-control form-control-sm">
                     </div>
                 </div>
@@ -109,14 +109,12 @@
                     </div>
                     <div class="col">
                         <label for="gramatura">Gramatura</label>
-                        <input type="text"
-                            value="<%= product.gramatura?product.gramatura:'0,00' %>"
-                            name="gramatura" id="gramatura" class="form-control form-control-sm">
+                        <input type="text" value="<%= product.gramatura?product.gramatura.replace('.',','):'0,00' %>" name="gramatura"
+                            id="gramatura" class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="peso">Peso</label>
-                        <input type="text" placeholder="Ex: 150"
-                            value="<%= product.peso?product.peso:'0,00' %>"
+                        <input type="text" placeholder="Ex: 150" value="<%= product.peso?product.peso.replace('.',','):'0,00' %>"
                             name="peso" id="peso" class="form-control form-control-sm">
                     </div>
                 </div>
@@ -124,9 +122,8 @@
                 <div class="row">
                     <div class="col">
                         <label for="vlrProduto">Vlr Produto</label>
-                        <input type="text"
-                            value="<%= product.vlrProduto?product.vlrProduto:'0,00' %>"
-                            name="vlrProduto" id="vlrProduto" class="form-control form-control-sm">
+                        <input type="text" value="<%= product.vlrProduto?product.vlrProduto.replace('.',','):'0,00' %>" name="vlrProduto"
+                            id="vlrProduto" class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="qtd">Quantidade</label>
@@ -156,6 +153,7 @@
 
                 <div class=" mt-3" style=" float: right;">
                     <a href="/collaborator/find/all" class="btn btn-outline-primary">Cancelar</a>
+                    <input type="hidden" name="id" value="<%= product.id %>">
                     <input type="submit" class="btn btn-primary" value="Salvar">
 
                 </div>

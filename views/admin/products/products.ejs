@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="col offset-md-4">
-            <a href="/admin/products/register" id="btnNovoProduto" class="btn btn-primary btn-sm">Novo Produto</a>
+            <a href="/admin/products/product" id="btnNovoProduto" class="btn btn-primary btn-sm">Novo Produto</a>
         </div>
     </div>
 
@@ -56,14 +56,14 @@
                     <a href="/gabarito/<%=product.gabarito%>"><i data-toggle="tooltip" title="Baixar Gabarito"
                             class="material-icons">get_app</i> </a>
                     <%} %></td>
-                <td><%=parseFloat(product.vlrProduto).toLocaleString('pt-br')%></td>
+                <td><%=parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'})%></td>
                 <td><%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
                 </td>
                 <td><%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
                 </td>
                 <td>
-                    <a href="/admin/products/edit/<%= product.id %>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="/admin/products/edit/<%= product.id %>" class="btn btn-danger btn-sm">Excluir</a>
+                    <a href="/admin/products/product/<%= product.id %>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="/admin/products/product/<%= product.id %>" class="btn btn-danger btn-sm">Excluir</a>
                 </td>
                 <td colspan="6">
                     <div class="row">
