@@ -33,7 +33,6 @@ const payment = require('./models/payment')
 const deliveryRegion = require('./models/deliveryRegion')
 const slides = require('./models/slide')
 
-
 //Importação dos controllers
 const productController = require('./controllers/productController');
 const clientController = require('./controllers/clientController');
@@ -63,8 +62,9 @@ app.use(session({
 app.use(flash())
 
 //BodyParser
-app.use(bodyparser.urlencoded({ extended: false }))
-app.use(bodyparser.json())
+app.use(bodyparser.urlencoded({ extended: false, limit: '50mb' }))
+app.use(bodyparser.json({limit:'50mb'}))
+
 
 //Controllers
 app.use('/', productController)

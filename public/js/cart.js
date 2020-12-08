@@ -55,6 +55,17 @@ function onClick(event) {
                 let linkBaixarArquivo = item.arquivo ? `    
 <a class="btn btn-sm btn-outline-primary" href="/uploads/${item.arquivo}">Baixar Arquivo<i class="material-icons">cloud_download</i></a>
 `: ''
+                let divAltura = item.altura ? ` <div class="row">
+<div class="col">
+    <small>Altura: ${item.altura}</small>
+</div>
+
+<div class="col">
+    <small>Largura: ${item.largura}</small>
+</div>
+</div>`:''
+
+
                 conteudo.innerHTML += `
                 
                 
@@ -98,15 +109,8 @@ function onClick(event) {
                             <small>Und: ${item.produto.und == 'metroQuadrado' ? 'Metro Quadrado' : 'Und'}</small>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <small>Altura: ${item.altura}</small>
-                        </div>
-        
-                        <div class="col">
-                            <small>Largura: ${item.largura}</small>
-                        </div>
-                    </div>
+                   
+                    ${divAltura}
         
                     <div class="row">
                     <div class="col">

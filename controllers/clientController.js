@@ -239,12 +239,8 @@ router.get('/client/login', defaultAuthentication, (req, res) => {
     res.render('admin/clients/login', { msg: msg })
 })
 
-router.get('/client/logout', defaultAuthentication, (req, res) => {
-    req.session.client = undefined;
-    res.redirect('/')
-})
 
-router.post('/client/acesso', defaultAuthentication, (req, res) => {
+router.post('/client/login', defaultAuthentication, (req, res) => {
     req.session.client = undefined;
     let data = req.body;
 
@@ -272,6 +268,13 @@ router.post('/client/acesso', defaultAuthentication, (req, res) => {
         console.log('Erro ao tentar logar ' + erro);
         res.redirect('/client/login')
     })
+})
+
+
+
+router.get('/client/logout', defaultAuthentication, (req, res) => {
+    req.session.client = undefined;
+    res.redirect('/')
 })
 
 router.get('/client/cart', clientAuthentication, async (req, res) => {
