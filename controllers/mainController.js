@@ -48,8 +48,6 @@ router.get('/main', collaboratorAuthentication, async (req, res) => {
     } catch (error) {
         res.send(error)
     }
-
-
 })
 
 router.get('/main/production/status/update/:id/:status', collaboratorAuthentication, async (req, res) => {

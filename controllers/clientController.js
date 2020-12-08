@@ -9,6 +9,7 @@ const fs = require('fs')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
+const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
 
 //Sequelize
 const sequelize = require('sequelize')
@@ -126,7 +127,7 @@ router.get('/clients/client/:id?', defaultAuthentication, async (req, res) => {
 router.post('/client/save', defaultAuthentication, async (req, res) => {
     let data = req.body
     let msg = []
-
+    let validCnpjCpf = false;
 
     //#region Validação
     let validResult = validate.validate({
@@ -140,6 +141,14 @@ router.post('/client/save', defaultAuthentication, async (req, res) => {
         cep: data.cep,
         numero: data.numero
     })
+
+    if (cnpjCpfValidation.cpfValidation(data.cnpjCpf)) validCnpjCpf = true
+    if (cnpjCpfValidation.cnpjValidation(data.cnpjCpf)) validCnpjCpf = true
+
+    if (!validCnpjCpf) {
+        msg.push('Cnpj/Cpf inválido')
+        return res.render('admin/clients/client', { clt: data, msg })
+    }
 
     if (validResult.error) {
         msg.push(validResult.error.details[0].message)
