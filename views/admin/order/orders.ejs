@@ -23,6 +23,17 @@
     </div>
     <%} %>
 
+    <div class="container mb-2 mt-2">
+        <div class="row">
+            <div class="col">
+                <a href="#" class="btn btn-outline-primary">Concluído</a>
+                <a href="#" class="btn btn-outline-primary">Produzindo</a>
+                <a href="#" class="btn btn-outline-primary">Pré-Impressão</a>
+                <a href="#" class="btn btn-danger">Refugado</a>            
+            </div>
+
+        </div>
+    </div>
     <div class="card">
         <div class="card-header"><span class="display-4">Meu(s) Pedido(s)</span></div>
         <div class="card-body">
@@ -56,10 +67,12 @@
                             <h6><%= o.status %></h6>
                         </td>
                         <td>
-                            <h6><%= parseFloat(o.total).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %></h6>
+                            <h6><%= parseFloat(o.total).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
+                            </h6>
                         </td>
                         <td>
-                            <h6><%= parseFloat(o.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %> </h6>
+                            <h6><%= parseFloat(o.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
+                            </h6>
                         </td>
                         <td>
                             <div class="row">
