@@ -16,6 +16,7 @@ const collaborators = require('../models/collaborator')
 
 //Validation
 let validate = require('../validations/collaboratorValidation')
+const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
 
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
@@ -139,6 +140,9 @@ router.post('/admin/collaborators/collaborator', collaboratorAuthentication, asy
         msg.push(validResult.error.details[0].message)
         return res.render('admin/collaborators/collaborator', { collaborator: data, msg })
     }
+
+    if (cnpjCpfValidation.cpfValidation(data.cnpjCpf)) validCnpjCpf = true
+    if (cnpjCpfValidation.cnpjValidation(data.cnpjCpf)) validCnpjCpf = true
 
     try {
         let validCnpjCpf = undefined

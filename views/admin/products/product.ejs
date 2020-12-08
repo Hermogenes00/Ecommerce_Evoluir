@@ -1,9 +1,6 @@
 <%- include('../../partials/header') %>
 <%- include('../../partials/navbaradmin') %>
 
-<script src="/js/product.js"></script>
-
-
 <div class="container mt-2">
     <% if(message.erro.length>0){%>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -49,14 +46,22 @@
                     </div>
                     <div class="col">
                         <label for="codRef">Categoria</label>
-                        <select onchange="localizarSubCategoria(event)" name="categoria" data-id="<%=product.id %>"
-                            id="categoria" class="form-control form-control-sm">
+                        <select onchange="localizarSubCategoria(event)" onsuspend="" name="categoria"
+                            data-categoriaid="<%=product.categoriaId%>" data-id="<%=product.id %>" id="categoria"
+                            class="form-control form-control-sm">
+
+                            <% if(product.id){%>
+                            <option value="<%=product.categoriaId%>"><%= product.categoria.nome%></option>
+                            <%} %>
+
                         </select>
                     </div>
                     <div class="col">
                         <label for="codRef">SubCategoria</label>
                         <select name="subCategoria" id="subCategoria" class="form-control form-control-sm">
-                            <option></option>
+                            <% if(product.id){%>
+                            <option value="<%=product.subcategoriaId%>"><%= product.subcategoria.nome%></option>
+                            <%} %>
                         </select>
                     </div>
                 </div>
@@ -75,14 +80,14 @@
                     <div class="col-md-3">
                         <label for="tamFinalAltura">Tam.Final-Altura</label>
                         <input type="text" placeholder="150" name="tamFinalAltura"
-                            value="<%= product.tamFinalAltura?product.tamFinalAltura.replace('.',','):'0,00'%>" id="tamFinalAltura"
-                            required class="form-control form-control-sm">
+                            value="<%= product.tamFinalAltura?product.tamFinalAltura.replace('.',','):'0,00'%>"
+                            id="tamFinalAltura" required class="form-control form-control-sm">
                     </div>
                     <div class="col-md-3">
                         <label for="tamFinalLargura">Tam.Final-Largura</label>
                         <input type="text" placeholder="150" name="tamFinalLargura"
-                            value="<%= product.tamFinalLargura?product.tamFinalLargura.replace('.',','):'0,00' %>" id="tamFinalLargura"
-                            required class="form-control form-control-sm">
+                            value="<%= product.tamFinalLargura?product.tamFinalLargura.replace('.',','):'0,00' %>"
+                            id="tamFinalLargura" required class="form-control form-control-sm">
                     </div>
 
                     <div class="col">
@@ -109,21 +114,22 @@
                     </div>
                     <div class="col">
                         <label for="gramatura">Gramatura</label>
-                        <input type="text" value="<%= product.gramatura?product.gramatura.replace('.',','):'0,00' %>" name="gramatura"
-                            id="gramatura" class="form-control form-control-sm">
+                        <input type="text" value="<%= product.gramatura?product.gramatura.replace('.',','):'0,00' %>"
+                            name="gramatura" id="gramatura" class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="peso">Peso</label>
-                        <input type="text" placeholder="Ex: 150" value="<%= product.peso?product.peso.replace('.',','):'0,00' %>"
-                            name="peso" id="peso" class="form-control form-control-sm">
+                        <input type="text" placeholder="Ex: 150"
+                            value="<%= product.peso?product.peso.replace('.',','):'0,00' %>" name="peso" id="peso"
+                            class="form-control form-control-sm">
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col">
                         <label for="vlrProduto">Vlr Produto</label>
-                        <input type="text" value="<%= product.vlrProduto?product.vlrProduto.replace('.',','):'0,00' %>" name="vlrProduto"
-                            id="vlrProduto" class="form-control form-control-sm">
+                        <input type="text" value="<%= product.vlrProduto?product.vlrProduto.replace('.',','):'0,00' %>"
+                            name="vlrProduto" id="vlrProduto" class="form-control form-control-sm">
                     </div>
                     <div class="col">
                         <label for="qtd">Quantidade</label>
@@ -153,7 +159,7 @@
 
                 <div class=" mt-3" style=" float: right;">
                     <a href="/collaborator/find/all" class="btn btn-outline-primary">Cancelar</a>
-                    <input type="hidden" name="id" value="<%= product.id %>">
+                    <input type="hidden" name="id" id="id" value="<%= product.id %>">
                     <input type="submit" class="btn btn-primary" value="Salvar">
 
                 </div>
@@ -163,4 +169,5 @@
 </div>
 
 <%- include('../../partials/footer') %>
+<script src="/js/product.js"></script>
 <script src="/js/categoria.js"></script>

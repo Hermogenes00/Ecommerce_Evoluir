@@ -9,7 +9,7 @@ router.get('/client/address', clientAuthentication, async (req, res) => {
     let adr = []
     try {
         adr = await address.findAll({ where: { clienteId: idClient } })
-        res.render('admin/client/address', { adr: adr })
+        res.render('admin/clients/address', { adr: adr })
     } catch (error) {
         console.log('Erro ao tentar localizar endereços -->' + error);
     }
@@ -47,7 +47,7 @@ router.post('/client/address/new', clientAuthentication, async (req, res) => {
             clienteId: idClient
         })
         adr = await address.findAll({ where: { clienteId: idClient } })
-        res.render('admin/client/address', { adr: adr })
+        res.render('admin/clients/address', { adr: adr })
     } catch (error) {
         console.log('Erro ao tentar localizar endereços -->' + error);
     }
@@ -74,7 +74,7 @@ router.post('/client/address/update', clientAuthentication, async (req, res) => 
 
         adr = await address.findAll({ where: { clienteId: idClient } })
 
-        res.render('admin/client/address', { adr: adr })
+        res.render('admin/clients/address', { adr: adr })
     } catch (error) {
         console.log('Erro ao tentar localizar endereços -->' + error);
     }

@@ -1,10 +1,6 @@
 
-console.log((30.8112).toLocaleString('pt-BR'));
-
 let vlrel = document.getElementById('vlrel');
-let idProduto = document.getElementById('idProduto')
 let vlrTotalel = document.getElementById('vlrTotal');
-
 let formaMedicao = document.getElementById('formaMedicao')
 
 
@@ -27,7 +23,7 @@ function lerArquivo(event) {
 
         reader.onloadend = function () {
             inputImagem.value = reader.result
-            imgLocal.src= reader.result
+            imgLocal.src = reader.result
         }
     }
 }

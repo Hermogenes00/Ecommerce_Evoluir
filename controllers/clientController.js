@@ -172,6 +172,26 @@ router.post('/client/save', defaultAuthentication, async (req, res) => {
         console.log('Erro ao tentar buscar clientes pelo cpf->', error);
         return res.render('admin/clients/client', { clt: data, msg })
     }
+
+
+    try {
+        let validEmail = undefined
+
+        if (data.id > 0) {
+            validCnpjCpf = await clients.findOne({ where: { email: data.email, id: { [sequelize.Op.not]: data.id } } })
+        } else {
+            validCnpjCpf = await clients.findOne({ where: { email: data.email } })
+        }
+
+        if (validEmail) {
+            msg.push('Email já cadastrado no sistema')
+            return res.render('admin/collaborators/collaborator', { collaborator: data, msg })
+        }
+
+    } catch (error) {
+        console.log('Erro ao tentar buscar colaboradores pelo email->', error);
+        return res.render('admin/collaborators/collaborator', { collaborator: data, msg })
+    }
     //#endregion
 
     try {

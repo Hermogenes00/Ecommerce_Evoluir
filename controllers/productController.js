@@ -142,7 +142,7 @@ router.get('/admin/products/product/:id?', collaboratorAuthentication, async (re
 
     if (req.params.id) {
         try {
-            product = await products.findByPk(req.params.id)
+            product = await products.findOne({ where: { id: req.params.id }, include: [{ model: category }, { model: subCategory }] })
         } catch (error) {
             console.log('Erro ao tentar localizar produto->', error);
             return res.redirect('/admin/products/product/')
