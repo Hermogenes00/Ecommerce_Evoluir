@@ -34,8 +34,14 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="password">Senha</label>
-                        <input type="password" <%= collaborator.id>0?'readonly':'' %> value="<%=collaborator.password%>"
-                            name="password" placeholder="*******" class="form-control form-control-sm" id="password">
+                        <% if(collaborator.id>0){%>
+                        <input type="password" readonly value="--------" name="password" placeholder="*******"
+                            class="form-control form-control-sm" id="password">
+                        <%}else{%>
+                        <input type="password" value="<%=collaborator.password%>" name="password" placeholder="*******"
+                            class="form-control form-control-sm" id="password">
+                        <%} %>
+
                     </div>
                 </div>
 
@@ -84,8 +90,8 @@
 
                     <div class="form-group col-md-2">
                         <label for="rua">Estado</label>
-                        <input type="text" value="<%=collaborator.uf%>" class="form-control form-control-sm"
-                            name="uf" id="uf">
+                        <input type="text" value="<%=collaborator.uf%>" class="form-control form-control-sm" name="uf"
+                            id="uf">
                     </div>
 
                     <div class="form-group col-md-4">
