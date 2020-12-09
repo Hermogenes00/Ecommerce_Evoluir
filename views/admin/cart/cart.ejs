@@ -209,7 +209,7 @@
     <div class="card-footer">
         <div class="row">
             <div class="col offset-md-10">
-                <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')" action="/cart/finish/"
+                <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')" action="/order/pay"
                     method="POST">
                     <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
                     <input type="hidden" name="idOrder" value="<%= ord.id %>">

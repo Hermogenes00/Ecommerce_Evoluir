@@ -36,13 +36,17 @@ router.post('/order/pay/', clientAuthentication, async (req, res) => {
 
     let idOrder = req.body.idOrder;
     try {
-       
+
         let ord = await orders.findOne({
             where: { id: idOrder },
             include: [{ model: client }, { model: address }, { model: deliveryRegion }]
         })
 
         if (ord) {
+
+            if (ord.status == CONSTANTE.STATUS_PEDIDO.CARRINHO)
+                await orders.update({ status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO }, { where: { id: ord.id } })
+
             let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
             let adrss = await address.findAll({ where: { clienteId: ord.cliente.id } })
 
