@@ -1,11 +1,10 @@
 
 function onClick(event) {
 
-
     requisicao(`/admin/cart/itensCart/` + event.target.dataset.id, (data => {
 
         let dados = JSON.parse(data)
-        let conteudo = document.getElementById('conteudo' + event.target.dataset.id)
+        let conteudo = document.getElementById('linha' + event.target.dataset.id)
 
         if (conteudo.style.display == 'none' || conteudo.style.display == '') {
             conteudo.style.display = 'block'
@@ -13,9 +12,14 @@ function onClick(event) {
 
             dados.forEach(item => {
                 let linkBaixarArquivo = item.arquivo ? `    
-<a class="btn btn-sm btn-outline-primary form-control" href="/uploads/${item.arquivo}"><i class="material-icons">cloud_download</i></a>
+<a class="btn btn-sm btn-outline-primary" href="/uploads/${item.arquivo}">Baixar Arquivo</a>
 `: ''
-                conteudo.innerHTML += `<div class="card border-secondary">
+                conteudo.innerHTML += `
+                <td colspan="6">
+                            <div class="row">
+                                <div class="col">
+                                
+                                <div class="card border-secondary">
                             <div class="card-body">
                                 <div class="row">
                             <div class="col">
@@ -37,7 +41,11 @@ function onClick(event) {
                             </div>
                             ${linkBaixarArquivo}
                         </div>  
-                        </div>`
+                        </div>  
+                                </div>
+                            </div>
+                        </td>
+                `
             });
 
         } else {
@@ -65,6 +73,23 @@ async function enviarArquivo(event, idProduct) {
         inputAttributes: {
             'accept': '.pdf',
             'aria-label': 'Selecione o seu arquivo pdf'
+        }
+    })
+}
+
+async function enviarComprovante(event, idOrder) {
+
+    event.preventDefault()
+    const { value: file } = await Swal.fire({
+        title: 'Selecione o seu arquivo (.jpg)',
+        html: `<form id="formGabarito" class="form form-inline" action="/client/upload/${idOrder}"
+                            method="POST" enctype="multipart/form-data">
+                            <input type="file" name="file" accept=".jpg" id="file">
+                            <input type="submit" class="btn btn-primary btn-sm mt-2" value="Enviar Comprovante">
+                        </form>`,
+        inputAttributes: {
+            'accept': '.jpg',
+            'aria-label': 'Selecione o seu arquivo jpg'
         }
     })
 }
@@ -98,7 +123,7 @@ function verificaTamanhoArquivo(event, form) {
     }
 }
 
-function cancelarPedido(event,msg,form) {
+function cancelarPedido(event, msg, form) {
     event.preventDefault()
     Swal.fire({
         title: 'Confirmação',

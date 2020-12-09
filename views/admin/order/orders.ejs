@@ -26,12 +26,14 @@
     <div class="container mb-2 mt-2">
         <div class="row">
             <div class="col">
-                <a href="#" class="btn btn-outline-primary">Concluído</a>
-                <a href="#" class="btn btn-outline-primary">Produzindo</a>
-                <a href="#" class="btn btn-outline-primary">Pré-Impressão</a>
-                <a href="#" class="btn btn-danger">Refugado</a>            
+                <a href="#" class="btn btn-primary">Concluído <span class="badge rounded-pill bg-danger">4</span></a>
+                <a href="#" class="btn btn-primary">Produzindo <span class="badge rounded-pill bg-danger">4</span></a>
+                <a href="#" class="btn btn-primary">Pré-Impressão <span
+                        class="badge rounded-pill bg-danger">4</span></a>
+                <a href="#" class="btn btn-primary">Aguardando Pagamento <span
+                        class="badge rounded-pill bg-danger">4</span></a>
+                <a href="#" class="btn btn-danger">Refugado <span class="badge rounded-pill bg-primary">4</span></a>
             </div>
-
         </div>
     </div>
     <div class="card">
@@ -89,15 +91,19 @@
                                     <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
                                         data-toggle="tooltip" title="Cancelar Pedido">remove_circle_outline</button>
                                 </form>
-                                <%} %>
 
+                                <btn onclick="enviarComprovante(event,'1312')" class="btn btn-sm btn-outline-primary">Enviar
+                                    Comprovante</btn>
+
+                                <%} %>
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <td colspan="6">
                             <div class="row">
-                                <div id="conteudo<%= o.id %>" class="col" style="display: none;"> </div>
+                                <div id="linha<%= o.id %>" class="col" style="display: none;"> </div>
                             </div>
                         </td>
                     </tr>
@@ -108,6 +114,10 @@
             </table>
         </div>
     </div>
+
+    
+
+
 
 </div>
 
