@@ -1,11 +1,15 @@
 const express = require('express')
-const bodyparser = require('body-parser')
+const bodyParser = require('body-parser')
 const app = express();
 const session = require('express-session');
 const connection = require('./database/connection')
 const cookie = require('cookie-parser')
 const flash = require('express-flash')
 const sequelize = require('sequelize')
+
+//BodyParser
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ limit: "10mb",  extended: true, parameterLimit: 1000000 }));
 
 
 //Middleware Authentication
@@ -61,9 +65,7 @@ app.use(session({
 //Flash Messages
 app.use(flash())
 
-//BodyParser
-app.use(bodyparser.urlencoded({ extended: false, limit: '50mb' }))
-app.use(bodyparser.json({limit:'50mb'}))
+
 
 
 //Controllers

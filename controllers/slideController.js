@@ -5,6 +5,7 @@ const router = express.Router();
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication');
 
 
+
 router.get('/admin/slides/:title?', collaboratorAuthentication, async (req, res) => {
     let ttl = req.params.title
     let slides = undefined
@@ -43,6 +44,7 @@ router.post('/admin/slide/save', collaboratorAuthentication, (req, res) => {
         res.redirect('/admin/slides/')
     }).catch(err => {
         console.log('Erro ao tentar salvar o slide->', err);
+        return res.json(err)
         res.redirect('/admin/slide/new')
     })
 })
@@ -60,7 +62,6 @@ router.get('/admin/slide/edit/:id', collaboratorAuthentication, (req, res) => {
 
 router.post('/admin/slide/update', collaboratorAuthentication, (req, res) => {
     let data = req.body;
-    
     slide.update({
         titulo: data.titulo,
         subTitulo: data.subTitulo,

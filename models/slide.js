@@ -11,7 +11,7 @@ let slide = connection.define('slide', {
         allowNull: false
     },
     imagem: {
-        type: sequelize.TEXT,
+        type: sequelize.TEXT({ length: 'long' }),
         allowNull: false
     },
 })
