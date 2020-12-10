@@ -9,6 +9,7 @@ const collaboratorAuthentication = require('../middleware/collaboratorAuthentica
 router.get('/admin/slides/:title?', collaboratorAuthentication, async (req, res) => {
     let ttl = req.params.title
     let slides = undefined
+    
     try {
         if (ttl) {
             slides = await slide.findAll({
@@ -27,6 +28,8 @@ router.get('/admin/slides/:title?', collaboratorAuthentication, async (req, res)
         console.log('Erro ao tentar carregar slides->', error);
         res.redirect('/main')
     }
+
+
 })
 
 router.get('/admin/slide/new', collaboratorAuthentication, (req, res) => {

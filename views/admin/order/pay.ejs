@@ -143,7 +143,8 @@
                                     <script src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
                                         data-preference-id='<%= global.id %>' data-button-label="Boleto/Cartão">
                                         </script>
-                                    <button data-toggle="modal" data-target="#modalContasDeposito" class="btn btn-primary">Realizar Depósito</button>
+                                    <button data-toggle="modal" data-target="#modalContasDeposito"
+                                        class="btn btn-primary">Realizar Depósito</button>
                                 </form>
                             </div>
                         </div>
@@ -162,12 +163,4 @@
 <%- include('../../partials/footer') %>
 
 <script src="/js/modalAlterarEndereco.js"></script>
-
-<script>
-
-    let btnMercadoPago = document.querySelector('.mercadopago-button')
-    console.dir(btnMercadoPago)
-    btnMercadoPago.classList.add('btn')
-    btnMercadoPago.classList.add('btn-primary')
-    //btnMercadoPago.classList.remove('mercadopago-button')
-</script>
+<script src="/js/pay.js"></script>

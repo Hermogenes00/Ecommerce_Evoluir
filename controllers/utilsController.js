@@ -103,6 +103,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
 
                 })
 
+                
                 //Alterando o valor de frete no pedido
                 valor = parseFloat(result[0].Valor.replace('.', '').replace(',', '.'))
 

@@ -1,23 +1,23 @@
 <%if(slides.length>0){%>
 
 <div class="w-100">
-    <div id="carousel" class="carousel slide" data-ride="carousel">
+    <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel">
         <ol class="carousel-indicators">
             <%slides.forEach((slide,index)=>{%>
-            <li data-target="#carousel" data-slide-to="<%=index%>"></li>
+            <li data-target="#carousel" data-bs-slide-to="<%=index==0?"active":""%>"></li>
             <%}) %>
 
         </ol>
         <div class="carousel-inner">
-            <% slides.forEach((slide,index)=>{%>
-            <div class="carousel-item <%=index%2==0?'active':'' %>">
+            <%slides.forEach((slide,index)=>{%>
+            <div data-bs-interval="500" class="carousel-item <%=index==0?'active':'' %> ">
                 <img src="<%= slide.imagem %> " height="300" class="d-block w-100">
                 <div class="carousel-caption d-none d-md-block">
                     <h5><%= slide.titulo %> </h5>
                     <p><%= slide.subTitulo %> </p>
                 </div>
             </div>
-            <%}) %>
+            <% })%>
         </div>
         <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -29,6 +29,8 @@
         </a>
     </div>
 </div>
+
+
 
 <%}%> 
     

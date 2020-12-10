@@ -120,8 +120,6 @@ router.get('/admin/cart', clientAuthentication, async (req, res) => {
                 { model: itensOrder },
                 { model: address }]
         });
-
-
         res.render('admin/cart/cart', { orders: objOrders })
 
     } catch (error) {

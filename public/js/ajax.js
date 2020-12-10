@@ -16,7 +16,7 @@ function requisicao(endereco, callback) {
     xhr.send()
 }
 
-function requisicaoPost(endereco, data, callback) {
+function requisicaoPost(endereco, callback) {
 
     let xhr = new XMLHttpRequest()
     xhr.open('POST', endereco, true);
@@ -28,8 +28,7 @@ function requisicaoPost(endereco, data, callback) {
             }
         }
     }
-
-    xhr.send(data)
+    xhr.send()
 }
 
 

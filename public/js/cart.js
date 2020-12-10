@@ -1,18 +1,62 @@
 
 let selectCidade = document.getElementById('selectCidade')
 let selectEstado = document.getElementById('selectEstado')
+let areaItens = document.getElementById('areaItens')
+
+requisicao(`/admin/cart/itensCart/` + document.getElementById('idOrder').value, (data => {
+    let itens = JSON.parse(data)
+    itens.forEach(item => {
+        let tamanho = item.altura ? `<small>Altura: ${item.altura} Largura: ${item.largura} </small>` : ``
+        let linkBaixarArquivo = item.arquivo ? `    
+<a class="btn btn-sm btn-outline-primary mt-2" href="/uploads/${item.arquivo}">Baixar Arquivo<i class="material-icons">cloud_download</i></a>
+`: ''
+        areaItens.innerHTML += `<div class="row">
+        <div class="col-md-2">
+            <button onclick="enviarArquivo(event,${item.id})" class="btn btn-primary btn-sm">${item.arquivo ? 'Substituir Arquivo' : 'Enviar Arquivo'}</button>
+            ${linkBaixarArquivo}
+        </div>
+        <div class="col-md-4 text-left">
+            <h6>${item.produto.nome}</h6>
+            ${tamanho}
+        </div>
+        <div class="col-md-1">${item.qtd} und</div>
+        <div class="col-md-2">${item.produto.previsaoProducao} Dias úteis.</div>
+        <div class="col-md-1">${parseFloat(item.valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })}</div>
+        <div class="col-md-2 text-center">
+        <form class="form form-inline" onsubmit="remover(event,this,'Deseja realmente remover o item?')"
+                                method="POST" action="/admin/cart/itemCart/delete">
+                                <input type="hidden" name="idItem" value="${item.id}">
+                                <input type="hidden" name="idPedido" value="${item.pedidoId}">
+                                <button data-toggle="tooltip" title="Remover Item" type="submit"
+                                    class=" btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+        
+        </div>        
+    </div>
+    <hr>`
+    })
+
+}
+)
+
+)
+
+
+
+
+
 
 selectCidade.addEventListener('change', (event) => {
     requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
         result => {
-            console.log(result);
+            
         })
 })
 
 selectEstado.addEventListener('change', (event) => {
     requisicao(`/consultar/CalcPrecoPrazo/${selectCidade.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
         result => {
-            console.log(result);
+            
         })
 })
 
@@ -24,7 +68,7 @@ requisicao('/main/deliveryRegion/uf', response => {
     objResponse.forEach(item => {
         selectEstado.innerHTML += `<option value="${item.uf}">${item.uf}</option>`;
     })
-    console.log(objResponse);
+    
 })
 
 
@@ -39,101 +83,6 @@ function buscarCidadeByUf(event) {
     })
 }
 
-function onClick(event) {
-
-
-    requisicao(`/admin/cart/itensCart/` + event.target.dataset.id, (data => {
-
-        let dados = JSON.parse(data)
-        let conteudo = document.getElementById('conteudo' + event.target.dataset.id)
-
-        if (conteudo.style.display == 'none' || conteudo.style.display == '') {
-            conteudo.style.display = 'block'
-            conteudo.innerHTML = '';
-
-            dados.forEach(item => {
-                let linkBaixarArquivo = item.arquivo ? `    
-<a class="btn btn-sm btn-outline-primary" href="/uploads/${item.arquivo}">Baixar Arquivo<i class="material-icons">cloud_download</i></a>
-`: ''
-                let divAltura = item.altura ? ` <div class="row">
-<div class="col">
-    <small>Altura: ${item.altura}</small>
-</div>
-
-<div class="col">
-    <small>Largura: ${item.largura}</small>
-</div>
-</div>`:''
-
-
-                conteudo.innerHTML += `
-                
-                
-                <div class="card bg-light mb-3">
-                <div class="card-body">
-        
-                    <div class="row">
-                        <div class="col">
-                            <button onclick="enviarArquivo(event,${item.id})" class="btn btn-primary btn-sm">Enviar
-                                Arquivo</button>
-                        </div>
-        
-                        <div class="col">                    
-                            <form class="form form-inline" onsubmit="remover(event,this,'Deseja realmente remover o item?')"
-                                method="POST" action="/admin/cart/itemCart/delete">
-                                <input type="hidden" name="idItem" value="${item.id}">
-                                <input type="hidden" name="idPedido" value="${item.pedidoId}">
-                                <button data-toggle="tooltip" title="Remover Item" type="submit"
-                                    class=" btn btn-danger btn-sm">Remover Item</button>
-                            </form>
-        
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col">
-                            <small>Cod: ${item.produto.id} </small>
-                        </div>                       
-                        <div class="col">
-                            <small>Item: ${item.produto.nome}</small>
-                        </div>
-                        <div class="col">
-                        <small>Valor:R$ ${parseFloat(item.valor).toLocaleString('pt-br')}</small>
-                    </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <small>Qtd: ${item.qtd}</small>
-                        </div>                      
-                        <div class="col">
-                            <small>Und: ${item.produto.und == 'metroQuadrado' ? 'Metro Quadrado' : 'Und'}</small>
-                        </div>
-                    </div>
-                   
-                    ${divAltura}
-        
-                    <div class="row">
-                    <div class="col">
-                    <small>${linkBaixarArquivo} </small>
-                </div>
-        
-                    </div>
-        
-                </div>
-            </div>
-                `
-            });
-
-        } else {
-            conteudo.style.display = 'none'
-        }
-
-    }
-    )
-    )
-
-
-}
 
 async function enviarArquivo(event, idProduct) {
 
@@ -207,7 +156,6 @@ function calcPrecoPrazo(event) {
     let tr = event.target.parentElement.parentElement
     let colPrazo = undefined
     let colValor = undefined
-    let valorSFrete = document.getElementById('valorSFrete')
     let valorFrete = document.getElementById('valorFrete')
     let valorFinal = document.getElementById('valorFinal')
     let response = undefined;
@@ -232,16 +180,13 @@ function calcPrecoPrazo(event) {
             response = result
 
             let obj = JSON.parse(response)
-            console.log(obj);
+            
             if (!obj.error) {
 
-                valorFrete.innerHTML = obj.Valor
-
-                let vlrFrete, valor;
-                vlrFrete = parseFloat(obj.Valor)
-                valor = parseFloat(valorSFrete.dataset.valorsfrete)
-
-                valorFinal.innerHTML = (vlrFrete + valor).toLocaleString('pt-br')
+                valorFrete.innerHTML = 'Frete: ' + parseFloat(obj.Valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
+                                
+                let total = parseFloat(obj.Valor) + parseFloat(valorFrete.dataset.valorsemfrete)
+                valorFinal.innerHTML ='Total: '+total.toLocaleString('pt-br',{style:'currency',currency:'brl'})
 
             } else {
                 colPrazo.innerHTML = `Falha ao tentar consultar, tente novamente mais tarde`
@@ -253,6 +198,7 @@ function calcPrecoPrazo(event) {
 
     } else {
 
+        
         requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`, result => {
             response = result
 
@@ -267,13 +213,10 @@ function calcPrecoPrazo(event) {
                 }
 
                 colValor.innerHTML = obj.Valor
-                valorFrete.innerHTML = obj.Valor
+                valorFrete.innerHTML = 'Frete: ' + parseFloat(obj.Valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
 
-                let vlrFrete, valor;
-                vlrFrete = parseFloat(obj.Valor.replace('.', '').replace(',', '.'))
-                valor = parseFloat(valorSFrete.dataset.valorsfrete)
-
-                valorFinal.innerHTML = (vlrFrete + valor).toLocaleString('pt-br')
+                let total = parseFloat(obj.Valor.replace('.', '').replace(',', '.')) + parseFloat(valorFrete.dataset.valorsemfrete)
+                valorFinal.innerHTML ='Total: '+total.toLocaleString('pt-br',{style:'currency',currency:'brl'})
 
             } else {
                 colPrazo.innerHTML = `Falha ao tentar consultar`

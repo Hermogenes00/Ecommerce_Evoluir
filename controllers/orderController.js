@@ -32,6 +32,72 @@ router.use(async (req, res, next) => {
     next()
 })
 
+//Rota para testar utilização do xhttpr no arquivo pay.js
+router.post('/order/payment/:idOrder', async (req, res) => {
+    let idOrder = req.params.idOrder;
+
+    try {
+        let ord = await orders.findOne({
+            where: { id: idOrder },
+            include: [{ model: client }, { model: address }, { model: deliveryRegion }]
+        })
+
+        let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
+        
+        let idPagamento = '' + Date.now()
+        let emailPagador = ord.cliente.email
+        let description = ''
+
+        itens.forEach(item => {
+            description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) ->Frete: ${ord.valorFrete} `
+        })
+
+        let dados = {
+            items: [
+                item = {
+                    id: idPagamento,
+                    title: description,
+                    quantity: 1,
+                    currency_id: 'BRL',
+                    unit_price: parseFloat(ord.valorFinal)
+                }
+            ],
+            payer: {
+                email: emailPagador,
+                name: ord.cliente.nome
+            },
+            external_reference: idPagamento
+        }
+
+
+        var pagamento = await mercadoPago.preferences.create(dados)
+        global.id = pagamento.body.id
+
+        let pay = await payment.findOne({ where: { pedidoId: ord.id } })
+
+        if (pay) {
+            await payment.update({
+                total: parseFloat(ord.total),
+                referencia: pagamento.body.external_reference,
+                pedidoId: ord.id
+            }, { where: { id: pay.id } })
+        } else {
+            await payment.create({
+                total: parseFloat(ord.total),
+                referencia: pagamento.body.external_reference,
+                pedidoId: ord.id
+            })
+        }
+
+        res.json(pagamento.body)
+
+    } catch (error) {
+        console.log('/order/payment/:idOrder->' + error);
+        res.send('Ops, ocorreu um erro. Tente novamente mais tarde, caso o problema persista, entre em contato com o suporte.')
+    }
+
+})
+
 router.post('/order/pay/', clientAuthentication, async (req, res) => {
 
     let idOrder = req.body.idOrder;
@@ -43,60 +109,17 @@ router.post('/order/pay/', clientAuthentication, async (req, res) => {
         })
 
         if (ord) {
-
             if (ord.status == CONSTANTE.STATUS_PEDIDO.CARRINHO)
                 await orders.update({ status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO }, { where: { id: ord.id } })
 
             let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
             let adrss = await address.findAll({ where: { clienteId: ord.cliente.id } })
 
-            let idPagamento = '' + Date.now()
-            let emailPagador = ord.cliente.email
-            let description = ''
-            itens.forEach(item => {
-                description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) ->Frete: ${ord.valorFrete} `
-            })
-
-            let dados = {
-                items: [
-                    item = {
-                        id: idPagamento,
-                        title: description,
-                        quantity: 1,
-                        currency_id: 'BRL',
-                        unit_price: parseFloat(ord.valorFinal)
-                    }
-                ],
-                payer: {
-                    email: emailPagador,
-                    name: ord.cliente.nome
-                },
-                external_reference: idPagamento
-            }
-
-            var pagamento = await mercadoPago.preferences.create(dados)
-            global.id = pagamento.body.id
-
-            let pay = await payment.findOne({ where: { pedidoId: ord.id } })
-
-            if (pay) {
-                await payment.update({
-                    total: parseFloat(ord.total),
-                    referencia: pagamento.body.external_reference,
-                    pedidoId: ord.id
-                }, { where: { id: pay.id } })
-            } else {
-                await payment.create({
-                    total: parseFloat(ord.total),
-                    referencia: pagamento.body.external_reference,
-                    pedidoId: ord.id
-                })
-            }
-
             res.render('admin/order/pay', { ord: ord, itens: itens, address: adrss })
         }
     } catch (error) {
         console.log('Erro ao tentar carregar tabelas na rota /order/pay/:idOrder ->' + error);
+        res.send('Ops, ocorreu um erro. Tente novamente mais tarde, caso o problema persista, entre em contato com o suporte.')
     }
 })
 

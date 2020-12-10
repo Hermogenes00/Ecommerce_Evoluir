@@ -282,10 +282,10 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
 })
 
 
-router.get('/admin/products/detail/:id', defaultAuthentication, (req, res) => {
-    let id = req.params.id;
+router.get('/admin/products/detail/:slug', defaultAuthentication, (req, res) => {
+    let slugProd = req.params.slug;
 
-    products.findByPk(id).then(prod => {
+    products.findOne({ where: { slug: slugProd } }).then(prod => {
         res.render('admin/products/detail', { product: prod })
     }).catch(erro => {
         res.json(erro)

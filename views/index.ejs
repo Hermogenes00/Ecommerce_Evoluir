@@ -11,7 +11,7 @@
         <div class="col mb-3">
             <div class="card h-100 border-light">
                 <div class="card-body">
-                    <a href="/admin/products/detail/<%= product.id %>">
+                    <a href="/admin/products/detail/<%= product.slug %>">
                         <img width="180px" height="160px" src="<%= product.imagem %> " class="card-img-top"></a>
                     <p class="card-title text-center text-muted"><%= product.nome %></p>
                     <small style="margin-bottom: 0%; text-align: left;">Ref: <%= product.codRef %></small>
@@ -34,7 +34,7 @@
                         <% if(product.gabarito){ %>
                     <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm">Baixar Gabarito</a>
                     <%} %>
-                    <a href="/admin/products/detail/<%= product.id %> " data-toggle="tooltip" data-placement="top"
+                    <a href="/admin/products/detail/<%= product.slug %> " data-toggle="tooltip" data-placement="top"
                         title="Ver detalhes" class="btn btn-primary btn-sm">Detalhes</a>
                 </div>
             </div>
