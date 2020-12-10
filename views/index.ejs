@@ -22,20 +22,26 @@
                         <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
                     </small><br>
                     <small style="margin-bottom: 0%; text-align: left;">Impressão: Digital </small><br>
+                    <% if(user.nome != 'Visitante'){%>
+
+                    <h5 class="text-center" style="color: green;">
+                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
+                    </h5>
+                    <%}%>
                 </div>
                 <div class="row">
                     <div class="col text-center">
                         <% if(product.gabarito){ %>
-                        <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm">Baixar Gabarito</a>
-                        <%} %>
-                        <a href="/admin/products/detail/<%= product.id %> " data-toggle="tooltip" data-placement="top"
-                            title="Ver detalhes" class="btn btn-primary btn-sm">Detalhes</a>
-                    </div>
+                    <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm">Baixar Gabarito</a>
+                    <%} %>
+                    <a href="/admin/products/detail/<%= product.id %> " data-toggle="tooltip" data-placement="top"
+                        title="Ver detalhes" class="btn btn-primary btn-sm">Detalhes</a>
                 </div>
             </div>
         </div>
-        <%}) %>
     </div>
+    <%}) %>
+</div>
 </div>
 
 

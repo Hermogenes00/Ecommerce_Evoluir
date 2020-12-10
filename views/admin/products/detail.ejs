@@ -79,6 +79,7 @@
 
                         </div>
                         <br>
+                        <% if(user.nome != 'Visitante'){%>
                         <div class="row">
                             <div class="col">
                                 <h5>Valor do Item</h5>
@@ -87,6 +88,7 @@
                                 <h5 id="vlrel"><%= product.vlrProduto %></h5>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col">
                                 <h5>Valor Total</h5>
@@ -95,8 +97,8 @@
                                 <h5 id="vlrTotal"><%= product.vlrProduto %></h5>
                             </div>
                         </div>
-
-                        <% if(user.nome != 'Visitante'){%>
+                        <%}%>
+            <% if(user.nome != 'Visitante'){%>
                         <input type="submit" class="btn btn-danger form-control mt-3" data-toggle="tooltip"
                             data-placement="top" title="Adicionar ao carrinho" value="Comprar">
                         <% }else{%>
