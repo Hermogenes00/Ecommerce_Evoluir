@@ -29,7 +29,7 @@ requisicao(`/admin/cart/itensCart/` + document.getElementById('idOrder').value, 
 `: ''
         areaItens.innerHTML += `<div class="row">
         <div class="col-md-2">
-            <button onclick="enviarArquivo(event,${item.id})" class="btn btn-primary btn-sm">${item.arquivo ? 'Substituir Arquivo' : 'Enviar Arquivo'}</button>
+            <button onclick="enviarArquivo(event,'/client/upload/${item.id}','.pdf')" class="btn btn-primary btn-sm">${item.arquivo ? 'Substituir Arquivo' : 'Enviar Arquivo'}</button>
             ${linkBaixarArquivo}
         </div>
         <div class="col-md-4 text-left">
@@ -77,25 +77,6 @@ function buscarCidadeByUf(event) {
         objResponse.forEach(item => {
             selectCidade.innerHTML += `<option value="${item.id}">Rua: ${item.rua} Nº: ${item.numero} Bairro: ${item.bairro} Cidade: ${item.cidade} Estabelecimento: ${item.estabelecimento}</option>`;
         })
-    })
-}
-
-
-async function enviarArquivo(event, idProduct) {
-
-    event.preventDefault()
-
-    const { value: file } = await Swal.fire({
-        title: 'Selecione o seu arquivo (.pdf)',
-        html: `<form id="formGabarito" class="form form-inline" action="/client/upload/${idProduct}"
-                            method="POST" enctype="multipart/form-data">
-                            <input type="file" name="file" accept=".pdf" id="file">
-                            <input type="submit" class="btn btn-primary btn-sm" value="Enviar Gabarito">
-                        </form>`,
-        inputAttributes: {
-            'accept': '.pdf',
-            'aria-label': 'Selecione o seu arquivo pdf'
-        }
     })
 }
 

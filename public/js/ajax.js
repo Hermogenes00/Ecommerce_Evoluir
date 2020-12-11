@@ -16,26 +16,28 @@ function requisicao(endereco, callback) {
     xhr.send()
 }
 
-async function enviarArquivo(event,action) {
+async function enviarArquivo(event, action, ext) {
 
     event.preventDefault()
 
-    const { value: file } = await Swal.fire({
-        title: 'Selecione o seu arquivo (.rar)',
+    await Swal.fire({
+        title: `Selecione o seu arquivo (${ext})`,
         html: `<form id="formGabarito" class="form form-inline" action="${action}"
                             method="POST" enctype="multipart/form-data">
-                            <input type="file" name="file" accept=".rar" id="file">
+                            <input type="file" name="file" accept="${ext}" id="file">
                             <input type="submit" class="btn btn-primary btn-sm" value="Enviar Gabarito">
                         </form>`,
         inputAttributes: {
-            'accept': '.pdf',
-            'aria-label': 'Selecione o seu arquivo pdf'
+            'accept': ext,
+            'aria-label': `Selecione o seu arquivo ${ext}`
         }
     })
 }
 
 
-function requisicaoPost(endereco, callback) {
+
+
+function requisicaoPost(endereco, callback, data) {
 
     let xhr = new XMLHttpRequest()
     xhr.open('POST', endereco, true);
@@ -47,7 +49,11 @@ function requisicaoPost(endereco, callback) {
             }
         }
     }
-    xhr.send()
+    if (data) {
+        xhr.send(data)
+    } else {
+        xhr.send()
+    }
 }
 
 

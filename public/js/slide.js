@@ -32,7 +32,6 @@ function confirmacao(event, form, msg) {
             form.submit()
         }
     })
-
 }
 
 

@@ -61,7 +61,7 @@ const product = connection.define('produtos', {
         allowNull: false
     },
     gabarito: {
-        type: sequelize.TEXT,
+        type: sequelize.TEXT({ length: 'long' }),
         allowNull: true
     },
     previsaoProducao: {
@@ -73,7 +73,7 @@ const product = connection.define('produtos', {
         allowNull: false
     },
     imagem:{
-        type: sequelize.TEXT,
+        type: sequelize.TEXT({ length: 'long' }),
         allowNull: true
     }
 

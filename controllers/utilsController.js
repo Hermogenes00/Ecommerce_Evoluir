@@ -143,9 +143,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
 
 
                 await orders.update(objUpdate,
-                    { where: { id: idOrder, clienteId: req.session.client.id } })
-
-                
+                    { where: { id: idOrder, clienteId: req.session.client.id } })                
 
             } else {
 

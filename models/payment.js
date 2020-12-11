@@ -10,12 +10,21 @@ const payment = connection.define('pagamento', {
     referencia: {
         type: sequelize.TEXT,
         allowNull: false
+    },
+    status: {
+        type: sequelize.STRING,
+        allowNull: false
+    },
+    comprovante: {
+        type: sequelize.TEXT({ length: 'long' }),
+        allowNull: true
     }
 
 })
 
 payment.belongsTo(order)
 order.hasOne(payment)
+
 //payment.sync({ alter: true })
 
 module.exports = payment;

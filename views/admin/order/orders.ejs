@@ -81,7 +81,7 @@
                                 <% if(o.status !='CANCELADO'){%>
 
                                 <form action="/order/payment/" method="post">
-                                    <input type="hidden" name="idOrder" value="<%= o.id %>">
+                                    <input type="hidden" name="idOrder" id="idOrder" value="<%= o.id %>">
                                     <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
                                         data-toggle="tooltip" title="Realizar Pagamento">credit_card</button>
                                 </form>
@@ -91,10 +91,9 @@
                                     <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
                                         data-toggle="tooltip" title="Cancelar Pedido">remove_circle_outline</button>
                                 </form>
-
+                                
                                 <btn onclick="enviarComprovante(event,'1312')" class="btn btn-sm btn-outline-primary">Enviar
                                     Comprovante</btn>
-
                                 <%} %>
                             </div>
                         </td>

@@ -34,20 +34,23 @@ router.use(async (req, res, next) => {
 
 //Rota para testar utilização do xhttpr no arquivo pay.js
 router.post('/order/payment/', clientAuthentication, async (req, res) => {
+    
     let idOrder = req.body.idOrder
     let itens = undefined
+    let ord = undefined
+
     try {
 
-        let ord = await orders.findOne({
+        ord = await orders.findOne({
             where: { id: idOrder },
             include: [{ model: client }, { model: address }, { model: deliveryRegion }]
         })
 
+        itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
+
         //#region Validação
 
         if (ord.status == CONSTANTE.STATUS_PEDIDO.CARRINHO) {
-
-            itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
 
             let noFiles = itens.filter(item => {
                 return item.arquivo == null || item.arquivo == '';
@@ -108,13 +111,13 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
 
         if (pay) {
             await payment.update({
-                total: parseFloat(ord.total),
+                total: parseFloat(ord.valorFinal),
                 referencia: pagamento.body.external_reference,
                 pedidoId: ord.id
             }, { where: { id: pay.id } })
         } else {
             await payment.create({
-                total: parseFloat(ord.total),
+                total: parseFloat(ord.valorFinal),
                 referencia: pagamento.body.external_reference,
                 pedidoId: ord.id
             })
