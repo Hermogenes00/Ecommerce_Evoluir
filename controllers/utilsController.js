@@ -77,7 +77,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
 
         try {
 
-            if (metodoEntrega != 'BALCAO' && metodoEntrega != CONSTANTE.RETIRA_BASE) {
+            if (metodoEntrega != 'BALCAO' && metodoEntrega != CONSTANTE.METODO_ENVIO.RETIRA_BASE) {
                 console.log('Chegou no 1')
                 for (codigo in CONSTANTE.CODIGO_SERVICO_CORREIOS) {
                     if (codigo == metodoEntrega) {
@@ -103,7 +103,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
 
                 })
 
-                
+
                 //Alterando o valor de frete no pedido
                 valor = parseFloat(result[0].Valor.replace('.', '').replace(',', '.'))
 
@@ -122,7 +122,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                     console.log('Erro ao tentar alterar o pedido', error);
                 }
 
-            } else if (metodoEntrega == CONSTANTE.RETIRA_BASE) { //MÉTODO DE ENTREGRA RETIRA BASE
+            } else if (metodoEntrega == CONSTANTE.METODO_ENVIO.RETIRA_BASE) { //MÉTODO DE ENTREGRA RETIRA BASE
 
                 result = [
                     {
@@ -140,10 +140,12 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
                 objUpdate.valorFinal = valorFinal
                 objUpdate.metodoEnvio = metodoEntrega
                 objUpdate.regiaoEntregaId = idLocalidadeEntrega
-                
+
 
                 await orders.update(objUpdate,
                     { where: { id: idOrder, clienteId: req.session.client.id } })
+
+                
 
             } else {
 

@@ -32,7 +32,7 @@
     <%} %>
 
 
-    <h4 style="color: #3c763d;">Carrinho de Compras</h4>
+    <h4 style="color: #3c763d;"><i class="fas fa-cart-plus"></i> Carrinho de Compras</h4>
 
     <% if(ord){%>
     <div id="area" class="text-center">
@@ -131,8 +131,8 @@
                 </div>
                 <div class="col">
                     <label for="cidade">Localidade</label>
-                    <select required name="selectCidade" data-idOrder="<%=ord.id %>"
-                        class="form-control form-control-sm" id="selectCidade">
+                    <select required name="selectCidade" id="selectCidade" data-idOrder="<%=ord.id %>"
+                        class="form-control form-control-sm">
                         <option value=""></option>
                     </select>
                 </div>
@@ -151,7 +151,7 @@
                 <h5 id="valorFinal" style="color: #3c763d;">Valor Total: <%= parseFloat(ord.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %> </h5>
             </div>
             <div class="col-md-2 offset-md-5">
-                <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')" action="/order/pay"
+                <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')" action="/order/payment"
                     method="POST">
                     <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
                     <input type="hidden" name="idOrder" id="idOrder" value="<%= ord.id %>">

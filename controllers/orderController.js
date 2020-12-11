@@ -33,17 +33,48 @@ router.use(async (req, res, next) => {
 })
 
 //Rota para testar utilização do xhttpr no arquivo pay.js
-router.post('/order/payment/:idOrder', async (req, res) => {
-    let idOrder = req.params.idOrder;
-
+router.post('/order/payment/', clientAuthentication, async (req, res) => {
+    let idOrder = req.body.idOrder
+    let itens = undefined
     try {
+
         let ord = await orders.findOne({
             where: { id: idOrder },
             include: [{ model: client }, { model: address }, { model: deliveryRegion }]
         })
 
-        let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
-        
+        //#region Validação
+
+        if (ord.status == CONSTANTE.STATUS_PEDIDO.CARRINHO) {
+
+            itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
+
+            let noFiles = itens.filter(item => {
+                return item.arquivo == null || item.arquivo == '';
+            })
+
+            if (noFiles.length > 0) {
+                req.flash('error', 'Verifique se todos os produtos, estão com os seus respectivos arquivos')
+                return res.redirect('/client/cart')
+            }
+            else if (ord.metodoEnvio == CONSTANTE.METODO_ENVIO.RETIRA_BASE || ord.metodoEnvio == null) {
+
+                if (ord.regiaoEntregaId <= 0) {
+                    req.flash('error', 'Escolha um método para o envio do produto')
+                    return res.redirect('/client/cart')
+                }
+
+            }
+
+            orders.update({ status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO }, { where: { id: ord.id } }).then().catch(err => {
+                console.log('Erro ao tentar atualizaro status->' + err);
+                return res.redirect('/client/cart')
+            })
+        }
+
+        //#endregion
+        let adrss = await address.findAll({ where: { clienteId: ord.cliente.id } })
+
         let idPagamento = '' + Date.now()
         let emailPagador = ord.cliente.email
         let description = ''
@@ -89,38 +120,13 @@ router.post('/order/payment/:idOrder', async (req, res) => {
             })
         }
 
-        res.json(pagamento.body)
+        return res.render('admin/order/pay', { ord: ord, itens: itens, address: adrss })
 
     } catch (error) {
         console.log('/order/payment/:idOrder->' + error);
-        res.send('Ops, ocorreu um erro. Tente novamente mais tarde, caso o problema persista, entre em contato com o suporte.')
+        return res.send('Ops, ocorreu um erro. Tente novamente mais tarde, caso o problema persista, entre em contato com o suporte.', error)
     }
 
-})
-
-router.post('/order/pay/', clientAuthentication, async (req, res) => {
-
-    let idOrder = req.body.idOrder;
-    try {
-
-        let ord = await orders.findOne({
-            where: { id: idOrder },
-            include: [{ model: client }, { model: address }, { model: deliveryRegion }]
-        })
-
-        if (ord) {
-            if (ord.status == CONSTANTE.STATUS_PEDIDO.CARRINHO)
-                await orders.update({ status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO }, { where: { id: ord.id } })
-
-            let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
-            let adrss = await address.findAll({ where: { clienteId: ord.cliente.id } })
-
-            res.render('admin/order/pay', { ord: ord, itens: itens, address: adrss })
-        }
-    } catch (error) {
-        console.log('Erro ao tentar carregar tabelas na rota /order/pay/:idOrder ->' + error);
-        res.send('Ops, ocorreu um erro. Tente novamente mais tarde, caso o problema persista, entre em contato com o suporte.')
-    }
 })
 
 router.get('/admin/orders', clientAuthentication, async (req, res) => {

@@ -16,10 +16,10 @@
                     <p class="card-title text-center text-muted"><%= product.nome %></p>
                     <small style="margin-bottom: 0%; text-align: left;">Ref: <%= product.codRef %></small>
                     <small style="margin-bottom: 0%; text-align: left;">Tam Arte:
-                        <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
+                        <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
                     </small><br>
                     <small style="margin-bottom: 0%; text-align: left;">Tam Final:
-                        <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
+                        <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
                     </small><br>
                     <small style="margin-bottom: 0%; text-align: left;">Impressão: Digital </small><br>
                     <% if(user.nome != 'Visitante'){%>

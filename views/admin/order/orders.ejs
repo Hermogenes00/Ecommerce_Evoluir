@@ -80,7 +80,7 @@
                             <div class="row">
                                 <% if(o.status !='CANCELADO'){%>
 
-                                <form action="/order/pay/" method="post">
+                                <form action="/order/payment/" method="post">
                                     <input type="hidden" name="idOrder" value="<%= o.id %>">
                                     <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
                                         data-toggle="tooltip" title="Realizar Pagamento">credit_card</button>

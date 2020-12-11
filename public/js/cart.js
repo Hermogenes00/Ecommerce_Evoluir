@@ -3,6 +3,23 @@ let selectCidade = document.getElementById('selectCidade')
 let selectEstado = document.getElementById('selectEstado')
 let areaItens = document.getElementById('areaItens')
 
+
+
+selectCidade.addEventListener('change', function () {
+    requisicao(`/consultar/CalcPrecoPrazo/${this.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
+        result => {
+            console.log(result);
+        })
+})
+
+selectEstado.addEventListener('change', function () {
+    requisicao(`/consultar/CalcPrecoPrazo/${selectCidade.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
+        result => {
+            console.log(result);
+        })
+})
+
+
 requisicao(`/admin/cart/itensCart/` + document.getElementById('idOrder').value, (data => {
     let itens = JSON.parse(data)
     itens.forEach(item => {
@@ -42,33 +59,13 @@ requisicao(`/admin/cart/itensCart/` + document.getElementById('idOrder').value, 
 )
 
 
-
-
-
-
-selectCidade.addEventListener('change', (event) => {
-    requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
-        result => {
-            
-        })
-})
-
-selectEstado.addEventListener('change', (event) => {
-    requisicao(`/consultar/CalcPrecoPrazo/${selectCidade.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
-        result => {
-            
-        })
-})
-
-
-
 requisicao('/main/deliveryRegion/uf', response => {
     let objResponse = JSON.parse(response)
     let selectEstado = document.getElementById('selectEstado')
     objResponse.forEach(item => {
         selectEstado.innerHTML += `<option value="${item.uf}">${item.uf}</option>`;
     })
-    
+
 })
 
 
@@ -114,9 +111,6 @@ function confirmForm(event, form, msg) {
         confirmButtonText: 'OK'
     }).then((result) => {
         if (result.isConfirmed) {
-            if (form.action == '/cart/finish/') {
-                alert('é cart finish')
-            }
             form.submit()
         }
     })
@@ -180,13 +174,13 @@ function calcPrecoPrazo(event) {
             response = result
 
             let obj = JSON.parse(response)
-            
+
             if (!obj.error) {
 
                 valorFrete.innerHTML = 'Frete: ' + parseFloat(obj.Valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
-                                
+
                 let total = parseFloat(obj.Valor) + parseFloat(valorFrete.dataset.valorsemfrete)
-                valorFinal.innerHTML ='Total: '+total.toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                valorFinal.innerHTML = 'Total: ' + total.toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
 
             } else {
                 colPrazo.innerHTML = `Falha ao tentar consultar, tente novamente mais tarde`
@@ -198,7 +192,7 @@ function calcPrecoPrazo(event) {
 
     } else {
 
-        
+
         requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}`, result => {
             response = result
 
@@ -216,12 +210,12 @@ function calcPrecoPrazo(event) {
                 valorFrete.innerHTML = 'Frete: ' + parseFloat(obj.Valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
 
                 let total = parseFloat(obj.Valor.replace('.', '').replace(',', '.')) + parseFloat(valorFrete.dataset.valorsemfrete)
-                valorFinal.innerHTML ='Total: '+total.toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                valorFinal.innerHTML = 'Total: ' + total.toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
 
             } else {
-                colPrazo.innerHTML = `Falha ao tentar consultar`
-                colValor.innerHTML = `Falha ao tentar consultar`
-                valorFrete.innerHTML = `Falha ao tentar consultar`
+                colPrazo.innerHTML = `Falha ao tentar consultar, teve novamente mais tarde`
+                colValor.innerHTML = `Falha ao tentar consultar, teve novamente mais tarde`
+                valorFrete.innerHTML = `Falha ao tentar consultar, teve novamente mais tarde`
             }
         })
     }
