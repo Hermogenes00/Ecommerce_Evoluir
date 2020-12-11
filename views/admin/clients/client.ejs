@@ -14,7 +14,7 @@
     <%} %>
 </div>
 
-<div class="container">
+<div class="container">    
     <div class="card mt-2">
         <div class="card-header">
             <h5 class="card-title">Cliente -><%= clt.nome %> </h5>
@@ -23,11 +23,11 @@
             <form method="POST" action="/client/save">
                 <div class="form-row">
                     <div class="form-group col-md-12">
-                        <label for="nome">Nome Completo</label>
+                        <label for="nome">Nome Completo/Razão Social</label>
                         <input type="text" value="<%=clt.nome %>" class="form-control form-control-sm" name="nome"
                             id="nome">
                     </div>
-                </div>
+                </div> 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="email">Email</label>

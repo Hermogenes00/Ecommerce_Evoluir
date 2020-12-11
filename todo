@@ -2,8 +2,6 @@ dashboard Painel Colaborador (BLOCOS: CARRINHO, PAGOS, TOTAL DE PAGOS POR CLIENT
 
 Ver Movimentações de determinados clientes rota (http://localhost:8090/main/clients/)
 
-REALIZAR MELHORIAS NA INTERFACE DA LISTAGEM DE PRODUTOS
-
 INCLUSÃO DO MÓDULO FINANCEIRO
 
 INCLUSÃO DO MÓDULO FISCAL
@@ -33,6 +31,6 @@ ESTUDAR EXPRESSÕES REGULARES (RegExp)
 
 UTILIZAR API DA FOCUS, PARA EMISSÃO DE NFS-E (https://focusnfe.com.br/) (https://github.com/FocusNFe/javascript/tree/master/NFSe/v2)
 
-CRIAR PÁGINA SOBRE
+CRIAR PÁGINA SOBRE (solicitado a JANNA)
 
 CONFIGURAR UMA PÁGINA 404 PADRÃO

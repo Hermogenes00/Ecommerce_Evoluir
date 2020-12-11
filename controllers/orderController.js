@@ -132,7 +132,6 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
 router.get('/admin/orders', clientAuthentication, async (req, res) => {
 
     try {
-
         let objOrders = await orders.findAll({ where: { clienteId: req.session.client.id } });
         res.render('admin/order/orders', { orders: objOrders })
 

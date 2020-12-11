@@ -34,7 +34,7 @@ router.use(async (req, res, next) => {
 //Configuração do multer, para upload e download dos gabaritos
 let enderecoImagem = null;
 
-//Criação do middleware para menu
+//Configuração de salvamento do multer
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/gabarito')
