@@ -59,28 +59,6 @@ function onClick(event) {
 
 }
 
-
-async function enviarComprovante(event, idOrder) {
-
-    event.preventDefault()
-    await Swal.fire({
-        title: 'Selecione o seu arquivo (.jpg)',
-        html: `<form id="formGabarito" class="form form-inline" action="/client/upload/${idOrder}"
-                            method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="imagem">
-                            <input type="file" name="file" accept=".jpg" id="file">
-                            <input type="submit" class="btn btn-primary btn-sm mt-2" value="Enviar Comprovante">
-                        </form>`,
-        inputAttributes: {
-            'accept': '.jpg',
-            'aria-label': 'Selecionar Arquivo (.jpg)'
-        }
-    })
-}
-
-
-
-
 function remover(event, form, msg) {
     event.preventDefault();
     Swal.fire({

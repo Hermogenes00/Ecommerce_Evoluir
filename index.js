@@ -7,9 +7,12 @@ const cookie = require('cookie-parser')
 const flash = require('express-flash')
 const sequelize = require('sequelize')
 
+
+
+
 //BodyParser
 app.use(bodyParser.json({ limit: "10mb" }));
-app.use(bodyParser.urlencoded({ limit: "10mb",  extended: true, parameterLimit: 1000000 }));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: true, parameterLimit: 1000000 }));
 
 
 //Middleware Authentication
@@ -50,6 +53,7 @@ const addressController = require('./controllers/addressController')
 const cartController = require('./controllers/cartController')
 const deliveryRegionController = require('./controllers/deliveryRegionController');
 const slideController = require('./controllers/slideController');
+const paymentController = require('./controllers/paymentController');
 const gdrive = require('./gdrive');
 
 
@@ -81,6 +85,7 @@ app.use('/', addressController)
 app.use('/', cartController)
 app.use('/', deliveryRegionController)
 app.use('/', slideController)
+app.use('/', paymentController)
 //app.use('/', userController)
 
 

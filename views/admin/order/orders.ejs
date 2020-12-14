@@ -90,10 +90,10 @@
                                     <input type="hidden" name="idOrder" value="<%= o.id %>">
                                     <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
                                         data-toggle="tooltip" title="Cancelar Pedido">remove_circle_outline</button>
-                                </form>
-                                
-                                <btn onclick="enviarComprovante(event,'1312')" class="btn btn-sm btn-outline-primary">Enviar
-                                    Comprovante</btn>
+                                </form>                                
+                                <button data-toggle="modal" onclick="setarIdOrder('<%= o.id %>')"
+                                    data-target="#modalComprovante" class="btn btn-primary btn-sm">Enviar
+                                    Comprovante</button>
                                 <%} %>
                             </div>
                         </td>
@@ -114,7 +114,11 @@
         </div>
     </div>
 
-    
+
+    <%- include('../../partials/pay/modalComprovante.ejs') %>
+
+
+
 
 
 
@@ -124,3 +128,4 @@
 
 <script src="/js/ajax.js"></script>
 <script src="/js/order.js"></script>
+<script src="/js/payment.js"></script>

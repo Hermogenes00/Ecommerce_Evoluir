@@ -1,0 +1,41 @@
+<div class="modal fade" id="modalComprovante" data-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalComprovante" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Envio Comprovante de Pagamento
+                <button type="button" class="close" onclick="limparInputs()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">                
+                <!--Aqui ficará o conteúdo para anexar o comprovante e enviar-->
+                <form action="/admin/payment/receipt" method="post">
+                    
+                    <div class="row">
+                        <div class="col">
+                            <img src="/images/imagem_default.jpg" id="previaImagem" width="100%" height="300px" alt="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="file" accept=".jpg" onchange="lerArquivo(event)" name="inputImagem" class="form-control"
+                                id="inputImagem">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <input type="hidden" name="imagem" id="imagem">
+                            <input type="hidden" name="idOrderImagem" id="idOrderImagem">
+                            <button class="btn btn-primary" disabled id="btnSalvar" data-idOrder="0" type="submit">
+                                Enviar Comprovante
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

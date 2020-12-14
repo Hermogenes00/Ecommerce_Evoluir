@@ -11,7 +11,7 @@ function lerArquivo(event) {
     if (inputFile.files) {
 
         let imgLocal = document.getElementById('imgLocal')
-        console.dir(imgLocal)
+        
         let reader = new FileReader()
         let file = inputFile.files[0]
 

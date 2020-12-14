@@ -69,7 +69,7 @@ let upload = multer({
 //Rotas------------------------
 
 
-router.post('/admin/product/upload/:productId', upload.single('file'), async (req, res) => {
+router.post('/admin/product/upload/:productId',collaboratorAuthentication,upload.single('file'), async (req, res) => {
 
     let productId = req.params.productId
 
