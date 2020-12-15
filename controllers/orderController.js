@@ -34,7 +34,7 @@ router.use(async (req, res, next) => {
 
 //Rota para testar utilização do xhttpr no arquivo pay.js
 router.post('/order/payment/', clientAuthentication, async (req, res) => {
-    
+
     let idOrder = req.body.idOrder
     let itens = undefined
     let ord = undefined
@@ -69,13 +69,17 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
 
             }
 
-            orders.update({ status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO }, { where: { id: ord.id } }).then().catch(err => {
-                console.log('Erro ao tentar atualizaro status->' + err);
-                return res.redirect('/client/cart')
-            })
+            try {
+                await orders.update(
+                    { status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO },
+                    { where: { id: ord.id } })                
+            } catch (error) {
+                console.log('Erro ao tentar atualizar o status->' + error);
+            }
         }
 
         //#endregion
+
         let adrss = await address.findAll({ where: { clienteId: ord.cliente.id } })
 
         let idPagamento = '' + Date.now()
@@ -108,22 +112,24 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
         global.id = pagamento.body.id
 
         let pay = await payment.findOne({ where: { pedidoId: ord.id } })
-
+        
         if (pay) {
             await payment.update({
                 total: parseFloat(ord.valorFinal),
                 referencia: pagamento.body.external_reference,
-                pedidoId: ord.id
+                pedidoId: ord.id,
+                status:CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
             }, { where: { id: pay.id } })
         } else {
             await payment.create({
                 total: parseFloat(ord.valorFinal),
                 referencia: pagamento.body.external_reference,
-                pedidoId: ord.id
+                pedidoId: ord.id,
+                status:CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
             })
         }
 
-        return res.render('admin/order/pay', { ord: ord, itens: itens, address: adrss })
+        res.render('admin/order/pay', { ord: ord, itens: itens, address: adrss })
 
     } catch (error) {
         console.log('/order/payment/:idOrder->' + error);
@@ -132,18 +138,20 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
 
 })
 
+
+/*
 router.get('/admin/orders', clientAuthentication, async (req, res) => {
 
     try {
-        let objOrders = await orders.findAll({ where: { clienteId: req.session.client.id } });
-        res.render('admin/order/orders', { orders: objOrders })
-
+        let objOrders = await orders.findAll({ where: { clienteId: req.session.client.id }, include: payment });        
+        res.json(objOrders)
+        //res.render('admin/order/orders', { orders: objOrders })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error);
         res.send('Erro ' + error)
     }
 })
-
+*/
 
 
 router.post('/order/resume', collaboratorAuthentication, async (req, res) => {

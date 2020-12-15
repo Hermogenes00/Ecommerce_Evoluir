@@ -151,7 +151,7 @@
                 <h5 id="valorFinal" style="color: #3c763d;">Valor Total: <%= parseFloat(ord.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %> </h5>
             </div>
             <div class="col-md-2 offset-md-5">
-                <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')" action="/order/payment"
+                <form onsubmit="confirmForm(event,this,'Deseja realmente finalizar o carrinho?')" action="/order/payment/"
                     method="POST">
                     <input type="hidden" name="idAddress" value="<%= ord.endereco.id %>">
                     <input type="hidden" name="idOrder" id="idOrder" value="<%= ord.id %>">

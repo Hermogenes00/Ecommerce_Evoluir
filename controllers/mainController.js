@@ -15,6 +15,7 @@ const CONSTANTES = require('../utils/constants')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const orders = require('../models/order');
+const payment = require('../models/payment')
 const products = require('../models/product')
 const clients = require('../models/client')
 const itemsOrders = require('../models/itensOrder');
@@ -37,7 +38,7 @@ router.get('/main', collaboratorAuthentication, async (req, res) => {
     try {
 
         let ords = await orders.findAll({ where: { status: statusCarrinho } })
-        
+
         let totalCarrinho = ords.reduce((prevVal, obj) => {
             let valorFinal = parseFloat(obj.valorFinal)
             return prevVal += valorFinal
@@ -99,17 +100,27 @@ router.get('/main/clients/:client?', collaboratorAuthentication, async (req, res
 router.get('/main/orders/:client?', collaboratorAuthentication, async (req, res) => {
 
     let client = `%${req.params.client}%`;
-    let clts = undefined;
+    let ords = undefined;
 
     try {
 
         if (req.params.client != undefined && req.params.client != 'all') {
-            clts = await clients.findAll({ where: { nome: { [sequelize.Op.like]: client } }, include: orders })
+            ords = await orders.findAll({
+                include: [
+                    { model: clients, where: { nome: [sequelize.Op.like] = client } },
+                    { model: payment }
+                ]
+            })
         } else {
-            clts = await clients.findAll({ include: orders })
-        }
+            ords = await orders.findAll({
+                include: [{
+                    model: clients,
+                }, { model: payment }],
 
-        res.render('admin/main/orders', { clients: clts })
+            })
+        } 
+        //res.json(ords)
+        res.render('admin/main/orders', { ords })
 
     } catch (error) {
         res.json(error)

@@ -25,54 +25,58 @@
             </tr>
         </thead>
         <tbody>
-            <% clients.forEach(clt => {%>
+            <% ords.forEach(ord => {%>
 
-            <% clt.pedidos.forEach(pdds=>{%>
             <tr>
                 <td>
                     <a href="#">
-                        <h6 data-id="<%= clt.id %>" onclick="onClick(event)"><%= pdds.id %></h6>
+                        <h6 data-id="<%= ord.cliente.id %>" onclick="onClick(event)"><%= ord.id %></h6>
                     </a>
                 </td>
                 <td>
-                    <h6><%= clt.nome %> <a href="#" data-toggle="tooltip" title="Analisar Comprovante" class="btn btn-sm btn-primary">Analisar Comprovante <i class="fas fa-sticky-note"></i></a></h6>
+                    <h6><%= ord.cliente.nome %>
+                        <% if(ord.pagamento.comprovante!=0){%>
+                        <a href="#" id="btnVerComprovante" data-toggle="modal" data-target="#modalVerComprovante"
+                            title="Analisar Comprovante" data-comprovante="<%= ord.pagamento.comprovante %>"
+                            onclick="exibirComprovante(event)" class="btn btn-sm btn-primary">Analisar
+                            Comprovante <i class="fas fa-sticky-note"></i></a></h6>
+                    <%} %>
+
                 </td>
                 <td>
-                    <h6><%= pdds.status %></h6>
+                    <h6><%= ord.status %></h6>
                 </td>
                 <td>
-                    <h6><%= parseFloat(pdds.total).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %></h6>
+                    <h6><%= parseFloat(ord.total).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %></h6>
                 </td>
                 <td>
                     <div>
                         <div class="row">
                             <div class="col-md-3">
                                 <form action="/order/resume/" method="POST">
-                                    <input type="hidden" name="idOrder" value="<%= pdds.id %>">
+                                    <input type="hidden" name="idOrder" value="<%= ord.id %>">
                                     <input data-toggle="tooltip" data-placement="top" title="Ver Ficha"
                                         data-target="#exampleModal" type="submit" class="btn btn-danger btn-sm"
                                         value="Ver Ficha">
-                                </form>                                
+                                </form>
                             </div>
                         </div>
-                        
+
                     </div>
                 </td>
             </tr>
-            <%}) %>
-
-
 
             <%}); %>
 
         </tbody>
     </table>
 
+    <%- include('../../partials/main/order/modalVerComprovante.ejs') %>
+
 </div>
 
 <%- include('../../partials/footer') %>
-
-<script src="/js/ajax.js"></script>
+<script src="/js/modalVerComprovante.js"></script>
 <script>
     let cliente = document.getElementById('cliente')
 

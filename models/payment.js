@@ -17,7 +17,7 @@ const payment = connection.define('pagamento', {
     },
     comprovante: {
         type: sequelize.TEXT({ length: 'long' }),
-        allowNull: true
+        allowNull: true,
     }
 
 })

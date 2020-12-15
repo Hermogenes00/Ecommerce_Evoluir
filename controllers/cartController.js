@@ -7,15 +7,11 @@ const CONSTANTES = require('../utils/constants')
 //Models
 const orders = require('../models/order')
 const itensOrder = require('../models/itensOrder')
-const constantes = require('../utils/constants');
 const product = require('../models/product')
 const client = require('../models/client')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
-const payment = require('../models/payment')
-const deliveryRegion = require('../models/deliveryRegion')
-const mercadoPago = require('../mercadoPago/mercadoPago')
 
 //Middleware Authentication
 const clientAuthentication = require('../middleware/clientAuthentication')
@@ -45,7 +41,7 @@ router.post('/admin/cart/delete', clientAuthentication, async (req, res) => {
 
 router.post('/admin/cart/itemCart/delete', clientAuthentication, async (req, res) => {
     let data = req.body;
-    
+
     try {
         await itensOrder.destroy({ where: { id: data.idItem } })
     } catch (error) {
@@ -239,6 +235,11 @@ router.get('/cart/address/update/:idOrder/:idAddress', clientAuthentication, asy
     }
 })
 
+
+
+
+
+/* 
 router.post('/cart/finish/', clientAuthentication, async (req, res) => {
 
     let data = req.body;
@@ -248,7 +249,7 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
 
         let ord = await orders.findOne({
             where: { clienteId: idClient, status: CONSTANTES.STATUS_PEDIDO.CARRINHO },
-            include: [{ model: client }, { model: address },{model:deliveryRegion}]
+            include: [{ model: client }, { model: address }, { model: deliveryRegion }]
         })
 
         let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
@@ -302,16 +303,23 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
 
                 await payment.create({
                     total: parseFloat(ord.total),
+                    status: constantes.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO,
                     referencia: pagamento.body.external_reference,
-                    pedidoId: ord.id
+                    pedidoId: ord.id,
+                    comprovante:''
                 })
 
+                /*
+                
                 await orders.update({
                     status: constantes.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
                 }, { where: { id: ord.id } })
 
-                
-                res.render('admin/cart/finish', { ord: ord, itens: itens, address: adr, dados: dados })
+                */
+
+/*
+
+               res.render('admin/order/pay', { ord: ord, itens: itens, address: adr, dados: dados })
 
             } catch (error) {
                 console.log(error);
@@ -326,6 +334,12 @@ router.post('/cart/finish/', clientAuthentication, async (req, res) => {
     }
 
 })
+*/
+
+
+
+
+
 
 
 module.exports = router
