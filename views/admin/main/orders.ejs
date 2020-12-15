@@ -35,7 +35,7 @@
                 </td>
                 <td>
                     <h6><%= ord.cliente.nome %>
-                        <% if(ord.pagamento.comprovante!=0){%>
+                        <% if(ord.pagamento.comprovante){%>
                         <a href="#" id="btnVerComprovante" data-toggle="modal" data-target="#modalVerComprovante"
                             title="Analisar Comprovante" data-comprovante="<%= ord.pagamento.comprovante %>"
                             onclick="exibirComprovante(event)" class="btn btn-sm btn-primary">Analisar

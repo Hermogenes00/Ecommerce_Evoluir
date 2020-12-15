@@ -22,9 +22,14 @@
                         <div class="col">
                             <input type="hidden" name="imagem" id="imagem">
                             <input type="hidden" name="idOrderImagem" id="idOrderImagem">
-                            <button class="btn btn-primary" disabled id="btnSalvar" data-idOrder="0" type="submit">
-                                Enviar Comprovante
+                            <input type="text" required placeholder="Deixe aqui seu informe de recusa ou aceite" name="informe" class="form-control form-control-sm" id="informe">
+                            <hr> 
+                            <button class="btn btn-success" id="btnSalvar" data-idOrder="0" type="submit">
+                             Validar
                             </button>
+                            <button class="btn btn-danger" id="btnSalvar" data-idOrder="0" type="submit">
+                                Recusar
+                               </button>
                         </div>
                     </div>
 
