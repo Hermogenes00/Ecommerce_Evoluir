@@ -32,7 +32,7 @@ router.use(async (req, res, next) => {
     next()
 })
 
-//Rota para testar utilização do xhttpr no arquivo pay.js
+
 router.post('/order/payment/', clientAuthentication, async (req, res) => {
 
     let idOrder = req.body.idOrder
@@ -72,7 +72,7 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
             try {
                 await orders.update(
                     { status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO },
-                    { where: { id: ord.id } })                
+                    { where: { id: ord.id } })
             } catch (error) {
                 console.log('Erro ao tentar atualizar o status->' + error);
             }
@@ -89,7 +89,7 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
         itens.forEach(item => {
             description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) ->Frete: ${ord.valorFrete} `
         })
-
+        
         let dados = {
             items: [
                 item = {
@@ -107,29 +107,33 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
             external_reference: idPagamento
         }
 
+        mercadoPago.preferences.create(dados).then(async function (response) {
+            global.id = response.body.id
+            let pay = await payment.findOne({ where: { pedidoId: ord.id } })
 
-        var pagamento = await mercadoPago.preferences.create(dados)
-        global.id = pagamento.body.id
+            if (pay) {
+                await payment.update({
+                    total: parseFloat(ord.valorFinal),
+                    referencia: response.body.external_reference,
+                    pedidoId: ord.id,
+                    status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
+                }, { where: { id: pay.id } })
+            } else {
+                await payment.create({
+                    total: parseFloat(ord.valorFinal),
+                    referencia: response.body.external_reference,
+                    pedidoId: ord.id,
+                    status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
+                })
+            }
 
-        let pay = await payment.findOne({ where: { pedidoId: ord.id } })
-        
-        if (pay) {
-            await payment.update({
-                total: parseFloat(ord.valorFinal),
-                referencia: pagamento.body.external_reference,
-                pedidoId: ord.id,
-                status:CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
-            }, { where: { id: pay.id } })
-        } else {
-            await payment.create({
-                total: parseFloat(ord.valorFinal),
-                referencia: pagamento.body.external_reference,
-                pedidoId: ord.id,
-                status:CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
-            })
-        }
+            res.render('admin/order/pay', { ord: ord, itens: itens, address: adrss })
 
-        res.render('admin/order/pay', { ord: ord, itens: itens, address: adrss })
+        }).catch(function (error) {
+            console.log(error);
+        })
+
+        //let preference = await mercadoPago.preferences.create(dados)
 
     } catch (error) {
         console.log('/order/payment/:idOrder->' + error);

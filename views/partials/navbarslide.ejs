@@ -10,7 +10,7 @@
         </ol>
         <div class="carousel-inner">
             <%slides.forEach((slide,index)=>{%>
-            <div data-bs-interval="500" class="carousel-item <%=index==0?'active':'' %> ">
+            <div data-interval="10000" class="carousel-item <%=index==0?'active':'' %> ">
                 <img src="<%= slide.imagem %> " height="300" class="d-block w-100">
                 <div class="carousel-caption d-none d-md-block">
                     <h5><%= slide.titulo %> </h5>

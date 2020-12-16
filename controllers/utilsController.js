@@ -7,7 +7,7 @@ const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const orders = require('../models/order')
 const client = require('../models/client')
-const deliveryRegion = require('../models/deliveryRegion')
+
 
 //Middleware Authentication
 const clientAuthentication = require('../middleware/clientAuthentication');
