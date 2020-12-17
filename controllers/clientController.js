@@ -14,6 +14,9 @@ const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
 //Sequelize
 const sequelize = require('sequelize')
 
+//Módulo para gerenciar arquivos
+const tratarArquivo = require('../utils/trataArquivo')
+
 const CONSTANTES = require('../utils/constants')
 
 //Autenticação
@@ -335,6 +338,7 @@ router.get('/client/cart', clientAuthentication, async (req, res) => {
 router.get('/client/orders', clientAuthentication, async (req, res) => {
 
     let idClient = req.session.client.id;
+
     let message = {
         error: req.flash('error'),
         success: req.flash('success')
@@ -346,7 +350,7 @@ router.get('/client/orders', clientAuthentication, async (req, res) => {
                 clienteId: idClient,
                 status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO }
             }
-        });        
+        });
         res.render('admin/order/orders', { orders: objOrders, message: message })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error)
@@ -359,11 +363,29 @@ router.post('/order/cancel', clientAuthentication, async (req, res) => {
     let data = req.body
     let ord = {}
     try {
+
+        //Removendo os arquivos da pasta upload do servidor
+        itensOrder.findAll({ where: { pedidoId: data.idOrder } }).then(itens => {
+            itens.forEach(item => {
+                tratarArquivo.removerArquivo(item.arquivo, flag => {
+                    if (flag) {
+                        console.log('Arquivo removido com sucesso');
+                    }
+                })
+            })
+        })
+
+        //Atualizando o status do pedido
         ord = await orders.update({
             status: CONSTANTES.STATUS_PEDIDO.CANCELADO
         }, {
             where: { id: data.idOrder }
         })
+
+        //Removendo o pedido da tabela de pagamentos
+        ord.
+
+
         res.redirect('/client/orders')
     } catch (error) {
         console.log('Erro ao tentar cancelar o pedido: ' + error);

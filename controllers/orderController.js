@@ -142,22 +142,6 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
 
 })
 
-
-/*
-router.get('/admin/orders', clientAuthentication, async (req, res) => {
-
-    try {
-        let objOrders = await orders.findAll({ where: { clienteId: req.session.client.id }, include: payment });        
-        res.json(objOrders)
-        //res.render('admin/order/orders', { orders: objOrders })
-    } catch (error) {
-        console.log('Erro ao buscar pedidos: ' + error);
-        res.send('Erro ' + error)
-    }
-})
-*/
-
-
 router.post('/order/resume', collaboratorAuthentication, async (req, res) => {
     let data = req.body;
 

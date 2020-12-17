@@ -13,6 +13,8 @@ const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
 
+const tratarArquivo = require('../utils/trataArquivo')
+
 //Middleware Authentication
 const clientAuthentication = require('../middleware/clientAuthentication')
 
@@ -43,7 +45,20 @@ router.post('/admin/cart/itemCart/delete', clientAuthentication, async (req, res
     let data = req.body;
 
     try {
+        /**Pegando informações do item na base de dados
+         * Para Posteriormente exluir o item upado
+         */
+        let item = await itensOrder.findOne({ where: { id: data.idItem } })
+        
+        //Excluir o arquivo aqui.
+       tratarArquivo.removerArquivo(item.arquivo,flag=>{
+           if(flag){
+               console.log('Arquivo removido com sucesso');
+           }
+       })
+
         await itensOrder.destroy({ where: { id: data.idItem } })
+
     } catch (error) {
         res.send('Erro ao tentar realizar a exclusão do item' + error)
     }
@@ -78,8 +93,7 @@ router.post('/admin/cart/itemCart/delete', clientAuthentication, async (req, res
                 res.send('Erro ao tentar atualizar valores do pedido' + error)
             }
         }
-
-        res.redirect('/client/cart')
+        
     } catch (error) {
         res.send('Erro ao tentar atualizar valores do pedido' + error)
     }
@@ -234,112 +248,5 @@ router.get('/cart/address/update/:idOrder/:idAddress', clientAuthentication, asy
         console.log('Erro ao tentar atualizar o endereço do carrinho-->' + error);
     }
 })
-
-
-
-
-
-/* 
-router.post('/cart/finish/', clientAuthentication, async (req, res) => {
-
-    let data = req.body;
-    let idClient = req.session.client.id
-    let description = '';
-    try {
-
-        let ord = await orders.findOne({
-            where: { clienteId: idClient, status: CONSTANTES.STATUS_PEDIDO.CARRINHO },
-            include: [{ model: client }, { model: address }, { model: deliveryRegion }]
-        })
-
-        let itens = await itensOrder.findAll({ where: { pedidoId: ord.id }, include: product })
-
-        let noFiles = itens.filter(item => {
-            return item.arquivo == null || item.arquivo == '';
-        })
-        if (noFiles.length > 0) {
-            req.flash('error', 'Verifique se todos os produtos, estão com os seus respectivos arquivos')
-            res.redirect('/client/cart')
-        } else if (!ord.metodoEnvio) {
-            req.flash('metodoEnvio', 'Escolha uma das opções abaixo para realizar a entrega do produto')
-            res.redirect('/client/cart')
-        } else if (ord.metodoEnvio == constantes.RETIRA_BASE && !ord.regiaoEntregaId) {
-            req.flash('metodoEnvio', 'Conclua a seleção de escolha do endereço de retirada da base')
-            res.redirect('/client/cart')
-        }
-        else {
-            let adr = await address.findAll({ where: { clienteId: ord.cliente.id } })
-
-            let idPagamento = '' + Date.now()
-            let emailPagador = ord.cliente.email
-
-
-            //#region Teste para implementação do mercado pago         
-            itens.forEach(item => {
-                description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) `
-            })
-
-            let dados = {
-                items: [
-                    item = {
-                        id: idPagamento,
-                        title: description,
-                        quantity: 1,
-                        currency_id: 'BRL',
-                        unit_price: parseFloat(ord.total)
-                    }
-                ],
-                payer: {
-                    email: emailPagador,
-                    name: ord.cliente.nome
-                },
-                external_reference: idPagamento
-            }
-
-            try {
-
-                var pagamento = await mercadoPago.preferences.create(dados)
-                global.id = pagamento.body.id
-
-                await payment.create({
-                    total: parseFloat(ord.total),
-                    status: constantes.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO,
-                    referencia: pagamento.body.external_reference,
-                    pedidoId: ord.id,
-                    comprovante:''
-                })
-
-                /*
-                
-                await orders.update({
-                    status: constantes.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO
-                }, { where: { id: ord.id } })
-
-                */
-
-/*
-
-               res.render('admin/order/pay', { ord: ord, itens: itens, address: adr, dados: dados })
-
-            } catch (error) {
-                console.log(error);
-                res.json(error)
-            }
-
-            //#endregion
-        }
-
-    } catch (error) {
-        res.send('Erro---------' + error)
-    }
-
-})
-*/
-
-
-
-
-
-
 
 module.exports = router

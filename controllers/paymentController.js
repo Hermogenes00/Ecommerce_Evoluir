@@ -1,4 +1,3 @@
-const sequelize = require('sequelize')
 const order = require('../models/order')
 const payment = require('../models/payment')
 const router = require('express').Router()
@@ -6,14 +5,9 @@ const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const clientAuthentication = require('../middleware/clientAuthentication')
 
-//Tratamento dos arquivo (upload gabarito)
-const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
 
 //CONSTANTES
 const CONSTANTE = require('../utils/constants')
-
 
 
 //Criação do middleware para menu
