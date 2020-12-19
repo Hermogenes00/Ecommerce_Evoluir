@@ -173,7 +173,6 @@ app.get('/criarSessao/:nome', defaultAuthentication, (req, res) => {
 })
 
 app.get('/verSessao', clientAuthentication, (req, res) => {
-
     res.render('admin/teste')
 })
 
@@ -186,6 +185,11 @@ app.get('/limparCookie', defaultAuthentication, (req, res) => {
 app.get('/logout', defaultAuthentication, (req, res) => {
     req.session.nome = undefined;
     res.redirect('/')
+})
+
+
+app.get('/404',defaultAuthentication,(req,res)=>{
+    res.render('404')
 })
 
 app.listen(8090, () => {

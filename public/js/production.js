@@ -33,12 +33,12 @@ function drag() {
 
 }
 
-function dragovercard(){
+function dragovercard() {
     log('Sobre o cartão')
     this.classList.add('card-reference')
 }
 
-function dragleavecard(){
+function dragleavecard() {
     log('Removido a classe')
     this.classList.remove('card-reference')
 }
@@ -55,7 +55,7 @@ function dragend() {
 }
 
 //Listener for the dropzones
-dropzones.forEach(dropzone=>{
+dropzones.forEach(dropzone => {
     dropzone.addEventListener('dragenter', dragenter)
     dropzone.addEventListener('dragover', dragover)
     dropzone.addEventListener('dragleave', dragleave)
@@ -68,10 +68,11 @@ function dragenter() {
 }
 
 function dragover() {
+
     const cardDragging = document.querySelector('.is-dragging')
     const cardReference = document.querySelector('.card-reference')
 
-    this.insertBefore(cardDragging,cardReference)
+    this.insertBefore(cardDragging, cardReference)
 }
 
 function dragleave() {
@@ -79,5 +80,5 @@ function dragleave() {
 }
 
 function drop() {
-    
+
 }
