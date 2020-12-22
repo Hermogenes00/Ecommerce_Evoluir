@@ -1,7 +1,21 @@
 <%- include('../../partials/header') %>
-<div>
+
     <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <ul id="menuCategoria" class="navbar-nav mr-auto" style="margin-left:10%;">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">Home</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+
+    <div class="row justify-content-center text-center">
+        <div class="col-md-3">
             <div class="card border-primary  mt-5">
                 <div class="card-header">Login</div>
                 <div class="card-body">
@@ -10,7 +24,8 @@
                         <input type="password" required name="password" placeholder="******" class="form-control mt-2"
                             id="">
                         <input type="submit" class="btn btn-success mt-3 form-control" value="Logar">
-                        <a href="/client/register" class="btn btn-primary btn-sm form-control mt-2">Fazer cadastro</a>
+                        <a href="/client/register" class="btn btn-primary btn-sm form-control mt-2">Fazer
+                            cadastro</a>
                         <a href="/client/login" class="btn btn-outline-primary btn-sm form-control mt-2">Sou um
                             cliente</a>
                     </form>
@@ -20,8 +35,7 @@
         </div>
     </div>
 
-</div>
 
 
 
-<%- include('../../partials/footer') %>
+    <%- include('../../partials/footer') %>
