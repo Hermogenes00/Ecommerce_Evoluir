@@ -4,6 +4,8 @@ const router = require('express').Router()
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const clientAuthentication = require('../middleware/clientAuthentication')
+const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+
 
 
 //CONSTANTES
@@ -54,6 +56,11 @@ router.post('/admin/payment/receipt', clientAuthentication, async (req, res) => 
     res.redirect('/client/orders')
 })
 
+
+//Aprovação de Análise
+router.post('/admin/payment/review_approval',collaboratorAuthentication,(req,res)=>{
+
+})
 
 
 

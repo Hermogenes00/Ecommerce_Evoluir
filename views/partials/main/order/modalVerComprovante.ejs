@@ -9,10 +9,10 @@
                 </button>
             </div>
 
-            <div class="modal-body">                
+            <div class="modal-body">
                 <!--Aqui ficará o conteúdo para anexar o comprovante e enviar-->
                 <form action="/admin/payment/receipt" method="post">
-                    
+
                     <div class="row">
                         <div class="col">
                             <img src="" id="previaImagem" width="100%" height="300px" alt="">
@@ -22,14 +22,15 @@
                         <div class="col">
                             <input type="hidden" name="imagem" id="imagem">
                             <input type="hidden" name="idOrderImagem" id="idOrderImagem">
-                            <input type="text" required placeholder="Deixe aqui seu informe de recusa ou aceite" name="informe" class="form-control form-control-sm" id="informe">
-                            <hr> 
+                            <input type="text" required placeholder="Deixe aqui seu informe de recusa ou aceite"
+                                name="informe" class="form-control form-control-sm" id="informe">
+                            <hr>
                             <button class="btn btn-success" id="btnSalvar" data-idOrder="0" type="submit">
-                             Validar
+                                Validar
                             </button>
                             <button class="btn btn-danger" id="btnSalvar" data-idOrder="0" type="submit">
                                 Recusar
-                               </button>
+                            </button>
                         </div>
                     </div>
 

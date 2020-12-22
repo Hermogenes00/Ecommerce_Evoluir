@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <a href="/admin/products/detail/<%= product.slug %>">
                         <img width="180px" height="160px" src="<%= product.imagem %> " class="card-img-top"></a>
-                    <p class="card-title text-center text-muted"><%= product.nome %></p>
+                    <p class="card-title text-center text-muted" style="font-size: 14px;"><%= product.nome %></p>
                     <small style="margin-bottom: 0%; text-align: left;">Ref: <%= product.codRef %></small>
                     <small style="margin-bottom: 0%; text-align: left;">Tam Arte:
                         <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>

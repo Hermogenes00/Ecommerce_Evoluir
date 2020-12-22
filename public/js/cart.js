@@ -158,6 +158,7 @@ function calcPrecoPrazo(event) {
 
             if (!obj.error) {
 
+
                 valorFrete.innerHTML = 'Frete: ' + parseFloat(obj.Valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
 
                 let total = parseFloat(obj.Valor) + parseFloat(valorFrete.dataset.valorsemfrete)
@@ -188,7 +189,8 @@ function calcPrecoPrazo(event) {
                 }
 
                 colValor.innerHTML = obj.Valor
-                valorFrete.innerHTML = 'Frete: ' + parseFloat(obj.Valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
+                console.dir(obj)
+                valorFrete.innerHTML = 'Frete: R$ ' + obj.Valor
 
                 let total = parseFloat(obj.Valor.replace('.', '').replace(',', '.')) + parseFloat(valorFrete.dataset.valorsemfrete)
                 valorFinal.innerHTML = 'Total: ' + total.toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
@@ -196,7 +198,7 @@ function calcPrecoPrazo(event) {
             } else {
                 colPrazo.innerHTML = `Falha ao tentar consultar, teve novamente mais tarde`
                 colValor.innerHTML = `Falha ao tentar consultar, teve novamente mais tarde`
-                valorFrete.innerHTML = `Falha ao tentar consultar, teve novamente mais tarde`
+                valorFrete.innerHTML = `Frete: Falha ao tentar consultar, teve novamente mais tarde`
             }
         })
     }

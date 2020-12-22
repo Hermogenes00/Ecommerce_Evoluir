@@ -167,21 +167,6 @@ app.get('/', defaultAuthentication, async (req, res) => {
 
 })
 
-app.get('/criarSessao/:nome', defaultAuthentication, (req, res) => {
-    req.session.client = 'Santos'
-    res.send('Sessão Criada')
-})
-
-app.get('/verSessao', clientAuthentication, (req, res) => {
-    res.render('admin/teste')
-})
-
-
-app.get('/limparCookie', defaultAuthentication, (req, res) => {
-    res.clearCookie('testeCookie')
-    res.render('admin/teste')
-})
-
 app.get('/logout', defaultAuthentication, (req, res) => {
     req.session.nome = undefined;
     res.redirect('/')

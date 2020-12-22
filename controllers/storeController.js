@@ -6,7 +6,6 @@ const category = require('../models/category')
 const subCategory = require('../models/subCategory');
 
 
-
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
     try {

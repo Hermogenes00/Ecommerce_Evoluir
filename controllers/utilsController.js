@@ -78,7 +78,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
         try {
 
             if (metodoEntrega != 'BALCAO' && metodoEntrega != CONSTANTE.METODO_ENVIO.RETIRA_BASE) {
-                console.log('Chegou no 1')
+
                 for (codigo in CONSTANTE.CODIGO_SERVICO_CORREIOS) {
                     if (codigo == metodoEntrega) {
                         codigoServico = CONSTANTE.CODIGO_SERVICO_CORREIOS[codigo]
@@ -143,8 +143,7 @@ router.get('/consultar/CalcPrecoPrazo/:idPedido/:metodoEntrega/:idLocalidadeEntr
 
 
                 await orders.update(objUpdate,
-                    { where: { id: idOrder, clienteId: req.session.client.id } })                
-
+                    { where: { id: idOrder, clienteId: req.session.client.id } })
             } else {
 
                 result = [
