@@ -3,9 +3,18 @@ let selectCidade = document.getElementById('selectCidade')
 let selectEstado = document.getElementById('selectEstado')
 let areaItens = document.getElementById('areaItens')
 
+function enableRadioBase() {
+    let radio_base = document.getElementById('radio_base')
+    radio_base.checked = true
+}
 
+function clearSelectEstadoCidade(){
+    selectCidade.value = ''
+    selectEstado.value = ''
+}
 
 selectCidade.addEventListener('change', function () {
+    enableRadioBase()
     requisicao(`/consultar/CalcPrecoPrazo/${this.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
         result => {
             console.log(result);
@@ -13,6 +22,7 @@ selectCidade.addEventListener('change', function () {
 })
 
 selectEstado.addEventListener('change', function () {
+    enableRadioBase()
     requisicao(`/consultar/CalcPrecoPrazo/${selectCidade.dataset.idorder}/RETIRA_BASE/${selectCidade.value}`,
         result => {
             console.log(result);
@@ -112,6 +122,8 @@ function verificaTamanhoArquivo(event, form) {
 
 function buscarCep() {
 
+    clearSelectEstadoCidade()
+
     let cep = document.getElementById('cep');
 
     document.getElementById('btnCep').addEventListener('click', (event) => {
@@ -189,7 +201,7 @@ function calcPrecoPrazo(event) {
                 }
 
                 colValor.innerHTML = obj.Valor
-                console.dir(obj)
+
                 valorFrete.innerHTML = 'Frete: R$ ' + obj.Valor
 
                 let total = parseFloat(obj.Valor.replace('.', '').replace(',', '.')) + parseFloat(valorFrete.dataset.valorsemfrete)

@@ -96,7 +96,7 @@
                     <td>
                         <input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
                             value="PAC_VISTA" <%=ord.metodoEnvio=='PAC_VISTA'?'checked':'' %> name="radio_metodo"
-                            id="radio_metodo"> PAC
+                            id="radio_pac"> PAC
                     </td>
                     <td>....</td>
                     <td>....</td>
@@ -104,7 +104,7 @@
                 <tr>
                     <td><input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
                             value="SEDEX_VISTA" <%=ord.metodoEnvio=='SEDEX_VISTA'?'checked':'' %> name="radio_metodo"
-                            id="radio_metodo"> SEDEX</td>
+                            id="radio_sedex"> SEDEX</td>
                     <td>....</td>
                     <td>....</td>                    
                 </tr>
@@ -115,12 +115,12 @@
 
 
         <input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)" value="RETIRA_BASE"
-            <%=ord.metodoEnvio=='RETIRA_BASE'?'checked':'' %> name="radio_metodo" id="radio_metodo">
+            <%=ord.metodoEnvio=='RETIRA_BASE'?'checked':'' %> name="radio_metodo" id="radio_base">
         Retirar na base
         <span>15 dias úteis após a produção do último item</span>
         <span style="float: right;">Valor:R$ 30,00</span>
 
-        <div class="card-body">
+        <div class="card-body" id="divEstadoCidade">
             <div class="row">
                 <div class="col-md-2">
                     <label for="estado">Estado</label>
