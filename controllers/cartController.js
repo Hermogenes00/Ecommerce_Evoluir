@@ -79,7 +79,7 @@ router.post('/admin/cart/itemCart/delete', clientAuthentication, async (req, res
                 })
             }
 
-            let valorFinal = total + parseFloat(ord.valorFrete)
+            let valorFinal = total + parseFloat(ords.valorFrete)
 
             try {
                 await orders.update({ total: total, valorFinal: valorFinal }, { where: { id: data.idPedido } })
