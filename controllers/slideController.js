@@ -9,7 +9,7 @@ const collaboratorAuthentication = require('../middleware/collaboratorAuthentica
 router.get('/admin/slides/:title?', collaboratorAuthentication, async (req, res) => {
     let ttl = req.params.title
     let slides = undefined
-    
+
     try {
         if (ttl) {
             slides = await slide.findAll({
@@ -29,7 +29,6 @@ router.get('/admin/slides/:title?', collaboratorAuthentication, async (req, res)
         res.redirect('/main')
     }
 
-
 })
 
 router.get('/admin/slide/new', collaboratorAuthentication, (req, res) => {
@@ -47,7 +46,6 @@ router.post('/admin/slide/save', collaboratorAuthentication, (req, res) => {
         res.redirect('/admin/slides/')
     }).catch(err => {
         console.log('Erro ao tentar salvar o slide->', err);
-        return res.json(err)
         res.redirect('/admin/slide/new')
     })
 })

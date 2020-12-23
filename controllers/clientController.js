@@ -1,14 +1,22 @@
 const express = require('express')
 const router = express.Router();
+
+//Models
 const clients = require('../models/client')
-const bcrypt = require('bcrypt')
-const salt = bcrypt.genSaltSync(10)
 const orders = require('../models/order');
 const itensOrder = require('../models/itensOrder')
-const fs = require('fs')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
+const payment = require('../models/payment')
+
+
+const bcrypt = require('bcrypt')
+const salt = bcrypt.genSaltSync(10)
+
+
+const fs = require('fs')
+
 const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
 
 //Sequelize
@@ -383,10 +391,13 @@ router.post('/order/cancel', clientAuthentication, async (req, res) => {
         })
 
         //Removendo o pedido da tabela de pagamentos
-        ord.
+        payment.destroy({ where: { pedidoId: data.idOrder } }).then(() => {
+            console.log('Pagamento excluído');
+        }).catch(err => {
+            console.log('Erro ao tentar excluir o pagamento---' + err)
+        })
 
-
-        res.redirect('/client/orders')
+        res.redirect('/client/orders') 
     } catch (error) {
         console.log('Erro ao tentar cancelar o pedido: ' + error);
         res.json(ord)
