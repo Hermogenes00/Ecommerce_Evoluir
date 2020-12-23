@@ -39,6 +39,7 @@ const address = require('./models/address')
 const payment = require('./models/payment')
 const deliveryRegion = require('./models/deliveryRegion')
 const slides = require('./models/slide')
+const printer = require('./models/printer')
 
 //Importação dos controllers
 const productController = require('./controllers/productController');
@@ -54,6 +55,11 @@ const cartController = require('./controllers/cartController')
 const deliveryRegionController = require('./controllers/deliveryRegionController');
 const slideController = require('./controllers/slideController');
 const paymentController = require('./controllers/paymentController');
+const printerController = require('./controllers/printerController')
+
+
+
+
 const gdrive = require('./gdrive');
 
 
@@ -69,9 +75,6 @@ app.use(session({
 //Flash Messages
 app.use(flash())
 
-
-
-
 //Controllers
 app.use('/', productController)
 app.use('/', clientController)
@@ -86,6 +89,8 @@ app.use('/', cartController)
 app.use('/', deliveryRegionController)
 app.use('/', slideController)
 app.use('/', paymentController)
+app.use('/', printerController)
+
 //app.use('/', userController)
 
 
