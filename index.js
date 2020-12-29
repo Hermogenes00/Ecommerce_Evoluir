@@ -6,9 +6,10 @@ const connection = require('./database/connection')
 const cookie = require('cookie-parser')
 const flash = require('express-flash')
 const sequelize = require('sequelize')
+const cors = require('cors')
 
-
-
+//Possibilita a utilização da api em ambientes externos ao servidor local
+app.use(cors())
 
 //BodyParser
 app.use(bodyParser.json({ limit: "10mb" }));
@@ -57,7 +58,18 @@ const slideController = require('./controllers/slideController');
 const paymentController = require('./controllers/paymentController');
 const printerController = require('./controllers/printerController')
 
-
+//Importação da api
+const addressApi = require('./api/address')
+const cartApi = require('./api/cart')
+const categoryApi = require('./api/category')
+const clientApi = require('./api/client')
+const collaboratorApi = require('./api/collaborator')
+const deliveryRegionApi = require('./api/deliveryRegion')
+const orderApi = require('./api/order')
+const printerApi = require('./api/printer')
+const productApi = require('./api/product')
+const slideApi = require('./api/slide')
+const subCategoryApi = require('./api/subCategory')
 
 
 const gdrive = require('./gdrive');
@@ -90,6 +102,18 @@ app.use('/', deliveryRegionController)
 app.use('/', slideController)
 app.use('/', paymentController)
 app.use('/', printerController)
+
+//Api's
+app.use('/', productApi)
+app.use('/', clientApi)
+app.use('/', orderApi)
+app.use('/', collaboratorApi)
+app.use('/', categoryApi)
+app.use('/', addressApi)
+app.use('/', cartApi)
+app.use('/', deliveryRegionApi)
+app.use('/', slideApi)
+app.use('/', printerApi)
 
 //app.use('/', userController)
 
@@ -178,7 +202,7 @@ app.get('/logout', defaultAuthentication, (req, res) => {
 })
 
 
-app.get('/404',defaultAuthentication,(req,res)=>{
+app.get('/404', defaultAuthentication, (req, res) => {
     res.render('404')
 })
 

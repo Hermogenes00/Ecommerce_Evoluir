@@ -5,7 +5,7 @@ const router = express.Router()
 
 
 //Listagem de todas as subCategorias
-router.get('/subCategory/subCategories', (req, body) => {
+router.get('/subCategory/subCategories', async (req, body) => {
 
     try {
 
@@ -25,7 +25,7 @@ router.get('/subCategory/subCategories', (req, body) => {
 })
 
 //Pegar subcategoria pelo id
-router.get('/subCategory/:id', (req, body) => {
+router.get('/subCategory/:id', async (req, body) => {
 
     let subCat = {}
     let id = req.params.id
@@ -44,7 +44,7 @@ router.get('/subCategory/:id', (req, body) => {
 })
 
 //Listagem da subcategoria pela categoria
-router.get('/subCategory/subCategoryByCategory/:idCategory?', collaboratorAuthentication, async (req, res) => {
+router.get('/subCategory/subCategoryByCategory/:idCategory?', async (req, res) => {
 
     let idCategory = req.params.idCategory;
     let scat = []
@@ -108,7 +108,7 @@ router.put('/subCategory/:id', async (req, res) => {
 })
 
 //Vínculo de uma subcategoria há uma categoria
-router.patch('/subCategory', collaboratorAuthentication, async (req, res) => {
+router.patch('/subCategory', async (req, res) => {
     let data = req.body;
 
     try {

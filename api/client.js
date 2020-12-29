@@ -37,8 +37,6 @@ const Correios = require('node-correios')
 //MULTER Necessário para fazer upload
 const multer = require('multer')
 const path = require('path');
-const client = require('../models/client');
-
 
 
 //Configuração do Multer - Para realização de upload e download
@@ -128,7 +126,7 @@ router.get('/client/:id', (req, res) => {
 })
 
 //Listar todos os clientes
-router.get('/client', (req, res) => {
+router.get('/clients', (req, res) => {
     clients.findAll().then(clts => {
         res.statusCode = 200
         res.json(clts)
@@ -274,8 +272,8 @@ router.post('/client', async (req, res) => {
 
 })
 
-//Busca todos os itens que estejam vinculados ao cliente, bem como todos os endereços do cliente
-router.get('/client/cart/:idClient', clientAuthentication, async (req, res) => {
+//Busca todos os itens que estejam vinculados ao cliente, bem como todos os endereços do cliente, somente status de CARRINHO
+router.get('/client/cart/:idClient',  async (req, res) => {
 
     let idClient = req.params.idClient
 
@@ -298,7 +296,7 @@ router.get('/client/cart/:idClient', clientAuthentication, async (req, res) => {
 })
 
 //Localiza todos os pedidos de um cliente, que não esteja com o status de 'carrinho'
-router.get('/client/orders/:idClient', clientAuthentication, async (req, res) => {
+router.get('/client/orders/:idClient', async (req, res) => {
 
     let idClient = req.params.idClient
 
@@ -322,14 +320,14 @@ router.get('/client/orders/:idClient', clientAuthentication, async (req, res) =>
 
 
 //Delete
-router.delete('/order/cancel', clientAuthentication, async (req, res) => {
+router.delete('/order/:idOrder', async (req, res) => {
 
-    let data = req.body
+    let { idOrder } = req.params
     let ord = {}
     try {
 
         //Removendo os arquivos da pasta upload do servidor
-        itensOrder.findAll({ where: { pedidoId: data.idOrder } }).then(itens => {
+        itensOrder.findAll({ where: { pedidoId: idOrder } }).then(itens => {
             itens.forEach(item => {
                 tratarArquivo.removerArquivo(item.arquivo, flag => {
                     if (flag) {
@@ -343,20 +341,20 @@ router.delete('/order/cancel', clientAuthentication, async (req, res) => {
         ord = await orders.update({
             status: CONSTANTES.STATUS_PEDIDO.CANCELADO
         }, {
-            where: { id: data.idOrder }
+            where: { id: idOrder }
         })
 
         //Removendo o pedido da tabela de pagamentos
-        payment.destroy({ where: { pedidoId: data.idOrder } }).then(() => {
+        payment.destroy({ where: { pedidoId: idOrder } }).then(() => {
             console.log('Pagamento excluído');
         }).catch(err => {
-            console.log('Erro ao tentar excluir o pagamento---' + err)
+            res.status(400).send('Erro ao tentar excluir o pagamento, pedido ' + idOrder)
         })
 
-        res.redirect('/client/orders')
+        res.status(200).json(ord)
+
     } catch (error) {
-        console.log('Erro ao tentar cancelar o pedido: ' + error);
-        res.json(ord)
+        res.status(400).send('Erro ao tentar cancelar o pedido ' + idOrder)
     }
 
 })

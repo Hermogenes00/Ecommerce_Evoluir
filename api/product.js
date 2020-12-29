@@ -136,7 +136,7 @@ router.get('/products/:id?', async (req, res) => {
     }
 })
 
-router.post('/admin/products/save', collaboratorAuthentication, async (req, res) => {
+router.post('/admin/products/save',  async (req, res) => {
 
     let data = req.body
 
@@ -250,7 +250,7 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
 })
 
 
-router.get('/products/slug/:slug', defaultAuthentication, (req, res) => {
+router.get('/products/slug/:slug', (req, res) => {
     let slugProd = req.params.slug;
 
     products.findOne({ where: { slug: slugProd } }).then(prod => {
