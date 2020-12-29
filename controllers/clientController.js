@@ -86,7 +86,6 @@ router.use(async (req, res, next) => {
 
 
 //Rotas
-
 router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
     let idItem = req.params.item;
 
@@ -397,7 +396,7 @@ router.post('/order/cancel', clientAuthentication, async (req, res) => {
             console.log('Erro ao tentar excluir o pagamento---' + err)
         })
 
-        res.redirect('/client/orders') 
+        res.redirect('/client/orders')
     } catch (error) {
         console.log('Erro ao tentar cancelar o pedido: ' + error);
         res.json(ord)

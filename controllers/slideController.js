@@ -6,6 +6,7 @@ const collaboratorAuthentication = require('../middleware/collaboratorAuthentica
 
 
 
+//Rotas
 router.get('/admin/slides/:title?', collaboratorAuthentication, async (req, res) => {
     let ttl = req.params.title
     let slides = undefined

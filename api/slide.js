@@ -11,7 +11,7 @@ router.get('/slide/:title?', async (req, res) => {
     let slides = undefined
 
     try {
-        if (ttl) {
+        if (ttl != undefined && ttl != '') {
             slides = await slide.findAll({
                 where: {
                     titulo: {
