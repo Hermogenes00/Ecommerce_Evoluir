@@ -40,15 +40,15 @@
                                     <%= ord.cliente.nome %>
                                         <% if(ord.pagamento){%>
 
-                                            <% if(ord.pagamento.comprovante){%> 
+                                            <% if(ord.pagamento.comprovante){%>
                                                 <a href="#" id="btnVerComprovante" data-toggle="modal"
-                                                data-target="#modalVerComprovante" title="Analisar Comprovante"
-                                                data-comprovante="<%= ord.pagamento.comprovante %>"
-                                                onclick="exibirComprovante(event)"
-                                                class="btn btn-sm btn-primary">Analisar
-                                                Comprovante <i class="fas fa-sticky-note"></i></a>
-                                                <%} %> 
-                                            
+                                                    data-target="#modalVerComprovante" title="Analisar Comprovante"
+                                                    data-comprovante="<%= ord.pagamento.comprovante %>"
+                                                    data-idOrder="<%=ord.id%>" onclick="exibirComprovante(event)"
+                                                    class="btn btn-sm btn-primary">Analisar
+                                                    Comprovante <i class="fas fa-sticky-note"></i></a>
+                                                <%} %>
+
                                 </h6>
                                 <%} %>
 
@@ -91,6 +91,8 @@
         </div>
 
         <%- include('../../partials/footer') %>
+
+
             <script src="/js/modalVerComprovante.js"></script>
             <script>
                 let cliente = document.getElementById('cliente')

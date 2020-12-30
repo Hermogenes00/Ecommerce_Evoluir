@@ -11,7 +11,7 @@
 
             <div class="modal-body">
                 <!--Aqui ficará o conteúdo para anexar o comprovante e enviar-->
-                <form action="/admin/payment/receipt" method="post">
+                <form id="formAnaliseComprovante" action="/payment" method="POST">
 
                     <div class="row">
                         <div class="col">
@@ -20,17 +20,17 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col">
-                            <input type="hidden" name="imagem" id="imagem">
-                            <input type="hidden" name="idOrderImagem" id="idOrderImagem">
+                            <select id="status" name="status" required class="form-select form-control form-control-sm mb-2">                                
+                                <option value="">Selecione uma opção</option>
+                                <option value="COMPROVANTE_APROVADO">Aprovar pagamento</option>
+                                <option value="COMPROVANTE_RECUSADO">Recusar pagamento</option>
+                            </select>
+
                             <input type="text" required placeholder="Deixe aqui seu informe de recusa ou aceite"
                                 name="informe" class="form-control form-control-sm" id="informe">
                             <hr>
-                            <button class="btn btn-success" id="btnSalvar" data-idOrder="0" type="submit">
-                                Validar
-                            </button>
-                            <button class="btn btn-danger" id="btnSalvar" data-idOrder="0" type="submit">
-                                Recusar
-                            </button>
+                            <input type="submit" class="btn btn-primary" id="btnSalvar" data-idOrder="0" value="Salvar">
+                           
                         </div>
                     </div>
 

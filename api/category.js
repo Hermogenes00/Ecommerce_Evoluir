@@ -6,16 +6,14 @@ const router = express.Router()
 
 
 //Listagem
-router.get('/category/categories', async (req, res) => {
+router.get('/category', async (req, res) => {
 
     let cat = []
-    let subCats = []
     try {
         cat = await category.findAll({ include: subCategory });
-        subCats = await subCategory.findAll({ include: category });
-
+        
         res.statusCode = 200
-        res.json(cat, subCats)
+        res.json(cat)
 
     } catch (error) {
         res.statusCode = 400

@@ -301,7 +301,7 @@ router.get('/client/orders/:idClient', async (req, res) => {
     let idClient = req.params.idClient
 
     try {
-        let objOrders = await orders.findAll({
+        let result = await orders.findAll({
             where: {
                 clienteId: idClient,
                 status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO }
@@ -309,7 +309,7 @@ router.get('/client/orders/:idClient', async (req, res) => {
         });
 
         res.statusCode = 200
-        res.json({ objOrders, adr })
+        res.json(result)
 
     } catch (error) {
         res.statusCode = 400

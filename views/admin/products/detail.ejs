@@ -12,18 +12,18 @@
                     </h4>
                     <hr>
 
-                    <div class="row">
-                        <div class="col">
+                    <div class="row justify-content-start">
+                        <div class="col-md-7">                            
                             <img src="<%=product.imagem%>" alt="">
                             <br>
                             <% if(product.gabarito){ %>
                                 <a href="/gabarito/<%=product.gabarito%>"
-                                    class="btn btn-warning btn-sm form-control">Baixar Gabarito</a>
+                                    class="btn btn-primary btn">Baixar Gabarito</a>
                                 <%} %>
 
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-md-4">
                             <div class="card">
 
                                 <div class="card-header">Add ao Carrinho</div>
@@ -84,9 +84,12 @@
                                             </div>
                                             <%}%>
                                                 <% if(user.nome !='Visitante' ){%>
-                                                    <input type="submit" class="btn btn-danger form-control mt-3"
+                                                   
+                                                        <input type="submit" class="btn btn-danger form-control mt-3"
                                                         data-toggle="tooltip" data-placement="top"
                                                         title="Adicionar ao carrinho" value="Comprar">
+                                                   
+                                                    
                                                     <% }else{%>
                                                         <a href="/client/login" class="text-center">
                                                             <h5>Faça login ou cadastre-se</h5>

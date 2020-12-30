@@ -18,8 +18,11 @@ const payment = connection.define('pagamento', {
     comprovante: {
         type: sequelize.TEXT({ length: 'long' }),
         allowNull: true,
+    },
+    informe: {
+        type: sequelize.STRING,
+        allowNull: false
     }
-
 })
 
 payment.belongsTo(order)

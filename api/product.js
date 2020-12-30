@@ -55,38 +55,6 @@ let upload = multer({
 //Rotas------------------------
 
 
-router.post('/admin/product/upload/:productId', upload.single('file'), async (req, res) => {
-
-    let productId = req.params.productId
-
-    if (enderecoImagem) {
-        try {
-            let prod = await products.findByPk(productId);
-            if (prod.gabarito) {
-                fs.unlink('public/gabarito/' + prod.gabarito, (err) => {
-                    if (err) {
-                        console.log('Erro ao tentar excluir o arquivo');
-                    }
-                })
-            }
-        } catch (error) {
-            console.log('Erro ao tentar localizar o produto ' + error);
-        }
-
-        products.update({
-            gabarito: enderecoImagem
-        }, { where: { id: productId } }).then(() => {
-            enderecoImagem = null
-        }).catch(error => {
-            res.send('Ops, houve um erro ao tentar realizar esta operação, tente novamente, caso o erro persista entre em contato com o suporte')
-        })
-    }
-
-    res.redirect('/admin/products/find/')
-
-
-})
-
 //Listagem dos produtos
 router.get('/products/products/:name?', async (req, res) => {
 
@@ -94,8 +62,8 @@ router.get('/products/products/:name?', async (req, res) => {
     let prods = [{}]
 
     try {
-        if (req.params.product && req.params.product != 'all') {
-            prods = await products.findAll({ where: { nome: { [sequelize.Op.like]: prod } } });
+        if (prod != '' && prod != 'all') {
+            prods = await products.findAll({ where: { nome: { [sequelize.Op.like]: prod } }, include: [{ model: category },{model:subCategory}] });
         } else {
             if (req.params.product == null || req.params.product == 'all')
                 prods = await products.findAll();
@@ -136,7 +104,55 @@ router.get('/products/:id?', async (req, res) => {
     }
 })
 
-router.post('/admin/products/save',  async (req, res) => {
+
+router.get('/products/slug/:slug', (req, res) => {
+    let slugProd = req.params.slug;
+
+    products.findOne({ where: { slug: slugProd } }).then(prod => {
+        res.statusCode = 200
+        res.json(prod)
+    }).catch(erro => {
+        res.statusCode = 400
+        res.send('Erro ao tentar localizar o produto')
+    })
+})
+
+
+
+router.post('/admin/product/upload/:productId', upload.single('file'), async (req, res) => {
+
+    let productId = req.params.productId
+
+    if (enderecoImagem) {
+        try {
+            let prod = await products.findByPk(productId);
+            if (prod.gabarito) {
+                fs.unlink('public/gabarito/' + prod.gabarito, (err) => {
+                    if (err) {
+                        console.log('Erro ao tentar excluir o arquivo');
+                    }
+                })
+            }
+        } catch (error) {
+            console.log('Erro ao tentar localizar o produto ' + error);
+        }
+
+        products.update({
+            gabarito: enderecoImagem
+        }, { where: { id: productId } }).then(() => {
+            enderecoImagem = null
+        }).catch(error => {
+            res.send('Ops, houve um erro ao tentar realizar esta operação, tente novamente, caso o erro persista entre em contato com o suporte')
+        })
+    }
+
+    res.redirect('/admin/products/find/')
+
+
+})
+
+
+router.post('/admin/products/save', async (req, res) => {
 
     let data = req.body
 
@@ -247,19 +263,6 @@ router.post('/admin/products/save',  async (req, res) => {
         }
     }
 
-})
-
-
-router.get('/products/slug/:slug', (req, res) => {
-    let slugProd = req.params.slug;
-
-    products.findOne({ where: { slug: slugProd } }).then(prod => {
-        res.statusCode = 200
-        res.json(prod)
-    }).catch(erro => {
-        res.statusCode = 400
-        res.send('Erro ao tentar localizar o produto')
-    })
 })
 
 module.exports = router

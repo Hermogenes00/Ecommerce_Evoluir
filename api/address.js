@@ -46,7 +46,6 @@ router.get('/address/client/:idClient', async (req, res) => {
     } catch (error) {
         res.statusCode = 400
     }
-
 })
 
 

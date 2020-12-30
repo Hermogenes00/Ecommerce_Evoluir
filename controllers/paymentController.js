@@ -57,8 +57,28 @@ router.post('/admin/payment/receipt', clientAuthentication, async (req, res) => 
 })
 
 
-//Aprovação de Análise
-router.post('/admin/payment/review_approval',collaboratorAuthentication,(req,res)=>{
+//Aprovação/Recusa da análise do envio do comprovante
+router.post('/payment/:id', collaboratorAuthentication, (req, res) => {
+
+    let { id } = req.params
+    let data = req.body
+
+    payment.update({
+        status: data.status,
+        informe: data.informe
+    }, { where: { pedidoId: id } }).then(response => { }).catch(err => {
+        res.status(400).json({ err: 'Erro ao tentar alterar o pagamento' })
+    })
+
+    order.update({
+        status: data.status,
+        include: [{ model: payment }]
+    }, { where: { id: id } }).then(response => {
+        res.status(200).json(response)
+    }).catch(err => {
+        res.status(400).json(err)
+    })
+
 
 })
 
