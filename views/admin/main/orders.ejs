@@ -13,79 +13,98 @@
                 </div>
             </div>
 
-
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Pedido</th>
-                        <th>Cliente</th>
-                        <th>Status</th>
-                        <th>Valor</th>
-                        <th class="text-center">Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% ords.forEach(ord=> {%>
-
+                <table class="table table-hover">
+                    <thead>
                         <tr>
-                            <td>
-                                <a href="#">
-                                    <h6 data-id="<%= ord.cliente.id %>" onclick="onClick(event)">
-                                        <%= ord.id %>
-                                    </h6>
-                                </a>
-                            </td>
-                            <td>
-                                <h6>
-                                    <%= ord.cliente.nome %>
-                                        <% if(ord.pagamento){%>
-
-                                            <% if(ord.pagamento.comprovante){%>
-                                                <a href="#" id="btnVerComprovante" data-toggle="modal"
-                                                    data-target="#modalVerComprovante" title="Analisar Comprovante"
-                                                    data-comprovante="<%= ord.pagamento.comprovante %>"
-                                                    data-idOrder="<%=ord.id%>" onclick="exibirComprovante(event)"
-                                                    class="btn btn-sm btn-primary">Analisar
-                                                    Comprovante <i class="fas fa-sticky-note"></i></a>
-                                                <%} %>
-
-                                </h6>
-                                <%} %>
-
-                            </td>
-                            <td>
-                                <h6>
-                                    <%= ord.status %>
-                                </h6>
-                            </td>
-                            <td>
-                                <h6>
-                                    <%= parseFloat(ord.total).toLocaleString('pt-br',{style:'currency',currency:'brl'})
-                                        %>
-                                </h6>
-                            </td>
-                            <td>
-                                <div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <form action="/order/resume/" method="POST">
-                                                <input type="hidden" name="idOrder" value="<%= ord.id %>">
-                                                <input data-toggle="tooltip" data-placement="top" title="Ver Ficha"
-                                                    data-target="#exampleModal" type="submit"
-                                                    class="btn btn-danger btn-sm" value="Ver Ficha">
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </td>
+                            <th>Pedido</th>
+                            <th>Cadastro</th>
+                            <th>Cliente</th>
+                            <th>Status</th>
+                            <th>Valor</th>
+                            <th>Frete</th>
+                            <th>Total</th>
+                            <th class="text-center">Ação</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        <% ords.forEach(ord=> {%>
 
-                        <%}); %>
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                        <h6 data-id="<%= ord.cliente.id %>" onclick="onClick(event)">
+                                            <%= ord.id %>
+                                        </h6>
+                                    </a>
+                                </td>
+                                <td>
+                                    <h6>
+                                        <%= ord.createdAt.getDate()+`/${ord.createdAt.getMonth()+1}/${ord.createdAt.getFullYear()}`%>
+                                    </h6>
+                                </td>
+                                <td>
+                                    <h6>
+                                        <%= ord.cliente.nome %>
+                                            <% if(ord.pagamento){%>
 
-                </tbody>
-            </table>
+                                                <% if(ord.pagamento.comprovante){%>
+                                                    <a href="#" id="btnVerComprovante" data-toggle="modal"
+                                                        data-target="#modalVerComprovante" title="Analisar Comprovante"
+                                                        data-comprovante="<%= ord.pagamento.comprovante %>"
+                                                        data-idOrder="<%=ord.id%>" onclick="exibirComprovante(event)"
+                                                        class="btn btn-sm btn-primary">Analisar
+                                                        Comprovante <i class="fas fa-sticky-note"></i></a>
+                                                    <%} %>
 
+                                    </h6>
+                                    <%} %>
+
+                                </td>
+                                <td>
+                                    <h6>
+                                        <%= ord.status %>
+                                    </h6>
+                                </td>
+                                <td>
+                                    <h6>
+                                        <%= parseFloat(ord.total).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                            %>
+                                    </h6>
+                                </td>
+                                <td>
+                                    <h6>
+                                        <%= parseFloat(ord.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                            %>
+                                    </h6>
+                                </td>
+                                <td>
+                                    <h6>
+                                        <%= parseFloat(ord.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                            %>
+                                    </h6>
+                                </td>
+                                <td>
+                                    <div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <form action="/order/resume/" method="POST">
+                                                    <input type="hidden" name="idOrder" value="<%= ord.id %>">
+                                                    <input data-toggle="tooltip" data-placement="top" title="Ver Ficha"
+                                                        data-target="#exampleModal" type="submit"
+                                                        class="btn btn-danger btn-sm" value="Ver Ficha">
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <%}); %>
+
+                    </tbody>
+                </table>
+            </div>
             <%- include('../../partials/main/order/modalVerComprovante.ejs') %>
 
         </div>

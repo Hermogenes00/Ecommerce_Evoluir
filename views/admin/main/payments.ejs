@@ -1,0 +1,123 @@
+<%- include('../../partials/header') %>
+    <%- include('../../partials/navbaradmin') %>
+
+        <div class="container mt-3">
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-2">
+                            <label for="dataInicial">Data Inicial</label>
+                            <input type="date" name="dataInicial" class="form-control form-control-sm" id="dataInicial">
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label for="dataFinal">Data Final</label>
+                            <input type="date" name="dataFinal" class="form-control form-control-sm" id="dataFinal">
+                        </div>
+
+                        <div class="col">
+                            <label for="inputCliente">Cliente</label>
+                            <input type="text" placeholder="Informe o nome do cliente" name="inputCliente"
+                                class="form-control form-control-sm" id="inputCliente">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row justify-content-center">
+                <div class="col">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Cadastro</th>
+                                <th>Cliente</th>
+                                <th>Cnpj/Cpf</th>
+                                <th>Pedido</th>
+                                <th>Status</th>
+                                <th>Valor</th>
+                                <th class="text-center">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <%pedidos.forEach(pedido=>{ %>
+                                <tr>
+                                    <td>
+                                        <h6>
+                                            <%=`${pedido.createdAt.getDate()}/${pedido.createdAt.getMonth()+1}/${pedido.createdAt.getFullYear()}`%>
+                                        </h6>
+                                    </td>
+                                    <td>
+                                        <h6>
+                                            <%=pedido.cliente.nome%>
+                                        </h6>
+                                    </td>
+                                    <td>
+                                        <%=pedido.cliente.cnpjCpf%>
+                                    </td>
+                                    <td>
+                                        <h6>
+                                            <%=pedido.id%>
+                                        </h6>
+                                    </td>
+                                    <td>
+                                        <h6>
+                                            <%=pedido.pagamento?pedido.pagamento.status:pedido.status%>
+                                        </h6>
+
+                                      
+                                            <% if(pedido.pagamento){%>
+
+                                                <% if(pedido.pagamento.comprovante!= undefined){%>
+                                                    <a href="#" id="btnVerComprovante" data-toggle="modal"
+                                                        data-target="#modalVerComprovante" title="Analisar Comprovante"
+                                                        data-comprovante="<%= pedido.pagamento.comprovante %>"
+                                                        data-idOrder="<%=pedido.id%>" onclick="exibirComprovante(event)"
+                                                        class="btn btn-sm btn-primary">Analisar
+                                                        Comprovante <i class="fas fa-sticky-note"></i></a>
+                                                    <%} %>
+                                    <%} %>
+                                    </td>
+                                    <td>
+                                        <h6>
+                                            <%=parseFloat(pedido.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'})%>
+                                        </h6>
+                                    </td>
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="" title="Ver Pedido" data-target="#exampleModal"><i
+                                                    class="material-icons" data-toggle="tooltip" data-placement="top"
+                                                    title="Comprados">monetization_on</i></a>
+                                            <a href="" data-toggle="modal" onclick="verCarrinho(event)"
+                                                data-target="#exampleModal" data-whatever="@getbootstrap"><i
+                                                    class="material-icons" data-clientId="" data-toggle="tooltip"
+                                                    data-placement="top" title="Ver Carrinho">add_shopping_cart</i></a>
+                                            <a href="" title="Ver Pedido"><i class="material-icons"
+                                                    data-toggle="tooltip" data-placement="top"
+                                                    title="Análise">analytics</i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <%}) %>
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <%- include('../../partials/main/order/modalVerComprovante.ejs') %>
+        <script src="/js/modalVerComprovante.js"></script>
+
+
+
+
+
+
+        <%- include('../../partials/footer') %>

@@ -1,5 +1,6 @@
 const order = require('../models/order')
 const payment = require('../models/payment')
+const client = require('../models/client')
 const router = require('express').Router()
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
@@ -10,7 +11,6 @@ const collaboratorAuthentication = require('../middleware/collaboratorAuthentica
 
 //CONSTANTES
 const CONSTANTE = require('../utils/constants')
-
 
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
@@ -23,6 +23,25 @@ router.use(async (req, res, next) => {
 })
 
 //Rotas
+
+router.get('/payment', collaboratorAuthentication, async (req, res) => {
+    let response = {}
+
+    try {
+        response = await order.findAll({ include: [{ model: payment }, { model: client }] })
+    } catch (error) {
+        console.log('Erro ao tentar carregar pagamentos', error);
+    }
+    console.log(response);
+    res.render('admin/main/payments', { pedidos: response })
+})
+
+
+
+
+
+
+
 
 //receipt=comprovante
 router.post('/admin/payment/receipt', clientAuthentication, async (req, res) => {

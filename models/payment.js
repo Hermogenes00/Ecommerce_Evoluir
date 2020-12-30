@@ -21,7 +21,7 @@ const payment = connection.define('pagamento', {
     },
     informe: {
         type: sequelize.STRING,
-        allowNull: false
+        allowNull: true
     }
 })
 
