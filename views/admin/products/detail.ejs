@@ -23,19 +23,7 @@
 
                         </div>
 
-                        <div class="col">
-
-
-                            <h3>Sobre o produto</h3>
-
-                            <div class="" data-descricao="<%= product.descricao %>" id="descricao">
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="col">
+                        <div class="col-sm-4">
                             <div class="card">
 
                                 <div class="card-header">Add ao Carrinho</div>
@@ -113,35 +101,40 @@
                     </div>
 
 
-                    <h5>Descrição Técnica</h5>
                     <hr>
-                    
-                    <div class="row">
-                    
-                        <div class="col">
-                            <p style="margin-bottom: 0%;">Ref: <%= product.codRef %>
-                            </p>
-                            <p style="margin-bottom: 0%;">Tamanho Final:
-                                <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x
-                                    <%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
-                            </p>
-                            <p style="margin-bottom: 0%;">Tamanho c/Sangria:
-                                <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x
-                                    <%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
-                            </p>
-                            <p style="margin-bottom: 0%;">Material: <%= product.material %>
-                            </p>
-                            <p style="margin-bottom: 0%;">Gramatura: <%= product.gramatura %>
-                            </p>
-                            <p style="margin-bottom: 0%;">Peso: <%= product.peso %>
-                            </p>
-                            <p style="margin-bottom: 0%;">Produção: <%= product.previsaoProducao %> dias úteis </p>
-                            <p style="margin-bottom: 0%;">Und: <%= product.und=='metroQuadrado' ?'Metro Quadrado':'Und'
-                                    %>
-                            </p>
-                        </div>
-
+                <div class="row mt-2">
+                    <div class="col">
+                        <h3>Sobre o produto</h3>
+                        <div class="" data-descricao="<%= product.descricao %>" id="descricao"></div>
                     </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col">
+                        <h5>Descrição Técnica</h5>
+                        <p style="margin-bottom: 0%;">Ref: <%= product.codRef %>
+                        </p>
+                        <p style="margin-bottom: 0%;">Tamanho Final:
+                            <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x
+                                <%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
+                        </p>
+                        <p style="margin-bottom: 0%;">Tamanho c/Sangria:
+                            <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x
+                                <%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
+                        </p>
+                        <p style="margin-bottom: 0%;">Material: <%= product.material %>
+                        </p>
+                        <p style="margin-bottom: 0%;">Gramatura: <%= product.gramatura %>
+                        </p>
+                        <p style="margin-bottom: 0%;">Peso: <%= product.peso %>
+                        </p>
+                        <p style="margin-bottom: 0%;">Produção: <%= product.previsaoProducao %> dias úteis </p>
+                        <p style="margin-bottom: 0%;">Und: <%= product.und=='metroQuadrado' ?'Metro Quadrado':'Und' %>
+                        </p>
+                    </div>
+
+                </div>
                 </div>
 
                 <script src="/js/product.js"></script>

@@ -3,6 +3,7 @@ const products = require('../models/product')
 const sequelize = require('sequelize')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
+const slides = require('../models/slide')
 const router = express.Router();
 const slug = require('slugify')
 
@@ -100,6 +101,53 @@ router.post('/admin/product/upload/:productId',collaboratorAuthentication,upload
 
 
 })
+
+
+router.get('/products/findBySubCategory/:slug', defaultAuthentication, async (req, res) => {
+    let slug = req.params.slug
+    let prod = []
+    try {
+        let sld = await slides.findAll()
+        prod = await subCategory.findAll({
+            where: { slug: slug },
+            include: products
+        })
+        res.render('index', { products: prod[0].produtos, slides: sld })
+
+    } catch (error) {
+        console.log('Erro ao pesquisar o produto-->' + error)
+    }
+})
+
+
+router.post('/products/find/', defaultAuthentication, async (req, res) => {
+    let data = req.body
+    let name = `%${data.name}%`
+    let prods = []
+    try {
+
+        let sld = await slides.findAll()
+
+        if (data.name) {
+            prods = await products.findAll({
+                where: {
+                    nome: { [sequelize.Op.like]: name }
+                }
+            })
+        } else {
+            prods = await products.findAll()
+        }
+
+        res.render('index', { products: prods, slides: sld })
+
+    } catch (error) {
+        console.log('Erro ao pesquisar o produto-->' + error)
+    }
+
+})
+
+
+
 
 router.get('/admin/products/find/:product?', collaboratorAuthentication, async (req, res) => {
 

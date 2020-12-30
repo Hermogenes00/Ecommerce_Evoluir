@@ -10,14 +10,12 @@ const cors = require('cors')
 
 //Possibilita a utilização da api em ambientes externos ao servidor local
 app.use(cors())
-
 //BodyParser
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true, parameterLimit: 1000000 }));
 
 
 //Middleware Authentication
-const clientAuthentication = require('./middleware/clientAuthentication')
 const defaultAuthentication = require('./middleware/defaultAuthentication')
 
 //Verificando conexão.
@@ -41,6 +39,7 @@ const payment = require('./models/payment')
 const deliveryRegion = require('./models/deliveryRegion')
 const slides = require('./models/slide')
 const printer = require('./models/printer')
+
 
 //Importação dos controllers
 const productController = require('./controllers/productController');
@@ -138,49 +137,6 @@ app.use(async (req, res, next) => {
 })
 
 //Rotas
-
-app.post('/products/find/', defaultAuthentication, async (req, res) => {
-    let data = req.body
-    let name = `%${data.name}%`
-    let prods = []
-    try {
-
-        let sld = await slides.findAll()
-
-        if (data.name) {
-            prods = await products.findAll({
-                where: {
-                    nome: { [sequelize.Op.like]: name }
-                }
-            })
-        } else {
-            prods = await products.findAll()
-        }
-
-        res.render('index', { products: prods, slides: sld })
-
-    } catch (error) {
-        console.log('Erro ao pesquisar o produto-->' + error)
-    }
-
-})
-
-app.get('/products/findBySubCategory/:slug', defaultAuthentication, async (req, res) => {
-    let slug = req.params.slug
-    let prod = []
-    try {
-        let sld = await slides.findAll()
-        prod = await subCategory.findAll({
-            where: { slug: slug },
-            include: products
-        })
-        res.render('index', { products: prod[0].produtos, slides: sld })
-
-    } catch (error) {
-        console.log('Erro ao pesquisar o produto-->' + error)
-    }
-})
-
 app.get('/', defaultAuthentication, async (req, res) => {
 
     try {
@@ -195,6 +151,7 @@ app.get('/', defaultAuthentication, async (req, res) => {
     }
 
 })
+
 
 app.get('/logout', defaultAuthentication, (req, res) => {
     req.session.nome = undefined;
