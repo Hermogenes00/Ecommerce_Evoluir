@@ -1,4 +1,3 @@
-const { default: axios } = require("axios");
 
 function onClick(event) {
 
