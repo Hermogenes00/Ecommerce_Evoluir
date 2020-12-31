@@ -90,7 +90,7 @@ router.post('/payment/:id', collaboratorAuthentication, (req, res) => {
     })
 
     order.update({
-        status: data.status,
+        status: data.status == 'RECEBIDO' ? CONSTANTE.STATUS_PRODUCAO.AGUARDANDO_PRODUCAO : data.status,
         include: [{ model: payment }]
     }, { where: { id: id } }).then(response => {
         res.status(200).json(response)

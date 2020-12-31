@@ -10,6 +10,7 @@ const cors = require('cors')
 
 //Possibilita a utilização da api em ambientes externos ao servidor local
 app.use(cors())
+
 //BodyParser
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true, parameterLimit: 1000000 }));

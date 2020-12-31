@@ -11,102 +11,116 @@
 
 <body>
     <%- include('../../partials/navbaradmin') %>
-    <div class="boards">
-        <div class="board">
-            <h3>Aguardando</h3>
-            <div class="dropzone">
-                <div class="card" draggable="true">
-                    <div class="status green"></div>
-                    <div class="content">
-                        <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
-                        <img src="https://img.elo7.com.br/product/original/21BF6AD/banner-personalizado-em-lona-front-light-melhor-acabamento-panfleto.jpg"
-                            alt="" height="100" width="200">
-                        <hr>
-                        <span>Pedido nº 100</span><br>
-                        <span class="text-center">Hermógenes Batista dos Santos Neto</span><br>
-                        <span>Cartão de Visita</span><br>
-                        <span>Data de Entrega: 27/03/2021</span>
-                        <a href="" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
-                    </div>
+        <div class="boards">
+            <div class="board">
+                <h3>Aguardando</h3>
+                <div class="dropzone">
+                    <% itens.forEach(item=>{%>
+                        <% if(item.pedido.status=='AGUARDANDO_PRODUCAO'){%>
+                            <div class="card" draggable="true">
+                                <div class="status green"></div>
+                                <div class="content">
+                                    <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
+                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200">
+                                    <hr>
+                                    <span>Pedido nº <%= item.pedido.id%></span><br>
+                                    <span class="text-center">
+                                        <%= item.pedido.cliente.nome %>
+                                    </span><br>
+                                    <span>
+                                        <%= item.produto.nome %>
+                                    </span>
+                                    <a href="/uploads/<%= item.arquivo %>" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
+                                </div>
+                            </div>
+                        <%} %>                         
+                    <%}) %>
                 </div>
+            </div>
 
-                <div class="card" draggable="true">
-                    <div class="status green"></div>
-                    <div class="content">
-                        <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
-                        <img src="https://img.elo7.com.br/product/original/21BF6AD/banner-personalizado-em-lona-front-light-melhor-acabamento-panfleto.jpg"
-                            alt="" height="100" width="200">
-                        <hr>
-                        <span>Pedido nº 100</span><br>
-                        <span class="text-center">Hermógenes Batista dos Santos Neto</span><br>
-                        <span>Cartão de Visita</span>
-                        <a href="" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
-                    </div>
+            <div class="board">
+                <h3>Produzindo</h3>
+                <div class="dropzone">
+                    <% itens.forEach(item=>{%>
+                        <% if(item.pedido.status=='PRODUZINDO'){%>
+                            <div class="card" draggable="true">
+                                <div class="status green"></div>
+                                <div class="content">
+                                    <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
+                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200">
+                                    <hr>
+                                    <span>Pedido nº <%= item.pedido.id%></span><br>
+                                    <span class="text-center">
+                                        <%= item.pedido.cliente.nome %>
+                                    </span><br>
+                                    <span>
+                                        <%= item.produto.nome %>
+                                    </span>
+                                    <a href="/uploads/<%= item.arquivo %>" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
+                                </div>
+                            </div>
+                        <%} %>                         
+                    <%}) %>
+                </div>
+            </div>
+
+            <div class="board">
+                <h3>Acabamento</h3>
+                <div class="dropzone">
+
+                    <% itens.forEach(item=>{%>
+                        <% if(item.pedido.status=='RECEBIDO'){%>
+                            <div class="card" draggable="true">
+                                <div class="status green"></div>
+                                <div class="content">
+                                    <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
+                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200">
+                                    <hr>
+                                    <span>Pedido nº <%= item.pedido.id%></span><br>
+                                    <span class="text-center">
+                                        <%= item.pedido.cliente.nome %>
+                                    </span><br>
+                                    <span>
+                                        <%= item.produto.nome %>
+                                    </span>
+                                    <a href="/uploads/<%= item.arquivo %>" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
+                                </div>
+                            </div>
+                        <%} %>                         
+                    <%}) %>
+                </div>
+            </div>
+
+            <div class="board">
+                <h3>Expedição</h3>
+                <div class="dropzone">
+                    <% itens.forEach(item=>{%>
+                        <% if(item.pedido.status=='EXPEDICAO'){%>
+                            <div class="card" draggable="true">
+                                <div class="status green"></div>
+                                <div class="content">
+                                    <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
+                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200">
+                                    <hr>
+                                    <span>Pedido nº <%= item.pedido.id%></span><br>
+                                    <span class="text-center">
+                                        <%= item.pedido.cliente.nome %>
+                                    </span><br>
+                                    <span>
+                                        <%= item.produto.nome %>
+                                    </span>
+                                    <a href="/uploads/<%= item.arquivo %>" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
+                                </div>
+                            </div>
+                        <%} %>                         
+                    <%}) %>
                 </div>
             </div>
         </div>
 
-        <div class="board">
-            <h3>Produzindo</h3>
-            <div class="dropzone">
-                <div class="card" draggable="true">
-                    <div class="status green"></div>
-                    <div class="content">
-                        <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
-                        <img src="https://img.elo7.com.br/product/original/21BF6AD/banner-personalizado-em-lona-front-light-melhor-acabamento-panfleto.jpg"
-                            alt="" height="100" width="200">
-                        <hr>
-                        <span>Pedido nº 100</span><br>
-                        <span class="text-center">Hermógenes Batista dos Santos Neto</span><br>
-                        <span>Cartão de Visita</span>
-                        <a href="" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="board">
-            <h3>Acabamento</h3>
-            <div class="dropzone">
-                <div class="card" draggable="true">
-                    <div class="status green"></div>
-                    <div class="content">
-                        <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
-                        <img src="https://img.elo7.com.br/product/original/21BF6AD/banner-personalizado-em-lona-front-light-melhor-acabamento-panfleto.jpg"
-                            alt="" height="100" width="200">
-                        <hr>
-                        <span>Pedido nº 100</span><br>
-                        <span class="text-center">Hermógenes Batista dos Santos Neto</span><br>
-                        <span>Cartão de Visita</span>
-                        <a href="" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="board">
-            <h3>Expedição</h3>
-            <div class="dropzone">
-                <div class="card" draggable="true">
-                    <div class="status green"></div>
-                    <div class="content">
-                        <a href="" class="btn btn-primary btn-sm mt-3 mr-3" style="float: right;">Finalizar</a>
-                        <img src="https://img.elo7.com.br/product/original/21BF6AD/banner-personalizado-em-lona-front-light-melhor-acabamento-panfleto.jpg"
-                            alt="" height="100" width="200">
-                        <hr>
-                        <span>Pedido nº 100</span><br>
-                        <span class="text-center">Hermógenes Batista dos Santos Neto</span><br>
-                        <span>Cartão de Visita</span>
-                        <a href="" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <script src="/js/production.js"></script>
-    <%- include('../../partials/footer') %>
+        <script src="/js/production.js"></script>
+        <%- include('../../partials/footer') %>
 </body>
 
 </html>

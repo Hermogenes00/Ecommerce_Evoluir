@@ -21,6 +21,7 @@ const clients = require('../models/client')
 const itemsOrders = require('../models/itensOrder');
 const product = require('../models/product');
 const address = require('../models/address');
+const itensOrder = require('../models/itensOrder');
 
 
 //Criação do middleware para menu
@@ -70,7 +71,10 @@ router.get('/main/production/status/update/:id/:status', collaboratorAuthenticat
 router.get('/main/production', collaboratorAuthentication, async (req, res) => {
 
     try {
-        let itens = await itemsOrders.findAll({ include: [{ model: product }, { model: orders }] })
+
+        let itens = await itensOrder.findAll({
+            include: [{ model: product }, { model: orders, where: { status: { [sequelize.Op.ne]: 'CARRINHO' } }, include: clients }]
+        })
         res.render('admin/main/production', { itens: itens })
     } catch (error) {
         console.log('Erro ao tentar carregas itens dos pedidos-->' + error);
@@ -118,7 +122,7 @@ router.get('/main/orders/:client?', collaboratorAuthentication, async (req, res)
                 }, { model: payment }],
 
             })
-        } 
+        }
         //res.json(ords)
         res.render('admin/main/orders', { ords })
 

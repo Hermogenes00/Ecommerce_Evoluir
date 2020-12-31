@@ -91,9 +91,12 @@
                                     <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
                                         data-toggle="tooltip" title="Cancelar Pedido">remove_circle_outline</button>
                                 </form>
-                                <button data-toggle="modal" onclick="setarIdOrder('<%= o.id %>')"
-                                    data-target="#modalComprovante" class="btn btn-primary btn-sm">Enviar
-                                    Comprovante</button>
+                                <% if(o.status!='RECEBIDO'){%>
+                                    <button data-toggle="modal" onclick="setarIdOrder('<%= o.id %>')"
+                                        data-target="#modalComprovante" class="btn btn-primary btn-sm">Enviar
+                                        Comprovante</button>
+                                    <%} %> 
+                                
                                 <%} %>
                             </div>
                         </td>
