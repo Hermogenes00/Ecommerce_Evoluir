@@ -1,49 +1,56 @@
 
 function showItems(event) {
 
-    //Id's sendo puxados do modal (modalShowOrder)
-    let prodDescricao = document.getElementById('prodDescricao')
-    let valor = document.getElementById('valor')
-    let quantidade = document.getElementById('quantidade')
-    let altura = document.getElementById('altura')
-    let largura = document.getElementById('largura')
-    let ref = document.getElementById('ref')
-    let link = document.getElementById('link')
+   
+    document.getElementById('numPedido').innerHTML = event.target.dataset.id
+    let status = document.getElementById('status')
+    let informe = document.getElementById('informe')
 
-
+    //Tabela do modal
+    let tbItensOrder = document.getElementById('tbItensOrder')
 
     requisicao(`/admin/cart/itensCart/` + event.target.dataset.id, (data => {
 
         let dados = JSON.parse(data)
-        let conteudo = document.getElementById('linha' + event.target.dataset.id)
+     
+        tbItensOrder.innerHTML=''
+        dados.forEach(item => {
+            let linkBaixarArquivo = item.arquivo ? `    
+            <a href="/uploads/${item.arquivo}">Baixar Arquivo</a>
+            `: ''
+            
+            tbItensOrder.innerHTML += `
+                                <tr>
+                                    <td>${item.produto.nome}</td>
+                                    <td>${item.status?item.status:'---'}</td>
+                                    <td>${parseFloat(item.valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })}</td>
+                               
+                               
+                                    <td>${item.qtd}</td>
+                                                                   
+                                    <td>${item.altura?item.altura:'---'}</td>
+                                    <td>${item.largura?item.largura:'---'}</td>
+                               
+                                    <td>${item.produto.codRef}</td>
+                               
+                                    <td>${linkBaixarArquivo}</td>
+                                </tr>
+            `
+            
+        });
 
-        if (conteudo.style.display == 'none' || conteudo.style.display == '') {
-            conteudo.style.display = 'block'
-            conteudo.innerHTML = '';
 
-            dados.forEach(item => {
-                let linkBaixarArquivo = item.arquivo ? `    
-<a class="btn btn-sm btn-outline-primary" href="/uploads/${item.arquivo}">Baixar Arquivo</a>
-`: ''
-                prodDescricao.value = item.produto.nome
-                quantidade.value = item.qtd
-                valor = parseFloat(item.valor).toLocaleString('pt-br',{style:'currency', currency:'brl'})
-                altura = item.altura
-                largura = item.largura
-                ref = item.produto.ref
-                //link = linkBaixarArquivo
-
-                console.log(item);
-            });
-
-        } else {
-            conteudo.style.display = 'none'
-        }
 
     }
     )
     )
 
+    requisicao('/payment/byOrder/' + event.target.dataset.id, (response => {
+        let dados = JSON.parse(response)
+
+        status.value = dados.status
+        informe.value = dados.informe
+    }))
 
 }
 

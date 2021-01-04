@@ -1,9 +1,9 @@
 <div class="modal fade" id="modalShowOrder" data-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalShowOrder" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Detalhes do pedido</h4>
+                <h4>Detalhes do pedido <span id="numPedido"></span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,42 +15,40 @@
 
                     <div class="card-body">
 
+                        <table class="table">
+                            <thead>
+                                <tr scope="col">
+                                    <th>Item</th>
+                                    <th>Status</th>
+                                    <th>Valor</th>
+                                    <th>Quantidade</th>
+                                    <th>Altura</th>
+                                    <th>Largura</th>
+                                    <th>Ref</th>
+                                    <th>Arquivo</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tbItensOrder">
+
+                            </tbody>
+
+                        </table>
+
                         <div class="row">
-                            <div class="col-md-12" id="item">
-                                <label for="prodDescricao">Item</label>
-                                <input type="text" name="prodDescricao" value="çpaljasdçlajdsflka çlakjdfçlakjsd" class="form-control form-control-sm"
-                                    readonly id="prodDescricao">
+                            <div class="col-md-4">
+                                <label for="status">Status</label>
+                                <input type="text" name="status" class="form-control form-control-sm" readonly
+                                    id="status">
                             </div>
-                            <div class="col-md-4" id="item">
-                                <label for="valor">Valor</label>
-                                <input type="text" name="valor" value="R$ 00,00" class="form-control form-control-sm"
-                                    readonly id="valor">
-                            </div>
-
-                            <div class="col-md-4" id="quantidade">
-                                <label for="quantidade">Quantidade</label>
-                                <input type="text" name="quantidade" value="0" class="form-control form-control-sm" readonly
-                                    id="quantidade">
-                            </div>
-                            <div class="col-md-4" id="altura">
-                                <label for="altura">Altura</label>
-                                <input type="text" name="altura" value="0" class="form-control form-control-sm" readonly
-                                    id="altura">
-                            </div>
-                            <div class="col-md-4" id="largura">
-                                <label for="largura">Largura</label>
-                                <input type="text" name="largura" value="0" class="form-control form-control-sm" readonly
-                                    id="largura">
-                            </div>
-                            <div class="col-md-4"id="ref">
-                                <label for="ref">Ref</label>
-                                <input type="text" name="ref" value="asdfasl55a" class="form-control form-control-sm" readonly
-                                    id="ref">
-                            </div>
-                            <div class="col-md-4" id="link">asdfasdçlkjfaçlkjdfas</div>
                         </div>
-
-                        <div class="row"></div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="informe">Informe</label>
+                                <input type="text" name="informe" class="form-control form-control-sm" readonly
+                                    id="informe">
+                            </div>
+                        </div>
 
                     </div>
                 </div>

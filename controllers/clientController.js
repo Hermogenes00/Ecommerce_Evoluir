@@ -356,8 +356,8 @@ router.get('/client/orders', clientAuthentication, async (req, res) => {
         let objOrders = await orders.findAll({
             where: {
                 clienteId: idClient,
-                status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO }
-            }
+                status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO },
+            },include:payment,order:[['createdAt','desc']]
         });
         
         res.render('admin/order/orders', { orders: objOrders, message: message })

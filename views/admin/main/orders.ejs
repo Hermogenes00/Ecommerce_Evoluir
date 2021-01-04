@@ -39,22 +39,25 @@
                                 </td>
                                 <td>
                                     <h6>
-                                        <%= ord.createdAt.getDate()+`/${ord.createdAt.getMonth()+1}/${ord.createdAt.getFullYear()}`%>
+                                        <%= ord.createdAt.toLocaleDateString('pt-br')%>
                                     </h6>
                                 </td>
                                 <td>
                                     <h6>
                                         <%= ord.cliente.nome %>
+                                        
                                             <% if(ord.pagamento){%>
-
-                                                <% if(ord.pagamento.comprovante){%>
+                                                
+                                               
+                                                    <% if(ord.pagamento.comprovante){%>
                                                     <a href="#" id="btnVerComprovante" data-toggle="modal"
                                                         data-target="#modalVerComprovante" title="Analisar Comprovante"
                                                         data-comprovante="<%= ord.pagamento.comprovante %>"
                                                         data-idOrder="<%=ord.id%>" onclick="exibirComprovante(event)"
                                                         class="btn btn-sm btn-primary">Analisar
                                                         Comprovante <i class="fas fa-sticky-note"></i></a>
-                                                    <%} %>
+                                                    <%} %>                                          
+                                                
 
                                     </h6>
                                     <%} %>

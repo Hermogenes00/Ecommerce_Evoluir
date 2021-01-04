@@ -16,7 +16,8 @@ const address = require('../models/address')
 const tratarArquivo = require('../utils/trataArquivo')
 
 //Middleware Authentication
-const clientAuthentication = require('../middleware/clientAuthentication')
+const clientAuthentication = require('../middleware/clientAuthentication');
+const payment = require('../models/payment');
 
 
 //Criação do middleware para menu
@@ -49,13 +50,13 @@ router.post('/admin/cart/itemCart/delete', clientAuthentication, async (req, res
          * Para Posteriormente exluir o item upado
          */
         let item = await itensOrder.findOne({ where: { id: data.idItem } })
-        
+
         //Excluir o arquivo aqui.
-       tratarArquivo.removerArquivo(item.arquivo,flag=>{
-           if(flag){
-               console.log('Arquivo removido com sucesso');
-           }
-       })
+        tratarArquivo.removerArquivo(item.arquivo, flag => {
+            if (flag) {
+                console.log('Arquivo removido com sucesso');
+            }
+        })
 
         await itensOrder.destroy({ where: { id: data.idItem } })
 
@@ -93,7 +94,7 @@ router.post('/admin/cart/itemCart/delete', clientAuthentication, async (req, res
                 res.send('Erro ao tentar atualizar valores do pedido' + error)
             }
         }
-        
+
     } catch (error) {
         res.send('Erro ao tentar atualizar valores do pedido' + error)
     }
@@ -110,8 +111,8 @@ router.get('/admin/cart/itensCart/:idOrder', clientAuthentication, async (req, r
         //await orders.findOne({ where: { id: order.id }, include: itensOrder })
 
 
-        let itensCart = await itensOrder.findAll({ where: { pedidoId: idOrder }, include: product })
-
+        let itensCart = await itensOrder.findAll({ where: { pedidoId: idOrder }, include: [{ model: product }] })
+        
         res.json(itensCart)
 
     } catch (error) {

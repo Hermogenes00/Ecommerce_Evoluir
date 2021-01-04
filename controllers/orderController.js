@@ -26,12 +26,28 @@ const CONSTANTE = require('../utils/constants')
 router.use(async (req, res, next) => {
     try {
         res.locals.menu = await category.findAll({ include: subCategory })
-    } catch (error) {
+} catch (error) {
         console.log('Erro ao tentar consultar as categorias->' + error);
     }
     next()
 })
 
+
+//Altera o status do item de um pedido
+router.put('/order/item/:idItemOrder', (req, res) => {
+
+    let { idItemOrder } = req.params
+    let data = req.body
+
+    itensOrder.update({
+        status: data.status
+    }, { where: { id: idItemOrder } }).then(response => {
+        res.json(response)
+    }).catch(err => {
+        res.json(err)
+    })
+
+})
 
 router.post('/order/payment/', clientAuthentication, async (req, res) => {
 
@@ -89,7 +105,7 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
         itens.forEach(item => {
             description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) ->Frete: ${ord.valorFrete} `
         })
-        
+
         let dados = {
             items: [
                 item = {

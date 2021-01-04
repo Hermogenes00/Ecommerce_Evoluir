@@ -1,3 +1,4 @@
+
 function log(message) {
     console.log(message);
 }
@@ -8,6 +9,9 @@ const cards = document.querySelectorAll('.card')
 //Get all dropzones
 const dropzones = document.querySelectorAll('.dropzone')
 
+
+//takes the status of the selected card
+let statusCard = undefined
 
 //Listener for the cards
 cards.forEach(card => {
@@ -34,25 +38,36 @@ function drag() {
 }
 
 function dragovercard() {
-    log('Sobre o cartão')
     this.classList.add('card-reference')
+
 }
 
 function dragleavecard() {
-    log('Removido a classe')
+
     this.classList.remove('card-reference')
 }
 
 
 function dragend() {
+    
+    axios.put('/order/item/' + this.dataset.iditemorder,{
+        status:statusCard
+    }).then(response => {
+        
+    }).catch(err => {
+        
+    })
     dropzones.forEach(dropzone => {
         dropzone.classList.remove('highlight')
+
     })
 
     this.classList.remove('is-dragging')
     this.classList.remove('ghost')
 
 }
+
+//----------------------------------------------------------------
 
 //Listener for the dropzones
 dropzones.forEach(dropzone => {
@@ -65,6 +80,8 @@ dropzones.forEach(dropzone => {
 
 function dragenter() {
     this.classList.add('over')
+
+
 }
 
 function dragover() {
@@ -72,13 +89,19 @@ function dragover() {
     const cardDragging = document.querySelector('.is-dragging')
     const cardReference = document.querySelector('.card-reference')
 
+    //statusCard is global variable
+    statusCard = this.dataset.status
+
     this.insertBefore(cardDragging, cardReference)
+
 }
 
 function dragleave() {
+
     this.classList.remove('over')
+
 }
 
 function drop() {
-
+    log('Chegou no drop')
 }

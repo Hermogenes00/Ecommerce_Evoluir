@@ -4,7 +4,7 @@ const router = express.Router();
 const client = require('../models/client')
 
 //Lista todos os endereços
-router.get('/address', async (req, res) => {
+router.get('/address/address', async (req, res) => {
     try {
 
         adr = await address.findAll({ include: [{ model: client }] })

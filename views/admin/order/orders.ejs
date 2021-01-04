@@ -43,6 +43,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>Pedido</th>
+                        <th>Cadastro</th>
                         <th>Status</th>
                         <th>Valor Total</th>
                         <th>Frete</th>
@@ -66,6 +67,9 @@
 
                         </td>
                         <td>
+                            <h6><%= o.createdAt.toLocaleDateString('pt-br') %></h6>
+                        </td>
+                        <td>
                             <h6><%= o.status %></h6>
                         </td>
                         <td>
@@ -79,33 +83,28 @@
                         <td>
                             <div class="row">
                                 <% if(o.status !='CANCELADO'){%>
+                                
+                                <% if(o.pagamento.status!='RECEBIDO'){%>
 
-                                <form action="/order/payment/" method="post">
-                                    <input type="hidden" name="idOrder" id="idOrder" value="<%= o.id %>">
-                                    <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
-                                        data-toggle="tooltip" title="Realizar Pagamento">credit_card</button>
-                                </form>
-                                <form onsubmit="cancelarPedido(event,'Deseja realmente cancelar este pedido?',this)"
+                                    <form action="/order/payment/" method="post">
+                                        <input type="hidden" name="idOrder" id="idOrder" value="<%= o.id %>">
+                                        <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                            data-toggle="tooltip" title="Realizar Pagamento">credit_card</button>
+                                    </form>
+
+                                    <form onsubmit="cancelarPedido(event,'Deseja realmente cancelar este pedido?',this)"
                                     action="/order/cancel" method="post">
                                     <input type="hidden" name="idOrder" value="<%= o.id %>">
                                     <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
                                         data-toggle="tooltip" title="Cancelar Pedido">remove_circle_outline</button>
-                                </form>
-                                <% if(o.status!='RECEBIDO'){%>
+                                    </form>
+
                                     <button data-toggle="modal" onclick="setarIdOrder('<%= o.id %>')"
                                         data-target="#modalComprovante" class="btn btn-primary btn-sm">Enviar
                                         Comprovante</button>
                                     <%} %> 
                                 
                                 <%} %>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="6">
-                            <div class="row">
-                                <div id="linha<%= o.id %>" class="col" style="display: none;"> </div>
                             </div>
                         </td>
                     </tr>

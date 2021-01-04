@@ -4,6 +4,7 @@ const client = require('../models/client')
 const router = require('express').Router()
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
+const itemsOrder = require('../models/itensOrder')
 const clientAuthentication = require('../middleware/clientAuthentication')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 
@@ -77,7 +78,7 @@ router.post('/admin/payment/receipt', clientAuthentication, async (req, res) => 
 
 
 //Aprovação/Recusa da análise do envio do comprovante
-router.post('/payment/:id', collaboratorAuthentication, (req, res) => {
+router.post('/payment/:id', collaboratorAuthentication, async (req, res) => {
 
     let { id } = req.params
     let data = req.body
@@ -98,6 +99,16 @@ router.post('/payment/:id', collaboratorAuthentication, (req, res) => {
         res.status(400).json(err)
     })
 
+    if (data.status == 'RECEBIDO') {
+        itemsOrder.update(
+            { status: CONSTANTE.STATUS_PRODUCAO.AGUARDANDO_PRODUCAO },
+            { where: { pedidoId: id } }
+        ).then(response => {
+            res.status(200).json(response)
+        }).catch(err => {
+            res.status(400).json(err)
+        })
+    }
 
 })
 
