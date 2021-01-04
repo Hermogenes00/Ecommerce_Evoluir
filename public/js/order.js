@@ -1,5 +1,16 @@
 
-function onClick(event) {
+function showItems(event) {
+
+    //Id's sendo puxados do modal (modalShowOrder)
+    let prodDescricao = document.getElementById('prodDescricao')
+    let valor = document.getElementById('valor')
+    let quantidade = document.getElementById('quantidade')
+    let altura = document.getElementById('altura')
+    let largura = document.getElementById('largura')
+    let ref = document.getElementById('ref')
+    let link = document.getElementById('link')
+
+
 
     requisicao(`/admin/cart/itensCart/` + event.target.dataset.id, (data => {
 
@@ -14,38 +25,15 @@ function onClick(event) {
                 let linkBaixarArquivo = item.arquivo ? `    
 <a class="btn btn-sm btn-outline-primary" href="/uploads/${item.arquivo}">Baixar Arquivo</a>
 `: ''
-                conteudo.innerHTML += `
-                <td colspan="6">
-                            <div class="row">
-                                <div class="col">
-                                
-                                <div class="card border-secondary">
-                            <div class="card-body">
-                                <div class="row">
-                            <div class="col">
-                                Cod:${item.produto.id}
-                                <button onclick="enviarArquivo(event,${item.id})"
-                                class="btn btn-primary btn-sm">Enviar Arquivo</button>
-                                
-                            </div>
-                            <div class="col">
-                                Item: ${item.produto.nome}
-                            </div>
-                            <div class="col">
-                                Qtd: ${item.qtd}
-                            </div>
-                            <div class="col">
-                                Valor: ${parseFloat(item.valor).toLocaleString('pt-br')}
-                            </div>
-                            
-                            </div>
-                            ${linkBaixarArquivo}
-                        </div>  
-                        </div>  
-                                </div>
-                            </div>
-                        </td>
-                `
+                prodDescricao.value = item.produto.nome
+                quantidade.value = item.qtd
+                valor = parseFloat(item.valor).toLocaleString('pt-br',{style:'currency', currency:'brl'})
+                altura = item.altura
+                largura = item.largura
+                ref = item.produto.ref
+                //link = linkBaixarArquivo
+
+                console.log(item);
             });
 
         } else {

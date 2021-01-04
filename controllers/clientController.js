@@ -9,6 +9,7 @@ const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
 const payment = require('../models/payment')
+const products = require('../models/product')
 
 
 const bcrypt = require('bcrypt')
@@ -358,6 +359,7 @@ router.get('/client/orders', clientAuthentication, async (req, res) => {
                 status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO }
             }
         });
+        
         res.render('admin/order/orders', { orders: objOrders, message: message })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error)

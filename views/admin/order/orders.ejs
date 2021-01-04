@@ -56,7 +56,7 @@
                         <td>
                             <% if(o.status !='CANCELADO'){%>
                             <a href="#">
-                                <h6 data-id="<%= o.id %>" class="text-center" onclick="onClick(event)"><%= o.id %> </h6>
+                                <h6 data-id="<%= o.id %>" class="text-center" data-toggle="modal" data-target="#modalShowOrder" onclick="showItems(event)"><%= o.id %> </h6>
                             </a>
                             <%}else{%>
                             <a href="#">
