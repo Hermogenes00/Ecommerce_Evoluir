@@ -16,12 +16,13 @@
                 <h3>Aguardando</h3>
                 <div class="dropzone" data-status="AGUARDANDO_PRODUCAO">
                     <% itens.forEach(item=>{%>
-                        <% if(item.status == "AGUARDANDO_PRODUCAO"){%>
-                            <div class="card" draggable="true" data-idItemOrder="<%= item.id %>" data-status="<%= item.status %>">
+                        <% if(item.status=="AGUARDANDO_PRODUCAO" ){%>
+                            <div class="card" draggable="true" data-idItemOrder="<%= item.id %>"
+                                data-status="<%= item.status %>">
                                 <div class="status green"></div>
                                 <div class="content">
-                                    <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
-                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200">
+                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200"><br>
+                                    <button data-toggle="modal" data-target="#modalParecer" class="btn btn-sm btn-primary">Informar Parecer</button>
                                     <hr>
                                     <span>Pedido nº <%= item.pedido.id%></span><br>
                                     <span>Item-Pedido nº <%= item.id%></span><br>
@@ -31,11 +32,12 @@
                                     <span>
                                         <%= item.produto.nome %>
                                     </span>
-                                    <a href="/uploads/<%= item.arquivo %>" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
+                                    <a href="/uploads/<%= item.arquivo %>"
+                                        class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
                                 </div>
                             </div>
-                        <%} %>                         
-                    <%}) %>
+                            <%} %>
+                                <%}) %>
                 </div>
             </div>
 
@@ -43,25 +45,28 @@
                 <h3>Produzindo</h3>
                 <div class="dropzone" data-status="PRODUZINDO">
                     <% itens.forEach(item=>{%>
-                        <% if(item.status=='PRODUZINDO'){%>
-                            <div class="card" draggable="true" data-idItemOrder="<%= item.id %>" data-status="<%= item.status %>">
+                        <% if(item.status=='PRODUZINDO' ){%>
+                            <div class="card" draggable="true" data-idItemOrder="<%= item.id %>"
+                                data-status="<%= item.status %>">
                                 <div class="status green"></div>
                                 <div class="content">
-                                    <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
-                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200">
+                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200"><br>
+                                    <button data-toggle="modal" data-target="#modalParecer" class="btn btn-sm btn-primary">Informar Parecer</button>
                                     <hr>
                                     <span>Pedido nº <%= item.pedido.id%></span><br>
+                                    <span>Item-Pedido nº <%= item.id%></span><br>
                                     <span class="text-center">
                                         <%= item.pedido.cliente.nome %>
                                     </span><br>
                                     <span>
                                         <%= item.produto.nome %>
                                     </span>
-                                    <a href="/uploads/<%= item.arquivo %>" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
+                                    <a href="/uploads/<%= item.arquivo %>"
+                                        class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
                                 </div>
                             </div>
-                        <%} %>                         
-                    <%}) %>
+                            <%} %>
+                                <%}) %>
                 </div>
             </div>
 
@@ -70,25 +75,28 @@
                 <div class="dropzone" data-status="ACABAMENTO">
 
                     <% itens.forEach(item=>{%>
-                        <% if(item.status=='ACABAMENTO'){%>
-                            <div class="card" draggable="true" data-idItemOrder="<%= item.id %>" data-status="<%= item.status %>">
+                        <% if(item.status=='ACABAMENTO' ){%>
+                            <div class="card" draggable="true" data-idItemOrder="<%= item.id %>"
+                                data-status="<%= item.status %>">
                                 <div class="status green"></div>
                                 <div class="content">
-                                    <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
-                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200">
+                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200"><br>
+                                    <button data-toggle="modal" data-target="#modalParecer" class="btn btn-sm btn-primary">Informar Parecer</button>
                                     <hr>
                                     <span>Pedido nº <%= item.pedido.id%></span><br>
+                                    <span>Item-Pedido nº <%= item.id%></span><br>
                                     <span class="text-center">
                                         <%= item.pedido.cliente.nome %>
                                     </span><br>
                                     <span>
                                         <%= item.produto.nome %>
                                     </span>
-                                    <a href="/uploads/<%= item.arquivo %>" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
+                                    <a href="/uploads/<%= item.arquivo %>"
+                                        class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
                                 </div>
                             </div>
-                        <%} %>                         
-                    <%}) %>
+                            <%} %>
+                                <%}) %>
                 </div>
             </div>
 
@@ -96,31 +104,35 @@
                 <h3>Expedição</h3>
                 <div class="dropzone" data-status="EXPEDICAO">
                     <% itens.forEach(item=>{%>
-                        <% if(item.status=='EXPEDICAO'){%>
-                            <div class="card" draggable="true" data-idItemOrder="<%= item.id %>" data-status="<%= item.status %>">
+                        <% if(item.status=='EXPEDICAO' ){%>
+                            <div class="card" draggable="true" data-idItemOrder="<%= item.id %>"
+                                data-status="<%= item.status %>">
                                 <div class="status green"></div>
                                 <div class="content">
-                                    <a href="" class="btn btn-danger btn-sm mt-3 mr-3" style="float: right;">Cancelar</a>
-                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200">
+                                    <img src="<%= item.produto.imagem %>" alt="" height="100" width="200"><br>
+                                    <button data-toggle="modal" data-target="#modalParecer" class="btn btn-sm btn-primary">Informar Parecer</button>
                                     <hr>
                                     <span>Pedido nº <%= item.pedido.id%></span><br>
+                                    <span>Item-Pedido nº <%= item.id%></span><br>
                                     <span class="text-center">
                                         <%= item.pedido.cliente.nome %>
                                     </span><br>
                                     <span>
                                         <%= item.produto.nome %>
                                     </span>
-                                    <a href="/uploads/<%= item.arquivo %>" class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
+                                    <a href="/uploads/<%= item.arquivo %>"
+                                        class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar Arquivo</a>
                                 </div>
                             </div>
-                        <%} %>                         
-                    <%}) %>
+                            <%} %>
+                                <%}) %>
                 </div>
             </div>
         </div>
 
 
         <script src="/js/production.js"></script>
+        <%- include('../../partials/main/production/modalParecer') %>
         <%- include('../../partials/footer') %>
 </body>
 
