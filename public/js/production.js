@@ -50,13 +50,14 @@ function dragleavecard() {
 
 function dragend() {
     
-    axios.put('/order/item/' + this.dataset.iditemorder,{
+    axios.patch('/order/item/' + this.dataset.iditemorder,{
         status:statusCard
     }).then(response => {
         
     }).catch(err => {
         
     })
+    
     dropzones.forEach(dropzone => {
         dropzone.classList.remove('highlight')
 

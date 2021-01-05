@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 Análise de Comprovante
-                <button type="button" class="close" onclick="limparInputs()" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -29,7 +29,7 @@
                             <input type="text" required placeholder="Deixe aqui seu informe de recusa ou aceite"
                                 name="informe" class="form-control form-control-sm" id="informe">
                             <hr>
-                            <input type="submit" class="btn btn-primary" id="btnSalvar" data-idOrder="0" value="Salvar">
+                            <input type="button" onclick="analiseComprovante(event)" class="btn btn-primary" id="btnSalvar" data-idOrder="0" value="Salvar">
                            
                         </div>
                     </div>

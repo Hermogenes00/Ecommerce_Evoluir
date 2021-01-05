@@ -34,7 +34,7 @@ router.use(async (req, res, next) => {
 
 
 //Altera o status do item de um pedido
-router.put('/order/item/:idItemOrder', (req, res) => {
+router.patch('/order/item/:idItemOrder', (req, res) => {
 
     let { idItemOrder } = req.params
     let data = req.body

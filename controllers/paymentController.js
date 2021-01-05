@@ -39,11 +39,6 @@ router.get('/payment', collaboratorAuthentication, async (req, res) => {
 
 
 
-
-
-
-
-
 //receipt=comprovante
 router.post('/admin/payment/receipt', clientAuthentication, async (req, res) => {
 
@@ -82,21 +77,29 @@ router.post('/payment/:id', collaboratorAuthentication, async (req, res) => {
 
     let { id } = req.params
     let data = req.body
+    let isSuccess = false;
+    let objErr = {}
 
     payment.update({
         status: data.status,
         informe: data.informe
-    }, { where: { pedidoId: id } }).then(response => { }).catch(err => {
-        res.status(400).json({ err: 'Erro ao tentar alterar o pagamento' })
+    }, { where: { pedidoId: id } }).then(response => {
+        isSuccess = true
+    }).catch(err => {
+        isSuccess = false
+        objErr = {
+            err
+        }
     })
 
     order.update({
         status: data.status == 'RECEBIDO' ? CONSTANTE.STATUS_PRODUCAO.AGUARDANDO_PRODUCAO : data.status,
         include: [{ model: payment }]
     }, { where: { id: id } }).then(response => {
-        res.status(200).json(response)
+        isSuccess = true
     }).catch(err => {
-        res.status(400).json(err)
+        isSuccess = false
+        objErr = { err }
     })
 
     if (data.status == 'RECEBIDO') {
@@ -104,11 +107,14 @@ router.post('/payment/:id', collaboratorAuthentication, async (req, res) => {
             { status: CONSTANTE.STATUS_PRODUCAO.AGUARDANDO_PRODUCAO },
             { where: { pedidoId: id } }
         ).then(response => {
-            res.status(200).json(response)
+            isSuccess = true
         }).catch(err => {
-            res.status(400).json(err)
+            isSuccess = false
+            objErr = { err }
         })
     }
+
+    isSuccess ? res.json({ response: true }) : res.json(objErr)
 
 })
 

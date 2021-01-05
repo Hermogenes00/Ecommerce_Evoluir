@@ -38,17 +38,17 @@
                                 <th>Cnpj/Cpf</th>
                                 <th>Pedido</th>
                                 <th>Status</th>
+                                <th>Informe</th>
                                 <th>Valor</th>
                                 <th class="text-center">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
-
                             <%pedidos.forEach(pedido=>{ %>
                                 <tr>
                                     <td>
                                         <h6>
-                                            <%=`${pedido.createdAt.getDate()}/${pedido.createdAt.getMonth()+1}/${pedido.createdAt.getFullYear()}`%>
+                                            <%=pedido.createdAt.toLocaleDateString('pt-br')%>
                                         </h6>
                                     </td>
                                     <td>
@@ -82,6 +82,9 @@
                                                     <%} %>
                                     <%} %>
                                     </td>
+                                   <td>
+                                       <h6><%=pedido.pagamento?pedido.pagamento.informe:'----'%></h6>
+                                   </td>
                                     <td>
                                         <h6>
                                             <%=parseFloat(pedido.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'})%>
@@ -114,9 +117,6 @@
 
         <%- include('../../partials/main/order/modalVerComprovante.ejs') %>
         <script src="/js/modalVerComprovante.js"></script>
-
-
-
 
 
 
