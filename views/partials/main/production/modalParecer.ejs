@@ -12,20 +12,26 @@
             <div class="modal-body">
                 <!--Aqui ficará o conteúdo para anexar o comprovante e enviar-->
                 <form id="formAnaliseComprovante" action="/payment" method="POST">
-
+                    <div class="row">
+                        <div class="col">
+                            <img src="/images/imagem_default.jpg" id="previaImagem" width="100%" height="300px" alt="">
+                        </div>
+                    </div>
                     <div class="row mt-2">
                         <div class="col">
-                            <select id="status" name="status" required class="form-select form-control form-control-sm mb-2">                                
+                            <select id="status" name="status" required
+                                class="form-select form-control form-control-sm mb-2">
                                 <option value="">Selecione uma opção</option>
-                                <option value="RECEBIDO">Refugar Arte</option>
-                                <option value="RECUSADO">Apresentar como concluído</option>
+                                <option value="RECEBIDO">Refugar Arte</option>                                
                             </select>
 
-                            <input type="text" required placeholder="Deixe aqui seu informe"
-                                name="informe" class="form-control form-control-sm" id="informe">
-                            <hr>
-                            <input type="button" onclick="analiseComprovante(event)" class="btn btn-primary" id="btnSalvar" data-idOrder="0" value="Salvar">
-                           
+                            <input type="text" name="informe" id="informe" placeholder="Deixe aqui o seu informe"
+                                required class="form-control form-control-sm">
+<hr>
+
+                            <input type="submit" onclick="analiseComprovante(event)" class="btn btn-primary"
+                                id="btnSalvar" data-idOrder="0" value="Salvar">
+
                         </div>
                     </div>
 

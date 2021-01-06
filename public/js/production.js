@@ -49,15 +49,26 @@ function dragleavecard() {
 
 
 function dragend() {
+
+    //takes the div(areaBtn) from the selected card
+    let areaBtn = this.querySelector('.content').querySelector('#areaBtn')
     
-    axios.patch('/order/item/' + this.dataset.iditemorder,{
-        status:statusCard
+
+    if(statusCard == 'EXPEDICAO'){
+        areaBtn.innerHTML = ` <button class="btn btn-sm btn-primary">Finalizar</button>`
+    }else{
+        areaBtn.innerHTML = `<button data-toggle="modal" data-target="#modalParecer" class="btn btn-sm btn-danger">Cancelar</button>`
+    }
+
+
+    axios.patch('/order/item/' + this.dataset.iditemorder, {
+        status: statusCard
     }).then(response => {
-        
+
     }).catch(err => {
-        
+
     })
-    
+
     dropzones.forEach(dropzone => {
         dropzone.classList.remove('highlight')
 
