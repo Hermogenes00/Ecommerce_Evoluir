@@ -12,8 +12,8 @@
                                 role="tab" aria-selected="true">Produção</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="expedidos-tab" data-toggle="tab" href="#pills-expedidos"
-                                role="tab" aria-selected="false">Expedidos</a>
+                            <a class="nav-link" id="concluidos-tab" data-toggle="tab" href="#pills-concluidos"
+                                role="tab" aria-selected="false">Concluídos</a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="cancelados-tab" data-toggle="tab" href="#pills-cancelados"
@@ -29,10 +29,10 @@
                             <div class="boards">
                                 <div class="board">
                                     <h3>Aguardando</h3>
-                                    <div class="dropzone" data-status="AGUARDANDO_PRODUCAO">
+                                    <div class="dropzone" data-tabDropzone="1" data-status="EM_PRODUCAO">
                                         <% itens.forEach(item=>{%>
-                                            <% if(item.status=="AGUARDANDO_PRODUCAO" ){%>
-                                                <div class="card" draggable="true" data-idItemOrder="<%= item.id %>"
+                                            <% if(item.status=="EM_PRODUCAO" ){%>
+                                                <div class="card" draggable="true" data-idOrder="<%= item.pedido.id %>" data-idItemOrder="<%= item.id %>"
                                                     data-status="<%= item.status %>">
                                                     <div class="status green"></div>
                                                     <div class="content">
@@ -62,10 +62,10 @@
                     
                                 <div class="board">
                                     <h3>Produzindo</h3>
-                                    <div class="dropzone" data-status="PRODUZINDO">
+                                    <div class="dropzone" data-tabDropzone="2" data-status="PRODUZINDO">
                                         <% itens.forEach(item=>{%>
                                             <% if(item.status=='PRODUZINDO' ){%>
-                                                <div class="card" draggable="true" data-idItemOrder="<%= item.id %>"
+                                                <div class="card" draggable="true" data-idOrder="<%= item.pedido.id %>" data-idItemOrder="<%= item.id %>"
                                                     data-status="<%= item.status %>">
                                                     <div class="status green"></div>
                                                     <div class="content">
@@ -94,11 +94,11 @@
                     
                                 <div class="board">
                                     <h3>Acabamento</h3>
-                                    <div class="dropzone" data-status="ACABAMENTO">
+                                    <div class="dropzone" data-tabDropzone="3" data-status="ACABAMENTO">
                     
                                         <% itens.forEach(item=>{%>
                                             <% if(item.status=='ACABAMENTO' ){%>
-                                                <div class="card" draggable="true" data-idItemOrder="<%= item.id %>"
+                                                <div class="card" draggable="true" data-idOrder="<%= item.pedido.id %>" data-idItemOrder="<%= item.id %>"
                                                     data-status="<%= item.status %>">
                                                     <div class="status green"></div>
                                                     <div class="content">
@@ -127,16 +127,16 @@
                     
                                 <div class="board">
                                     <h3>Expedição</h3>
-                                    <div class="dropzone" data-status="EXPEDICAO">
+                                    <div class="dropzone" data-tabDropzone="4" data-status="EXPEDICAO">
                                         <% itens.forEach(item=>{%>
                                             <% if(item.status=='EXPEDICAO' ){%>
-                                                <div class="card" draggable="true" data-idItemOrder="<%= item.id %>"
+                                                <div class="card" draggable="true" data-idOrder="<%= item.pedido.id %>" data-idItemOrder="<%= item.id %>"
                                                     data-status="<%= item.status %>">
                                                     <div class="status green"></div>
                                                     <div class="content">
                                                         <img src="<%= item.produto.imagem %>" alt="" height="100" width="200"><br>
                                                         <div id="areaBtn">
-                                                            <button class="btn btn-sm btn-primary">Finalizar</button>
+                                                            <button class="btn btn-sm btn-primary" id="btnFinalizar" onclick="confirmarConclusao(event)" data-idOrder="<%= item.pedido.id %>" data-idItemOrder="<%= item.id %>">Finalizar</button>
                                                         </div>
                                                         <hr>
                                                         <span>Pedido nº <%= item.pedido.id%></span><br>
@@ -152,26 +152,17 @@
                                                     </div>
                                                 </div>
                                                 <%} %>
+
                                                     <%}) %>
                                     </div>
                                 </div>
                             </div>
-                        
-                        
-                        
-
-
-
-
-
-
-
-                        
+                                                
                         
                         </div>
 
-                        <div class="tab-pane" id="pills-expedidos" role="tabpanel"
-                            aria-labelledby="expedidos-tab"><span>Listar Expedidos</span></div>
+                        <div class="tab-pane" id="pills-concluidos" role="tabpanel"
+                            aria-labelledby="expedidos-tab"><span>Listar Concluídos</span></div>
 
                         <div class="tab-pane" id="pills-cancelados" role="tabpanel" aria-labelledby="cancelados-tab">
                             <span>Listar Cancelados</span>

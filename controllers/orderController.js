@@ -26,7 +26,7 @@ const CONSTANTE = require('../utils/constants')
 router.use(async (req, res, next) => {
     try {
         res.locals.menu = await category.findAll({ include: subCategory })
-} catch (error) {
+    } catch (error) {
         console.log('Erro ao tentar consultar as categorias->' + error);
     }
     next()
@@ -34,18 +34,37 @@ router.use(async (req, res, next) => {
 
 
 //Altera o status do item de um pedido
-router.patch('/order/item/:idItemOrder', (req, res) => {
+router.patch('/order/item/:idItemOrder', async (req, res) => {
 
     let { idItemOrder } = req.params
+
+
     let data = req.body
 
     itensOrder.update({
-        status: data.status
+        status: data.status,
+        posicaoTab: data.posicaoTab
     }, { where: { id: idItemOrder } }).then(response => {
         res.json(response)
     }).catch(err => {
         res.json(err)
     })
+
+
+    /**
+    * Realizar lógica da alteração do status do pedido aqui.
+    * Caso todos os itens do pedido estejam concluídos, alterar o status do pedido para finalizado/concluído
+    */
+    /*
+try {
+        let itens = await itensOrder.findAll({ where: { pedidoId: data.idOrder } })
+        console.log(itens)
+        res.json(itens)
+    } catch (error) {
+        console.log(error);
+    }
+
+    */
 
 })
 
@@ -110,7 +129,7 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
             items: [
                 item = {
                     id: idPagamento,
-                    title: description,
+                    title: 'Pedido nº' + ord.id + ' Evoluir Gráfica Rápida',
                     quantity: 1,
                     currency_id: 'BRL',
                     unit_price: parseFloat(ord.valorFinal)

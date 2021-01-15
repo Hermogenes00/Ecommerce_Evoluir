@@ -24,7 +24,7 @@ function analiseComprovante(event) {
     axios.post('/payment/' + idorder,
         { status: status.value, informe: informe.value }
     ).then((response) => {
-        console.log('Chegou no response');
+        
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',

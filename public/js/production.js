@@ -9,9 +9,15 @@ const cards = document.querySelectorAll('.card')
 //Get all dropzones
 const dropzones = document.querySelectorAll('.dropzone')
 
+//take the value of the dropzone
+let tabDropzone = undefined
 
 //takes the status of the selected card
 let statusCard = undefined
+
+//takes list of the dropzone selected
+let listCards = undefined
+
 
 //Listener for the cards
 cards.forEach(card => {
@@ -52,22 +58,30 @@ function dragend() {
 
     //takes the div(areaBtn) from the selected card
     let areaBtn = this.querySelector('.content').querySelector('#areaBtn')
-    
 
-    if(statusCard == 'EXPEDICAO'){
-        areaBtn.innerHTML = ` <button class="btn btn-sm btn-primary">Finalizar</button>`
-    }else{
+
+    if (statusCard == 'EXPEDICAO') {
+
+        areaBtn.innerHTML = ` <button class="btn btn-sm btn-primary" id="btnFinalizar" onclick="confirmarConclusao(event)" data-idOrder="${this.dataset.idorder}" data-idItemOrder="${this.dataset.iditemorder}">Finalizar</button>`
+    } else {
         areaBtn.innerHTML = `<button data-toggle="modal" data-target="#modalParecer" class="btn btn-sm btn-danger">Cancelar</button>`
     }
 
+    //Update the positions in database
+    for (item in listCards) {
+        if (!isNaN(item)) {
+            
+            axios.patch('/order/item/' + listCards[item].dataset.iditemorder, {
+                idOrder: listCards[item].dataset.idorder,
+                status: statusCard,
+                posicaoTab: `${tabDropzone}${item}`
+            }).then(response => {
 
-    axios.patch('/order/item/' + this.dataset.iditemorder, {
-        status: statusCard
-    }).then(response => {
+            }).catch(err => {
 
-    }).catch(err => {
-
-    })
+            })
+        }
+    }
 
     dropzones.forEach(dropzone => {
         dropzone.classList.remove('highlight')
@@ -76,7 +90,6 @@ function dragend() {
 
     this.classList.remove('is-dragging')
     this.classList.remove('ghost')
-
 }
 
 //----------------------------------------------------------------
@@ -92,8 +105,6 @@ dropzones.forEach(dropzone => {
 
 function dragenter() {
     this.classList.add('over')
-
-
 }
 
 function dragover() {
@@ -101,8 +112,10 @@ function dragover() {
     const cardDragging = document.querySelector('.is-dragging')
     const cardReference = document.querySelector('.card-reference')
 
-    //statusCard is global variable
+    //global variables
     statusCard = this.dataset.status
+    tabDropzone = this.dataset.tabdropzone
+    listCards = this.children
 
     this.insertBefore(cardDragging, cardReference)
 
@@ -111,9 +124,36 @@ function dragover() {
 function dragleave() {
 
     this.classList.remove('over')
-
 }
 
 function drop() {
     log('Chegou no drop')
+}
+
+
+//Funções para manipulação dos botões FINALIZAR E CANCELAR
+
+function confirmarConclusao(event) {
+
+    Swal.fire({
+        title: 'Confirmação',
+        text: 'Deseja realmente finalizar este trabalho?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'OK'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.patch('/order/item/' + event.target.dataset.iditemorder, {
+                idOrder: event.target.dataset.idorder,
+                status: 'CONCLUÍDO'
+            }).then(response => {
+
+                document.location.reload()
+            }).catch(err => {
+
+            })
+        }
+    })
 }

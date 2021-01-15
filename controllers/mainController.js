@@ -73,8 +73,10 @@ router.get('/main/production', collaboratorAuthentication, async (req, res) => {
     try {
 
         let itens = await itensOrder.findAll({
+            order: [['posicaoTab', 'asc']],
             include: [{ model: product }, { model: orders, where: { status: { [sequelize.Op.ne]: 'CARRINHO' } }, include: clients }]
         })
+
         res.render('admin/main/production', { itens: itens })
     } catch (error) {
         console.log('Erro ao tentar carregas itens dos pedidos-->' + error);

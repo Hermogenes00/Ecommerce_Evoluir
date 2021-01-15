@@ -25,7 +25,7 @@ async function enviarArquivo(event, action, ext) {
         html: `<form id="formGabarito" class="form form-inline" action="${action}"
                             method="POST" enctype="multipart/form-data">
                             <input type="file" name="file" accept="${ext}" id="file">
-                            <input type="submit" class="btn btn-primary btn-sm" value="Enviar Gabarito">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Enviar Arquivo">
                         </form>`,
         inputAttributes: {
             'accept': ext,

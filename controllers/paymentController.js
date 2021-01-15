@@ -93,7 +93,7 @@ router.post('/payment/:id', collaboratorAuthentication, async (req, res) => {
     })
 
     order.update({
-        status: data.status == 'RECEBIDO' ? CONSTANTE.STATUS_PRODUCAO.AGUARDANDO_PRODUCAO : data.status,
+        status: data.status == 'RECEBIDO' ? CONSTANTE.STATUS_PRODUCAO.EM_PRODUCAO : data.status,
         include: [{ model: payment }]
     }, { where: { id: id } }).then(response => {
         isSuccess = true
@@ -104,7 +104,7 @@ router.post('/payment/:id', collaboratorAuthentication, async (req, res) => {
 
     if (data.status == 'RECEBIDO') {
         itemsOrder.update(
-            { status: CONSTANTE.STATUS_PRODUCAO.AGUARDANDO_PRODUCAO },
+            { status: CONSTANTE.STATUS_PRODUCAO.EM_PRODUCAO },
             { where: { pedidoId: id } }
         ).then(response => {
             isSuccess = true

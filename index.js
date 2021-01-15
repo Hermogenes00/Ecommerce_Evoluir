@@ -116,6 +116,9 @@ app.use('/', deliveryRegionApi)
 app.use('/', slideApi)
 app.use('/', printerApi)
 app.use('/', paymentApi)
+
+
+
 //app.use('/', userController)
 
 

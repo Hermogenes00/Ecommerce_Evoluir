@@ -27,6 +27,10 @@ const itensOrder = connection.define('itensPedido', {
     largura: {
         type: sequelize.DECIMAL(10, 2),
         allowNull: true
+    },
+    posicaoTab:{
+        type: sequelize.STRING,
+        allowNull: true
     }
 })
 
