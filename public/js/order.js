@@ -1,7 +1,7 @@
 
 function showItems(event) {
 
-   
+
     document.getElementById('numPedido').innerHTML = event.target.dataset.id
     let status = document.getElementById('status')
     let informe = document.getElementById('informe')
@@ -12,31 +12,44 @@ function showItems(event) {
     requisicao(`/admin/cart/itensCart/` + event.target.dataset.id, (data => {
 
         let dados = JSON.parse(data)
-     
-        tbItensOrder.innerHTML=''
+
+        tbItensOrder.innerHTML = ''
         dados.forEach(item => {
             let linkBaixarArquivo = item.arquivo ? `    
             <a href="/uploads/${item.arquivo}">Baixar Arquivo</a>
             `: ''
-            
+
             tbItensOrder.innerHTML += `
                                 <tr>
+                                    <td>${item.id}</td>
                                     <td>${item.produto.nome}</td>
-                                    <td>${item.status?item.status:'---'}</td>
+                                    <td>${item.status ? item.status : '---'}</td>
                                     <td>${parseFloat(item.valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })}</td>
                                
                                
                                     <td>${item.qtd}</td>
                                                                    
-                                    <td>${item.altura?item.altura:'---'}</td>
-                                    <td>${item.largura?item.largura:'---'}</td>
+                                    <td>${item.altura ? item.altura : '---'}</td>
+                                    <td>${item.largura ? item.largura : '---'}</td>
                                
                                     <td>${item.produto.codRef}</td>
                                
                                     <td>${linkBaixarArquivo}</td>
+
                                 </tr>
+                                ${item.status=='REFUGADO'||item.status=='ARQUIVO_VAZIO'?`
+                                <tr><td colspan="9"> 
+                                
+                                <form action="" class="row" method="post">
+
+                                <div class="col"><input type="file" class="form-control form-control-sm"  name="" placeholder="Envie o seu arquivo corrigido" id=""></div>
+                                <div class ="col"><button type="submit" class="btn btn-primary btn-sm">Enviar Arquivo para análise</button></div>
+                                
+                                </form>
+                                </td></tr>`
+                                :''}
             `
-            
+
         });
 
 

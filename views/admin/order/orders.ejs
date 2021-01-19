@@ -1,134 +1,229 @@
 <%-include('../../partials/header') %>
-<%-include('../../partials/navbarlogin') %>
-<%-include('../../partials/navbarlogo') %>
-<%-include('../../partials/navbarmenu') %>
+    <%-include('../../partials/navbarlogin') %>
+        <%-include('../../partials/navbarlogo') %>
+            <%-include('../../partials/navbarmenu') %>
 
 
-<div class="container mt-3">
+                <div class="container mt-3">
 
-    <% if(message.error.length>0){%>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Erro</strong> <%=message.error%>.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <%} %>
-    <% if(message.success.length>0){%>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Parabéns</strong> <%=message.success%>.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <%} %>
-
-    <div class="container mb-2 mt-2">
-        <div class="row">
-            <div class="col">
-                <a href="#" class="btn btn-primary">Concluído <span class="badge rounded-pill bg-danger">4</span></a>
-                <a href="#" class="btn btn-primary">Produzindo <span class="badge rounded-pill bg-danger">4</span></a>
-                <a href="#" class="btn btn-primary">Pré-Impressão <span
-                        class="badge rounded-pill bg-danger">4</span></a>
-                <a href="#" class="btn btn-primary">Aguardando Pagamento <span
-                        class="badge rounded-pill bg-danger">4</span></a>
-                <a href="#" class="btn btn-danger">Refugado <span class="badge rounded-pill bg-primary">4</span></a>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header"><span class="display-4">Meu(s) Pedido(s)</span></div>
-        <div class="card-body">
-            <table class="table table-hover table-sm table-borderless">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Pedido</th>
-                        <th>Cadastro</th>
-                        <th>Status</th>
-                        <th>Valor Total</th>
-                        <th>Frete</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% orders.forEach(o => {%>
-                    <tr>
-
-                        <td>
-                            <% if(o.status !='CANCELADO'){%>
-                            <a href="#">
-                                <h6 data-id="<%= o.id %>" class="text-center" data-toggle="modal" data-target="#modalShowOrder" onclick="showItems(event)"><%= o.id %> </h6>
-                            </a>
-                            <%}else{%>
-                            <a href="#">
-                                <h6 data-id="<%= o.id %>" class="text-center"><%= o.id %> </h6>
-                            </a>
-                            <%} %>
-
-                        </td>
-                        <td>
-                            <h6><%= o.createdAt.toLocaleDateString('pt-br') %></h6>
-                        </td>
-                        <td>
-                            <h6><%= o.status %></h6>
-                        </td>
-                        <td>
-                            <h6><%= parseFloat(o.total).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
-                            </h6>
-                        </td>
-                        <td>
-                            <h6><%= parseFloat(o.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
-                            </h6>
-                        </td>
-                        <td>
-                            <div class="row">
-                                <% if(o.status !='CANCELADO'){%>
-                                
-                                <% if(o.pagamento.status!='RECEBIDO'){%>
-
-                                    <form action="/order/payment/" method="post">
-                                        <input type="hidden" name="idOrder" id="idOrder" value="<%= o.id %>">
-                                        <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
-                                            data-toggle="tooltip" title="Realizar Pagamento">credit_card</button>
-                                    </form>
-
-                                    <form onsubmit="cancelarPedido(event,'Deseja realmente cancelar este pedido?',this)"
-                                    action="/order/cancel" method="post">
-                                    <input type="hidden" name="idOrder" value="<%= o.id %>">
-                                    <button type="submit" class="material-icons btn btn-sm btn-outline-primary mr-2"
-                                        data-toggle="tooltip" title="Cancelar Pedido">remove_circle_outline</button>
-                                    </form>
-
-                                    <button data-toggle="modal" onclick="setarIdOrder('<%= o.id %>')"
-                                        data-target="#modalComprovante" class="btn btn-primary btn-sm">Enviar
-                                        Comprovante</button>
-                                    <%} %> 
-                                
+                    <% if(message.error.length>0){%>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Erro</strong>
+                            <%=message.error%>.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        <%} %>
+                            <% if(message.success.length>0){%>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Parabéns</strong>
+                                    <%=message.success%>.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
                                 <%} %>
-                            </div>
-                        </td>
-                    </tr>
 
-                    <%}); %>
+                                    <% orders.forEach(ord=>{%>
+                                        <%ord.itensPedidos.forEach(item=>{%>
+                                            <% if(item.status=='REFUGADO' ){%>
+                                                <div class="alert alert-danger alert-dismissible fade show"
+                                                    role="alert">
+                                                    Atenção item id: <%=item.id %> refugado, pedido id: <%=ord.id %>
+                                                </div>
 
-                </tbody>
-            </table>
-        </div>
-    </div>
+                                                <%} %>
+                                                    <%}) %>
+                                                        <%}) %>
+
+                                                            <div class="card">
+                                                                <div class="card-header"><span class="display-4">Meu(s)
+                                                                        Pedido(s)</span></div>
+                                                                <div class="card-body">
+
+                                                                    <div class="card mb-3">
+                                                                        <div class="card-body">
+                                                                            <div class="row mb-2">
+                                                                                <div class="col-sm-2">
+                                                                                    <label for="dataInicial">Data
+                                                                                        Inicial</label>
+                                                                                    <input type="date"
+                                                                                        name="dataInicial"
+                                                                                        class="form-control form-control-sm"
+                                                                                        id="dataInicial">
+                                                                                </div>
+
+                                                                                <div class="col-sm-2">
+                                                                                    <label for="dataFinal">Data
+                                                                                        Final</label>
+                                                                                    <input type="date" name="dataFinal"
+                                                                                        class="form-control form-control-sm"
+                                                                                        id="dataFinal">
+                                                                                </div>
+
+                                                                                <div class="col">
+                                                                                    <label for="status">Status</label>
+                                                                                    <select name="status"
+                                                                                        class="form-control form-control-sm"
+                                                                                        id="status">
+                                                                                        <option selected>Selecione uma opção para filtragem</option>
+                                                                                        <option value="">Concluído
+                                                                                        </option>
+                                                                                        <option value="">Produzindo
+                                                                                        </option>
+                                                                                        <option value="">Refugado
+                                                                                        </option>
+                                                                                    </select>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
 
 
-    <%- include('../../partials/pay/modalComprovante.ejs') %>
-    <%- include('../../partials/order/modalShowOrder.ejs') %>
+                                                                    <table
+                                                                        class="table table-hover table-sm table-borderless">
+                                                                        <thead class="thead-dark">
+                                                                            <tr>
+                                                                                <th>Pedido</th>
+                                                                                <th>Cadastro</th>
+                                                                                <th>Status</th>
+                                                                                <th>Valor Total</th>
+                                                                                <th>Frete</th>
+                                                                                <th>Ação</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <% orders.forEach(o=> {%>
+                                                                                <tr>
+
+                                                                                    <td>
+                                                                                        <% if(o.status !='CANCELADO'
+                                                                                            ){%>
+                                                                                            <a href="#">
+                                                                                                <h6 data-id="<%= o.id %>"
+                                                                                                    class="text-center"
+                                                                                                    data-toggle="modal"
+                                                                                                    data-target="#modalShowOrder"
+                                                                                                    onclick="showItems(event)">
+                                                                                                    <%= o.id %>
+                                                                                                </h6>
+                                                                                            </a>
+                                                                                            <%}else{%>
+                                                                                                <a href="#">
+                                                                                                    <h6 data-id="<%= o.id %>"
+                                                                                                        class="text-center">
+                                                                                                        <%= o.id %>
+                                                                                                    </h6>
+                                                                                                </a>
+                                                                                                <%} %>
+
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <h6>
+                                                                                            <%= o.createdAt.toLocaleDateString('pt-br')
+                                                                                                %>
+                                                                                        </h6>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <h6>
+                                                                                            <%= o.status %>
+                                                                                        </h6>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <h6>
+                                                                                            <%= parseFloat(o.total).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                                                                %>
+                                                                                        </h6>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <h6>
+                                                                                            <%= parseFloat(o.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                                                                %>
+                                                                                        </h6>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="row">
+                                                                                            <% if(o.status !='CANCELADO'
+                                                                                                ){%>
+
+                                                                                                <% if(o.pagamento.status!='RECEBIDO'
+                                                                                                    ){%>
+
+                                                                                                    <form
+                                                                                                        action="/order/payment/"
+                                                                                                        method="post">
+                                                                                                        <input
+                                                                                                            type="hidden"
+                                                                                                            name="idOrder"
+                                                                                                            id="idOrder"
+                                                                                                            value="<%= o.id %>">
+                                                                                                        <button
+                                                                                                            type="submit"
+                                                                                                            class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                                                                                            data-toggle="tooltip"
+                                                                                                            title="Realizar Pagamento">credit_card</button>
+                                                                                                    </form>
+
+                                                                                                    <form
+                                                                                                        onsubmit="cancelarPedido(event,'Deseja realmente cancelar este pedido?',this)"
+                                                                                                        action="/order/cancel"
+                                                                                                        method="post">
+                                                                                                        <input
+                                                                                                            type="hidden"
+                                                                                                            name="idOrder"
+                                                                                                            value="<%= o.id %>">
+                                                                                                        <button
+                                                                                                            type="submit"
+                                                                                                            class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                                                                                            data-toggle="tooltip"
+                                                                                                            title="Cancelar Pedido">remove_circle_outline</button>
+                                                                                                    </form>
+
+                                                                                                    <button
+                                                                                                        data-toggle="modal"
+                                                                                                        onclick="setarIdOrder('<%= o.id %>')"
+                                                                                                        data-target="#modalComprovante"
+                                                                                                        class="btn btn-primary btn-sm">Enviar
+                                                                                                        Comprovante</button>
+                                                                                                    <%} %>
+
+                                                                                                        <%} %>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+
+                                                                                <%}); %>
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <%- include('../../partials/pay/modalComprovante.ejs') %>
+                                                                <%- include('../../partials/order/modalShowOrder.ejs')
+                                                                    %>
 
 
 
 
 
 
-</div>
+                </div>
 
-<%- include('../../partials/footer') %>
+               
 
-<script src="/js/ajax.js"></script>
-<script src="/js/order.js"></script>
-<script src="/js/payment.js"></script>
+
+
+
+                <%- include('../../partials/footer') %>
+
+                    <script src="/js/ajax.js"></script>
+                    <script src="/js/order.js"></script>
+                    <script src="/js/payment.js"></script>
+
+
+
+                   

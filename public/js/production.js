@@ -63,14 +63,18 @@ function dragend() {
     if (statusCard == 'EXPEDICAO') {
 
         areaBtn.innerHTML = ` <button class="btn btn-sm btn-primary" id="btnFinalizar" onclick="confirmarConclusao(event)" data-idOrder="${this.dataset.idorder}" data-idItemOrder="${this.dataset.iditemorder}">Finalizar</button>`
+        this.querySelector('#optionTrabalho').classList.remove('visible')
+        this.querySelector('#optionTrabalho').classList.add('invisible')
     } else {
         areaBtn.innerHTML = `<button data-toggle="modal" data-target="#modalParecer" class="btn btn-sm btn-danger">Cancelar</button>`
+        this.querySelector('#optionTrabalho').classList.remove('invisible')
+        this.querySelector('#optionTrabalho').classList.add('visible')
     }
 
     //Update the positions in database
     for (item in listCards) {
         if (!isNaN(item)) {
-            
+
             axios.patch('/order/item/' + listCards[item].dataset.iditemorder, {
                 idOrder: listCards[item].dataset.idorder,
                 status: statusCard,
@@ -142,7 +146,8 @@ function confirmarConclusao(event) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não'
     }).then((result) => {
         if (result.isConfirmed) {
             axios.patch('/order/item/' + event.target.dataset.iditemorder, {
@@ -157,3 +162,34 @@ function confirmarConclusao(event) {
         }
     })
 }
+
+function cancelarTrabaho(event) {
+
+    if(event.target.value){
+        Swal.fire({
+            title: 'Confirmação',
+            text: 'Deseja realmente cancelar este trabalho?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.patch('/order/item/' + event.target.dataset.iditemorder, {
+                    idOrder: event.target.dataset.idorder,
+                    status: event.target.value
+                }).then(response => {    
+                    document.location.reload()
+                }).catch(err => {
+    
+                })
+            }
+        })
+    }
+
+    
+}
+
+

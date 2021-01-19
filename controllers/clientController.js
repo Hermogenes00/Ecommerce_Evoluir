@@ -357,7 +357,7 @@ router.get('/client/orders', clientAuthentication, async (req, res) => {
             where: {
                 clienteId: idClient,
                 status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO },
-            },include:payment,order:[['createdAt','desc']]
+            }, include: [{ model: payment }, { model: itensOrder }], order: [['createdAt', 'desc']]
         });
         
         res.render('admin/order/orders', { orders: objOrders, message: message })
