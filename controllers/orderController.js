@@ -38,34 +38,40 @@ router.patch('/order/item/:idItemOrder', async (req, res) => {
 
     let { idItemOrder } = req.params
 
-
     let data = req.body
 
-    itensOrder.update({
-        status: data.status,
-        posicaoTab: data.posicaoTab
-    }, { where: { id: idItemOrder } }).then(response => {
-        res.json(response)
-    }).catch(err => {
-        res.json(err)
-    })
-
-
-    /**
-    * Realizar lógica da alteração do status do pedido aqui.
-    * Caso todos os itens do pedido estejam concluídos, alterar o status do pedido para finalizado/concluído
-    */
-    /*
-try {
-        let itens = await itensOrder.findAll({ where: { pedidoId: data.idOrder } })
-        console.log(itens)
-        res.json(itens)
+    try {
+        await itensOrder.update({
+            status: data.status,
+            posicaoTab: data.posicaoTab
+        }, { where: { id: idItemOrder } })
     } catch (error) {
-        console.log(error);
+        res.json(error)
     }
 
-    */
+    try {
+        let item = await itensOrder.findByPk(idItemOrder)
+        let idOrder = item.pedidoId
 
+        //Itens que ainda não foram concluídos
+        let items = await itensOrder.findAll({ where: { pedidoId: idOrder } });
+        let qtdTotal = items.length
+        let itemsPending = items.filter(i => i.status != 'CONCLUÍDO').length;
+        let itemsConcluded = items.filter(i => i.status == 'CONCLUÍDO').length;
+
+
+        if (itemsConcluded == qtdTotal) {
+            orders.update({ status: 'CONCLUÍDO' }, { where: { id: idOrder } }).then(response => {
+            }).catch(err => {
+                res.json(err)
+            })
+        }
+        
+        res.json({ items, qtdTotal, itemsPending, itemsConcluded })
+        
+    } catch (error) {
+        res.json(error)
+    }
 })
 
 router.post('/order/payment/', clientAuthentication, async (req, res) => {

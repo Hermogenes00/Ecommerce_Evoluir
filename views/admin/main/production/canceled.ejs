@@ -1,34 +1,31 @@
 <div class="container mt-3">
 
+    <div class="text-center"><h1 class="display-6">CANCELADOS</h1></div>
     <table class="table caption-top">
-        <caption>Lista de Cancelados</caption>
+        
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">ID</th>
+                <th scope="col">Pedido</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Status</th>
+                <th scope="col">Produto</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Opções</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
+            <% itens.filter(i=>i.status=='CANCELADO'||i.status=='REFUGADO').forEach(item=>{%>
+                <tr>
+                    <th scope="row"><%= item.id %></th>
+                    <td><%= item.pedido.id %></td>
+                    <td><%= item.pedido.cliente.nome %></td>
+                    <td><%= item.status %></td>
+                    <td><%= item.produto.nome %></td>
+                    <td><%= parseFloat(item.valor).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %></td>
+                    <td><button class="btn btn-primary btn-sm">Opções</button>
+                </tr>
+                <%}) %>                        
         </tbody>
     </table>
 

@@ -80,7 +80,7 @@ function dragend() {
                 status: statusCard,
                 posicaoTab: `${tabDropzone}${item}`
             }).then(response => {
-
+                console.dir(response)
             }).catch(err => {
 
             })
@@ -154,18 +154,18 @@ function confirmarConclusao(event) {
                 idOrder: event.target.dataset.idorder,
                 status: 'CONCLUÍDO'
             }).then(response => {
-
                 document.location.reload()
             }).catch(err => {
 
             })
+            
         }
     })
 }
 
 function cancelarTrabaho(event) {
 
-    if(event.target.value){
+    if (event.target.value) {
         Swal.fire({
             title: 'Confirmação',
             text: 'Deseja realmente cancelar este trabalho?',
@@ -180,16 +180,17 @@ function cancelarTrabaho(event) {
                 axios.patch('/order/item/' + event.target.dataset.iditemorder, {
                     idOrder: event.target.dataset.idorder,
                     status: event.target.value
-                }).then(response => {    
+                }).then(response => {
+                    console.dir(response)  
                     document.location.reload()
                 }).catch(err => {
-    
+
                 })
             }
         })
     }
 
-    
+
 }
 
 
