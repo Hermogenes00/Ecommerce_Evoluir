@@ -70,7 +70,7 @@
                                         </h6>
 
                                       
-                                            <% if(pedido.pagamento){%>
+                                            <% if(pedido.status!='CONCLUÍDO'&&pedido.pagamento){%>
 
                                                 <% if(pedido.pagamento.comprovante!= undefined){%>
                                                     <a href="#" id="btnVerComprovante" data-toggle="modal"

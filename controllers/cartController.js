@@ -12,12 +12,15 @@ const client = require('../models/client')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const address = require('../models/address')
+const payment = require('../models/payment');
+const deliveryRegion = require('../models/deliveryRegion');
 
 const tratarArquivo = require('../utils/trataArquivo')
 
 //Middleware Authentication
 const clientAuthentication = require('../middleware/clientAuthentication');
-const payment = require('../models/payment');
+
+
 
 
 //Criação do middleware para menu
@@ -111,8 +114,8 @@ router.get('/admin/cart/itensCart/:idOrder', clientAuthentication, async (req, r
         //await orders.findOne({ where: { id: order.id }, include: itensOrder })
 
 
-        let itensCart = await itensOrder.findAll({ where: { pedidoId: idOrder }, include: [{ model: product }] })
-        
+        let itensCart = await itensOrder.findAll({ where: { pedidoId: idOrder }, include: [{ model: product }, { model: orders, include: [{ model:payment },{model:address},{model:deliveryRegion}] }] })
+
         res.json(itensCart)
 
     } catch (error) {

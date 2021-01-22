@@ -20,7 +20,8 @@ const collaboratorAuthentication = require('../middleware/collaboratorAuthentica
 const mercadoPago = require('../mercadoPago/mercadoPago')
 
 
-const CONSTANTE = require('../utils/constants')
+const CONSTANTE = require('../utils/constants');
+
 
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
@@ -66,9 +67,9 @@ router.patch('/order/item/:idItemOrder', async (req, res) => {
                 res.json(err)
             })
         }
-        
+
         res.json({ items, qtdTotal, itemsPending, itemsConcluded })
-        
+
     } catch (error) {
         res.json(error)
     }
@@ -112,7 +113,10 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
 
             try {
                 await orders.update(
-                    { status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO },
+                    {
+                        status: CONSTANTE.STATUS_PEDIDO.AGUARDANDO_PAGAMENTO,
+                        createdOrder: Date.now()
+                    },
                     { where: { id: ord.id } })
             } catch (error) {
                 console.log('Erro ao tentar atualizar o status->' + error);

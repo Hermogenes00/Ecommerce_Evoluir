@@ -32,7 +32,7 @@
                                     <h3>Aguardando</h3>
                                     <div class="dropzone" data-tabDropzone="1" data-status="EM_PRODUCAO">
                                         <% itens.forEach(item=>{%>
-                                            <% if(item.status=="EM_PRODUCAO" ){%>
+                                            <% if(item.status=="EM_PRODUCAO"||item.status=="AGUARDANDO_PRODUCAO" ){%>
                                                 <div class="card" draggable="true" data-idOrder="<%= item.pedido.id %>"
                                                     data-idItemOrder="<%= item.id %>" data-status="<%= item.status %>">
                                                     <div class="status green"></div>

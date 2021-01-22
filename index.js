@@ -71,6 +71,7 @@ const productApi = require('./api/product')
 const slideApi = require('./api/slide')
 const paymentApi = require('./api/payment')
 const subCategoryApi = require('./api/subCategory')
+const itemOrderApi = require('./api/itemOrder')
 
 
 const gdrive = require('./gdrive');
@@ -116,7 +117,7 @@ app.use('/', deliveryRegionApi)
 app.use('/', slideApi)
 app.use('/', printerApi)
 app.use('/', paymentApi)
-
+app.use('/',itemOrderApi)
 
 
 //app.use('/', userController)

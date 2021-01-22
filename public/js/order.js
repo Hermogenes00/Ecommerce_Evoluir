@@ -13,8 +13,50 @@ function showItems(event) {
 
         let dados = JSON.parse(data)
 
+        console.dir(dados)
+
         tbItensOrder.innerHTML = ''
         dados.forEach(item => {
+
+            //Info about the order
+            let date = new Date(item.pedido.createdOrder)
+
+
+
+            document.getElementById('emissao').innerHTML = `<h6>Emissão: <small class="text-muted"> ${date.toLocaleDateString()}</small> </h6>`
+            document.getElementById('totalPedido').innerHTML = `<h6>Total do Pedido:<small class="text-muted"> ${parseFloat(item.pedido.valorFinal).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })}</small></h6>`
+            document.getElementById('valorFrete').innerHTML = `<h6>Frete:<small class="text-muted"> ${parseFloat(item.pedido.valorFrete).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })}</small></h6>`
+            document.getElementById('valorPago').innerHTML = `<h6>Valor Pago:<small class="text-muted"> ${item.pedido.pagamento.status == 'RECEBIDO' ? parseFloat(item.pedido.total).toLocaleString('ptb', { style: 'currency', currency: 'brl' }) : 'R$ 0,00'} </small></h6>`
+            document.getElementById('situacaoFinanceira').innerHTML = `<h6>Situação Financeira: <small class="text-muted">${item.pedido.pagamento ? item.pedido.pagamento.status : '---'}</small> </h6>`
+            document.getElementById('tipoEntrega').innerHTML = `<h6>Tipo de Entrega: <small class="text-muted"> ${item.pedido.metodoEnvio}</small> </h6>`
+
+            //Info about the delivery address
+            if (item.pedido.metodoEnvio == 'BALCAO') {
+                let datePrevisaoEntrega3Day = new Date(item.pedido.createdOrder)
+                datePrevisaoEntrega3Day.setDate(date.getDate() + 3)
+
+                document.getElementById('localEntrega').innerHTML = 'Endereço de Entrega: Retirar na empresa'
+                document.getElementById('previsaoEntrega').innerHTML = `<h6>Previsão de Entrega: <small class="text-muted"> ${datePrevisaoEntrega3Day.toLocaleDateString()}</small> </h6>`
+            } else if (item.pedido.metodoEnvio == 'PAC_VISTA' || item.pedido.metodoEnvio == 'SEDEX_VISTA') {
+
+                let datePrevisaoEntrega8Day = new Date(item.pedido.createdOrder)
+                datePrevisaoEntrega8Day.setDate(date.getDate() + 8)
+
+                let datePrevisaoEntrega28Day = new Date(item.pedido.createdOrder)
+                datePrevisaoEntrega28Day.setDate(date.getDate() + 28)
+
+                document.getElementById('previsaoEntrega').innerHTML = `<h6>Previsão de Entrega: <small class="text-muted"> ${datePrevisaoEntrega8Day.toLocaleDateString()} à ${datePrevisaoEntrega28Day.toLocaleDateString()} </small> </h6>`
+                document.getElementById('localEntrega').innerHTML = `<h6>Endereço de Entrega: <small class="text-muted">${item.pedido.endereco.bairro}, ${item.pedido.endereco.numero}, ${item.pedido.endereco.cep},${item.pedido.endereco.cidade}/${item.pedido.endereco.uf}</small></h6>`
+
+            } else {
+                let datePrevisaoEntrega15Day = new Date(item.pedido.createdOrder)
+                datePrevisaoEntrega15Day.setDate(date.getDate() + 15)
+                document.getElementById('previsaoEntrega').innerHTML = `<h6>Previsão de Entrega: <small class="text-muted"> ${datePrevisaoEntrega15Day.toLocaleDateString()}</small> </h6>`
+                document.getElementById('localEntrega').innerHTML = `<h6>Endereço de Entrega:  <small class="text-muted">${item.pedido.regiaoEntrega.rua}, ${item.pedido.regiaoEntrega.numero},${item.pedido.regiaoEntrega.bairro}, ${item.pedido.regiaoEntrega.cep},${item.pedido.regiaoEntrega.cidade}/${item.pedido.regiaoEntrega.uf}</small></h6>`
+            }
+
+
+
             let linkBaixarArquivo = item.arquivo ? `    
             <a href="/uploads/${item.arquivo}">Baixar Arquivo</a>
             `: ''
@@ -37,17 +79,17 @@ function showItems(event) {
                                     <td>${linkBaixarArquivo}</td>
 
                                 </tr>
-                                ${item.status=='REFUGADO'||item.status=='ARQUIVO_VAZIO'?`
+                                ${item.status == 'REFUGADO' || item.status == 'ARQUIVO_VAZIO' ? `
                                 <tr><td colspan="9"> 
                                 
-                                <form action="" class="row" method="post">
+                                <div class="row">
 
-                                <div class="col"><input type="file" class="form-control form-control-sm"  name="" placeholder="Envie o seu arquivo corrigido" id=""></div>
-                                <div class ="col"><button type="submit" class="btn btn-primary btn-sm">Enviar Arquivo para análise</button></div>
-                                
-                                </form>
+                                <div class="col"><input type="file" class="form-control form-control-sm" id="arquivo"  name="arquivo" placeholder="Envie o seu arquivo corrigido"></div>
+                                <div class ="col"><button onClick="enviarArquivo(event)" data-idItem="${item.id}" class="btn btn-primary btn-sm">Enviar Arquivo para análise</button></div>
+                                <div class ="col invisible" id="progressFile"></div>
+                                </div>
                                 </td></tr>`
-                                :''}
+                    : ''}
             `
 
         });
@@ -64,6 +106,57 @@ function showItems(event) {
         status.value = dados.status
         informe.value = dados.informe
     }))
+
+}
+
+function enviarArquivo(event) {
+
+    let formData = new FormData()
+    let fileEl = document.getElementById('arquivo')
+
+    //let byteToMb = (fileEl.files[0].size * 0.000001)
+
+    if (fileEl.files.length > 0) {
+
+        formData.append('arquivo', fileEl.files[0])
+
+        axios.post('/itemOrder/file/' + event.target.dataset.iditem, formData, {
+            headers: {
+                "Content-Type": `multipart/form-data; boundary=${formData._boundary}`
+            },
+            onUploadProgress: function (progressEvent) {
+
+                let totalLoading = Math.round(progressEvent.loaded * 100) / progressEvent.total
+                let progressFileEl = document.getElementById('progressFile')
+                progressFileEl.classList.remove('invisible')
+                progressFileEl.innerHTML = `Arquivo ${parseInt(totalLoading)}% carregado`
+
+
+                progressEvent.target.onloadend = (event) => {
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: false
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Arquivo enviado com sucesso'
+                    })
+                }
+            }
+        }).then(response => {
+
+        }).catch(err => {
+            console.dir(err)
+        })
+
+    } else {
+        Swal.fire('Selecione um arquivo para envio')
+    }
 
 }
 

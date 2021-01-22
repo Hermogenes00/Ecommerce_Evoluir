@@ -6,6 +6,10 @@ const deliveryRegion = require('../models/deliveryRegion')
 const address = require('../models/address')
 
 const orders = connection.define('pedidos', {
+    createdOrder: {
+        type: sequelize.DATE,
+        allowNull: true
+    },
     total: {
         type: sequelize.DECIMAL(10, 2),
         allowNull: false,
