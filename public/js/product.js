@@ -11,7 +11,7 @@ function lerArquivo(event) {
     if (inputFile.files) {
 
         let imgLocal = document.getElementById('imgLocal')
-        
+
         let reader = new FileReader()
         let file = inputFile.files[0]
 
@@ -36,7 +36,7 @@ function vlrTotalMetroQuadrado(largura, altura, callback) {
 
     if (floatLargura != undefined && !isNaN(floatLargura)) {
         if (floatAltura != undefined && !isNaN(floatAltura)) {
-            result = (floatLargura * floatAltura) * parseFloat(vlrel.innerHTML)
+            result = (floatLargura * floatAltura) * parseFloat(vlrel.dataset.valortotal)
             callback(result)
         }
     }
@@ -56,8 +56,8 @@ if (formaMedicao != null && formaMedicao.dataset.und == 'und') {
     qtd[0].addEventListener('change', (event) => {
 
         let qtd = parseInt(event.target.value) / propriedadeDivisao;
-
-        vlrTotalel.innerText = (qtd * parseFloat(vlrel.innerText)).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+        let total = (qtd * vlrel.dataset.valortotal)
+        vlrTotalel.innerText = total.toLocaleString('pt-br',{style:'currency',currency:'brl'})
         vlrel.toLocaleString('pt-br')
 
 
@@ -72,7 +72,7 @@ if (formaMedicao != null && formaMedicao.dataset.und == 'und') {
         event.target.value = result;
         vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
 
-            vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR')
+            vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-br',{style:'currency',currency:'brl'})
         }))
     })
 
@@ -81,7 +81,7 @@ if (formaMedicao != null && formaMedicao.dataset.und == 'und') {
         event.target.value = result;
         vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
 
-            vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR')
+            vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR').toLocaleString('pt-br',{style:'currency',currency:'brl'})
         }))
     })
 }

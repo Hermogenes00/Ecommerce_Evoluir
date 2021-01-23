@@ -27,10 +27,10 @@
 
                                     <% orders.forEach(ord=>{%>
                                         <%ord.itensPedidos.forEach(item=>{%>
-                                            <% if(item.status=='REFUGADO' ){%>
+                                            <% if(item.status=='REFUGADO'||item.status=='ARQUIVO_VAZIO' ){%>
                                                 <div class="alert alert-danger alert-dismissible fade show"
                                                     role="alert">
-                                                    Atenção item id: <%=item.id %> refugado, pedido id: <%=ord.id %>
+                                                    Atenção item id: <%=item.id %>, status: <%= item.status %>, pedido id: <%=ord.id %>
                                                 </div>
 
                                                 <%} %>
@@ -89,8 +89,9 @@
                                                                                 <th>Pedido</th>
                                                                                 <th>Cadastro</th>
                                                                                 <th>Status</th>
-                                                                                <th>Valor Total</th>
+                                                                                <th>Valor</th>
                                                                                 <th>Frete</th>
+                                                                                <th>Total</th>
                                                                                 <th>Ação</th>
                                                                             </tr>
                                                                         </thead>
@@ -140,6 +141,12 @@
                                                                                     <td>
                                                                                         <h6>
                                                                                             <%= parseFloat(o.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                                                                %>
+                                                                                        </h6>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <h6>
+                                                                                            <%= parseFloat(o.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'})
                                                                                                 %>
                                                                                         </h6>
                                                                                     </td>

@@ -26,7 +26,7 @@ function showItems(event) {
             document.getElementById('emissao').innerHTML = `<h6>Emissão: <small class="text-muted"> ${date.toLocaleDateString()}</small> </h6>`
             document.getElementById('totalPedido').innerHTML = `<h6>Total do Pedido:<small class="text-muted"> ${parseFloat(item.pedido.valorFinal).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })}</small></h6>`
             document.getElementById('valorFrete').innerHTML = `<h6>Frete:<small class="text-muted"> ${parseFloat(item.pedido.valorFrete).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })}</small></h6>`
-            document.getElementById('valorPago').innerHTML = `<h6>Valor Pago:<small class="text-muted"> ${item.pedido.pagamento.status == 'RECEBIDO' ? parseFloat(item.pedido.total).toLocaleString('ptb', { style: 'currency', currency: 'brl' }) : 'R$ 0,00'} </small></h6>`
+            document.getElementById('valorPago').innerHTML = `<h6>Valor Pago:<small class="text-muted"> ${item.pedido.pagamento.status == 'RECEBIDO' ? parseFloat(item.pedido.pagamento.total).toLocaleString('ptb', { style: 'currency', currency: 'brl' }) : 'R$ 0,00'} </small></h6>`
             document.getElementById('situacaoFinanceira').innerHTML = `<h6>Situação Financeira: <small class="text-muted">${item.pedido.pagamento ? item.pedido.pagamento.status : '---'}</small> </h6>`
             document.getElementById('tipoEntrega').innerHTML = `<h6>Tipo de Entrega: <small class="text-muted"> ${item.pedido.metodoEnvio}</small> </h6>`
 

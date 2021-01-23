@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            <% itens.filter(i=>i.status=='CANCELADO'||i.status=='REFUGADO').forEach(item=>{%>
+            <% itens.filter(i=>i.status=='CANCELADO'||i.status=='REFUGADO'||i.status=='ARQUIVO_VAZIO').forEach(item=>{%>
                 <tr>
                     <th scope="row"><%= item.id %></th>
                     <td><%= item.pedido.id %></td>
@@ -23,7 +23,7 @@
                     <td><%= item.status %></td>
                     <td><%= item.produto.nome %></td>
                     <td><%= parseFloat(item.valor).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %></td>
-                    <td><button class="btn btn-success btn-sm">Restaurar</button></td>
+                    <td><button class="btn btn-success btn-sm" onclick="restaurarTrabalho(event)" data-idorder="<%= item.pedido.id %>"  data-idItemOrder="<%= item.id %>">Restaurar</button></td>
                 </tr>
                 <%}) %>                        
         </tbody>

@@ -67,8 +67,8 @@
                                                     <h5>Valor do Item</h5>
                                                 </div>
                                                 <div class="col">
-                                                    <h5 id="vlrel">
-                                                        <%= product.vlrProduto %>
+                                                    <h5 id="vlrel" data-valorTotal="<%=product.vlrProduto%>">
+                                                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
                                                     </h5>
                                                 </div>
                                             </div>
@@ -78,7 +78,7 @@
                                                 </div>
                                                 <div class="col">
                                                     <h5 id="vlrTotal">
-                                                        <%= product.vlrProduto%>
+                                                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
                                                     </h5>
                                                 </div>
                                             </div>

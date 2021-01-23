@@ -158,37 +158,37 @@ function confirmarConclusao(event) {
             }).catch(err => {
 
             })
-            
+
         }
     })
 }
 
-function cancelarTrabaho(event) {
+function restaurarTrabalho(event) {
+    
 
-    if (event.target.value) {
-        Swal.fire({
-            title: 'Confirmação',
-            text: 'Deseja realmente cancelar este trabalho?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sim',
-            cancelButtonText: 'Não'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.patch('/order/item/' + event.target.dataset.iditemorder, {
-                    idOrder: event.target.dataset.idorder,
-                    status: event.target.value
-                }).then(response => {
-                    console.dir(response)  
-                    document.location.reload()
-                }).catch(err => {
+    Swal.fire({
+        title: 'Confirmação',
+        text: 'Esta ação irá restaurar o trabalho para a fila de produção, deseja continuar?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.patch('/order/item/' + event.target.dataset.iditemorder, {
+                idOrder: event.target.dataset.idorder,
+                status: 'AGUARDANDO_PRODUCAO'
+            }).then(response => {
+                console.dir(response)
+                document.location.reload()
+            }).catch(err => {
 
-                })
-            }
-        })
-    }
+            })
+        }
+    })
+
 
 
 }
