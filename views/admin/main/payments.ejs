@@ -69,22 +69,24 @@
                                             <%=pedido.pagamento?pedido.pagamento.status:pedido.status%>
                                         </h6>
 
-                                      
-                                            <% if(pedido.status!='CONCLUÍDO'&&pedido.pagamento){%>
 
-                                                <% if(pedido.pagamento.comprovante!= undefined){%>
-                                                    <a href="#" id="btnVerComprovante" data-toggle="modal"
-                                                        data-target="#modalVerComprovante" title="Analisar Comprovante"
-                                                        data-comprovante="<%= pedido.pagamento.comprovante %>"
-                                                        data-idOrder="<%=pedido.id%>" onclick="exibirComprovante(event)"
-                                                        class="btn btn-sm btn-primary">Analisar
-                                                        Comprovante <i class="fas fa-sticky-note"></i></a>
+                                        <% if(pedido.status!='CONCLUÍDO' &&pedido.pagamento){%>
+
+                                            <% if(pedido.pagamento.comprovante!=undefined){%>
+                                                <a href="#" id="btnVerComprovante" data-toggle="modal"
+                                                    data-target="#modalVerComprovante" title="Analisar Comprovante"
+                                                    data-comprovante="<%= pedido.pagamento.comprovante %>"
+                                                    data-idOrder="<%=pedido.id%>" onclick="exibirComprovante(event)"
+                                                    class="btn btn-sm btn-primary">Analisar
+                                                    Comprovante <i class="fas fa-sticky-note"></i></a>
+                                                <%} %>
                                                     <%} %>
-                                    <%} %>
                                     </td>
-                                   <td>
-                                       <h6><%=pedido.pagamento?pedido.pagamento.informe:'----'%></h6>
-                                   </td>
+                                    <td>
+                                        <h6>
+                                            <%=pedido.pagamento?pedido.pagamento.informe:'----'%>
+                                        </h6>
+                                    </td>
                                     <td>
                                         <h6>
                                             <%=parseFloat(pedido.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'})%>
@@ -108,16 +110,55 @@
                                 <%}) %>
                         </tbody>
                     </table>
-
-
-
                 </div>
             </div>
+
+
+            <div class="row text-center">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Total em Pedidos</h5>
+
+                            <h4>
+                                <%= pedidos.map(pedido=>parseFloat(pedido.valorFinal)).reduce((acum,valorTotal)=>{
+                                    return acum+=valorTotal
+                                }).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %> 
+                            </h4>
+
+
+                        </div>
+                    </div>
+                </div>     
+                
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Total em Cancelados</h5>
+
+                            <h4>
+                                <%= pedidos.filter(pedido=>pedido.status=='CANCELADO').map(pedido=>parseFloat(pedido.valorFinal)).reduce((acum,valorTotal)=>{
+                                    return acum+=valorTotal
+                                }).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %> 
+                            </h4>
+
+
+                        </div>
+                    </div>
+                </div>  
+
+            </div>
+
+
+
+
+
+
         </div>
 
         <%- include('../../partials/main/order/modalVerComprovante.ejs') %>
-        <script src="/js/modalVerComprovante.js"></script>
+            <script src="/js/modalVerComprovante.js"></script>
 
 
 
-        <%- include('../../partials/footer') %>
+            <%- include('../../partials/footer') %>

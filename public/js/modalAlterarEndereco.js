@@ -11,7 +11,10 @@ function alterarEndereco(event) {
                 title: 'Endereço Atualizado com sucesso',
                 showConfirmButton: false,
                 timer: 1500
-            })
+            }).then(response=>{
+                //Refresh the page
+                document.location.reload()
+            }).catch(err=>{})
         }
     })
 }

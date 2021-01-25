@@ -80,7 +80,7 @@ function dragend() {
                 status: statusCard,
                 posicaoTab: `${tabDropzone}${item}`
             }).then(response => {
-                console.dir(response)
+                
             }).catch(err => {
 
             })
@@ -164,7 +164,7 @@ function confirmarConclusao(event) {
 }
 
 function restaurarTrabalho(event) {
-    
+
 
     Swal.fire({
         title: 'Confirmação',
@@ -181,16 +181,45 @@ function restaurarTrabalho(event) {
                 idOrder: event.target.dataset.idorder,
                 status: 'AGUARDANDO_PRODUCAO'
             }).then(response => {
-                console.dir(response)
+                
                 document.location.reload()
             }).catch(err => {
 
             })
         }
     })
+}
 
 
+function cancelarTrabaho(event) {
 
+
+    if (event.target.value) {
+        Swal.fire({
+            title: 'Confirmação', title: 'Confirmação',
+            text: 'Deseja realmente cancelar este trabalho?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                axios.patch('/order/item/' + event.target.dataset.iditemorder, {
+                    idOrder: event.target.dataset.idorder,
+                    status: event.target.value
+                }).then(response => {
+                    console.dir(response)
+                    document.location.reload()
+                }).catch(err => {
+
+                })
+            }
+        })
+
+    }
 }
 
 
