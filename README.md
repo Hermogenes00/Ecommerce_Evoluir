@@ -6,3 +6,6 @@
 #### À implentar emissão fiscal com a api do plug notas
 #### Mercado Pago (Realizar pagamento e gerenciamento dos valores recebidos)
 #### EJS -> Controle e manipulação das views
+
+
+##### Realizando refatoração, para traduzir o meu algoritmo para o inglês.
