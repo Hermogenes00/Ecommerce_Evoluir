@@ -1,4 +1,4 @@
-# CloneLoja
+# CloneLoja (Ecommerce para gráfica rápida)
 ### Ferramentas/Tecnologias sendo utilizadas até o momento:
 #### Axios
 #### Sequelize,
@@ -9,3 +9,4 @@
 
 
 ##### Realizando refatoração, para traduzir o meu algoritmo para o inglês.
+##### Melhorias no front do ecommerce (não está sendo utilizado nenhum tipo de template)
