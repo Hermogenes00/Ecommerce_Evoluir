@@ -1,0 +1,151 @@
+<div class="card mt-2">
+
+    <form action="/admin/company" method="post">
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label for="rsocial">R.Social</label>
+                    <input type="text" placeholder="R.Social..." required value="<%= empresa?empresa.rsocial:null %>"
+                        class="form-control form-control-sm" name="rsocial" id="rsocial">
+                </div>
+                <div class="col">
+                    <label for="fantasia">Fantasia</label>
+                    <input type="text" placeholder="Nome Fantasia..." value="<%= empresa?empresa.fantasia:null %>"
+                        required class="form-control form-control-sm" name="fantasia" id="fantasia">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="cnpj">Cnpj</label>
+                    <input type="text" placeholder="Informe aqui o seu cnpj" required
+                        class="form-control form-control-sm" value="<%= empresa?empresa.cnpj:null %>" name="cnpj"
+                        id="cnpj">
+                </div>
+                <div class="col">
+                    <label for="ie">Inscrição Estadual</label>
+                    <input type="text" placeholder="Informe aqui a sua inscrição estadual" required
+                        class="form-control form-control-sm" value="<%= empresa?empresa.inscricaoEstadual:null %>"
+                        name="ie" id="ie">
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="cep">Cep</label>
+                    <input type="text" value="<%= empresa?empresa.cep:null %>" placeholder="Informe aqui o cep" required
+                        class="form-control form-control-sm" name="cep" id="cep">
+                </div>
+                <div class="col">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" value="<%= empresa?empresa.endereco:null %>"
+                        placeholder="Informe aqui o seu endereço" required class="form-control form-control-sm"
+                        name="endereco" id="endereco">
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-1">
+                    <label for="numero">Nº</label>
+                    <input type="text" value="<%= empresa?empresa.numero:null %>" placeholder="Informe aqui o número"
+                        required class="form-control form-control-sm" name="numero" id="numero">
+                </div>
+                <div class="col">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" value="<%= empresa?empresa.bairro:null %>" placeholder="Informe aqui o bairro"
+                        required class="form-control form-control-sm" name="bairro" id="bairro">
+                </div>
+                <div class="col">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" value="<%= empresa?empresa.cidade:null %>" placeholder="Informe aqui a cidade"
+                        required class="form-control form-control-sm" name="cidade" id="cidade">
+                </div>
+                <div class="col-md-1">
+                    <label for="estado">UF</label>
+                    <input type="text" placeholder="UF" value="<%= empresa?empresa.uf:null %>" required
+                        class="form-control form-control-sm" name="uf" id="uf">
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <label for="telefone">Telefone</label>
+                    <input type="tel" value="<%= empresa?empresa.telefone:null %>" pattern="[0-9]{2}-[0-9]{4}-[0-9]{4}" placeholder="Ex:11-1234-1234"
+                        required class="form-control form-control-sm" name="telefone" id="telefone">
+                </div>
+
+                <div class="col">
+                    <label for="celular1">Celular</label>
+                    <input type="tel" value="<%= empresa?empresa.celular1:null %>"   pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" placeholder="Ex:11-91234-1234"
+                        required class="form-control form-control-sm" name="celular1" id="celular1">
+                </div>
+
+                <div class="col">
+                    <label for="celular2">Celular</label>
+                    <input type="tel" value="<%= empresa?empresa.celular2:null %>"  pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" placeholder="Ex:11-91234-1234"
+                        required class="form-control form-control-sm" name="celular2" id="celular2">
+                </div>
+            </div>
+
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="regimeEspecialTributacao">Regime Especial de Tributação</label>
+                    <select name="regimeEspecialTributacao"
+                        data-regimeEspecialTributacao="<%= empresa.regimeEspecialTributacao %> "
+                        class="form-control form-control-sm" id="regimeEspecialTributacao">
+
+                        <option value="">Selecione uma opção</option>
+                        <option value="1">Microempresa municipal</option>
+                        <option value="2">Estimativa</option>
+                        <option value="3">Sociedade de profissionais</option>
+                        <option value="4">Cooperativa</option>
+                        <option value="5">MEI - Simples Nacional</option>
+                        <option value="6">ME EPP- Simples Nacional</option>
+                    </select>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <%if(empresa){%>
+                        <input type="checkbox" <%=empresa.optanteSimplesNacional==1?'checked':'' %>
+                        class="form-check-input" name="optanteSimplesNacional"
+                        id="optanteSimplesNacional">
+
+                        <%}else{%>
+                            <input type="checkbox" class="form-check-input" name="optanteSimplesNacional"
+                                id="optanteSimplesNacional">
+                            <%}%>
+                                <label class="form-check-label" for="optanteSimplesNacional">Optante pelo Simples
+                                    Nacional</label>
+                </div>
+
+                <div class="mb-3 ml-3 form-check">
+                    <% if(empresa){%>
+                        <input type="checkbox" <%=empresa.incentivadorCultural==1?'checked':'' %>
+                        class="form-check-input" name="incentivadorCultural"
+                        id="incentivadorCultural">
+                        <%}else{%>
+                            <input type="checkbox" class="form-check-input" name="incentivadorCultural"
+                                id="incentivadorCultural">
+                            <%} %>
+
+                                <label class="form-check-label" for="incentivadorCultural">Incentivador Cultural</label>
+                </div>
+
+            </div>
+
+            <div class="card-footer mt-4">
+                <input type="hidden" name="id" id="id" value="<%= empresa?empresa.id:0%> ">
+                <button type="submit" class="btn btn-primary form-control form-control-sm">Salvar</button>
+
+            </div>
+        </div>
+
+
+    </form>
+
+</div>
+
+<script src="/js/empresa.js"></script>

@@ -40,7 +40,7 @@ const payment = require('./models/payment')
 const deliveryRegion = require('./models/deliveryRegion')
 const slides = require('./models/slide')
 const printer = require('./models/printer')
-
+const company = require('./models/company')
 
 //Importação dos controllers
 const productController = require('./controllers/productController');
@@ -57,6 +57,7 @@ const deliveryRegionController = require('./controllers/deliveryRegionController
 const slideController = require('./controllers/slideController');
 const paymentController = require('./controllers/paymentController');
 const printerController = require('./controllers/printerController')
+const companyController = require('./controllers/companyController')
 
 //Importação da api
 const addressApi = require('./api/address')
@@ -104,6 +105,7 @@ app.use('/', deliveryRegionController)
 app.use('/', slideController)
 app.use('/', paymentController)
 app.use('/', printerController)
+app.use('/',companyController)
 
 //Api's
 app.use('/', productApi)

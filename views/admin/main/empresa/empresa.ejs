@@ -1,0 +1,20 @@
+<%- include('../../../partials/header') %>
+    <%- include('../../../partials/navbaradmin') %>
+        <div class="container mt-4">
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="empresa-tab" data-toggle="tab" href="#pills-empresa" role="tab"
+                        aria-selected="true">Empresa</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="pills-empresa" role="tabpanel" aria-labelledby="empresa-tab">
+                    <%-include('cadastro.ejs')%>
+                </div>                
+            </div>
+
+
+        </div>
+        <%- include('../../../partials/footer') %>

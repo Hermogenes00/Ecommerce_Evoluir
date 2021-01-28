@@ -128,8 +128,7 @@
                                     <%} %> 
                                
                             </h4>
-
-
+                            
                         </div>
                     </div>
                 </div>
@@ -145,7 +144,9 @@
                                         pedido.status=='CANCELADO').map(pedido=>parseFloat(pedido.valorFinal)).reduce((acum,valorTotal)=>{
                                         return acum+=valorTotal
                                         }).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
-                                        <%}%>
+                                        <%}else{%>
+                                            R$ 00,00
+                                            <%}%>
 
                             </h4>
 
