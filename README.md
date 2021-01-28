@@ -4,3 +4,4 @@
 #### Sequelize,
 #### Criação de Api própria para descentralizar o controller
 #### À implentar emissão fiscal com a api do plug notas
+#### Mercado Pago (Realizar pagamento e gerenciamento dos valores recebidos)
