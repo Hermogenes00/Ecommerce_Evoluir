@@ -3,6 +3,10 @@ const router = express.Router()
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 const company = require('../models/company')
 
+//Api Correios
+const Correios = require('node-correios');
+let correio = new Correios();
+
 router.get('/admin/company', collaboratorAuthentication, async (req, res) => {
 
     try {
@@ -13,7 +17,7 @@ router.get('/admin/company', collaboratorAuthentication, async (req, res) => {
     }
 })
 
-router.post('/admin/company', collaboratorAuthentication, (req, res) => {
+router.post('/admin/company', collaboratorAuthentication, async (req, res) => {
     let data = req.body
     let objCompany = {
         rsocial: data.rsocial,
@@ -21,36 +25,47 @@ router.post('/admin/company', collaboratorAuthentication, (req, res) => {
         cnpj: data.cnpj,
         inscricaoEstadual: data.ie,
         cep: data.cep,
+        codigo_municipio:'',
         endereco: data.endereco,
         numero: data.numero,
         bairro: data.bairro,
         cidade: data.cidade,
         uf: data.uf,
-        telefone:data.telefone,
-        celular1:data.celular1,
-        celular2:data.celular2,
+        telefone: data.telefone,
+        celular1: data.celular1,
+        celular2: data.celular2,
         regimeEspecialTributacao: data.regimeEspecialTributacao,
-        optanteSimplesNacional: data.optanteSimplesNacional?true:false,
-        incentivadorCultural: data.incentivadorCultural?true:false
+        naturezaOperacao:data.naturezaOperacao,
+        optanteSimplesNacional: data.optanteSimplesNacional ? true : false,
+        incentivadorCultural: data.incentivadorCultural ? true : false,
     }
-    console.log(objCompany);
+
+    //Take the ibge code and update in the objCompany
+    try {        
+        let result = await correio.consultaCEP({ cep: data.cep })
+        objCompany.codigo_municipio = result.ibge        
+    } catch (error) {
+        console.log(error)
+    }
+
+
+
     if (data.id > 0) {
+        objCompany.id = data.id
         company.update(objCompany, { where: { id: data.id } }).then(response => {
-            res.render('admin/main/empresa/empresa', { empresa: objCompany })
+            return res.render('admin/main/empresa/empresa', { empresa: objCompany })
         }).catch(err => {
             console.log(err);
-            res.send('Ops, não foi possível realizar essa operação. Tente novamente, casso o erro persista, entre em contato com o suporte')
+            return res.send('Ops, não foi possível realizar essa operação. Tente novamente, casso o erro persista, entre em contato com o suporte')
         })
     } else {
         company.create(objCompany).then(response => {
-            res.render('admin/main/empresa/empresa', { empresa: response })
+            return res.render('admin/main/empresa/empresa', { empresa: response })
         }).catch(err => {
             console.log(err);
-            res.send('Ops, não foi possível realizar essa operação. Tente novamente, casso o erro persista, entre em contato com o suporte')
+            return res.send('Ops, não foi possível realizar essa operação. Tente novamente, casso o erro persista, entre em contato com o suporte')
         })
     }
-
-
 
 })
 

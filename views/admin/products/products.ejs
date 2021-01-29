@@ -1,88 +1,109 @@
 <%- include('../../partials/header') %>
-<%- include('../../partials/navbaradmin') %>
+    <%- include('../../partials/navbaradmin') %>
 
 
-<div class="container mt-4">
+        <div class="container mt-4">
 
 
-    <% if(message.error.length>0){%>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Erro</strong> <%=message.error%>.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <%} %>
-    <% if(message.success.length>0){%>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Parabéns</strong> <%=message.success%>.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <%} %>
-
-    <div class="row">
-        <div class="input-group col-md-6 mb-3">
-            <input id="buscar" name="buscar" type="text" class="form-control form-control-sm"
-                placeholder="Bucar produto">
-            <div class="input-group-append">
-                <btn class="btn btn-outline-secondary btn-sm" id="btnBuscar" name="btnBuscar">Buscar</a>
-            </div>
-        </div>
-        <div class="col offset-md-4">
-            <a href="/admin/products/product" id="btnNovoProduto" class="btn btn-primary btn-sm">Novo Produto</a>
-        </div>
-    </div>
-
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">NOME</th>
-                <th scope="col">VALOR</th>
-                <th scope="col">TAM C/ SANGRIA</th>
-                <th scope="col">TAM FINAL</th>
-                <th scope="col">AÇÃO</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% products.forEach(product=>{ %>
-            <tr>
-                <td>
-                    <%= product.id %>
-                </td>
-                <td><%=product.nome %> <% if(product.gabarito){ %>
-                    <a href="/gabarito/<%=product.gabarito%>"><i data-toggle="tooltip" title="Baixar Gabarito"
-                            class="material-icons">get_app</i> </a>
-                    <%} %></td>
-                <td><%=parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'})%></td>
-                <td><%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
-                </td>
-                <td><%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
-                </td>
-                <td>
-                    <a href="/admin/products/product/<%= product.id %>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="/admin/products/product/<%= product.id %>" class="btn btn-danger btn-sm">Excluir</a>
-                </td>
-                <td colspan="6">
-                    <div class="row">
-                        <div class="col">
-                            <button onclick="enviarArquivo(event,`/admin/product/upload/<%= product.id %>`,'.rar')"
-                                class="btn btn-primary btn-sm">Enviar Gabarito</button>
+            <% if(message.error.length>0){%>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Erro</strong>
+                    <%=message.error%>.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <%} %>
+                    <% if(message.success.length>0){%>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Parabéns</strong>
+                            <%=message.success%>.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <%}) %>
-        </tbody>
+                        <%} %>
 
-    </table>
+                            <div class="row">
+                                <div class="input-group col-md-6 mb-3">
+                                    <input id="buscar" name="buscar" type="text" class="form-control form-control-sm"
+                                        placeholder="Bucar produto">
+                                    <div class="input-group-append">
+                                        <btn class="btn btn-outline-secondary btn-sm" id="btnBuscar" name="btnBuscar">
+                                            Buscar</a>
+                                    </div>
+                                </div>
+                                <div class="col offset-md-4">
+                                    <a href="/admin/products/product" id="btnNovoProduto"
+                                        class="btn btn-primary btn-sm">Novo Produto</a>
+                                </div>
+                            </div>
 
-</div>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">NOME</th>
+                                        <th scope="col">VALOR</th>
+                                        <th scope="col">TAM C/ SANGRIA</th>
+                                        <th scope="col">TAM FINAL</th>
+                                        <th scope="col">AÇÃO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% products.forEach(product=>{ %>
+                                        <tr>
+                                            <td>
+                                                <%= product.id %>
+                                            </td>
+                                            <td>
+                                                <%=product.nome %>                                                    
+                                            </td>
+                                            <td>
+                                                <%=parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'})%>
+                                            </td>
+                                            <td>
+                                                <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x
+                                                    <%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
+                                            </td>
+                                            <td>
+                                                <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x
+                                                    <%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col text-center">
+                                                        <a href="/admin/products/product/<%= product.id %>" data-toggle="tooltip" title="Editar" class="btn btn-outline-primary btn-sm mr-1">
+                                                            <i class="fas fa-edit"></i></a>
+        
+                                                            <button data-toggle="tooltip" title="Enviar Gabarito"
+                                                                    onclick="enviarArquivo(event,`/admin/product/upload/<%= product.id %>`,'.rar')"
+                                                                    class="btn btn-outline-primary btn-sm"><i
+                                                                        class="fas fa-upload"></i></button>
+    
+                                                                        <% if(product.gabarito){ %>
+                                                                            <a href="/gabarito/<%=product.gabarito%>" data-toggle="tooltip" title="Baixar Gabarito" class="btn btn-outline-primary mt-2 form-control form-control-sm">
+                                                                                <i class="fas fa-arrow-down"></i>
+                                                                            </a>
+                                                                            <%} %>
 
 
 
-<script src="/js/ajax.js"></script>
-<script src="/js/products.js"></script>
-<%- include('../../partials/footer') %>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                            </td>
+                                        </tr>
+                                        <%}) %>
+                                </tbody>
+
+                            </table>
+
+        </div>
+
+
+
+        <script src="/js/ajax.js"></script>
+        <script src="/js/products.js"></script>
+        <%- include('../../partials/footer') %>

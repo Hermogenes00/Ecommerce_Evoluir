@@ -1,19 +1,22 @@
-function habilitarSelect(){
-    let regimeEspecialTributacaoEl = document.getElementById('regimeEspecialTributacao')
+function habilitarSelect(element){
+    let el = document.getElementById(element)
 
-    let valueDataset = regimeEspecialTributacaoEl.dataset.regimeespecialtributacao;
+    let valueDataset = el.dataset[element.toLowerCase()];
     
-    for (let option in regimeEspecialTributacaoEl.children) {
+    for (let option in el.children) {
 
-        let intOption = parseInt(regimeEspecialTributacaoEl.children[option].value)
+        let intOption = parseInt(el.children[option].value)
 
         if (intOption == valueDataset) {
-            regimeEspecialTributacaoEl.children[intOption].selected=true
+            el.children[intOption].selected=true
             break; 
         }
     }
+    //
+
 }
 
 window.onload = function(e){
-    habilitarSelect()
+    habilitarSelect('regimeEspecialTributacao')
+    habilitarSelect('naturezaOperacao')
  }

@@ -65,6 +65,10 @@ const company = connection.define('empresa', {
     incentivadorCultural: {
         type: sequelize.BOOLEAN,
         allowNull: false
+    },
+    naturezaOperacao: {
+        type: sequelize.INTEGER,
+        allowNull: false
     }
 })
 

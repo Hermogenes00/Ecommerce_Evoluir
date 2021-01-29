@@ -80,11 +80,17 @@
                                         <div class="col-md-3">
                                             <form action="/order/resume/" method="POST">
                                                 <input type="hidden" name="idOrder" value="<%= ord.id %>">
-                                                <input data-toggle="tooltip" data-placement="top" title="Ver Ficha"
-                                                    data-target="#exampleModal" type="submit"
-                                                    class="btn btn-danger btn-sm" value="Ver Ficha">
+                                                <button  data-toggle="tooltip" data-placement="top" title="Ver Ficha"
+                                                data-target="#exampleModal" type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-eye"></i></button>                                                
                                             </form>
                                         </div>
+                                        <% if(ord.status=='CONCLUÍDO' ){%>
+                                            <div class="col">
+                                                <button data-toggle="tooltip" title="Emitir NFS-e" class="btn btn-outline-primary btn-sm"><i class="far fa-sticky-note"></i></button>
+                                            </div>
+                                            <%} %>
+                                       
+
                                     </div>
 
                                 </div>

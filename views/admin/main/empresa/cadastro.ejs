@@ -91,15 +91,16 @@
 
             <hr>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col">
                     <label for="regimeEspecialTributacao">Regime Especial de Tributação</label>
-                    <select name="regimeEspecialTributacao"
-                        data-regimeEspecialTributacao="<%= empresa.regimeEspecialTributacao %> "
+                    <select name="regimeEspecialTributacao" required
+                        data-regimeEspecialTributacao="<%=empresa?empresa.regimeEspecialTributacao:null %> "
                         class="form-control form-control-sm" id="regimeEspecialTributacao">
 
                         <option value="">Selecione uma opção</option>
                         <option value="1">Microempresa municipal</option>
-                        <option value="2">Estimativa</option>
+                        <option
+                         value="2">Estimativa</option>
                         <option value="3">Sociedade de profissionais</option>
                         <option value="4">Cooperativa</option>
                         <option value="5">MEI - Simples Nacional</option>
@@ -107,7 +108,23 @@
                     </select>
                 </div>
 
-                <div class="mb-3 form-check">
+                <div class="col">
+                    <label for="naturezaOperacao">Natureza da Operação</label>
+                    <select name="naturezaOperacao" required
+                        data-naturezaOperacao="<%= empresa?empresa.naturezaOperacao:null %> "
+                        class="form-control form-control-sm" id="naturezaOperacao">
+
+                        <option value="">Selecione uma opção</option>
+                        <option value="1">Tributação no município</option>
+                        <option value="2">Tributação fora do município</option>
+                        <option value="3">Isenção</option>
+                        <option value="4">Imune</option>
+                        <option value="5">Exigibilidade suspensa por decisão judicial</option>
+                        <option value="6">Exigibilidade suspensa por procedimento administrativo</option>
+                    </select>
+                </div>
+
+                <div class="col mb-3 form-check">
                     <%if(empresa){%>
                         <input type="checkbox" <%=empresa.optanteSimplesNacional==1?'checked':'' %>
                         class="form-check-input" name="optanteSimplesNacional"
@@ -121,7 +138,7 @@
                                     Nacional</label>
                 </div>
 
-                <div class="mb-3 ml-3 form-check">
+                <div class=" col mb-3 ml-3 form-check">
                     <% if(empresa){%>
                         <input type="checkbox" <%=empresa.incentivadorCultural==1?'checked':'' %>
                         class="form-check-input" name="incentivadorCultural"
