@@ -29,6 +29,12 @@
                         class="form-control form-control-sm" value="<%= empresa?empresa.inscricaoEstadual:null %>"
                         name="ie" id="ie">
                 </div>
+                <div class="col">
+                    <label for="im">Inscrição Municipal</label>
+                    <input type="text" placeholder="Informe aqui a sua inscrição estadual"
+                        class="form-control form-control-sm" value="<%= empresa?empresa.inscricaoMunicipal:null %>"
+                        name="im" id="im">
+                </div>
             </div>
             <hr>
             <div class="row">
@@ -72,24 +78,57 @@
             <div class="row">
                 <div class="col">
                     <label for="telefone">Telefone</label>
-                    <input type="tel" value="<%= empresa?empresa.telefone:null %>" pattern="[0-9]{2}-[0-9]{4}-[0-9]{4}" placeholder="Ex:11-1234-1234"
-                        required class="form-control form-control-sm" name="telefone" id="telefone">
+                    <input type="tel" value="<%= empresa?empresa.telefone:null %>" pattern="[0-9]{2}-[0-9]{4}-[0-9]{4}"
+                        placeholder="Ex:11-1234-1234" required class="form-control form-control-sm" name="telefone"
+                        id="telefone">
                 </div>
 
                 <div class="col">
                     <label for="celular1">Celular</label>
-                    <input type="tel" value="<%= empresa?empresa.celular1:null %>"   pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" placeholder="Ex:11-91234-1234"
-                        required class="form-control form-control-sm" name="celular1" id="celular1">
+                    <input type="tel" value="<%= empresa?empresa.celular1:null %>" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}"
+                        placeholder="Ex:11-91234-1234" required class="form-control form-control-sm" name="celular1"
+                        id="celular1">
                 </div>
 
                 <div class="col">
                     <label for="celular2">Celular</label>
-                    <input type="tel" value="<%= empresa?empresa.celular2:null %>"  pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" placeholder="Ex:11-91234-1234"
-                        required class="form-control form-control-sm" name="celular2" id="celular2">
+                    <input type="tel" value="<%= empresa?empresa.celular2:null %>" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}"
+                        placeholder="Ex:11-91234-1234" required class="form-control form-control-sm" name="celular2"
+                        id="celular2">
                 </div>
             </div>
 
             <hr>
+
+
+            <div class="row ml-3">
+                <div class="col-md-3 mb-3 form-check">
+                    <%if(empresa){%>
+                        <input type="checkbox" <%=empresa.optanteSimplesNacional==1?'checked':'' %>
+                        class="form-check-input" name="optanteSimplesNacional"
+                        id="optanteSimplesNacional">
+
+                        <%}else{%>
+                            <input type="checkbox" class="form-check-input" name="optanteSimplesNacional"
+                                id="optanteSimplesNacional">
+                            <%}%>
+                                <label class="form-check-label" for="optanteSimplesNacional">Optante pelo Simples
+                                    Nacional</label>
+                </div>
+
+                <div class=" col-md-3 mb-3 ml-3 form-check">
+                    <% if(empresa){%>
+                        <input type="checkbox" <%=empresa.incentivadorCultural==1?'checked':'' %>
+                        class="form-check-input" name="incentivadorCultural"
+                        id="incentivadorCultural">
+                        <%}else{%>
+                            <input type="checkbox" class="form-check-input" name="incentivadorCultural"
+                                id="incentivadorCultural">
+                            <%} %>
+
+                                <label class="form-check-label" for="incentivadorCultural">Incentivador Cultural</label>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <label for="regimeEspecialTributacao">Regime Especial de Tributação</label>
@@ -99,12 +138,26 @@
 
                         <option value="">Selecione uma opção</option>
                         <option value="1">Microempresa municipal</option>
-                        <option
-                         value="2">Estimativa</option>
+                        <option value="2">Estimativa</option>
                         <option value="3">Sociedade de profissionais</option>
                         <option value="4">Cooperativa</option>
                         <option value="5">MEI - Simples Nacional</option>
                         <option value="6">ME EPP- Simples Nacional</option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label for="regimeTributario">Regime Tributário</label>
+                    <select name="regimeTributario" required
+                        data-regimeTributario="<%=empresa?empresa.regimeTributario:null %> "
+                        class="form-control form-control-sm" id="regimeTributario">
+
+                        <option value="">Selecione uma opção</option>
+                        <option value="0">Nenhum</option>
+                        <option value="1">Simples Nacional</option>
+                        <option value="2">Simples Nacional - Excesso</option>
+                        <option value="3">Normal - Lucro Presumido</option>
+                        <option value="4">Normal - Lucro Real</option>                        
                     </select>
                 </div>
 
@@ -123,34 +176,6 @@
                         <option value="6">Exigibilidade suspensa por procedimento administrativo</option>
                     </select>
                 </div>
-
-                <div class="col mb-3 form-check">
-                    <%if(empresa){%>
-                        <input type="checkbox" <%=empresa.optanteSimplesNacional==1?'checked':'' %>
-                        class="form-check-input" name="optanteSimplesNacional"
-                        id="optanteSimplesNacional">
-
-                        <%}else{%>
-                            <input type="checkbox" class="form-check-input" name="optanteSimplesNacional"
-                                id="optanteSimplesNacional">
-                            <%}%>
-                                <label class="form-check-label" for="optanteSimplesNacional">Optante pelo Simples
-                                    Nacional</label>
-                </div>
-
-                <div class=" col mb-3 ml-3 form-check">
-                    <% if(empresa){%>
-                        <input type="checkbox" <%=empresa.incentivadorCultural==1?'checked':'' %>
-                        class="form-check-input" name="incentivadorCultural"
-                        id="incentivadorCultural">
-                        <%}else{%>
-                            <input type="checkbox" class="form-check-input" name="incentivadorCultural"
-                                id="incentivadorCultural">
-                            <%} %>
-
-                                <label class="form-check-label" for="incentivadorCultural">Incentivador Cultural</label>
-                </div>
-
             </div>
 
             <div class="card-footer mt-4">

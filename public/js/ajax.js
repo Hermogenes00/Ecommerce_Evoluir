@@ -16,6 +16,24 @@ function requisicao(endereco, callback) {
     xhr.send()
 }
 
+//Função desenvolvida para realizar consumo da api plugnotas
+function consumo(token,method,address, callback) {
+    
+    let xhttp = new XMLHttpRequest()
+    
+    xhttp.open(method, address, false)
+    xhttp.setRequestHeader('X-API-KEY', token)
+
+    xhttp.onreadystatechange = function () {
+        if (xhttp.status == 200 || xhttp.status == 4) {
+            callback(this.responseText)
+        }
+    }
+
+    xhttp.send()
+}
+
+
 async function enviarArquivo(event, action, ext) {
 
     event.preventDefault()

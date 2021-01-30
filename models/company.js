@@ -18,6 +18,10 @@ const company = connection.define('empresa', {
         type: sequelize.STRING,
         allowNull: false
     },
+    inscricaoMunicipal: {
+        type: sequelize.STRING,
+        allowNull: false
+    },
     cep: {
         type: sequelize.STRING,
         allowNull: false
@@ -55,6 +59,10 @@ const company = connection.define('empresa', {
         allowNull: false
     },
     regimeEspecialTributacao: {
+        type: sequelize.INTEGER,
+        allowNull: false
+    },
+    regimeTributario: {
         type: sequelize.INTEGER,
         allowNull: false
     },

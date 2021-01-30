@@ -20,8 +20,19 @@
                 </div>
                 <div class="card-body">
                     <form action="/admin/products/save" method="POST" class="form">
-                        <div class="row" style="float: left;">
+
+                        <div class="row ml-3">
                             <div class="col-md-3">
+                                <input class="form-check-input" type="checkbox" <%= product.ativo==1?"checked":"" %>  name="ativo"
+                                    id="ativo">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                  Ativo
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="float: left;">
+                            <div class="col">
                                 <img src="<%= product.imagem?product.imagem:'/images/imagem_default.jpg'%>" width="250"
                                     height="250" id="imgLocal" alt="">
                                 <input type="file" name="arquivo" class="form-control form-control-sm" id="arquivo"
@@ -165,7 +176,6 @@
                                     class="form-control form-control-sm">
                             </div>
                         </div>
-
                         <div class=" mt-3" style=" float: right;">
                             <a href="/collaborator/find/all" class="btn btn-outline-primary">Cancelar</a>
                             <input type="hidden" name="id" id="id" value="<%= product.id %>">

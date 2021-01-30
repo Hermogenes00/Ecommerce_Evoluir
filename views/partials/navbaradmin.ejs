@@ -37,9 +37,16 @@
             <a href="/main/orders/" data-toggle="tooltip" data-placement="top"
             title="Ver e gerenciar pedidos" class="nav-link" style="color: white;">Pedidos</a>
         </li>
-        <li class="nav-item">
-            <a href="/main/orders/" data-toggle="tooltip" data-placement="top"
-            title="Gerenciamento Fiscal" class="nav-link" style="color: white;">Fiscal</a>
+        <li class="nav-item active dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Fiscal
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a data-toggle="tooltip" title="Gerencimaneto de nota fiscal de produto" class="dropdown-item" href="#">NF-e (Produto)</a>
+                <a data-toggle="tooltip" title="Gerencimaneto de nota fiscal de serviço" class="dropdown-item" href="#">NFS-e (Serviço)</a>
+                <a class="dropdown-item" href="/admin/certified">Certificado</a>
+            </div>
         </li>
         <li class="nav-item">
             <a href="/payment" class="nav-link" data-toggle="tooltip" data-placement="top"
@@ -51,7 +58,7 @@
         </li>
         <li class="nav-item">
             <a href="/admin/company" class="nav-link" data-toggle="tooltip" data-placement="top"
-            title="Parametrizações" style="color: white;">Empresa</a>
+            title="Materiais para estudo" style="color: white;">Empresa</a>
         </li>
         <li class="nav-item">
             <a href="/" class="nav-link" data-toggle="tooltip" data-placement="top"

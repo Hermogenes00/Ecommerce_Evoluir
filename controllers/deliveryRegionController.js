@@ -8,8 +8,6 @@ router.get('/main/deliveryRegion', collaboratoAuthentication, async (req, res) =
     let dlvReg = []
     try {
         dlvReg = await deliveryRegion.findAll()
-
-
     } catch (error) {
         console.log('Erro ao tentar carregar região de entrega-->' + error)
     }

@@ -24,8 +24,9 @@ router.post('/admin/company', collaboratorAuthentication, async (req, res) => {
         fantasia: data.fantasia,
         cnpj: data.cnpj,
         inscricaoEstadual: data.ie,
+        inscricaoMunicipal: data.im,
         cep: data.cep,
-        codigo_municipio:'',
+        codigo_municipio: '',
         endereco: data.endereco,
         numero: data.numero,
         bairro: data.bairro,
@@ -35,15 +36,18 @@ router.post('/admin/company', collaboratorAuthentication, async (req, res) => {
         celular1: data.celular1,
         celular2: data.celular2,
         regimeEspecialTributacao: data.regimeEspecialTributacao,
-        naturezaOperacao:data.naturezaOperacao,
+        regimeTributario: parseInt(data.regimeTributario),
+        naturezaOperacao: data.naturezaOperacao,
         optanteSimplesNacional: data.optanteSimplesNacional ? true : false,
         incentivadorCultural: data.incentivadorCultural ? true : false,
     }
 
+    console.log(objCompany)
+
     //Take the ibge code and update in the objCompany
-    try {        
+    try {
         let result = await correio.consultaCEP({ cep: data.cep })
-        objCompany.codigo_municipio = result.ibge        
+        objCompany.codigo_municipio = result.ibge
     } catch (error) {
         console.log(error)
     }
@@ -69,6 +73,15 @@ router.post('/admin/company', collaboratorAuthentication, async (req, res) => {
 
 })
 
+router.get('/admin/certified', collaboratorAuthentication, (req, res) => {
+    res.render('admin/main/empresa/certified')
+})
+
+//Update certified
+router.post('/admin/certified', collaboratorAuthentication, (req, res) => {
+
+    res.render('admin/main/empresa/certified')
+})
 
 
 module.exports = router

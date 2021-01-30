@@ -1,0 +1,39 @@
+<%- include('../../../partials/header') %>
+    <%- include('../../../partials/navbaradmin') %>
+
+        <div class="container mt-2">
+            <h3 class="text-center">
+                <small class="text-muted">Cadastre aqui o seu certificado digital (A1)</small>
+            </h3>
+
+            <div class="row">
+                <div class="col">
+                    <label for="arquivo">Arquivo</label>
+                    <input type="file" name="arquivo" id="arquivo" class="form-control form-control-sm">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="senha">Senha</label>
+                    <input type="password" required name="senha" id="senha" class="form-control form-control-sm">
+                </div>
+            </div>
+            
+            <div class="row justify-content-md-center mt-3">
+                <div class="col-md-1">
+                    <button type="submit" class="form-control form-control-sm btn btn-primary">Enviar</button>
+                </div>
+            </div>
+
+            <h4 class="text-center">
+                <small class="text-muted">O envio do arquivo é necessário para habilitar a emissão de notas fiscais</small>
+            </h4>
+
+
+        </div>
+
+
+
+
+
+        <%- include('../../../partials/footer') %>

@@ -8,7 +8,7 @@ function habilitarSelect(element){
         let intOption = parseInt(el.children[option].value)
 
         if (intOption == valueDataset) {
-            el.children[intOption].selected=true
+            el.children[option].selected=true
             break; 
         }
     }
@@ -19,4 +19,5 @@ function habilitarSelect(element){
 window.onload = function(e){
     habilitarSelect('regimeEspecialTributacao')
     habilitarSelect('naturezaOperacao')
+    habilitarSelect('regimeTributario')
  }

@@ -70,7 +70,7 @@ let upload = multer({
 //Rotas------------------------
 
 
-router.post('/admin/product/upload/:productId',collaboratorAuthentication,upload.single('file'), async (req, res) => {
+router.post('/admin/product/upload/:productId', collaboratorAuthentication, upload.single('file'), async (req, res) => {
 
     let productId = req.params.productId
 
@@ -261,6 +261,28 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
     }
 
     //#endregion
+    let objProduct = {
+        nome: data.nome,
+        descricao: data.descricao,
+        codRef: data.codRef,
+        tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
+        tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
+        vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
+        material: data.material,
+        gramatura: data.gramatura.replace('.', '').replace(',', '.'),
+        peso: data.peso.replace('.', '').replace(',', '.'),
+        tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
+        tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
+        slug: slug(data.nome),
+        propriedadeDivisao: parseInt(data.propriedadeDivisao),
+        qtd: data.qtd,
+        categoriaId: data.categoria,
+        subcategoriaId: data.subCategoria,
+        previsaoProducao: data.previsaoProducao,
+        und: data.und,
+        imagem: data.imagem,
+        ativo: data.ativo?true:false
+    }
 
     if (flagErro) {
         message.erro = req.flash('erro')
@@ -268,27 +290,7 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
     } else {
         if (data != undefined) {
             if (data.id != undefined && data.id <= 0) {
-                products.create({
-                    nome: data.nome,
-                    descricao: data.descricao,
-                    codRef: data.codRef,
-                    tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
-                    tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
-                    vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
-                    material: data.material,
-                    gramatura: data.gramatura.replace('.', '').replace(',', '.'),
-                    peso: data.peso.replace('.', '').replace(',', '.'),
-                    tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
-                    tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
-                    slug: slug(data.nome),
-                    propriedadeDivisao: parseInt(data.propriedadeDivisao),
-                    qtd: data.qtd,
-                    categoriaId: data.categoria,
-                    subcategoriaId: data.subCategoria,
-                    previsaoProducao: data.previsaoProducao,
-                    und: data.und,
-                    imagem: data.imagem
-                }).then((product) => {
+                products.create(objProduct).then((product) => {
                     req.flash('success', 'Produto adicionado com sucesso!!!')
                     res.redirect('/admin/products/find/')
                 }).catch(erro => {
@@ -296,27 +298,7 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
                     res.render('admin/products/product', { product: data })
                 })
             } else {
-                products.update({
-                    nome: data.nome,
-                    descricao: data.descricao,
-                    codRef: data.codRef,
-                    tamFinalAltura: data.tamFinalAltura.replace('.', '').replace(',', '.'),
-                    tamFinalLargura: data.tamFinalLargura.replace('.', '').replace(',', '.'),
-                    vlrProduto: data.vlrProduto.replace('.', '').replace(',', '.'),
-                    material: data.material,
-                    gramatura: data.gramatura.replace('.', '').replace(',', '.'),
-                    peso: data.peso.replace('.', '').replace(',', '.'),
-                    tamSangriaAltura: data.tamSangriaAltura.replace('.', '').replace(',', '.'),
-                    tamSangriaLargura: data.tamSangriaLargura.replace('.', '').replace(',', '.'),
-                    slug: slug(data.nome),
-                    propriedadeDivisao: parseInt(data.propriedadeDivisao),
-                    qtd: data.qtd,
-                    categoriaId: data.categoria,
-                    subcategoriaId: data.subCategoria,
-                    previsaoProducao: data.previsaoProducao,
-                    und: data.und,
-                    imagem: data.imagem
-                }, { where: { id: data.id } }).then(() => {
+                products.update(objProduct,{ where: { id: data.id } }).then(() => {
                     req.flash('success', 'Alterações realizadas com sucesso!!!')
                     res.redirect('/admin/products/find/')
                 }).catch(erro => {

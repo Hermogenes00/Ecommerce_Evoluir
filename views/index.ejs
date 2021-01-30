@@ -6,9 +6,9 @@
 
 <div class="container mt-4">
     <div class="row row-cols-1 row-cols-md-4">
-        <% products.forEach(product=>{ %>
-
-        <div class="col mb-3">
+        <% products.filter(p=>p.ativo==1).forEach(product=>{ %>   
+    
+        <div class="col-md-3 mb-3">
             <div class="card h-100 border-light">
                 <div class="card-body">
                     <a href="/admin/products/detail/<%= product.slug %>">
@@ -39,6 +39,7 @@
                 </div>
             </div>
         </div>
+    
     </div>
     <%}) %>
 </div>

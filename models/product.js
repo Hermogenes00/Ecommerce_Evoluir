@@ -75,6 +75,10 @@ const product = connection.define('produtos', {
     imagem:{
         type: sequelize.TEXT({ length: 'long' }),
         allowNull: true
+    },
+    ativo:{
+        type: sequelize.BOOLEAN,
+        allowNull: false
     }
 
 })
