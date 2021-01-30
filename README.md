@@ -1,4 +1,4 @@
-# CloneLoja (Ecommerce para gráfica rápida)
+# Ecommerce Evoluir (Ecommerce para gráfica rápida)
 ### Ferramentas/Tecnologias sendo utilizadas até o momento:
 #### Axios
 #### Sequelize,
