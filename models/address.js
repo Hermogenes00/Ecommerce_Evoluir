@@ -38,11 +38,13 @@ const address = connection.define('enderecos', {
 address.belongsTo(client)
 client.hasMany(address)
 
-/*
-address.sync({alter:true}).then(clb => {
+/**
+ * address.sync({alter:true}).then(clb => {
     console.log(clb);
 }).catch(error => {
     console.log(error);
-})*/
+})
+ */
+
 
 module.exports = address;

@@ -31,6 +31,7 @@ selectEstado.addEventListener('change', function () {
 
 
 requisicao(`/admin/cart/itensCart/` + document.getElementById('idOrder').value, (data => {
+    
     let itens = JSON.parse(data)
     itens.forEach(item => {
         let tamanho = item.altura ? `<small>Altura: ${item.altura} Largura: ${item.largura} </small>` : ``

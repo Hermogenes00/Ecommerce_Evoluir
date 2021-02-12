@@ -61,12 +61,14 @@ const collaborator = connection.define('usuarios', {
 
 })
 
-/*
-collaborator.sync({alter:true}).then(clb => {
+/**
+ * collaborator.sync({alter:true}).then(clb => {
     console.log(clb);
 }).catch(error => {
     console.log(error);
 })
-*/
+ */
+
+
 
 module.exports = collaborator;

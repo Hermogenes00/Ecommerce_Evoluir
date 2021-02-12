@@ -70,6 +70,6 @@ orders.belongsTo(deliveryRegion)
 deliveryRegion.hasMany(orders)
 
 //orders.sync({alter:true})
-//itensOrder.sync({alter:true})
+//itensOrder.sync({alter:true}) 
 
 module.exports = orders;

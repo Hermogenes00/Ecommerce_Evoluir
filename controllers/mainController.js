@@ -113,7 +113,7 @@ router.get('/main/orders/:client?', collaboratorAuthentication, async (req, res)
         if (req.params.client != undefined && req.params.client != 'all') {
             ords = await orders.findAll({
                 include: [
-                    { model: clients, where: { nome: [sequelize.Op.like] = client } },
+                    { model: clients, where: { nome: { [sequelize.Op.like]: [client] } } },
                     { model: payment }
                 ], order: [['createdAt', 'desc']]
             })

@@ -55,9 +55,9 @@ router.post('/collaborator/login', async (req, res) => {
         let clb = await collaborators.findOne({ where: { email: data.email } })
 
         if (clb) {
-            console.log('Achou' + comparator);
+            
             comparator = bcrypt.compareSync(data.password, clb.password);
-            console.log('Resultado do comparator----' + comparator);
+            
             if (comparator) {
 
                 req.session.collaborator = {
@@ -108,17 +108,17 @@ router.get('/admin/collaborators/collaborator/:id?', collaboratorAuthentication,
         if (req.params.id) {
             data = await collaborators.findByPk(req.params.id)
             res.render('admin/collaborators/collaborator', { collaborator: data, msg })
-        }else{
+        } else {
             res.render('admin/collaborators/collaborator', { collaborator: data, msg })
         }
     } catch (error) {
-        console.log('Erro ao tentar consultar colaborador pelo id->',error);
+        console.log('Erro ao tentar consultar colaborador pelo id->', error);
         res.render('admin/collaborators/collaborator', { collaborator: data, msg })
     }
 
 })
 
-router.post('/admin/collaborators/collaborator', collaboratorAuthentication, async (req, res) => {
+router.post('/admin/collaborators/collaborator', async (req, res) => {
     let data = req.body;
     let msg = []
 
@@ -237,6 +237,8 @@ router.get('/collaborator/logout', collaboratorAuthentication, (req, res) => {
 
     res.redirect('/collaborator/login')
 })
+
+
 
 router.get('/collaborator/find/:name', collaboratorAuthentication, async (req, res) => {
     let name = `%${req.params.name}%`;

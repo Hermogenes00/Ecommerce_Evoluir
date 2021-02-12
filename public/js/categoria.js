@@ -26,6 +26,7 @@ let selectSubCategoria = document.getElementById('subCategoria')
 requisicao('/category/categories/json', response => {
     let objJson = JSON.parse(response)
     selectCategoria.innerHTML = ''
+    selectCategoria.innerHTML += `<option value="">Selecione uma categoria</option>`
     objJson.categories.forEach(cat => {
         selectCategoria.innerHTML += `<option ${(cat.id == selectCategoria.dataset.categoriaid) ? 'selected' : ''} value="${cat.id}">${cat.nome}</option>`
     })
