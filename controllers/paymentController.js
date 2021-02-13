@@ -7,11 +7,12 @@ const subCategory = require('../models/subCategory')
 const itemsOrder = require('../models/itensOrder')
 const clientAuthentication = require('../middleware/clientAuthentication')
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
-
+const sequelize = require('sequelize')
 
 
 //CONSTANTES
 const CONSTANTE = require('../utils/constants')
+
 
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
@@ -25,11 +26,28 @@ router.use(async (req, res, next) => {
 
 //Rotas
 
-router.get('/payment', collaboratorAuthentication, async (req, res) => {
-    let response = {}
+router.get('/admin/payment/:cliente?/:dateStart?/:dateFinish?/:status?', collaboratorAuthentication, async (req, res) => {
 
+    let response = {}
+    let { cliente, dateStart, dateFinish, status } = req.params
     try {
-        response = await order.findAll({ include: [{ model: payment }, { model: client }] })
+
+        if (cliente && dateStart && dateFinish && status) {
+            response = await order.findAll({
+                include: [
+                    {
+                        model: payment, where: {status: status, 
+                                                createdAt:{[sequelize.Op.between]:[new Date(dateStart),new Date(dateFinish)]}}
+                    },
+                    {
+                        model: client, where: { nome: { [sequelize.Op.like]: [`%${cliente}%`] } }
+                    }
+                ]
+            })
+        } else {
+            response = await order.findAll({ include: [{ model: payment }, { model: client }] })
+        }
+
     } catch (error) {
         console.log('Erro ao tentar carregar pagamentos', error);
     }

@@ -103,19 +103,36 @@ router.get('/main/clients/:client?', collaboratorAuthentication, async (req, res
     }
 })
 
-router.get('/main/orders/:client?', collaboratorAuthentication, async (req, res) => {
+router.get('/main/orders/:cliente?/:dateStart?/:dateFinish?/:status?', collaboratorAuthentication, async (req, res) => {
 
-    let client = `%${req.params.client}%`;
+    let { cliente, dateStart, dateFinish, status } = req.params
+
     let ords = undefined;
+    let filter = undefined
+
+    //filter by choose of the status
+    //Case CARRINHO, createdAt else createdOrder
+    if (status == 'CARRINHO') {
+        filter = {
+            createdAt: { [sequelize.Op.between]: [new Date(dateStart), new Date(dateFinish)] },
+            status: status
+        }
+    } else {
+        filter = {
+            createdOrder: { [sequelize.Op.between]: [new Date(dateStart), new Date(dateFinish)] },
+            status: status
+        }
+    }
 
     try {
 
-        if (req.params.client != undefined && req.params.client != 'all') {
+        if (cliente && dateStart && dateFinish && status) {
             ords = await orders.findAll({
                 include: [
-                    { model: clients, where: { nome: { [sequelize.Op.like]: [client] } } },
+                    { model: clients, where: { nome: { [sequelize.Op.like]: [`%${cliente}%`] } } },
                     { model: payment }
-                ], order: [['createdAt', 'desc']]
+                ], order: [['createdAt', 'desc']],
+                where: filter
             })
         } else {
             ords = await orders.findAll({
@@ -130,6 +147,7 @@ router.get('/main/orders/:client?', collaboratorAuthentication, async (req, res)
         res.render('admin/main/orders', { ords })
 
     } catch (error) {
+        console.log(error)
         res.json(error)
     }
 })

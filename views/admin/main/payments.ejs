@@ -8,18 +8,28 @@
                     <div class="row mb-2">
                         <div class="col-sm-2">
                             <label for="dataInicial">Data Inicial</label>
-                            <input type="date" name="dataInicial" class="form-control form-control-sm" id="dataInicial">
+                            <input type="date" name="dateStart" class="form-control form-control-sm" id="dateStart">
                         </div>
 
                         <div class="col-sm-2">
                             <label for="dataFinal">Data Final</label>
-                            <input type="date" name="dataFinal" class="form-control form-control-sm" id="dataFinal">
+                            <input type="date" name="dateFinish" class="form-control form-control-sm" id="dateFinish">
                         </div>
 
-                        <div class="col">
+                        <div class="col-md-4">
                             <label for="inputCliente">Cliente</label>
                             <input type="text" placeholder="Informe o nome do cliente" name="inputCliente"
                                 class="form-control form-control-sm" id="inputCliente">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="selectStatus">Status</label>
+                           <select name="selectStatus" class="form-control form-control-sm" onchange="filtrar(event)" id="selectStatus">
+                               <option value="">Selecione uma opção</option>
+                               <option value="RECEBIDO">Recebido</option>
+                               <option value="RECUSADO">Recusado</option>
+                               <option value="ANALISE_COMPROVANTE">Análise de Comprovante</option>
+                           </select>
                         </div>
                     </div>
                 </div>
@@ -166,7 +176,6 @@
 
         <%- include('../../partials/main/order/modalVerComprovante.ejs') %>
             <script src="/js/modalVerComprovante.js"></script>
-
-
+            <script src="/js/payments.js"></script>
 
             <%- include('../../partials/footer') %>
