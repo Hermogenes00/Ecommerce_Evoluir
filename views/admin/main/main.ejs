@@ -3,15 +3,35 @@
 
 <div class="container mt-3">
 
+    <div class="row text-center">
+        <div class="col">
+            <%if(pedidos.filter(p=>p.status=='AGUARDANDO PAGAMENTO').length){%>
+
+                <div class="alert alert-primary text-center" role="alert">
+                    Atenção, você tem <%=pedidos.filter(p=>p.status=='AGUARDANDO PAGAMENTO').length%> pedido(s) aguardando confirmação de pagamento
+               </div>
+    
+               <%}%> 
+        </div>
+           
+          </div>
+    
     <!--Um relatório de totais-->
     <div class="row text-center">
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <h5>Total em Carrinho</h5>
-                    <% if(totalCarrinho){%>
-                    <h4><%= parseFloat(totalCarrinho).toLocaleString('pt-br',{style:'currency',currency:'BRL'}) %></h4>
-                    <% }%>
+                    <h5 class="text-muted">Total em Carrinho</h5>
+                    
+                        <h4 class="text-muted">
+                            <% if(pedidos.filter(p=>p.status=='CARRINHO').length){%>
+                                <%=pedidos.filter(p=>p.status=='CARRINHO').map(p=>parseFloat(p.valorFinal)).reduce((acum,obj)=>acum+=obj).toLocaleString('pt-br',{currency:'brl',style:'currency'})%>
+                            <%}else{%>
+R$ 0,00
+                                <%}%>                            
+                        </h4>
+                        
+                                        
                 </div>
             </div>
         </div>
@@ -19,10 +39,14 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <h5>Total em Pedido</h5>
-                    <% if(totalCarrinho){%>
-                    <h4><%= parseFloat(totalCarrinho).toLocaleString('pt-br',{style:'currency',currency:'BRL'}) %></h4>
-                    <% }%>
+                    <h5 class="text-muted">Total em Produção</h5>
+                    <h4 class="text-muted">
+                        <% if(pedidos.filter(p=>p.status=='EM_PRODUCAO' || p.status =='AGUARDANDO_PRODUCAO' ).length){%>
+                            <%=pedidos.filter(p=>p.status=='EM_PRODUCAO' || p.status=='AGUARDANDO_PRODUCAO').map(p=>parseFloat(p.valorFinal)).reduce((acum,obj)=>acum+=obj).toLocaleString('pt-br',{currency:'brl',style:'currency'})%>
+                        <%}else{%>
+R$ 0,00
+                            <%}%>                            
+                    </h4>
                 </div>
             </div>
         </div>
@@ -31,44 +55,131 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <h5>Total Cancelado</h5>
-                    <% if(totalCarrinho){%>
-                    <h4><%= parseFloat(totalCarrinho).toLocaleString('pt-br',{style:'currency',currency:'BRL'}) %></h4>
-                    <% }%>
+                    <h5 class="text-muted">Total Concluído</h5>
+                    <h4 class="text-muted">
+                        <% if(pedidos.filter(p=>p.status=='CONCLUÍDO').length){%>
+                            <%=pedidos.filter(p=>p.status=='CONCLUÍDO').map(p=>parseFloat(p.valorFinal)).reduce((acum,obj)=>acum+=obj).toLocaleString('pt-br',{currency:'brl',style:'currency'})%>
+                        <%}else{%>
+                                R$ 0,00
+                            <%}%>                            
+                    </h4>
                 </div>
             </div>
         </div>
 
     </div>
+    
 
-    <!--Um relatório do dia de hoje-->
-    <div class="row mt-2">
-        <div class="col">
-            <div class="card">
-                <div class="card-header" style="color: blanchedalmond; background-color: blue;">
-                    <h5>Hoje</h5>
+        <!--Totais em produção-->
+        <div class="row mt-3">
+            <div class="col text-center">
+                <h5>Produção</h5>
+                <hr>
+            </div>
+        </div>
+       
+        
+        <div class="row mt-3">
+            
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                    <% if(items.filter(i=>i.status=='AGUARDANDO_PRODUCAO'||i.status=='EM_PRODUCAO').length){%>
+                        <h5 class="text-muted text-center">
+                            Aguardando Produção
+                        </h5>
+                        <h4 class="text-muted text-center">
+                            <%= items.filter(i=>i.status=='AGUARDANDO_PRODUCAO'||i.status=='EM_PRODUCAO').map(i=>parseFloat(i.valor)).reduce((acum,valor)=>acum+=valor).toLocaleString('pt-br',{currency:'brl',style:'currency'}) %> 
+                        </h4>
+                        <h6 class="text-center">
+                            Quantidade: <%= items.filter(i=>i.status=='AGUARDANDO_PRODUCAO'||i.status=='EM_PRODUCAO').length %> 
+                        </h6>
+                        <%}else{%>
+                        <h4 class="text-muted text-center">
+                            R$ 0,00
+                        </h4>
+                        <h6 class="text-center">
+                            Quantidade: 0
+                        </h6>
+                        <%} %> 
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">Carrinho</div>
-                        <div class="col">R$ 0,00</div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-muted text-center">
+                            Produzindo
+                        </h5>
+                        <% if(items.filter(i=>i.status=='PRODUZINDO').length){%>
+                            
+                            <h4 class="text-muted text-center">
+                                <%= items.filter(i=>i.status=='PRODUZINDO').map(i=>parseFloat(i.valor)).reduce((acum,valor)=>acum+=valor).toLocaleString('pt-br',{currency:'brl',style:'currency'}) %> 
+                            </h4>
+                            <h6 class="text-center">
+                                Quantidade: <%= items.filter(i=>i.status=='PRODUZINDO').length %> 
+                            </h6>
+                            <%}else{%>
+                                <h4 class="text-muted text-center">
+                                    R$ 0,00
+                                </h4>
+                                <h6 class="text-center">
+                                    Quantidade: 0
+                                </h6>
+                                <%} %>
                     </div>
-                    <div class="row">
-                        <div class="col">Pedido</div>
-                        <div class="col">R$ 0,00</div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-muted text-center">
+                            Acabamento
+                        </h5>
+                        <% if(items.filter(i=>i.status=='ACABAMENTO').length){%>
+                            
+                            <h4 class="text-muted text-center">
+                                <%= items.filter(i=>i.status=='ACABAMENTO').map(i=>parseFloat(i.valor)).reduce((acum,valor)=>acum+=valor).toLocaleString('pt-br',{currency:'brl',style:'currency'}) %> 
+                            </h4>
+                            <h6 class="text-center">
+                                Quantidade: <%= items.filter(i=>i.status=='ACABAMENTO').length %> 
+                            </h6>
+                            <%}else{%>
+                                <h4 class="text-muted text-center">
+                                    R$ 0,00
+                                </h4>
+                                <h6 class="text-center">
+                                    Quantidade: 0
+                                </h6>
+                                <%} %> 
                     </div>
-                    <div class="row">
-                        <div class="col">Mais Comprado</div>
-                        <div class="col">R$ 0,00</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">Clientes Cadastrados</div>
-                        <div class="col">10</div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <% if(items.filter(i=>i.status=='EXPEDICAO').length){%>
+                            <h5 class="text-muted text-center">
+                                Expedição
+                            </h5>
+                            <h4 class="text-muted text-center">
+                                <%= items.filter(i=>i.status=='EXPEDICAO').map(i=>parseFloat(i.valor)).reduce((acum,valor)=>acum+=valor).toLocaleString('pt-br',{currency:'brl',style:'currency'}) %> 
+                            </h4>
+                            <h6 class="text-center">
+                                Quantidade: <%= items.filter(i=>i.status=='EXPEDICAO').length %> 
+                            </h6>
+                            <%}else{%>
+                                <h4 class="text-muted text-center">
+                                    R$ 0,00
+                                </h4>
+                                <h6 class="text-center">
+                                    Quantidade: 0
+                                </h6>
+                                <%} %> 
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
 

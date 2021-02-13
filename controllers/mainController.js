@@ -38,14 +38,13 @@ router.get('/main', collaboratorAuthentication, async (req, res) => {
     let statusCarrinho = CONSTANTES.STATUS_PEDIDO.CARRINHO
     try {
 
-        let ords = await orders.findAll({ where: { status: statusCarrinho } })
+        let ords = await orders.findAll({
+            include: [{ model: payment }, { model: clients }]
+        })
 
-        let totalCarrinho = ords.reduce((prevVal, obj) => {
-            let valorFinal = parseFloat(obj.valorFinal)
-            return prevVal += valorFinal
-        }, 0)
-
-        res.render('admin/main/main', { totalCarrinho })
+        let items = await itemsOrders.findAll()
+        
+        res.render('admin/main/main', { pedidos:ords,items})
 
     } catch (error) {
         res.send(error)
