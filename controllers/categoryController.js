@@ -92,6 +92,7 @@ router.post('/subCategory/save', collaboratorAuthentication, async (req, res) =>
 
         res.redirect('/category/categories')
 
+        
     } catch (error) {
         console.log('Ops, não foi possível realizar esta operação, tente novamente, caso o problema persista, entre em contato com o suporte->' + error);
         res.send('Ops, não foi possível realizar esta operação, tente novamente, caso o problema persista, entre em contato com o suporte')
