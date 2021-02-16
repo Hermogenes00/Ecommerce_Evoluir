@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const sequelize = require('sequelize')
 
-
 //Hash
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
@@ -16,10 +15,35 @@ const collaborators = require('../models/collaborator')
 let validate = require('../validations/collaboratorValidation')
 const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
 
+//JWT
+const jwt = require('jsonwebtoken')
+const SECRET = '506982d8e910609e3bb8f54e3cff6f61'
+
+//Middleware
+const authCollaborator = (req, res, next) => {
+    console.log(req.headers)
+    const token = req.headers['authorization'].split(' ')[1]
+
+    if (token) {
+        jwt.verify(token, SECRET, (err, decoded) => {
+            if(!err){
+                console.log(decoded)
+                req.collaborator = decoded
+            }else{
+                console.log(err)
+            }
+        })
+    }
+
+    next()
+}
+
+
 
 //Consulta clientes
-router.get('/collaborator/:name?', async (req, res) => {
+router.get('/api/collaborator/:name?', authCollaborator, async (req, res) => {
     let name = `%${req.params.name}%`;
+    console.log('Rota /api/collaborator/:name?',req.collaborator)
     let clts = undefined
     try {
 
@@ -58,7 +82,7 @@ router.get('/collaborators/collaborator/:id?', async (req, res) => {
 })
 
 //Localiza cliente pelo email e realiza a comparação de senha
-router.post('/collaborator/login', async (req, res) => {
+router.post('/api/collaborator/login', async (req, res) => {
 
     let data = req.body;
     let comparator = false;
@@ -68,24 +92,38 @@ router.post('/collaborator/login', async (req, res) => {
         let clb = await collaborators.findOne({ where: { email: data.email } })
 
         if (clb) {
-            
+
             comparator = bcrypt.compareSync(data.password, clb.password);
-            
+
             if (comparator) {
-                res.statusCode = 200
-                res.json(clb)
+
+                jwt.sign({
+                    id: clb.id,
+                    email: clb.email,
+                    nome: clb.nome
+                }, SECRET, { expiresIn: '1h' }, (err, token) => {
+                    if (!err) {
+                        res.statusCode = 200
+                        res.json({ token })
+                    } else {
+                        res.statusCode = 400
+                        res.json({ err })
+                    }
+                })
+
+
             } else {
                 res.statusCode = 400
-                res.send('Senha incorreta')
+                res.json({ err: 'Senha Incorreta' })
             }
 
         } else {
             res.statusCode = 400
-            res.send('Email não encontrado')
+            res.json({ err: 'Email não encontrado' })
         }
     } catch (error) {
         res.statusCode = 400
-        res.send('Erro ao tentar realizar consulta do colaborador.')
+        res.json({ err: 'Erro ao tentar realizar consulta do colaborador.' })
     }
 
 })

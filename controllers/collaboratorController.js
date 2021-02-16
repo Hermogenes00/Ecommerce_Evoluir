@@ -39,6 +39,7 @@ router.get('/admin/collaborators/perfil', collaboratorAuthentication, async (req
 })
 
 router.get('/collaborator/login', (req, res) => {
+
     if (req.session.collaborator) {
         res.redirect('/main')
     } else {
@@ -59,7 +60,6 @@ router.post('/collaborator/login', async (req, res) => {
             comparator = bcrypt.compareSync(data.password, clb.password);
             
             if (comparator) {
-
                 req.session.collaborator = {
                     id: clb.id,
                     nome: clb.nome,
