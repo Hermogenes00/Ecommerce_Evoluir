@@ -1,0 +1,54 @@
+<%- include('../../../partials/header') %>
+    <%- include('../../../partials/navbaradmin') %>
+
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col">
+                    <h4 class="text-muted">
+                        <%= institucional.titulo %>
+                            <a href="/admin/institucional/<%= institucional.id %> " data-toggle="tooltip"
+                                title="Editar postagem">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="/admin/institucionals/" onclick="excluir(event)">
+                                <i class="far fa-trash-alt">
+                                </i>
+                            </a>                            
+                    </h4>
+                    <span class="text-muted">Criado em <%= institucional.createdAt.toLocaleDateString('pt-br')%></span>
+                    <hr>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col" id="conteudo" data-conteudo="<%= institucional.conteudo %> ">
+                </div>
+            </div>
+
+            <input type="hidden" name="id" id="id" value="<%= institucional.id %>">
+        </div>
+
+
+        <script>
+            window.onload = function (event) {
+                let domParser = new DOMParser()
+                let parserString = domParser.parseFromString(document.getElementById('conteudo').dataset.conteudo, 'text/html')
+                document.getElementById('conteudo').innerHTML = parserString.body.innerHTML                
+            }
+
+            function excluir(event) {
+                event.preventDefault()
+                let result = confirm('Deseja realmente excluir esta postagem?')
+
+                if(result){
+                    axios.delete('/admin/institucional/'+document.getElementById('id').value).then(res=>{
+                       window.location.href = event.target.parentElement.href
+                    })
+                }
+            }
+
+
+        </script>
+
+        <%- include('../../../partials/footer') %>

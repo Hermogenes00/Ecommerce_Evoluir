@@ -73,15 +73,5 @@ router.post('/admin/company', collaboratorAuthentication, async (req, res) => {
 
 })
 
-router.get('/admin/certified', collaboratorAuthentication, (req, res) => {
-    res.render('admin/main/empresa/certified')
-})
-
-//Update certified
-router.post('/admin/certified', collaboratorAuthentication, (req, res) => {
-
-    res.render('admin/main/empresa/certified')
-})
-
 
 module.exports = router

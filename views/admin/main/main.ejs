@@ -5,10 +5,10 @@
 
     <div class="row text-center">
         <div class="col">
-            <%if(pedidos.filter(p=>p.status=='AGUARDANDO PAGAMENTO').length){%>
+            <%if(pedidos.filter(p=>p.status=='ANALISE_COMPROVANTE').length){%>
 
                 <div class="alert alert-primary text-center" role="alert">
-                    Atenção, você tem <%=pedidos.filter(p=>p.status=='AGUARDANDO PAGAMENTO').length%> pedido(s) aguardando confirmação de pagamento
+                    Atenção, você tem <%=pedidos.filter(p=>p.status=='ANALISE_COMPROVANTE').length%> pedido(s) aguardando confirmação de pagamento
                </div>
     
                <%}%> 

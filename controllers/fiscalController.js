@@ -6,7 +6,15 @@ router.get('/admin/fiscal',collaboratorAuthentication,(req,res)=>{
     res.render('admin/main/fiscal/nfses')
 })
 
+router.get('/admin/certified', collaboratorAuthentication, (req, res) => {
+    res.render('admin/main/fiscal/certified')
+})
 
+//Update certified
+router.post('/admin/certified', collaboratorAuthentication, (req, res) => {
+
+    res.render('admin/main/fiscal/certified')
+})
 
 
 

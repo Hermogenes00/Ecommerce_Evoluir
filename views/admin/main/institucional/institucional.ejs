@@ -1,0 +1,33 @@
+<%- include('../../../partials/header') %>
+    <%- include('../../../partials/navbaradmin') %>
+
+        
+        <div class="container mt-3">
+
+            <div class="row justify-content-md-center">
+                <div class="card col">
+                    <div class="card-body">
+                        <form action="/admin/institucional/" method="post">
+                            <label for="titulo">Título</label>
+                            <input type="text" name="titulo" id="titulo" value="<%= institucional.titulo %> " class="form-control form-control-sm" placeholder="Informe aqui o título">
+            <br>
+                            <label for="conteudo">Conteúdo</label>
+                            <textarea name="conteudo" id="conteudo"><%= institucional.conteudo %> </textarea> 
+                            
+                            <input type="hidden" name="id" id="id" value="<%=institucional.id  %>">
+                            <button type="submit" class="btn btn-sm btn-primary form-control">Salvar</button>
+                        </form>
+                    </div>
+                </div>
+                
+                           
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <%- include('../../../partials/footer') %>

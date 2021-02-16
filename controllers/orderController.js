@@ -151,7 +151,6 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
             },
             external_reference: idPagamento
         }
-
         mercadoPago.preferences.create(dados).then(async function (response) {
             global.id = response.body.id
             let pay = await payment.findOne({ where: { pedidoId: ord.id } })

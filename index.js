@@ -21,7 +21,7 @@ const defaultAuthentication = require('./middleware/defaultAuthentication')
 
 //Verificando conexão.
 connection.authenticate().then(() => {
-    console.log('Conectado ao banco com sucesso!!!');
+    console.log('Conectado ao banco com sucesso');
 }).catch(erro => {
     console.log('Erro ao tentar conectar ao banco ' + erro);
 })
@@ -41,6 +41,7 @@ const deliveryRegion = require('./models/deliveryRegion')
 const slides = require('./models/slide')
 const printer = require('./models/printer')
 const company = require('./models/company')
+const institucional = require('./models/institucional')
 
 //Importação dos controllers
 const productController = require('./controllers/productController');
@@ -58,6 +59,9 @@ const slideController = require('./controllers/slideController');
 const paymentController = require('./controllers/paymentController');
 const printerController = require('./controllers/printerController')
 const companyController = require('./controllers/companyController')
+const fiscalController = require('./controllers/fiscalController')
+const institucionalController = require('./controllers/institucionalController')
+
 
 //Importação da api
 const addressApi = require('./api/address')
@@ -106,6 +110,11 @@ app.use('/', slideController)
 app.use('/', paymentController)
 app.use('/', printerController)
 app.use('/',companyController)
+app.use('/',fiscalController)
+app.use('/',institucionalController)
+
+
+
 
 //Api's
 app.use('/', productApi)
