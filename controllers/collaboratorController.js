@@ -45,7 +45,6 @@ router.get('/collaborator/login', (req, res) => {
     } else {
         res.render('admin/collaborators/login')
     }
-
 })
 
 router.post('/collaborator/login', async (req, res) => {

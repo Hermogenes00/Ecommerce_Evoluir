@@ -16,13 +16,13 @@
 
     <div class="row justify-content-center text-center">
         <div class="col-md-3">
-            <div class="card border-primary  mt-5">
+            <div class="card border-primary mt-5">
                 <div class="card-header">Login</div>
                 <div class="card-body">
-                    <form action="/collaborator/login" method="POST" class="form">
-                        <input type="email" required name="email" placeholder="email" class="form-control" id="">
+                    <form action="/collaborator/login" method="POST" onsubmit="tryLogin(event)" class="form">
+                        <input type="email" required name="email" placeholder="email" class="form-control" id="email">
                         <input type="password" required name="password" placeholder="******" class="form-control mt-2"
-                            id="">
+                            id="password">
                         <input type="submit" class="btn btn-success mt-3 form-control" value="Logar">
                         <a href="/client/register" class="btn btn-primary btn-sm form-control mt-2">Fazer
                             cadastro</a>
@@ -35,6 +35,20 @@
         </div>
     </div>
 
+    <script>
+        function tryLogin(event) {
+            event.preventDefault()
+
+            axios.post('/api/collaborator/login', {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            }).then(response=>{                
+                localStorage.setItem('token',response.data.token)
+            }).catch(err=>{
+                console.log(err)
+            })
+        }
+    </script>
 
 
 

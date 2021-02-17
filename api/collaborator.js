@@ -31,6 +31,7 @@ const authCollaborator = (req, res, next) => {
                 req.collaborator = decoded
             }else{
                 console.log(err)
+                // Redirecionaria para uma rota de login res.redirect()
             }
         })
     }
