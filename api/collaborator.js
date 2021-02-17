@@ -28,23 +28,20 @@ const authCollaborator = (req, res, next) => {
         jwt.verify(token, SECRET, (err, decoded) => {
             if(!err){
                 console.log(decoded)
-                req.collaborator = decoded
+               res.locals.collaborator = decoded
             }else{
                 console.log(err)
                 // Redirecionaria para uma rota de login res.redirect()
             }
         })
     }
-
     next()
 }
-
-
 
 //Consulta clientes
 router.get('/api/collaborator/:name?', authCollaborator, async (req, res) => {
     let name = `%${req.params.name}%`;
-    console.log('Rota /api/collaborator/:name?',req.collaborator)
+    console.log('Rota /api/collaborator/:name?',res.locals.collaborator)
     let clts = undefined
     try {
 
