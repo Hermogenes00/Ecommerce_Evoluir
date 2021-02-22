@@ -21,27 +21,31 @@ const SECRET = '506982d8e910609e3bb8f54e3cff6f61'
 
 //Middleware
 const authCollaborator = (req, res, next) => {
-    console.log(req.headers)
-    const token = req.headers['authorization'].split(' ')[1]
 
-    if (token) {
-        jwt.verify(token, SECRET, (err, decoded) => {
-            if(!err){
-                console.log(decoded)
-               res.locals.collaborator = decoded
-            }else{
-                console.log(err)
-                // Redirecionaria para uma rota de login res.redirect()
-            }
-        })
+    if (res.locals.collaborator) {
+        next()
+    } else {
+        console.log(req.headers)
+        const token = req.headers['authorization'].split(' ')[1]
+        if (token) {
+            jwt.verify(token, SECRET, (err, decoded) => {
+                if (!err) {
+                    console.log(decoded)
+                    res.locals.collaborator = decoded
+                    next()
+                } else {
+                    res.json(err)
+                    console.log(err)                    
+                }
+            })
+        }
     }
-    next()
 }
 
 //Consulta clientes
 router.get('/api/collaborator/:name?', authCollaborator, async (req, res) => {
     let name = `%${req.params.name}%`;
-    console.log('Rota /api/collaborator/:name?',res.locals.collaborator)
+    console.log('Rota /api/collaborator/:name?', res.locals.collaborator)
     let clts = undefined
     try {
 
@@ -51,7 +55,7 @@ router.get('/api/collaborator/:name?', authCollaborator, async (req, res) => {
             clts = await collaborators.findAll()
         }
         res.statusCode = 200
-        res.json(clts)
+        res.json({clts,collaborator:res.locals.collaborator})
 
     } catch (error) {
         res.statusCode = 400
@@ -61,7 +65,7 @@ router.get('/api/collaborator/:name?', authCollaborator, async (req, res) => {
 
 
 //Retorna um determinado cliente através do id
-router.get('/collaborators/collaborator/:id?', async (req, res) => {
+router.get('/collaborators/collaborator/:id?',authCollaborator, async (req, res) => {
     let data = req.body;
 
     try {

@@ -18,6 +18,10 @@ const collaborators = require('../models/collaborator')
 let validate = require('../validations/collaboratorValidation')
 const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
 
+//JWT
+const jwt = require('jsonwebtoken')
+const SECRET = '506982d8e910609e3bb8f54e3cff6f61'
+
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
     try {
@@ -30,7 +34,7 @@ router.use(async (req, res, next) => {
 
 router.get('/admin/collaborators/perfil', collaboratorAuthentication, async (req, res) => {
 
-    let collaborator = await collaborators.findByPk(req.session.collaborator.id)
+    let collaborator = await collaborators.findByPk(res.locals.collaborator.id)
     if (collaborator) {
         res.render('admin/collaborators/perfil', { collaborator: collaborator })
     } else {
@@ -55,26 +59,26 @@ router.post('/collaborator/login', async (req, res) => {
         let clb = await collaborators.findOne({ where: { email: data.email } })
 
         if (clb) {
-            
+
             comparator = bcrypt.compareSync(data.password, clb.password);
-            
+
             if (comparator) {
-                req.session.collaborator = {
+                let objCollaborator = {
                     id: clb.id,
                     nome: clb.nome,
                     email: clb.email
                 }
-
+                req.session.id = objCollaborator.id
+                req.session.collaborator = objCollaborator
                 res.redirect('/main')
-            } else {
-                res.redirect('/collaborator/login')
             }
-
         } else {
-            res.redirect('/collaborator/login')
+            res.json({ err: 'Email/senha incorretos' })
         }
-    } catch (error) {
-        console.log('Erro ao tentar logar colaborador------' + error);
+    }
+    
+    catch (error) {
+        res.json({ err: 'Erro ao tentar realizar esta operação' })
     }
 
 })
@@ -89,7 +93,6 @@ router.post('/collaborator/delete', collaboratorAuthentication, async (req, res)
                 id: data.id
             }
         })
-
         res.redirect('/collaborator/find/all');
     } catch (error) {
         res.redirect('/collaborator/find/all');
@@ -182,42 +185,27 @@ router.post('/admin/collaborators/collaborator', async (req, res) => {
     //#endregion
 
     try {
+        let objCollaborator = {
+            email: data.email,
+            nome: data.nome,
+            password: bcrypt.hashSync(data.password, salt),
+            cnpjCpf: data.cnpjCpf,
+            tel: data.tel,
+            cel1: data.cel1,
+            cel2: data.cel2,
+            cep: data.cep,
+            rua: data.rua,
+            bairro: data.bairro,
+            numero: data.numero,
+            complemento: data.complemento,
+            cidade: data.cidade,
+            uf: data.uf
+        }
         if (data.id <= 0) {
-
-            let clb = await collaborators.create({
-                email: data.email,
-                nome: data.nome,
-                password: bcrypt.hashSync(data.password, salt),
-                cnpjCpf: data.cnpjCpf,
-                tel: data.tel,
-                cel1: data.cel1,
-                cel2: data.cel2,
-                cep: data.cep,
-                rua: data.rua,
-                bairro: data.bairro,
-                numero: data.numero,
-                complemento: data.complemento,
-                cidade: data.cidade,
-                uf: data.uf
-            })
+            let clb = await collaborators.create(objCollaborator)
             return res.redirect('/main')
         } else {
-
-            collaborators.update({
-                email: data.email,
-                nome: data.nome,
-                cnpjCpf: data.cnpjCpf,
-                tel: data.tel,
-                cel1: data.cel1,
-                cel2: data.cel2,
-                cep: data.cep,
-                rua: data.rua,
-                bairro: data.bairro,
-                numero: data.numero,
-                complemento: data.complemento,
-                uf: data.uf,
-                cidade: data.cidade
-            }, { where: { id: data.id } }).then(() => {
+            collaborators.update(objCollaborator, { where: { id: data.id } }).then(() => {
                 return res.redirect('/collaborator/logout')
             }).catch(error => {
                 console.log('Erro ao tentar alterar o colaborador', error);
@@ -232,8 +220,7 @@ router.post('/admin/collaborators/collaborator', async (req, res) => {
 
 router.get('/collaborator/logout', collaboratorAuthentication, (req, res) => {
 
-    req.session.collaborator = undefined;
-
+    req.session.destroy();
     res.redirect('/collaborator/login')
 })
 

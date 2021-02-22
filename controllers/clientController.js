@@ -313,7 +313,7 @@ router.post('/client/login', defaultAuthentication, (req, res) => {
 
 
 router.get('/client/logout', defaultAuthentication, (req, res) => {
-    req.session.client = undefined;
+    req.session.destroy()
     res.redirect('/')
 })
 

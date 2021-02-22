@@ -1,12 +1,57 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express();
-const session = require('express-session');
 const connection = require('./database/connection')
-const cookie = require('cookie-parser')
 const flash = require('express-flash')
-const sequelize = require('sequelize')
 const cors = require('cors')
+
+//Sessions
+const session = require('express-session')
+const Sequelize = require('sequelize')
+let SequelizeStore = require('connect-session-sequelize')(session.Store)
+
+//Create database for session
+var sequelize = new Sequelize("session", "root", "admin", {
+    dialect: "mysql",
+    host: 'localhost'
+});
+
+//Create table 
+let tableSession = sequelize.define('session', {
+    sid: {
+        type: Sequelize.STRING,
+        primaryKey: true,
+    },
+    userId: Sequelize.STRING,
+    expires: Sequelize.DATE,
+    data: Sequelize.TEXT,
+})
+
+app.use(session(
+    {
+        secret: '123456789',
+        store: new SequelizeStore({
+            db: sequelize,
+            table: 'session',
+            extendDefaultFields: (defaults, session) => {
+                return {
+                    data: defaults.data,
+                    expires: defaults.expires,
+                    userId: session.userId,
+                }
+            }
+        }),
+        resave: false,
+        proxy: true,
+        saveUninitialized: false,
+        cookie: {
+            secure: false,
+            httpOnly: true,
+            maxAge: 1020 * 60 * 30
+        }
+    }
+))
+
 
 //Possibilita a utilização da api em ambientes externos ao servidor local
 app.use(cors())
@@ -80,16 +125,9 @@ const itemOrderApi = require('./api/itemOrder')
 
 
 const gdrive = require('./gdrive');
+const { concat } = require('./validations/clientValidation');
 
 
-//Session e Cookie
-app.use(cookie('cloneloja'))
-
-app.use(session({
-    secret: 'cloneLoja',
-    saveUninitialized: true,
-    cookie: { maxAge: new Date().getTime() + 9999 }
-}))
 
 //Flash Messages
 app.use(flash())
@@ -109,9 +147,9 @@ app.use('/', deliveryRegionController)
 app.use('/', slideController)
 app.use('/', paymentController)
 app.use('/', printerController)
-app.use('/',companyController)
-app.use('/',fiscalController)
-app.use('/',institucionalController)
+app.use('/', companyController)
+app.use('/', fiscalController)
+app.use('/', institucionalController)
 
 
 
@@ -128,7 +166,7 @@ app.use('/', deliveryRegionApi)
 app.use('/', slideApi)
 app.use('/', printerApi)
 app.use('/', paymentApi)
-app.use('/',itemOrderApi)
+app.use('/', itemOrderApi)
 
 
 //app.use('/', userController)
@@ -171,7 +209,7 @@ app.get('/', defaultAuthentication, async (req, res) => {
 
 
 app.get('/logout', defaultAuthentication, (req, res) => {
-    req.session.nome = undefined;
+    req.session.destroy()
     res.redirect('/')
 })
 

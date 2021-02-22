@@ -1,4 +1,5 @@
 
+
 function collaboratorAuthentication(req, res, next) {
 
     if (req.session.collaborator) {
