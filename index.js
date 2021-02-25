@@ -6,51 +6,11 @@ const flash = require('express-flash')
 const cors = require('cors')
 
 //Sessions
-const session = require('express-session')
-const Sequelize = require('sequelize')
+let session = require('express-session')
+const configSession = require('./session/config')
 let SequelizeStore = require('connect-session-sequelize')(session.Store)
 
-//Create database for session
-var sequelize = new Sequelize("session", "root", "admin", {
-    dialect: "mysql",
-    host: 'localhost'
-});
-
-//Create table 
-let tableSession = sequelize.define('session', {
-    sid: {
-        type: Sequelize.STRING,
-        primaryKey: true,
-    },
-    userId: Sequelize.STRING,
-    expires: Sequelize.DATE,
-    data: Sequelize.TEXT,
-})
-
-app.use(session(
-    {
-        secret: '123456789',
-        store: new SequelizeStore({
-            db: sequelize,
-            table: 'session',
-            extendDefaultFields: (defaults, session) => {
-                return {
-                    data: defaults.data,
-                    expires: defaults.expires,
-                    userId: session.userId,
-                }
-            }
-        }),
-        resave: false,
-        proxy: true,
-        saveUninitialized: false,
-        cookie: {
-            secure: false,
-            httpOnly: true,
-            maxAge: 1020 * 60 * 30
-        }
-    }
-))
+app.use(configSession(session,SequelizeStore))
 
 
 //Possibilita a utilização da api em ambientes externos ao servidor local
@@ -122,12 +82,6 @@ const slideApi = require('./api/slide')
 const paymentApi = require('./api/payment')
 const subCategoryApi = require('./api/subCategory')
 const itemOrderApi = require('./api/itemOrder')
-
-
-const gdrive = require('./gdrive');
-const { concat } = require('./validations/clientValidation');
-
-
 
 //Flash Messages
 app.use(flash())

@@ -56,17 +56,20 @@ let upload = multer({
 
 
 //Listagem dos produtos
-router.get('/products/products/:name?', async (req, res) => {
+router.get('/api/products/products/:name?', async (req, res) => {
 
     let prod = `%${req.params.name}%`;
     let prods = [{}]
 
     try {
         if (prod != '' && prod != 'all') {
-            prods = await products.findAll({ where: { nome: { [sequelize.Op.like]: prod } }, include: [{ model: category },{model:subCategory}] });
+           prods = await products.findAll({ where: { nome: { [sequelize.Op.like]: prod } }, include: [{ model: category }, { model: subCategory }] });
         } else {
             if (req.params.product == null || req.params.product == 'all')
-                prods = await products.findAll();
+                prods = await products.findAndCountAll({
+                    offset: 0,
+                    limit: 2
+                });
         }
         if (prods != undefined) {
             res.statusCode = 200

@@ -1,7 +1,5 @@
 //Sessions
-const session = require('express-session')
 const Sequelize = require('sequelize')
-let SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 //Create database for session
 var sequelize = new Sequelize("session", "root", "admin", {
@@ -19,7 +17,8 @@ let tableSession = sequelize.define('session', {
     expires: Sequelize.DATE,
     data: Sequelize.TEXT,
 })
-let configSession = () => {
+
+let configSession = (session,SequelizeStore) => {
 
     return session(
         {

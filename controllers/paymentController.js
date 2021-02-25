@@ -42,10 +42,11 @@ router.get('/admin/payment/:cliente?/:dateStart?/:dateFinish?/:status?', collabo
                     {
                         model: client, where: { nome: { [sequelize.Op.like]: [`%${cliente}%`] } }
                     }
-                ]
+                ],
+                order:[['createdAt','desc']]
             })
         } else {
-            response = await order.findAll({ include: [{ model: payment }, { model: client }] })
+            response = await order.findAll({ include: [{ model: payment }, { model: client }],order:[['createdAt','desc']] })
         }
 
     } catch (error) {

@@ -84,10 +84,11 @@ R$ 0,00
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                    <% if(items.filter(i=>i.status=='AGUARDANDO_PRODUCAO'||i.status=='EM_PRODUCAO').length){%>
                         <h5 class="text-muted text-center">
                             Aguardando Produção
                         </h5>
+                    <% if(items.filter(i=>i.status=='AGUARDANDO_PRODUCAO'||i.status=='EM_PRODUCAO').length){%>
+                       
                         <h4 class="text-muted text-center">
                             <%= items.filter(i=>i.status=='AGUARDANDO_PRODUCAO'||i.status=='EM_PRODUCAO').map(i=>parseFloat(i.valor)).reduce((acum,valor)=>acum+=valor).toLocaleString('pt-br',{currency:'brl',style:'currency'}) %> 
                         </h4>
@@ -158,10 +159,11 @@ R$ 0,00
             <div class="col">
                 <div class="card">
                     <div class="card-body">
+                        <h5 class="text-muted text-center">
+                            Expedição
+                        </h5>
                         <% if(items.filter(i=>i.status=='EXPEDICAO').length){%>
-                            <h5 class="text-muted text-center">
-                                Expedição
-                            </h5>
+                           
                             <h4 class="text-muted text-center">
                                 <%= items.filter(i=>i.status=='EXPEDICAO').map(i=>parseFloat(i.valor)).reduce((acum,valor)=>acum+=valor).toLocaleString('pt-br',{currency:'brl',style:'currency'}) %> 
                             </h4>

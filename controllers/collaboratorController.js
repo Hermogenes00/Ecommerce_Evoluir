@@ -18,10 +18,6 @@ const collaborators = require('../models/collaborator')
 let validate = require('../validations/collaboratorValidation')
 const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
 
-//JWT
-const jwt = require('jsonwebtoken')
-const SECRET = '506982d8e910609e3bb8f54e3cff6f61'
-
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
     try {
@@ -54,22 +50,24 @@ router.get('/collaborator/login', (req, res) => {
 router.post('/collaborator/login', async (req, res) => {
     let data = req.body;
     let comparator = false;
-
+    
     try {
         let clb = await collaborators.findOne({ where: { email: data.email } })
 
         if (clb) {
-
+            
             comparator = bcrypt.compareSync(data.password, clb.password);
 
             if (comparator) {
+                
                 let objCollaborator = {
                     id: clb.id,
                     nome: clb.nome,
                     email: clb.email
                 }
-                req.session.id = objCollaborator.id
+                
                 req.session.collaborator = objCollaborator
+            
                 res.redirect('/main')
             }
         } else {

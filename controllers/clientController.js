@@ -87,7 +87,7 @@ router.use(async (req, res, next) => {
 
 
 //Rotas
-router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
+router.post('/client/upload/:item', upload.single('file'),clientAuthentication, async (req, res) => {
     let idItem = req.params.item;
 
     try {
@@ -359,7 +359,7 @@ router.get('/client/orders', clientAuthentication, async (req, res) => {
                 status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO },
             }, include: [{ model: payment }, { model: itensOrder }], order: [['createdAt', 'desc']]
         });
-        
+
         res.render('admin/order/orders', { orders: objOrders, message: message })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error)
