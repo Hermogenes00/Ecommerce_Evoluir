@@ -42,6 +42,7 @@ const Correios = require('node-correios')
 //MULTER Necessário para fazer upload
 const multer = require('multer')
 const path = require('path');
+const { date } = require('joi');
 
 
 
@@ -87,7 +88,7 @@ router.use(async (req, res, next) => {
 
 
 //Rotas
-router.post('/client/upload/:item', upload.single('file'),clientAuthentication, async (req, res) => {
+router.post('/client/upload/:item', upload.single('file'), clientAuthentication, async (req, res) => {
     let idItem = req.params.item;
 
     try {
@@ -343,9 +344,11 @@ router.get('/client/cart', clientAuthentication, async (req, res) => {
 
 })
 
-router.get('/client/orders', clientAuthentication, async (req, res) => {
+router.get('/client/orders/:dateStart?/:dateFinish?/:status?', clientAuthentication, async (req, res) => {
 
     let idClient = req.session.client.id;
+    let { dateStart, dateFinish, status } = req.params
+    let objOrders = undefined
 
     let message = {
         error: req.flash('error'),
@@ -353,13 +356,28 @@ router.get('/client/orders', clientAuthentication, async (req, res) => {
     }
 
     try {
-        let objOrders = await orders.findAll({
-            where: {
-                clienteId: idClient,
-                status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO },
-            }, include: [{ model: payment }, { model: itensOrder }], order: [['createdAt', 'desc']]
-        });
+        if (dateStart && dateFinish && status) {
+            console.log('=======CHEGOU NA FILTRAGEM===========')
+            objOrders = await orders.findAll({
+                where: {
+                    createdAt: {
+                        [sequelize.Op.between]: [new Date(dateStart), new Date(dateFinish)]
+                    },
+                    status: { [sequelize.Op.like]: [`%${status}%`] }
+                }
+            })
 
+            console.log(objOrders)
+        } else {
+            console.log('=======CHEGOU NO SEM FILTRAGEM===========')
+            
+            objOrders = await orders.findAll({
+                where: {
+                    clienteId: idClient,
+                    status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO },
+                }, include: [{ model: payment }, { model: itensOrder }], order: [['createdAt', 'desc']]
+            });
+        }
         res.render('admin/order/orders', { orders: objOrders, message: message })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error)

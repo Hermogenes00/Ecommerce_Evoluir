@@ -46,33 +46,33 @@
                                                                         <div class="card-body">
                                                                             <div class="row mb-2">
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="dataInicial">Data
+                                                                                    <label for="dateStart">Data
                                                                                         Inicial</label>
                                                                                     <input type="date"
-                                                                                        name="dataInicial"
+                                                                                        name="dateStart"
                                                                                         class="form-control form-control-sm"
-                                                                                        id="dataInicial">
+                                                                                        id="dateStart">
                                                                                 </div>
 
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="dataFinal">Data
+                                                                                    <label for="dateFinish">Data
                                                                                         Final</label>
-                                                                                    <input type="date" name="dataFinal"
+                                                                                    <input type="date" name="dateFinish"
                                                                                         class="form-control form-control-sm"
-                                                                                        id="dataFinal">
+                                                                                        id="dateFinish">
                                                                                 </div>
 
                                                                                 <div class="col">
                                                                                     <label for="status">Status</label>
-                                                                                    <select name="status"
+                                                                                    <select onchange="filtrar()" name="selectStatus"
                                                                                         class="form-control form-control-sm"
-                                                                                        id="status">
-                                                                                        <option selected>Selecione uma opção para filtragem</option>
-                                                                                        <option value="">Concluído
+                                                                                        id="selectStatus">
+                                                                                        <option value="" selected>Selecione uma opção para filtragem</option>
+                                                                                        <option value="CONCLUÍDO">Concluído
                                                                                         </option>
-                                                                                        <option value="">Produzindo
+                                                                                        <option value="PRODUZINDO">Produzindo
                                                                                         </option>
-                                                                                        <option value="">Refugado
+                                                                                        <option value="REFUGADO">Refugado
                                                                                         </option>
                                                                                     </select>
 
@@ -96,112 +96,113 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <% orders.forEach(o=> {%>
-                                                                                <tr>
+                                                                            <% orders.forEach(o=> {%> 
+                                                                                    <tr>
 
-                                                                                    <td>
-                                                                                        <% if(o.status !='CANCELADO'
-                                                                                            ){%>
-                                                                                            <a href="#">
-                                                                                                <h6 data-id="<%= o.id %>"
-                                                                                                    class="text-center"
-                                                                                                    data-toggle="modal"
-                                                                                                    data-target="#modalShowOrder"
-                                                                                                    onclick="showItems(event)">
-                                                                                                    <%= o.id %>
-                                                                                                </h6>
-                                                                                            </a>
-                                                                                            <%}else{%>
+                                                                                        <td>
+                                                                                            <% if(o.status !='CANCELADO'
+                                                                                                ){%>
                                                                                                 <a href="#">
                                                                                                     <h6 data-id="<%= o.id %>"
-                                                                                                        class="text-center">
+                                                                                                        class="text-center"
+                                                                                                        data-toggle="modal"
+                                                                                                        data-target="#modalShowOrder"
+                                                                                                        onclick="showItems(event)">
                                                                                                         <%= o.id %>
                                                                                                     </h6>
                                                                                                 </a>
-                                                                                                <%} %>
-
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <h6>
-                                                                                            <%= o.createdAt.toLocaleDateString('pt-br')
-                                                                                                %>
-                                                                                        </h6>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <h6>
-                                                                                            <%= o.status %>
-                                                                                        </h6>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <h6>
-                                                                                            <%= parseFloat(o.total).toLocaleString('pt-br',{style:'currency',currency:'brl'})
-                                                                                                %>
-                                                                                        </h6>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <h6>
-                                                                                            <%= parseFloat(o.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'})
-                                                                                                %>
-                                                                                        </h6>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <h6>
-                                                                                            <%= parseFloat(o.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'})
-                                                                                                %>
-                                                                                        </h6>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <div class="row">
-                                                                                            <% if(o.status !='CANCELADO'
-                                                                                                ){%>
-
-                                                                                                <% if(o.pagamento.status!='RECEBIDO'
-                                                                                                    ){%>
-
-                                                                                                    <form
-                                                                                                        action="/order/payment/"
-                                                                                                        method="post">
-                                                                                                        <input
-                                                                                                            type="hidden"
-                                                                                                            name="idOrder"
-                                                                                                            id="idOrder"
-                                                                                                            value="<%= o.id %>">
-                                                                                                        <button
-                                                                                                            type="submit"
-                                                                                                            class="material-icons btn btn-sm btn-outline-primary mr-2"
-                                                                                                            data-toggle="tooltip"
-                                                                                                            title="Realizar Pagamento">credit_card</button>
-                                                                                                    </form>
-
-                                                                                                    <form
-                                                                                                        onsubmit="cancelarPedido(event,'Deseja realmente cancelar este pedido?',this)"
-                                                                                                        action="/order/cancel"
-                                                                                                        method="post">
-                                                                                                        <input
-                                                                                                            type="hidden"
-                                                                                                            name="idOrder"
-                                                                                                            value="<%= o.id %>">
-                                                                                                        <button
-                                                                                                            type="submit"
-                                                                                                            class="material-icons btn btn-sm btn-outline-primary mr-2"
-                                                                                                            data-toggle="tooltip"
-                                                                                                            title="Cancelar Pedido">remove_circle_outline</button>
-                                                                                                    </form>
-
-                                                                                                    <button
-                                                                                                        data-toggle="modal"
-                                                                                                        onclick="setarIdOrder('<%= o.id %>')"
-                                                                                                        data-target="#modalComprovante"
-                                                                                                        class="btn btn-primary btn-sm">Enviar
-                                                                                                        Comprovante</button>
+                                                                                                <%}else{%>
+                                                                                                    <a href="#">
+                                                                                                        <h6 data-id="<%= o.id %>"
+                                                                                                            class="text-center">
+                                                                                                            <%= o.id %>
+                                                                                                        </h6>
+                                                                                                    </a>
                                                                                                     <%} %>
-
+    
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <h6>
+                                                                                                <%= o.createdAt.toLocaleDateString('pt-br')
+                                                                                                    %>
+                                                                                            </h6>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <h6>
+                                                                                                <%= o.status %>
+                                                                                            </h6>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <h6>
+                                                                                                <%= parseFloat(o.total).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                                                                    %>
+                                                                                            </h6>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <h6>
+                                                                                                <%= parseFloat(o.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                                                                    %>
+                                                                                            </h6>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <h6>
+                                                                                                <%= parseFloat(o.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                                                                    %>
+                                                                                            </h6>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="row">
+                                                                                                <% if(o.status !='CANCELADO'
+                                                                                                    ){%>
+    
+                                                                                                    <% if(o.pagamento.status!='RECEBIDO'
+                                                                                                        ){%>
+    
+                                                                                                        <form
+                                                                                                            action="/order/payment/"
+                                                                                                            method="post">
+                                                                                                            <input
+                                                                                                                type="hidden"
+                                                                                                                name="idOrder"
+                                                                                                                id="idOrder"
+                                                                                                                value="<%= o.id %>">
+                                                                                                            <button
+                                                                                                                type="submit"
+                                                                                                                class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                                                                                                data-toggle="tooltip"
+                                                                                                                title="Realizar Pagamento">credit_card</button>
+                                                                                                        </form>
+    
+                                                                                                        <form
+                                                                                                            onsubmit="cancelarPedido(event,'Deseja realmente cancelar este pedido?',this)"
+                                                                                                            action="/order/cancel"
+                                                                                                            method="post">
+                                                                                                            <input
+                                                                                                                type="hidden"
+                                                                                                                name="idOrder"
+                                                                                                                value="<%= o.id %>">
+                                                                                                            <button
+                                                                                                                type="submit"
+                                                                                                                class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                                                                                                data-toggle="tooltip"
+                                                                                                                title="Cancelar Pedido">remove_circle_outline</button>
+                                                                                                        </form>
+    
+                                                                                                        <button
+                                                                                                            data-toggle="modal"
+                                                                                                            onclick="setarIdOrder('<%= o.id %>')"
+                                                                                                            data-target="#modalComprovante"
+                                                                                                            class="btn btn-primary btn-sm">Enviar
+                                                                                                            Comprovante</button>
                                                                                                         <%} %>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
+    
+                                                                                                            <%} %>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <%}) %> 
+                                                                                
 
-                                                                                <%}); %>
 
                                                                         </tbody>
                                                                     </table>
@@ -217,10 +218,6 @@
 
                 <%- include('../../partials/footer') %>
 
-                    <script src="/js/ajax.js"></script>
+                    
                     <script src="/js/order.js"></script>
                     <script src="/js/payment.js"></script>
-
-
-
-                   

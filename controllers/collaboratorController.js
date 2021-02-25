@@ -50,31 +50,36 @@ router.get('/collaborator/login', (req, res) => {
 router.post('/collaborator/login', async (req, res) => {
     let data = req.body;
     let comparator = false;
-    
+
     try {
         let clb = await collaborators.findOne({ where: { email: data.email } })
 
         if (clb) {
-            
+
             comparator = bcrypt.compareSync(data.password, clb.password);
 
             if (comparator) {
-                
+
                 let objCollaborator = {
                     id: clb.id,
                     nome: clb.nome,
                     email: clb.email
                 }
-                
+
                 req.session.collaborator = objCollaborator
-            
+
                 res.redirect('/main')
+            } else {
+                console.log('Email/senha incorretos')
+                res.redirect('/collaborator/login')
+                
             }
         } else {
-            res.json({ err: 'Email/senha incorretos' })
+            res.redirect('/collaborator/login')
+            console.log('Email/senha incorretos')
         }
     }
-    
+
     catch (error) {
         res.json({ err: 'Erro ao tentar realizar esta operação' })
     }
