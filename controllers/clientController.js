@@ -357,8 +357,10 @@ router.get('/client/orders/:dateStart?/:dateFinish?/:status?', clientAuthenticat
 
     try {
         if (dateStart && dateFinish && status) {
-            console.log('=======CHEGOU NA FILTRAGEM===========')
             objOrders = await orders.findAll({
+                include: [
+                    { model: itensOrder }, { model: payment }
+                ],
                 where: {
                     createdAt: {
                         [sequelize.Op.between]: [new Date(dateStart), new Date(dateFinish)]
@@ -366,18 +368,18 @@ router.get('/client/orders/:dateStart?/:dateFinish?/:status?', clientAuthenticat
                     status: { [sequelize.Op.like]: [`%${status}%`] }
                 }
             })
-
-            console.log(objOrders)
         } else {
-            console.log('=======CHEGOU NO SEM FILTRAGEM===========')
-            
             objOrders = await orders.findAll({
+                include: [
+                    { model: itensOrder }, { model: payment }
+                ],
                 where: {
                     clienteId: idClient,
                     status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO },
                 }, include: [{ model: payment }, { model: itensOrder }], order: [['createdAt', 'desc']]
             });
         }
+
         res.render('admin/order/orders', { orders: objOrders, message: message })
     } catch (error) {
         console.log('Erro ao buscar pedidos: ' + error)
