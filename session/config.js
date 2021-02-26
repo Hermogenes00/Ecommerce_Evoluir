@@ -18,18 +18,20 @@ let tableSession = sequelize.define('session', {
     data: Sequelize.TEXT,
 })
 
-let configSession = (session,SequelizeStore) => {
+let hour = 3600000
+let configSession = (session, SequelizeStore) => {
 
     return session(
         {
-            secret: '123456789',
+            secret: '602dbccda7814faeaf7c528912dfb560',
             store: new SequelizeStore({
                 db: sequelize,
+                expiration: 24 * 60 * 60 * 1000,
                 table: 'session',
                 extendDefaultFields: (defaults, session) => {
                     return {
                         data: defaults.data,
-                        expires: defaults.expires,
+                        expires: hour * 24,
                         userId: session.userId,
                     }
                 }
@@ -40,7 +42,8 @@ let configSession = (session,SequelizeStore) => {
             cookie: {
                 secure: false,
                 httpOnly: true,
-                maxAge: 1020 * 60 * 30
+                expires: hour * 24,
+                maxAge: hour * 24
             }
         }
     )

@@ -10,6 +10,7 @@ let session = require('express-session')
 const configSession = require('./session/config')
 let SequelizeStore = require('connect-session-sequelize')(session.Store)
 
+//Session
 app.use(configSession(session,SequelizeStore))
 
 
