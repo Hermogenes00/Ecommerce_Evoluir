@@ -41,8 +41,6 @@
                                                             width="200"><br>
 
                                                         <div id="areaBtn">
-                                                            <button data-toggle="modal" data-target="#modalParecer"
-                                                                class="btn btn-sm btn-danger">Cancelar</button>
                                                         </div>
                                                         <hr>
                                                         <span>Pedido nº <%= item.pedido.id%></span><br>
@@ -54,7 +52,7 @@
                                                             <%= item.produto.nome %>
                                                         </span>
 
-
+<br>
                                                         <select name="optionTrabalho" onchange="cancelarTrabaho(event)" data-idOrder="<%= item.pedido.id %>"
                                                             data-idItemOrder="<%= item.id %>" class="visible"
                                                             id="optionTrabalho">
@@ -86,8 +84,6 @@
                                                         <img src="<%= item.produto.imagem %>" alt="" height="100"
                                                             width="200"><br>
                                                         <div id="areaBtn">
-                                                            <button data-toggle="modal" data-target="#modalParecer"
-                                                                class="btn btn-sm btn-danger">Cancelar</button>
                                                         </div>
                                                         <hr>
                                                         <span>Pedido nº <%= item.pedido.id%></span><br>
@@ -98,7 +94,7 @@
                                                         <span>
                                                             <%= item.produto.nome %>
                                                         </span>
-
+<br>
                                                         <select name="optionTrabalho" onchange="cancelarTrabaho(event)" data-idOrder="<%= item.pedido.id %>"
                                                             data-idItemOrder="<%= item.id %>" class="visible"
                                                             id="optionTrabalho">
@@ -130,8 +126,6 @@
                                                         <img src="<%= item.produto.imagem %>" alt="" height="100"
                                                             width="200"><br>
                                                         <div id="areaBtn">
-                                                            <button data-toggle="modal" data-target="#modalParecer"
-                                                                class="btn btn-sm btn-danger">Cancelar</button>
                                                         </div>
                                                         <hr>
                                                         <span>Pedido nº <%= item.pedido.id%></span><br>
@@ -142,7 +136,7 @@
                                                         <span>
                                                             <%= item.produto.nome %>
                                                         </span>
-
+<br>
                                                         <select name="optionTrabalho" onchange="cancelarTrabaho(event)" data-idOrder="<%= item.pedido.id %>"
                                                             data-idItemOrder="<%= item.id %>" class="visible"
                                                             id="optionTrabalho">
@@ -173,12 +167,14 @@
                                                     <div class="content">
                                                         <img src="<%= item.produto.imagem %>" alt="" height="100"
                                                             width="200"><br>
+                                                         
                                                         <div id="areaBtn">
                                                             <button class="btn btn-sm btn-primary" id="btnFinalizar"
                                                                 onclick="confirmarConclusao(event)"
                                                                 data-idOrder="<%= item.pedido.id %>"
                                                                 data-idItemOrder="<%= item.id %>">Finalizar</button>
-                                                        </div>
+                                                        </div>                                                       
+
                                                         <hr>
                                                         <span>Pedido nº <%= item.pedido.id%></span><br>
                                                         <span>Item-Pedido nº <%= item.id%></span><br>
@@ -188,7 +184,7 @@
                                                         <span>
                                                             <%= item.produto.nome %>
                                                         </span>
-                                                        
+                                                        <br>
                                                         <select name="optionTrabalho" onchange="cancelarTrabaho(event)" data-idOrder="<%= item.pedido.id %>"
                                                             data-idItemOrder="<%= item.id %>" class="invisible"
                                                             id="optionTrabalho">
@@ -196,7 +192,7 @@
                                                             <option value="REFUGADO">Refugar Trabalho</option>
                                                             <option value="ARQUIVO_VAZIO">Arquivo Vazio</option>
                                                         </select>
-
+                                                        
                                                         <a href="/uploads/<%= item.arquivo %>"
                                                             class="btn btn-primary btn-sm mt-3 mr-3 form-control">Baixar
                                                             Arquivo</a>

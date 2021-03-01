@@ -84,8 +84,9 @@
                         <div class="row">
                             <div class="col">
                                 <label for="codRef">Impressora</label>
-                                <select name="impressoras" data-idImpressora="<%= product.impressoraId %> " id="impressoras" class="form-control form-control-sm">
-                                    
+                                <select name="impressoras" data-idImpressora="<%= product.impressoraId %> "
+                                    id="impressoras" class="form-control form-control-sm">
+
                                 </select>
                             </div>
                         </div>
@@ -205,8 +206,10 @@
                 window.onload = function () {
                     //Function from /js/printers.js
                     getPrinters(printers => {
-                        printers.forEach(prt => {
-                            selectImpressoras.innerHTML += `<option ${prt.id==selectImpressoras.dataset.idimpressora?'selected':''} value="${prt.id}">
+                        //Show printers wicth status active
+                        let activePrinters = printers.filter(prt => prt.ativo == 1)
+                        activePrinters.forEach(prt => {
+                            selectImpressoras.innerHTML += `<option ${prt.id == selectImpressoras.dataset.idimpressora ? 'selected' : ''} value="${prt.id}">
                                             ${prt.marca + '-' + prt.modelo}
                                         </option>`
                         })

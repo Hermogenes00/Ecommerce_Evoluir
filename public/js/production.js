@@ -61,12 +61,14 @@ function dragend() {
 
 
     if (statusCard == 'EXPEDICAO') {
-
+        areaBtn.classList.add('visible')
+        areaBtn.classList.remove('invisible')
         areaBtn.innerHTML = ` <button class="btn btn-sm btn-primary" id="btnFinalizar" onclick="confirmarConclusao(event)" data-idOrder="${this.dataset.idorder}" data-idItemOrder="${this.dataset.iditemorder}">Finalizar</button>`
         this.querySelector('#optionTrabalho').classList.remove('visible')
         this.querySelector('#optionTrabalho').classList.add('invisible')
     } else {
-        areaBtn.innerHTML = `<button data-toggle="modal" data-target="#modalParecer" class="btn btn-sm btn-danger">Cancelar</button>`
+        areaBtn.classList.add('invisible')
+        areaBtn.classList.remove('visible')        
         this.querySelector('#optionTrabalho').classList.remove('invisible')
         this.querySelector('#optionTrabalho').classList.add('visible')
     }
