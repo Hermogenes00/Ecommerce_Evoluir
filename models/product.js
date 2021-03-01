@@ -2,6 +2,7 @@ const connection = require('../database/connection')
 const sequelize = require('sequelize')
 const subCategory = require('./subCategory')
 const category = require('./category')
+const printer = require('../models/printer')
 
 const product = connection.define('produtos', {
     nome: {
@@ -87,6 +88,9 @@ product.belongsTo(category)
 category.hasMany(product)
 product.belongsTo(subCategory)
 subCategory.hasMany(product)
+
+product.belongsTo(printer)
+printer.hasMany(product)
 
 //product.sync({ alter: true })
 

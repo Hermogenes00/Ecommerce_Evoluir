@@ -3,7 +3,57 @@
 
 
 
+<div class="container mt-4">
 
+
+    <div class="row">
+        <div class="input-group col-md-6 mb-3">
+            <input id="buscar" name="buscar" type="text" class="form-control form-control-sm"
+                placeholder="Busque pela marca">
+            <div class="input-group-append">
+                <btn class="btn btn-outline-secondary btn-sm" id="btnBuscar" onclick="buscarImpressoras()" name="btnBuscar">Buscar</a>
+            </div>
+        </div>
+        <div class="col offset-md-4">
+            <a href="/admin/printers/printer/" id="btnNovo" class="btn btn-primary btn-sm">Nova impressora</a>
+        </div>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th>Ativo</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Imagem</th>
+                <th scope="col">AÇÃO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% printers.forEach(prt=>{ %>
+            <tr>
+                <td>
+                    <%= prt.id %>
+                </td>
+                <td><%= prt.ativo==1?'Sim':'Não' %> </td>
+                <td><%=prt.marca %></td>
+                <td><%=prt.modelo %></td>
+                <td><img src="<%= prt.imagem %> " width="50px" height="50px" alt=""></td>
+                <td>
+                    <a href="/admin/printers/printer/<%= prt.id %>" class="btn btn-warning btn-sm">Editar</a>
+                    <form action="/admin/slide/delete"
+                        onsubmit="confirmacao(event,this,'Deseja realmente excluir esta impressora?')" method="post">
+                        <input type="hidden" name="id" id="id" value="<%=prt.id%>">                        
+                    </form>
+                </td>
+            </tr>
+            <%}) %>
+        </tbody>
+
+    </table>
+
+</div>
 
 
 

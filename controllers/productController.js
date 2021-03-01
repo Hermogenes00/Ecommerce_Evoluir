@@ -3,6 +3,7 @@ const products = require('../models/product')
 const sequelize = require('sequelize')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
+const printer = require('../models/printer');
 const slides = require('../models/slide')
 const router = express.Router();
 const slug = require('slugify')
@@ -20,6 +21,7 @@ const fs = require('fs')
 //Validation
 let validation = require('../validations/productValidation');
 const { validate } = require('../validations/productValidation');
+
 
 //Criação do middleware para menu
 router.use(async (req, res, next) => {
@@ -181,7 +183,8 @@ router.get('/admin/products/find/:product?', collaboratorAuthentication, async (
 router.get('/admin/products/product/:id?', collaboratorAuthentication, async (req, res) => {
     let product = {
         categoria: {},
-        subcategoria: {}
+        subcategoria: {},
+        impressora:{}
     }
 
     let message = {
@@ -190,7 +193,8 @@ router.get('/admin/products/product/:id?', collaboratorAuthentication, async (re
 
     if (req.params.id) {
         try {
-            product = await products.findOne({ where: { id: req.params.id }, include: [{ model: category }, { model: subCategory }] })
+            product = await products.findOne({ where: { id: req.params.id }, include: [{ model: category }, { model: subCategory },{model:printer}] })
+            console.log(product)
         } catch (error) {
             console.log('Erro ao tentar localizar produto->', error);
             return res.redirect('/admin/products/product/')
@@ -229,7 +233,7 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
         subcategoriaId: data.subCategoria,
         previsaoProducao: data.previsaoProducao,
         und: data.und,
-        imagem: data.imagem
+        imagem: data.imagem        
 
     })
 
@@ -281,7 +285,8 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
         previsaoProducao: data.previsaoProducao,
         und: data.und,
         imagem: data.imagem,
-        ativo: data.ativo?true:false
+        ativo: data.ativo?true:false,
+        impressoraId:data.impressoras
     }
 
     if (flagErro) {

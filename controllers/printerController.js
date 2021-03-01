@@ -19,47 +19,48 @@ router.get('/admin/printers', collaboratorAuthentication, (req, res) => {
     })
 })
 
-router.get('/admin/printers/printer/:id?', collaboratorAuthentication, (req, res) => {
-    let printerId = req.params.id
+router.get('/admin/printers/printer/:id?', collaboratorAuthentication, async (req, res) => {
+    let { id } = req.params
     let objPrinter = undefined
 
-    if (!NaN(id)) {
-
-        printer.findByPk(printerId).then(result => {
-            objPrinter = result
-        }).catch(err => {
-            console.log('Erro ao tentar consultar a impressora->' + err);
-        })
-
+    if (id) {
+        try {
+            objPrinter = await printer.findByPk(id)
+        } catch (error) {
+           res.redirect('/admin/printers')
+        }
     } else {
         objPrinter = {}
     }
 
-    res.render('admin/printer/printer', {objPrinter })
+    res.render('admin/printer/printer', {printer:objPrinter})
 
 })
+
 
 router.post('/admin/printers/save', collaboratorAuthentication, (req, res) => {
 
     let data = req.body
-
+    let objPrinter = {
+        marca: data.marca,
+        modelo: data.modelo,
+        imagem: data.imagem,
+        ativo: data.ativo ? 1 : 0
+    }
+    console.log(data)
     if (data.id > 0) {
-
-        printer.update(data, { where: { id: data.id } }).then(() => {
-            console.log('Impressora Atualizada com sucesso!!!');
+        printer.update(objPrinter, { where: { id: data.id } }).then(() => {
+            res.redirect('/admin/printers')
         }).catch(err => {
-            console.log('Erro ao tentar atualizar impressora ->' + err);
+           res.send('Erro ao tentar realizar esta operação, tente novamente, caso o erro persista, entre em contato com o suporte')
         })
     } else {
-
-        printer.create(data).then(() => {
-            console.log('Impressora Criada com sucesso!!!');
+        printer.create(objPrinter).then(() => {
+            res.redirect('/admin/printers')
         }).catch(err => {
-            console.log('Erro ao tentar criar impressora!!!');
+            res.send('Erro ao tentar realizar esta operação, tente novamente, caso o erro persista, entre em contato com o suporte')
         })
     }
-
-    res.redirect('/admin/printer/printers')
 })
 
 

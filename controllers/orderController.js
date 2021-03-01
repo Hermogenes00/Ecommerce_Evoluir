@@ -1,4 +1,3 @@
-
 const express = require('express')
 const router = express.Router();
 
@@ -127,13 +126,11 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
 
         let adrss = await address.findAll({ where: { clienteId: ord.cliente.id } })
 
+        //Config Payment
+
         let idPagamento = '' + Date.now()
         let emailPagador = ord.cliente.email
-        let description = ''
-
-        itens.forEach(item => {
-            description += ` ${item.produto.nome}(qtd: ${item.qtd})(valor: ${item.valor}) ->Frete: ${ord.valorFrete} `
-        })
+       
 
         let dados = {
             items: [
@@ -151,6 +148,8 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
             },
             external_reference: idPagamento
         }
+
+        
         mercadoPago.preferences.create(dados).then(async function (response) {
             global.id = response.body.id
             let pay = await payment.findOne({ where: { pedidoId: ord.id } })

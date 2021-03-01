@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-
+const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 //Model
 const printer = require('../models/printer')
 
 //Listagem
-router.get('/printers', (req, res) => {
+router.get('/api/printers',collaboratorAuthentication, (req, res) => {
 
     printer.findAll().then(printers => {
         res.status(200).json(printers)
@@ -15,7 +15,7 @@ router.get('/printers', (req, res) => {
 })
 
 //Retorna impressora pelo id
-router.get('/printers//:id', (req, res) => {
+router.get('/printers/:id', (req, res) => {
 
     let printerId = req.params.id
     let objPrinter = undefined

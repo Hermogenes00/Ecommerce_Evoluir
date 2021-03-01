@@ -30,6 +30,7 @@ router.get('/admin/payment/:cliente?/:dateStart?/:dateFinish?/:status?', collabo
 
     let response = {}
     let { cliente, dateStart, dateFinish, status } = req.params
+    
     try {
 
         if (cliente && dateStart && dateFinish && status) {

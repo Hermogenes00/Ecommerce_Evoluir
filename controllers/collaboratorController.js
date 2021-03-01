@@ -204,10 +204,12 @@ router.post('/admin/collaborators/collaborator', async (req, res) => {
             cidade: data.cidade,
             uf: data.uf
         }
+        
         if (data.id <= 0) {
             let clb = await collaborators.create(objCollaborator)
             return res.redirect('/main')
         } else {
+
             collaborators.update(objCollaborator, { where: { id: data.id } }).then(() => {
                 return res.redirect('/collaborator/logout')
             }).catch(error => {

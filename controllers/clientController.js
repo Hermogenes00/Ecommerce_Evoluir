@@ -365,7 +365,8 @@ router.get('/client/orders/:dateStart?/:dateFinish?/:status?', clientAuthenticat
                     createdAt: {
                         [sequelize.Op.between]: [new Date(dateStart), new Date(dateFinish)]
                     },
-                    status: { [sequelize.Op.like]: [`%${status}%`] }
+                    status: { [sequelize.Op.like]: [`%${status}%`] },
+                    clienteId: idClient
                 }
             })
         } else {
@@ -376,6 +377,7 @@ router.get('/client/orders/:dateStart?/:dateFinish?/:status?', clientAuthenticat
                 where: {
                     clienteId: idClient,
                     status: { [sequelize.Op.ne]: CONSTANTES.STATUS_PEDIDO.CARRINHO },
+                    clienteId: idClient
                 }, include: [{ model: payment }, { model: itensOrder }], order: [['createdAt', 'desc']]
             });
         }

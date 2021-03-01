@@ -9,7 +9,7 @@ const client = require('../models/client')
 const address = require('../models/address')
 const payment = require('../models/payment')
 const deliveryRegion = require('../models/deliveryRegion')
-
+const mercadoPago = require('../mercadoPago/mercadoPago')
 
 //Retorna o pedido e os seus itens, através do id
 router.post('/order/resume', async (req, res) => {
@@ -44,6 +44,17 @@ router.post('/order/resume', async (req, res) => {
     }
 })
 
+
+router.get('/api/payment/:externalReference', (req, res) => {
+
+    let { externalReference } = req.params
+    
+    mercadoPago.payment.get().then(response => {
+        res.json(response)
+    }).catch(err => {
+        res.json({ err })
+    })
+})
 
 
 module.exports = router

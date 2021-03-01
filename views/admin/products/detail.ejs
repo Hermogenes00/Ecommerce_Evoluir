@@ -18,7 +18,7 @@
                             <br>
                             <% if(product.gabarito){ %>
                                 <a href="/gabarito/<%=product.gabarito%>"
-                                    class="btn btn-primary btn">Baixar Gabarito</a>
+                                    class="btn btn-primary btn-sm mt-2">Baixar Gabarito</a>
                                 <%} %>
 
                         </div>
@@ -141,5 +141,9 @@
                 </div>
 
                 <script src="/js/product.js"></script>
-
+                <script>
+                    window.onload = (event)=>{
+                        calculoValores()
+                    }
+                </script>
                 <%- include('../../partials/footer') %>

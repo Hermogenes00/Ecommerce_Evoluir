@@ -44,7 +44,7 @@ requisicao(`/admin/cart/itensCart/` + document.getElementById('idOrder').value, 
             ${linkBaixarArquivo}
         </div>
         <div class="col-md-4 text-left">
-            <h6>${item.produto.nome}</h6>
+            ${item.produto.nome}
             ${tamanho}
         </div>
         <div class="col-md-1">${item.qtd} und</div>

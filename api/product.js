@@ -3,6 +3,7 @@ const products = require('../models/product')
 const sequelize = require('sequelize')
 const category = require('../models/category')
 const subCategory = require('../models/subCategory')
+const printer = require('../models/printer');
 const router = express.Router();
 const slug = require('slugify')
 
@@ -15,6 +16,7 @@ const fs = require('fs')
 
 //Validation
 let validation = require('../validations/productValidation');
+
 
 
 //Configuração do multer, para upload e download dos gabaritos
@@ -87,14 +89,14 @@ router.get('/api/products/products/:name?', async (req, res) => {
 })
 
 //Esta página irá carregar um produto
-router.get('/products/:id?', async (req, res) => {
+router.get('/api/products/:id?', async (req, res) => {
 
     if (req.params.id) {
         try {
             product = await products.findOne(
                 {
                     where: { id: req.params.id },
-                    include: [{ model: category }, { model: subCategory }]
+                    include: [{ model: category }, { model: subCategory },{model:printer}]
                 })
 
             res.statusCode = 200

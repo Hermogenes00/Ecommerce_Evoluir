@@ -10,7 +10,6 @@
                         </button>
                 </div>
                 <%} %>
-
         </div>
 
         <div class="container mt-5">
@@ -23,10 +22,11 @@
 
                         <div class="row ml-3">
                             <div class="col-md-3">
-                                <input class="form-check-input" type="checkbox" <%= product.ativo==1?"checked":"" %>  name="ativo"
-                                    id="ativo">
+                                <input class="form-check-input" type="checkbox"
+                                    <%=!product.id?'checked':product.ativo?'checked':'' %> name="ativo"
+                                id="ativo">
                                 <label class="form-check-label" for="flexRadioDefault1">
-                                  Ativo
+                                    Ativo
                                 </label>
                             </div>
                         </div>
@@ -77,6 +77,15 @@
                                             <%= product.subcategoria.nome%>
                                         </option>
                                         <%} %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="codRef">Impressora</label>
+                                <select name="impressoras" data-idImpressora="<%= product.impressoraId %> " id="impressoras" class="form-control form-control-sm">
+                                    
                                 </select>
                             </div>
                         </div>
@@ -166,18 +175,18 @@
                                 <label for="qtd">Prev. Produção</label>
                                 <input type="number" name="previsaoProducao" id="previsaoProducao"
                                     class="form-control form-control-sm"
-                                    value="<%=product.previsaoProducao?product.previsaoProducao:'0,00'%>">
+                                    value="<%=product.previsaoProducao?product.previsaoProducao:'0'%>">
                             </div>
                             <div class="col">
                                 <label for="propriedadeDivisao">Propriedade de Divisão</label>
                                 <input type="number" required
-                                    value="<%=product.propriedadeDivisao?product.propriedadeDivisao:'0,00'%>"
+                                    value="<%=product.propriedadeDivisao?product.propriedadeDivisao:'0'%>"
                                     name="propriedadeDivisao" id="propriedadeDivisao"
                                     class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class=" mt-3" style=" float: right;">
-                            <a href="/collaborator/find/all" class="btn btn-outline-primary">Cancelar</a>
+                            <a href="/admin/products/find/" class="btn btn-outline-primary">Cancelar</a>
                             <input type="hidden" name="id" id="id" value="<%= product.id %>">
                             <input type="submit" class="btn btn-primary" value="Salvar">
 
@@ -188,5 +197,19 @@
         </div>
 
         <%- include('../../partials/footer') %>
+            <script src="/js/printers.js"></script>
             <script src="/js/product.js"></script>
             <script src="/js/categoria.js"></script>
+            <script>
+                let selectImpressoras = document.querySelector('#impressoras')
+                window.onload = function () {
+                    //Function from /js/printers.js
+                    getPrinters(printers => {
+                        printers.forEach(prt => {
+                            selectImpressoras.innerHTML += `<option ${prt.id==selectImpressoras.dataset.idimpressora?'selected':''} value="${prt.id}">
+                                            ${prt.marca + '-' + prt.modelo}
+                                        </option>`
+                        })
+                    })
+                }
+            </script>
