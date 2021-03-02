@@ -32,7 +32,7 @@ CREATE TABLE `subcategorias` (
   PRIMARY KEY (`id`),
   KEY `categoriaId` (`categoriaId`),
   CONSTRAINT `subcategorias_ibfk_1` FOREIGN KEY (`categoriaId`) REFERENCES `categorias` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `subcategorias` (
 
 LOCK TABLES `subcategorias` WRITE;
 /*!40000 ALTER TABLE `subcategorias` DISABLE KEYS */;
-INSERT INTO `subcategorias` VALUES (1,'Padrão','Padrao','2021-02-12 20:21:35','2021-02-12 20:21:35',1);
+INSERT INTO `subcategorias` VALUES (1,'Padrão','Padrao','2021-02-12 20:21:35','2021-03-02 13:46:59',1),(2,'Vinil','Vinil','2021-02-26 14:29:22','2021-02-26 14:29:22',2),(3,'Brilho','Brilho','2021-02-26 14:29:47','2021-02-26 14:29:47',2),(4,'Fosco','Fosco','2021-02-26 14:29:54','2021-02-26 14:29:54',2),(5,'Couchê 50g','Couche-50gm','2021-02-26 14:37:14','2021-02-26 14:37:21',3),(6,'Verniz Total','Verniz-Total','2021-02-26 14:37:43','2021-02-26 14:37:43',3),(7,'Agenda Diária','Agenda-diaria','2021-02-26 14:41:21','2021-02-26 14:41:57',4),(8,'Agenda Escolar','Agenda-Escolar','2021-02-26 14:41:30','2021-02-26 14:41:30',4),(9,'Agenda Planner','Agenda-Planner','2021-02-26 14:41:40','2021-02-26 14:41:40',4),(10,'4 Páginas com dobra','4-Paginas-com-dobra','2021-02-26 14:42:45','2021-02-26 14:42:45',5),(11,'8 páginas com dobra','8-paginas-com-dobra','2021-02-26 14:42:59','2021-02-26 14:42:59',5),(12,'PVC','PVC','2021-02-26 14:43:22','2021-02-26 14:43:22',5),(13,'Simples','Simples','2021-02-26 14:43:28','2021-02-26 14:43:28',5),(14,'Vincado','Vincado','2021-02-26 14:43:39','2021-02-26 14:43:39',5),(15,'Wire O','Wire-O','2021-02-26 14:43:51','2021-02-26 14:43:51',5);
 /*!40000 ALTER TABLE `subcategorias` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-26  9:27:24
+-- Dump completed on 2021-03-02 11:42:18

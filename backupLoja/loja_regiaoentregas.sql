@@ -36,7 +36,7 @@ CREATE TABLE `regiaoentregas` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +45,7 @@ CREATE TABLE `regiaoentregas` (
 
 LOCK TABLES `regiaoentregas` WRITE;
 /*!40000 ALTER TABLE `regiaoentregas` DISABLE KEYS */;
+INSERT INTO `regiaoentregas` VALUES (1,'48010010','Rua Conselheiro Franco','Centro','0','CASA','Alagoinhas','2900702','BA','CASA','2021-02-26 14:54:53','2021-02-26 14:54:53');
 /*!40000 ALTER TABLE `regiaoentregas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-26  9:27:25
+-- Dump completed on 2021-03-02 11:42:17

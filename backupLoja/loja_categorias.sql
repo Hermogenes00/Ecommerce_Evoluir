@@ -29,7 +29,7 @@ CREATE TABLE `categorias` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `categorias` (
 
 LOCK TABLES `categorias` WRITE;
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-INSERT INTO `categorias` VALUES (1,'Padrão','Padrao','2021-02-12 20:21:30','2021-02-12 20:21:30');
+INSERT INTO `categorias` VALUES (1,'Padrão','Padrao','2021-02-12 20:21:30','2021-03-02 13:46:53'),(2,'Adesivo','Adesivo','2021-02-26 14:29:13','2021-02-26 14:29:13'),(3,'Cartão de Visita','Cartao-de-Visita','2021-02-26 14:37:00','2021-02-26 14:37:00'),(4,'Agenda','Agenda','2021-02-26 14:40:57','2021-02-26 14:40:57'),(5,'Cardapios','Cardapios','2021-02-26 14:42:25','2021-02-26 14:42:25');
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-26  9:27:25
+-- Dump completed on 2021-03-02 11:42:15

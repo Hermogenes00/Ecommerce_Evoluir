@@ -37,7 +37,7 @@ CREATE TABLE `enderecos` (
   PRIMARY KEY (`id`),
   KEY `clienteId` (`clienteId`),
   CONSTRAINT `enderecos_ibfk_1` FOREIGN KEY (`clienteId`) REFERENCES `clientes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `enderecos` (
 
 LOCK TABLES `enderecos` WRITE;
 /*!40000 ALTER TABLE `enderecos` DISABLE KEYS */;
-INSERT INTO `enderecos` VALUES (1,'40725305','Salvador','BA','Largo da Cruz','Praia Grande','SN','casa','2021-02-12 20:31:06','2021-02-12 20:31:06',1),(2,'48030000','Alagoinhas','BA','Conjunto Alagoinhas IV','Alagoinhas Velha','0','CASA','2021-02-16 14:30:32','2021-02-16 14:30:32',2),(3,'78705588','Rondonópolis','MT','Rua Laudelino Martins Portela','Jardim Belo Horizonte','SN','CASA','2021-02-22 20:04:03','2021-02-23 12:48:33',3),(4,'23057720','Rio de Janeiro','RJ','Rua Um','Inhoaíba','158','CASA','2021-02-26 12:22:04','2021-02-26 12:22:04',4),(5,'91792040','Porto Alegre','RS','Acesso T','Restinga','995','CASA','2021-02-26 12:23:28','2021-02-26 12:23:28',5),(6,'76820226','Porto Velho','RO','Rua Abnatal Bentes de Lima','Agenor de Carvalho','462','CASA','2021-02-26 12:24:25','2021-02-26 12:24:25',6);
+INSERT INTO `enderecos` VALUES (1,'40725305','Salvador','BA','Largo da Cruz','Praia Grande','SN','casa','2021-02-12 20:31:06','2021-02-12 20:31:06',1),(2,'48030000','Alagoinhas','BA','Conjunto Alagoinhas IV','Alagoinhas Velha','0','CASA','2021-02-16 14:30:32','2021-02-16 14:30:32',2),(3,'78705588','Rondonópolis','MT','Rua Laudelino Martins Portela','Jardim Belo Horizonte','SN','CASA','2021-02-22 20:04:03','2021-02-23 12:48:33',3),(4,'23057720','Rio de Janeiro','RJ','Rua Um','Inhoaíba','158','CASA','2021-02-26 12:22:04','2021-02-26 12:22:04',4),(5,'91792040','Porto Alegre','RS','Acesso T','Restinga','995','CASA','2021-02-26 12:23:28','2021-02-26 12:23:28',5),(6,'76820226','Porto Velho','RO','Rua Abnatal Bentes de Lima','Agenor de Carvalho','462','CASA','2021-02-26 12:24:25','2021-02-26 12:24:25',6),(7,'48020660','Alagoinhas','BA','Rua Areia Branca','Kennedy','165','CASA','2021-03-01 12:15:26','2021-03-01 12:15:26',7);
 /*!40000 ALTER TABLE `enderecos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-26  9:27:26
+-- Dump completed on 2021-03-02 11:42:19
