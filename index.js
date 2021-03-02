@@ -87,6 +87,38 @@ const itemOrderApi = require('./api/itemOrder')
 //Flash Messages
 app.use(flash())
 
+//middleware para alimentar o menu
+const menuMiddleware = require('./middleware/menuMiddleware')
+app.use(menuMiddleware)
+
+
+
+//Rotas
+app.get('/logout', defaultAuthentication, (req, res) => {
+    req.session.destroy()
+    res.redirect('/')
+})
+
+
+app.get('/404', defaultAuthentication, (req, res) => {
+    res.render('404')
+})
+app.get('/',defaultAuthentication, async (req, res) => {
+
+    try {
+        let prods = await products.findAll()
+        let sld = await slides.findAll()
+
+        res.render('index', { products: prods, slides: sld })
+
+    } catch (error) {
+        console.log('Erro ao carregar Página home->', error);
+        res.send('Ops ocorreu um erro ao tentar carregar a página, tente novamente, caso o erro persista entre em contato com o suporte')
+    }
+
+})
+
+
 //Controllers
 app.use('/', productController)
 app.use('/', clientController)
@@ -106,9 +138,6 @@ app.use('/', companyController)
 app.use('/', fiscalController)
 app.use('/', institucionalController)
 
-
-
-
 //Api's
 app.use('/', productApi)
 app.use('/', clientApi)
@@ -123,10 +152,6 @@ app.use('/', printerApi)
 app.use('/', paymentApi)
 app.use('/', itemOrderApi)
 
-
-//app.use('/', userController)
-
-
 //View engine ejs
 app.set('view engine', 'ejs')
 
@@ -135,36 +160,6 @@ app.use(express.static('public'))
 app.use(express.static('uploads'))
 app.use(express.static('gabarito'))
 
-//middleware para alimentar o menu
-const middlewareMenu = require('./middleware/menuMiddleware')
-app.use(middlewareMenu)
-
-//Rotas
-app.get('/', defaultAuthentication, async (req, res) => {
-
-    try {
-        let prods = await products.findAll()
-        let sld = await slides.findAll()
-
-        res.render('index', { products: prods, slides: sld })
-
-    } catch (error) {
-        console.log('Erro ao carregar Página home->', error);
-        res.send('Ops ocorreu um erro ao tentar carregar a página, tente novamente, caso o erro persista entre em contato com o suporte')
-    }
-
-})
-
-
-app.get('/logout', defaultAuthentication, (req, res) => {
-    req.session.destroy()
-    res.redirect('/')
-})
-
-
-app.get('/404', defaultAuthentication, (req, res) => {
-    res.render('404')
-})
 
 app.listen(8090, () => {
     console.log('Rodando na porta 8090');

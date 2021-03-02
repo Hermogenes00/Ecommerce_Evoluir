@@ -3,21 +3,25 @@
         <li class="nav-item">
             <a href="/" class="nav-link">Home</a>
         </li>
-        <% menu.forEach(cat => {%>
-        <% if(cat.subcategorias.length>0){%>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <%= cat.nome%>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <% cat.subcategorias.forEach(scat=>{%>
-                <a class="dropdown-item" href="/products/findBySubCategory/<%=scat.slug%>"><%=scat.nome%></a>
-                <%}) %>
-            </div>
-        </li>
-        <% } %>
-        <%}); %>
+
+        <% menu.forEach(cat=> {%>
+                    
+                    <% if(cat.subcategorias.length>0){%>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <%= cat.nome%>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <% cat.subcategorias.filter(subCat=>subCat.produtos.length>0).forEach(scat=>{%>
+                                    <a class="dropdown-item" href="/products/findBySubCategory/<%=scat.slug%>">
+                                        <%=scat.nome%>
+                                    </a>
+                                    <%}) %>
+                            </div>
+                        </li>
+                        <% } %>
+                            <%}); %>
     </ul>
 
 </nav>
