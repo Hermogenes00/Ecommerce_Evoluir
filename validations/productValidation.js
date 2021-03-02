@@ -10,7 +10,7 @@ let schema = joi.object({
     peso: joi.number().precision(2).min(0.1).message('Informe um valor válido para o campo Peso (obs: valor mínimo = 1)').required(),
     tamSangriaAltura: joi.number().precision(2).min(0.1).message('Informe um valor válido para o campo Tamanho Sangria Altura (obs: valor mínimo = 0.1)').required(),
     tamSangriaLargura: joi.number().precision(2).min(0.1).message('Informe um valor válido para o campo Tamanho Sangria Largura (obs: valor mínimo = 0.1)').required(),
-    qtd: joi.number().min(1).message('Informe um valor válido para o campo Quantidade (obs: valor mínimo = 1)').required(),
+    qtd: joi.number().min(1).max(10000).message('Informe um valor válido para o campo Quantidade (obs: valor mínimo = 1 máximo = 10000)').required(),
     propriedadeDivisao: joi.number().min(1).message('Informe um valor válido para o campo Propriedade de Divisão (obs: valor mínimo = 1)').required(),
     previsaoProducao: joi.number().precision(2).min(1).message('Informe um valor válido para o campo Previsão de Produção (obs: valor mínimo = 1)').required(),
     imagem: joi.string().dataUri().message('Selecione uma imagem para o produto').required(),

@@ -76,16 +76,6 @@ let upload = multer({
     }
 })
 
-//Criação do middleware para menu
-router.use(async (req, res, next) => {
-    try {
-        res.locals.menu = await category.findAll({ include: subCategory })
-    } catch (error) {
-        console.log('Erro ao tentar consultar as categorias->' + error);
-    }
-    next()
-})
-
 
 //Rotas
 router.post('/client/upload/:item', upload.single('file'), clientAuthentication, async (req, res) => {

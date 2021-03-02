@@ -32,8 +32,6 @@ requisicao('/category/categories/json', response => {
     })
 })
 
-
-
 function localizarSubCategoria(event) {
     selectSubCategoria.innerHTML = ''
     requisicao('/category/subCategoryByCategory/json/' + event.target.value, response => {

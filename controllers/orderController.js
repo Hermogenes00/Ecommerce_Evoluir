@@ -22,17 +22,6 @@ const mercadoPago = require('../mercadoPago/mercadoPago')
 const CONSTANTE = require('../utils/constants');
 
 
-//Criação do middleware para menu
-router.use(async (req, res, next) => {
-    try {
-        res.locals.menu = await category.findAll({ include: subCategory })
-    } catch (error) {
-        console.log('Erro ao tentar consultar as categorias->' + error);
-    }
-    next()
-})
-
-
 //Altera o status do item de um pedido
 router.patch('/order/item/:idItemOrder', async (req, res) => {
 

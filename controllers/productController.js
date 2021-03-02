@@ -23,17 +23,6 @@ let validation = require('../validations/productValidation');
 const { validate } = require('../validations/productValidation');
 
 
-//Criação do middleware para menu
-router.use(async (req, res, next) => {
-    try {
-        res.locals.menu = await category.findAll({ include: subCategory })
-    } catch (error) {
-        console.log('Erro ao tentar consultar as categorias->' + error);
-    }
-    next()
-})
-
-
 //Configuração do multer, para upload e download dos gabaritos
 let enderecoImagem = null;
 
@@ -209,7 +198,10 @@ router.get('/admin/products/product/:id?', collaboratorAuthentication, async (re
 
 router.post('/admin/products/save', collaboratorAuthentication, async (req, res) => {
 
+
+
     let data = req.body
+
     let flagErro = false
     let message = {
         erro: []
@@ -238,14 +230,16 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
     })
 
     if (validResult.error) {
+        console.log('Entrou no validate error');
         req.flash('erro', validResult.error.details[0].message)
         message.erro = req.flash('erro')
-        return res.render('admin/products/product', { message: message, product: data })
+        
+        return res.render('admin/products/product', { message: message, product: data })        
     }
 
 
     let slugNome = slug(data.nome)
-    let slugs = await products.findAll({ where: { slug: slugNome } })
+    //let slugs = await products.findAll({ where: { slug: slugNome } })
 
     try {
         if (data.id != undefined || data.id > 0) {

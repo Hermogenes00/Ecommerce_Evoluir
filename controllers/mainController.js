@@ -24,15 +24,6 @@ const address = require('../models/address');
 const itensOrder = require('../models/itensOrder');
 
 
-//Criação do middleware para menu
-router.use(async (req, res, next) => {
-    try {
-        res.locals.menu = await category.findAll({ include: subCategory })
-    } catch (error) {
-        console.log('Erro ao tentar consultar as categorias->' + error);
-    }
-    next()
-})
 
 router.get('/main', collaboratorAuthentication, async (req, res) => {
     let statusCarrinho = CONSTANTES.STATUS_PEDIDO.CARRINHO

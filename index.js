@@ -135,16 +135,9 @@ app.use(express.static('public'))
 app.use(express.static('uploads'))
 app.use(express.static('gabarito'))
 
-//Criação do middleware para menu
-
-app.use(async (req, res, next) => {
-    try {
-        res.locals.menu = await category.findAll({ include: subCategory })
-    } catch (error) {
-        console.log('Erro ao tentar consultar as categorias->' + error);
-    }
-    next()
-})
+//middleware para alimentar o menu
+const middlewareMenu = require('./middleware/menuMiddleware')
+app.use(middlewareMenu)
 
 //Rotas
 app.get('/', defaultAuthentication, async (req, res) => {

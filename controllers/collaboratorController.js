@@ -18,15 +18,6 @@ const collaborators = require('../models/collaborator')
 let validate = require('../validations/collaboratorValidation')
 const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
 
-//Criação do middleware para menu
-router.use(async (req, res, next) => {
-    try {
-        res.locals.menu = await category.findAll({ include: subCategory })
-    } catch (error) {
-        console.log('Erro ao tentar consultar as categorias->' + error);
-    }
-    next()
-})
 
 router.get('/admin/collaborators/perfil', collaboratorAuthentication, async (req, res) => {
 

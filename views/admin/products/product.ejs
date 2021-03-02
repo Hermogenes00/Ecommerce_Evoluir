@@ -57,11 +57,11 @@
                             </div>
                             <div class="col">
                                 <label for="codRef">Categoria</label>
-                                <select onchange="localizarSubCategoria(event)" onsuspend="" name="categoria"
+                                <select onchange="localizarSubCategoria(event)" name="categoria"
                                     data-categoriaid="<%=product.categoriaId%>" data-id="<%=product.id %>"
                                     id="categoria" class="form-control form-control-sm">
 
-                                    <% if(product.id){%>
+                                    <% if(product.id && message.erro.length<=0){%>
                                         <option value="<%=product.categoriaId%>">
                                             <%= product.categoria.nome%>
                                         </option>
@@ -72,7 +72,7 @@
                             <div class="col">
                                 <label for="codRef">SubCategoria</label>
                                 <select name="subCategoria" id="subCategoria" class="form-control form-control-sm">
-                                    <% if(product.id){%>
+                                    <% if(product.id && message.erro.length<=0){%>
                                         <option value="<%=product.subcategoriaId%>">
                                             <%= product.subcategoria.nome%>
                                         </option>

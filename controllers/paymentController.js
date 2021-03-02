@@ -14,15 +14,6 @@ const sequelize = require('sequelize')
 const CONSTANTE = require('../utils/constants')
 
 
-//Criação do middleware para menu
-router.use(async (req, res, next) => {
-    try {
-        res.locals.menu = await category.findAll({ include: subCategory })
-    } catch (error) {
-        console.log('Erro ao tentar consultar as categorias->' + error);
-    }
-    next()
-})
 
 //Rotas
 

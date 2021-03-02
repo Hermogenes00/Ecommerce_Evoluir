@@ -26,17 +26,6 @@ let correio = new Correios();
 const CONSTANTE = require('../utils/constants');
 
 
-//Criação do middleware para menu
-router.use(async (req, res, next) => {
-    try {
-        res.locals.menu = await category.findAll({ include: subCategory })
-    } catch (error) {
-        console.log('Erro ao tentar consultar as categorias->' + error);
-    }
-    next()
-})
-
-
 router.get('/buscarCep/:cep', async (req, res) => {
 
     let cep = req.params.cep;
