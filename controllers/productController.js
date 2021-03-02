@@ -32,7 +32,7 @@ let storage = multer.diskStorage({
         cb(null, 'public/gabarito')
     },
     filename: (req, file, cb) => {
-        enderecoImagem = `${file.originalname}-${Date.now() + path.extname(file.originalname)}`
+        enderecoImagem = `${file.originalname.replace(path.extname(file.originalname),'')}-${Date.now() + path.extname(file.originalname)}`
         cb(null, enderecoImagem)
     }
 })

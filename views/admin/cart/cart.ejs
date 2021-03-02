@@ -84,9 +84,14 @@
                 </tr>
             </thead>
             <tbody>
-
                 <tr>
-                    <td><input type="radio" onclick="calcPrecoPrazo(event)" <%=ord.metodoEnvio=='BALCAO'?'checked':'' %>
+                    <td><input type="radio" checked <%=ord.metodoEnvio=='DOMICILIO'?'checked':'' %>
+                            data-idOrder="<%=ord.id %>" value="DOMICILIO" name="radio_metodo" id="radio_metodo"> ENTREGA À DOMICÍLIO</td>
+                    <td>De 3 dias úteis à 5 dias úteis, após a produção do último item</td>
+                    <td>0,00</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" disabled onclick="calcPrecoPrazo(event)" <%=ord.metodoEnvio=='BALCAO'?'checked':'' %>
                             data-idOrder="<%=ord.id %>" value="BALCAO" name="radio_metodo" id="radio_metodo"> RETIRAR NO
                         BALCÃO</td>
                     <td>De 3 dias úteis à 5 dias úteis, após a produção do último item</td>
@@ -94,7 +99,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
+                        <input type="radio" disabled data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
                             value="PAC_VISTA" <%=ord.metodoEnvio=='PAC_VISTA'?'checked':'' %> name="radio_metodo"
                             id="radio_pac"> PAC
                     </td>
@@ -102,7 +107,7 @@
                     <td>....</td>
                 </tr>
                 <tr>
-                    <td><input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
+                    <td><input type="radio" disabled data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)"
                             value="SEDEX_VISTA" <%=ord.metodoEnvio=='SEDEX_VISTA'?'checked':'' %> name="radio_metodo"
                             id="radio_sedex"> SEDEX</td>
                     <td>....</td>
@@ -114,7 +119,7 @@
         <!--Retirar na base-->
 
 
-        <input type="radio" data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)" value="RETIRA_BASE"
+        <input type="radio" disabled data-idOrder="<%=ord.id %>" onclick="calcPrecoPrazo(event)" value="RETIRA_BASE"
             <%=ord.metodoEnvio=='RETIRA_BASE'?'checked':'' %> name="radio_metodo" id="radio_base">
         Retirar na base
         <span>15 dias úteis após a produção do último item</span>
@@ -124,14 +129,14 @@
             <div class="row">
                 <div class="col-md-2">
                     <label for="estado">Estado</label>
-                    <select required onchange="buscarCidadeByUf(event)" name="selectEstado"
+                    <select disabled required onchange="buscarCidadeByUf(event)" name="selectEstado"
                         class="form-control form-control-sm" id="selectEstado">
                         <option value=""></option>
                     </select>
                 </div>
                 <div class="col">
                     <label for="cidade">Localidade</label>
-                    <select required name="selectCidade" id="selectCidade" data-idOrder="<%=ord.id %>"
+                    <select disabled required name="selectCidade" id="selectCidade" data-idOrder="<%=ord.id %>"
                         class="form-control form-control-sm">
                         <option value=""></option>
                     </select>

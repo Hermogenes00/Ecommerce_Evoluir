@@ -9,7 +9,7 @@ const menuMiddleware = async (req, res, next) => {
             include: [{ model: subCategory, include: products }, { model: products }]
         })
 
-        //take categories with linkeds products
+        //take only categories with linkeds products
         let categoriesValid = categories.filter(cat => cat.produtos.length > 0)
                
         res.locals.menu = categoriesValid
