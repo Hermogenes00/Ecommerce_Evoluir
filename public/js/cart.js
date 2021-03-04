@@ -8,7 +8,7 @@ function enableRadioBase() {
     radio_base.checked = true
 }
 
-function clearSelectEstadoCidade(){
+function clearSelectEstadoCidade() {
     selectCidade.value = ''
     selectEstado.value = ''
 }
@@ -31,7 +31,7 @@ selectEstado.addEventListener('change', function () {
 
 
 requisicao(`/admin/cart/itensCart/` + document.getElementById('idOrder').value, (data => {
-    
+
     let itens = JSON.parse(data)
     itens.forEach(item => {
         let tamanho = item.altura ? `<small>Altura: ${item.altura} Largura: ${item.largura} </small>` : ``
@@ -139,6 +139,7 @@ function buscarCep() {
 
 
 
+
 function calcPrecoPrazo(event) {
 
     let tr = event.target.parentElement.parentElement
@@ -148,7 +149,7 @@ function calcPrecoPrazo(event) {
     let valorFinal = document.getElementById('valorFinal')
     let response = undefined;
 
-    if (event.target.value != 'RETIRA_BASE') {
+    if (event.target.value != 'RETIRA_BASE' || event.target.value != 'ENTREGA_A_DOMICILIO') {
 
         colPrazo = [...tr.children][1]
         colValor = [...tr.children][2]
@@ -170,11 +171,9 @@ function calcPrecoPrazo(event) {
             let obj = JSON.parse(response)
 
             if (!obj.error) {
-
-
                 valorFrete.innerHTML = 'Frete: ' + parseFloat(obj.Valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
 
-                let total = parseFloat(obj.Valor) + parseFloat(valorFrete.dataset.valorsemfrete)
+                let total = parseFloat(obj.Valor) + parseFloat(valorFrete.dataset.valorsemfrete) + '-------'
                 valorFinal.innerHTML = 'Total: ' + total.toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
 
             } else {

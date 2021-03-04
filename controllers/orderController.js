@@ -68,7 +68,7 @@ router.post('/order/payment/', clientAuthentication, async (req, res) => {
     let idOrder = req.body.idOrder
     let itens = undefined
     let ord = undefined
-
+    
     try {
 
         ord = await orders.findOne({

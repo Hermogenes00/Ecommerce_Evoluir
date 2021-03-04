@@ -18,6 +18,8 @@ let tableSession = sequelize.define('session', {
     data: Sequelize.TEXT,
 })
 
+//tableSession.sync({alter:true})
+
 let hour = 3600000
 let configSession = (session, SequelizeStore) => {
 
