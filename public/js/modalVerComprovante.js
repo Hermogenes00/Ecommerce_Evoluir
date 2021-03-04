@@ -8,12 +8,9 @@ function exibirComprovante(event) {
     let comprovante = event.target.dataset.comprovante
     idorder = event.target.dataset.idorder
 
-
-    document.getElementById('previaImagem').src = comprovante
-
+    let link = document.getElementById('linkComprovante')
+    link.href = '/comprovante/'+comprovante
     formAnaliseComprovante.action = '/payment/' + idorder
-
-
 }
 
 function analiseComprovante(event) {

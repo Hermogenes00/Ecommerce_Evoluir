@@ -109,57 +109,6 @@ function showItems(event) {
 
 }
 
-function enviarArquivo(event) {
-
-    let formData = new FormData()
-    let fileEl = document.getElementById('arquivo')
-
-    //let byteToMb = (fileEl.files[0].size * 0.000001)
-
-    if (fileEl.files.length > 0) {
-
-        formData.append('arquivo', fileEl.files[0])
-
-        axios.post('/itemOrder/file/' + event.target.dataset.iditem, formData, {
-            headers: {
-                "Content-Type": `multipart/form-data; boundary=${formData._boundary}`
-            },
-            onUploadProgress: function (progressEvent) {
-
-                let totalLoading = Math.round(progressEvent.loaded * 100) / progressEvent.total
-                let progressFileEl = document.getElementById('progressFile')
-                progressFileEl.classList.remove('invisible')
-                progressFileEl.innerHTML = `Arquivo ${parseInt(totalLoading)}% carregado`
-
-
-                progressEvent.target.onloadend = (event) => {
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 1000,
-                        timerProgressBar: false
-                    })
-
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Arquivo enviado com sucesso'
-                    })
-                }
-            }
-        }).then(response => {
-
-        }).catch(err => {
-            console.dir(err)
-        })
-
-    } else {
-        Swal.fire('Selecione um arquivo para envio')
-    }
-
-}
-
 function remover(event, form, msg) {
     event.preventDefault();
     Swal.fire({

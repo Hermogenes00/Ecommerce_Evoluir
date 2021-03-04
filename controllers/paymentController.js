@@ -13,6 +13,45 @@ const sequelize = require('sequelize')
 //CONSTANTES
 const CONSTANTE = require('../utils/constants')
 
+//Tratamento dos arquivo (upload gabarito)
+const multer = require('multer')
+const path = require('path')
+const fs = require('fs')
+
+//Configuração do multer, para upload e download dos gabaritos
+let enderecoArquivo = null;
+
+//Configuração de salvamento do multer
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/comprovante')
+    },
+    filename: (req, file, cb) => {
+        enderecoArquivo = `${file.originalname.replace(path.extname(file.originalname), '')}-${Date.now() + path.extname(file.originalname)}`
+        cb(null, enderecoArquivo)
+    }
+})
+
+let upload = multer({
+    storage: storage,
+
+    fileFilter: (req, file, cb) => {
+
+        if (file.originalname != '' || file.originalname != null || file.originalname != undefined) {
+            if (path.extname(file.originalname) != '.pdf') {
+                req.flash('error', 'Arquivo deve estar em extensão .pdf')
+                cb(null, false)
+            } else {
+                req.flash('success', `Arquivo enviado com sucesso `)
+                cb(null, true)
+            }
+        } else {
+            req.flash('error', 'Arquivo vazio')
+            cb(null, false)
+        }
+
+    }
+})
 
 
 //Rotas
@@ -21,24 +60,26 @@ router.get('/admin/payment/:cliente?/:dateStart?/:dateFinish?/:status?', collabo
 
     let response = {}
     let { cliente, dateStart, dateFinish, status } = req.params
-    
+
     try {
 
         if (cliente && dateStart && dateFinish && status) {
             response = await order.findAll({
                 include: [
                     {
-                        model: payment, where: {status: status, 
-                                                createdAt:{[sequelize.Op.between]:[new Date(dateStart),new Date(dateFinish)]}}
+                        model: payment, where: {
+                            status: status,
+                            createdAt: { [sequelize.Op.between]: [new Date(dateStart), new Date(dateFinish)] }
+                        }
                     },
                     {
                         model: client, where: { nome: { [sequelize.Op.like]: [`%${cliente}%`] } }
                     }
                 ],
-                order:[['createdAt','desc']]
+                order: [['createdAt', 'desc']]
             })
         } else {
-            response = await order.findAll({ include: [{ model: payment }, { model: client }],order:[['createdAt','desc']] })
+            response = await order.findAll({ include: [{ model: payment }, { model: client }], order: [['createdAt', 'desc']] })
         }
 
     } catch (error) {
@@ -51,23 +92,27 @@ router.get('/admin/payment/:cliente?/:dateStart?/:dateFinish?/:status?', collabo
 
 
 //receipt=comprovante
-router.post('/admin/payment/receipt', clientAuthentication, async (req, res) => {
-
-    let data = req.body
-    let flagImage = false
+router.post('/admin/payment/receipt/:idOrder/', clientAuthentication, upload.single('file'), async (req, res) => {
 
     //Verificando se o arquivo é uma imagem
-    data.imagem.split('/')[0] == 'data:image' ? flagImage = true : flagImage = false
+    //data.imagem.split('/')[0] == 'data:image' ? flagImage = true : flagImage = false
+    const { idOrder } = req.params
 
-    if (flagImage) {
+    if (enderecoArquivo) {
+
+        //Remove o arquivo da pasta comprovante, caso exista...
+        let oldAdress = await payment.findOne({ attributes: ['comprovante'], where: { pedidoId: idOrder } })
+        fs.unlink('public/comprovante/' + oldAdress.comprovante, (err) => { })
+
         try {
             await payment.update(
-                { comprovante: data.imagem, status: CONSTANTE.STATUS_PAGAMENTO.ANALISE_COMPROVANTE },
-                { where: { pedidoId: data.idOrderImagem } })
+                { comprovante: enderecoArquivo, status: CONSTANTE.STATUS_PAGAMENTO.ANALISE_COMPROVANTE },
+                { where: { pedidoId: idOrder } })
 
             await order.update({
                 status: CONSTANTE.STATUS_PAGAMENTO.ANALISE_COMPROVANTE
-            }, { where: { id: data.idOrderImagem } })
+            }, { where: { id: idOrder } })
+
 
             req.flash('success', 'Comprovante enviado para análise')
 
@@ -80,6 +125,7 @@ router.post('/admin/payment/receipt', clientAuthentication, async (req, res) => 
     }
 
     res.redirect('/client/orders')
+
 })
 
 

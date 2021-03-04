@@ -48,7 +48,8 @@ async function enviarArquivo(event, action, ext) {
         inputAttributes: {
             'accept': ext,
             'aria-label': `Selecione o seu arquivo ${ext}`
-        }
+        },
+        showConfirmButton:false
     })
 }
 

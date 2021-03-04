@@ -83,14 +83,9 @@
 
                                         <% if(pedido.status!='CONCLUÍDO' &&pedido.pagamento){%>
 
-                                            <% if(pedido.pagamento.comprovante!=undefined){%>
-                                                <a href="#" id="btnVerComprovante" data-toggle="modal"
-                                                    data-target="#modalVerComprovante" title="Analisar Comprovante"
-                                                    data-comprovante="<%= pedido.pagamento.comprovante %>"
-                                                    data-idOrder="<%=pedido.id%>" onclick="exibirComprovante(event)"
-                                                    class="btn btn-sm btn-primary">Analisar
-                                                    Comprovante <i class="fas fa-sticky-note"></i></a>
-                                                <%} %>
+                                            <% if(pedido.pagamento.comprovante!=undefined){%>                                                
+                                                <button class="btn btn-sm btn-primary" data-toggle="modal" onclick="exibirComprovante(event)" data-idOrder="<%= pedido.id %>" data-comprovante="<%=pedido.pagamento.comprovante%>" data-target="#modalVerComprovante">Baixar Comprovante</button>
+                                                <%} %>                                                
                                                     <%} %>
                                     </td>
                                     <td>
