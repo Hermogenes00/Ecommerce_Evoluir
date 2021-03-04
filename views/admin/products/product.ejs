@@ -104,27 +104,27 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <label for="tamFinalAltura">Tam.Final-Altura</label>
-                                <input type="text" placeholder="150" name="tamFinalAltura"
+                                <input type="text" placeholder="150" name="tamFinalAltura" onkeyup="formatReal(event)"
                                     value="<%= product.tamFinalAltura?product.tamFinalAltura.replace('.',','):'0,00'%>"
                                     id="tamFinalAltura" required class="form-control form-control-sm">
                             </div>
                             <div class="col-md-3">
                                 <label for="tamFinalLargura">Tam.Final-Largura</label>
-                                <input type="text" placeholder="150" name="tamFinalLargura"
+                                <input type="text" placeholder="150" name="tamFinalLargura"  onkeyup="formatReal(event)"
                                     value="<%= product.tamFinalLargura?product.tamFinalLargura.replace('.',','):'0,00' %>"
                                     id="tamFinalLargura" required class="form-control form-control-sm">
                             </div>
 
                             <div class="col">
                                 <label for="tamSangriaLargura">Tam.Sangria-Largura</label>
-                                <input type="text" placeholder="150"
+                                <input type="text" placeholder="150"  onkeyup="formatReal(event)"
                                     value="<%= product.tamSangriaLargura?product.tamSangriaLargura.replace('.',','):'0,00' %>"
                                     name="tamSangriaLargura" id="tamSangriaLargura" required
                                     class="form-control form-control-sm">
                             </div>
                             <div class="col">
                                 <label for="tamSangriaAltura">Tam.Sangria-Altura</label>
-                                <input type="text" placeholder="150"
+                                <input type="text" placeholder="150" onkeyup="formatReal(event)"
                                     value="<%= product.tamSangriaAltura?product.tamSangriaAltura.replace('.',','):'0,00' %>"
                                     name="tamSangriaAltura" id="tamSangriaAltura" required
                                     class="form-control form-control-sm">
@@ -140,13 +140,13 @@
                             </div>
                             <div class="col">
                                 <label for="gramatura">Gramatura</label>
-                                <input type="text"
+                                <input type="text"  onkeyup="formatReal(event)"
                                     value="<%= product.gramatura?product.gramatura.replace('.',','):'0,00' %>"
                                     name="gramatura" id="gramatura" class="form-control form-control-sm">
                             </div>
                             <div class="col">
                                 <label for="peso">Peso</label>
-                                <input type="text" placeholder="Ex: 150"
+                                <input type="text" placeholder="Ex: 150"  onkeyup="formatReal(event)"
                                     value="<%= product.peso?product.peso.replace('.',','):'0,00' %>" name="peso"
                                     id="peso" class="form-control form-control-sm">
                             </div>
@@ -155,13 +155,13 @@
                         <div class="row">
                             <div class="col">
                                 <label for="vlrProduto">Vlr Produto</label>
-                                <input type="text"
+                                <input type="text"  onkeyup="formatReal(event)"
                                     value="<%= product.vlrProduto?product.vlrProduto.replace('.',','):'0,00' %>"
                                     name="vlrProduto" id="vlrProduto" class="form-control form-control-sm">
                             </div>
                             <div class="col">
                                 <label for="qtd">Quantidade</label>
-                                <input type="text" value="<%=product.qtd?product.qtd:'0,00'%>" name="qtd" id="qtd"
+                                <input type="text" value="<%=product.qtd?product.qtd:'0,00'%>" name="qtd" id="qtd" onkeyup="formatReal(event)"
                                     class="form-control form-control-sm">
                             </div>
                             <div class="col">

@@ -1,4 +1,9 @@
 
+document.getElementById('qtd').addEventListener('keyup', event => {
+    let result = formatReal(event.target.value)
+    event.target.value = result;
+})
+
 function lerArquivo(event) {
     let inputFile = event.target
     let inputImagem = document.querySelector('#imagem')
@@ -65,6 +70,7 @@ function calculoValores() {
         let altura = document.getElementById('altura')
         let largura = document.getElementById('largura')
 
+
         largura.addEventListener('keyup', (event) => {
             let result = formatReal(event.target.value)
             event.target.value = result;
@@ -74,13 +80,13 @@ function calculoValores() {
             }))
         })
 
+
         altura.addEventListener('keyup', (event) => {
             let result = formatReal(event.target.value)
             event.target.value = result;
             vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
 
-                vlrTotalel.in
-                nerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR').toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
+                vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR').toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
             }))
         })
     }
