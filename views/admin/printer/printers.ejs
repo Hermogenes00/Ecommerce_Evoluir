@@ -41,7 +41,9 @@
                 <td><%=prt.modelo %></td>
                 <td><img src="<%= prt.imagem %> " width="50px" height="50px" alt=""></td>
                 <td>
-                    <a href="/admin/printers/printer/<%= prt.id %>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="/admin/printers/printer/<%= prt.id %>" class="btn btn-outline-primary  btn-sm">
+                        <i class="far fa-edit"></i>
+                    </a>
                     <form action="/admin/slide/delete"
                         onsubmit="confirmacao(event,this,'Deseja realmente excluir esta impressora?')" method="post">
                         <input type="hidden" name="id" id="id" value="<%=prt.id%>">                        
@@ -76,5 +78,5 @@
 
 
 
-
+<script src="/js/printers.js"></script>
 <%- include('../../partials/footer') %>
