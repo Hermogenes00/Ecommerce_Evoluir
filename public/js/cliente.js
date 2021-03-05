@@ -9,7 +9,8 @@ for (d in dados) {
     params[dados[d].name] = dados[d].value;
 }
 
-requisicaoPost('http://localhost:8090/client/save', params, response => {
+//take function CONSTANT from file js/constants
+requisicaoPost(`http://localhost:${CONSTANTS().PORT}/client/save`, params, response => {
     console.log(response);
 })
 

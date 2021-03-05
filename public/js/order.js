@@ -175,9 +175,9 @@ function filtrar(){
     let dateStart = document.getElementById('dateStart')
     let dateFinish = document.getElementById('dateFinish')
     let status = document.getElementById('selectStatus')
-    
+    //take function CONSTANTS from file js/constants.js
     if (status.value && dateStart.value && dateFinish.value) {
-        window.location.href = `http://localhost:8090/client/orders/${dateStart.value}/${dateFinish.value}/${status.value}`
+        window.location.href = `http://localhost:${CONSTANTS().PORT}/client/orders/${dateStart.value}/${dateFinish.value}/${status.value}`
     }
 
 

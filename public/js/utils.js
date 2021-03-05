@@ -3,10 +3,6 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
 
-function porta() {
-    return '8090';
-}
-
 function getMoney(str) {
     return parseInt(str.replace(/[\D]+/g, ''));
 }
