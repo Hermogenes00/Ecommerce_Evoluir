@@ -38,12 +38,13 @@
                 <td><%=slide.titulo %></td>
                 <td><%=slide.subTitulo %></td>
                 <td><img src="<%= slide.imagem %> " width="50px" height="50px" alt=""></td>
-                <td>
-                    <a href="/admin/slide/edit/<%= slide.id %>" class="btn btn-warning btn-sm">Editar</a>
-                    <form action="/admin/slide/delete"
-                        onsubmit="confirmacao(event,this,'Deseja realmente excluir este slide?')" method="post">
+                <td>                   
+                    <form  action="/admin/slide/delete" onsubmit="confirmacao(event,this,'Deseja realmente excluir este slide?')" method="post">
                         <input type="hidden" name="id" id="id" value="<%=slide.id%>">
-                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                        <a href="/admin/slide/edit/<%= slide.id %>" class="btn btn-outline-primary btn-sm"><i class="far fa-edit"></i></a>
+                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
                     </form>
                 </td>
             </tr>
@@ -53,19 +54,6 @@
     </table>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

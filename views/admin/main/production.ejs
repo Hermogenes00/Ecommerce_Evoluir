@@ -46,7 +46,8 @@
                                                         <span class="text-muted">Pedido nº <%= item.pedido.id%></span><br>
                                                         <span class="text-muted">Item-Pedido nº <%= item.id%></span><br>
                                                         <span class="text-center text-muted"><%= item.pedido.cliente.nome %></span><br>
-                                                        <span class="text-muted"><%= item.produto.nome %></span>
+                                                        <span class="text-muted"><%= item.produto.nome %></span><br>
+                                                        <span class="text-muted">Impressora <%= item.produto.impressora.modelo %>-<%= item.produto.impressora.marca %> </span>
 
 <br>
                                                         <select name="optionTrabalho" onchange="cancelarTrabaho(event)" data-idOrder="<%= item.pedido.id %>"
@@ -85,7 +86,8 @@
                                                         <span class="text-muted">Pedido nº <%= item.pedido.id%></span><br>
                                                         <span class="text-muted">Item-Pedido nº <%= item.id%></span><br>
                                                         <span class="text-center text-muted"><%= item.pedido.cliente.nome %></span><br>
-                                                        <span class="text-muted"><%= item.produto.nome %></span>
+                                                        <span class="text-muted"><%= item.produto.nome %></span><br>
+                                                        <span class="text-muted">Impressora <%= item.produto.impressora.modelo %>-<%= item.produto.impressora.marca %> </span>
 <br>
                                                         <select name="optionTrabalho" onchange="cancelarTrabaho(event)" data-idOrder="<%= item.pedido.id %>"
                                                             data-idItemOrder="<%= item.id %>" class="visible"
@@ -123,7 +125,8 @@
                                                         <span class="text-muted">Pedido nº <%= item.pedido.id%></span><br>
                                                         <span class="text-muted">Item-Pedido nº <%= item.id%></span><br>
                                                         <span class="text-center text-muted"><%= item.pedido.cliente.nome %></span><br>
-                                                        <span class="text-muted"><%= item.produto.nome %></span>
+                                                        <span class="text-muted"><%= item.produto.nome %></span><br>
+                                                        <span class="text-muted">Impressora <%= item.produto.impressora.modelo %>-<%= item.produto.impressora.marca %> </span>
 <br>
                                                         <select name="optionTrabalho" onchange="cancelarTrabaho(event)" data-idOrder="<%= item.pedido.id %>"
                                                             data-idItemOrder="<%= item.id %>" class="visible"
@@ -145,7 +148,7 @@
                                 </div>
 
                                 <div class="board">
-                                    <h3>Expedição</h3>
+                                <h3>Expedição</h3>
                                     <div class="dropzone" data-tabDropzone="4" data-status="EXPEDICAO">
                                         <% itens.forEach(item=>{%>
                                             <% if(item.status=='EXPEDICAO' ){%>
@@ -167,7 +170,8 @@
                                                         <span class="text-muted">Pedido nº <%= item.pedido.id%></span><br>
                                                         <span class="text-muted">Item-Pedido nº <%= item.id%></span><br>
                                                         <span class="text-center text-muted"><%= item.pedido.cliente.nome %></span><br>
-                                                        <span class="text-muted"><%= item.produto.nome %></span>
+                                                        <span class="text-muted"><%= item.produto.nome %></span><br>
+                                                        <span class="text-muted">Impressora <%= item.produto.impressora.modelo %>-<%= item.produto.impressora.marca %> </span>
                                                         <br>
                                                         <select name="optionTrabalho" onchange="cancelarTrabaho(event)" data-idOrder="<%= item.pedido.id %>"
                                                             data-idItemOrder="<%= item.id %>" class="invisible"

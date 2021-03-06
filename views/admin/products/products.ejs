@@ -73,7 +73,7 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col text-center">
-                                                        <a href="/admin/products/product/<%= product.id %>" data-toggle="tooltip" title="Editar" class="btn btn-outline-primary btn-sm mr-1">
+                                                        <a href="/admin/products/product/<%= product.id %>" data-toggle="tooltip" title="Editar" class="btn btn-outline-primary btn-sm">
                                                             <i class="fas fa-edit"></i></a>
         
                                                             <button data-toggle="tooltip" title="Enviar Gabarito"
@@ -82,7 +82,7 @@
                                                                         class="fas fa-upload"></i></button>
     
                                                                         <% if(product.gabarito){ %>
-                                                                            <a href="/gabarito/<%=product.gabarito%>" data-toggle="tooltip" title="Baixar Gabarito" class="btn btn-outline-primary mt-2 form-control form-control-sm">
+                                                                            <a href="/gabarito/<%=product.gabarito%>" data-toggle="tooltip" title="Baixar Gabarito" class="btn btn-outline-primary btn-sm ">
                                                                                 <i class="fas fa-arrow-down"></i>
                                                                             </a>
                                                                             <%} %>

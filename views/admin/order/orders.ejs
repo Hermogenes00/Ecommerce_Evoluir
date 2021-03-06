@@ -6,217 +6,203 @@
 
                 <div class="container mt-3">
 
-                    <% if(message.error.length>0){%>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>Erro</strong>
-                            <%=message.error%>.
+                    <input type="hidden" name="message" id="message" data-message="teste">
+
+                    <% if(message.success.length>0){%>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Parabéns</strong>
+                            <%=message.success%>.
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                         </div>
                         <%} %>
-                            <% if(message.success.length>0){%>
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>Parabéns</strong>
-                                    <%=message.success%>.
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                </div>
-                                <%} %>
 
-                                    <% orders.forEach(ord=>{%>
-                                        <%ord.itensPedidos.forEach(item=>{%>
-                                            <% if(item.status=='REFUGADO'||item.status=='ARQUIVO_VAZIO' ){%>
-                                                <div class="alert alert-danger alert-dismissible fade show"
-                                                    role="alert">
-                                                    Atenção item id: <%=item.id %>, status: <%= item.status %>, pedido id: <%=ord.id %>
-                                                </div>
+                            <% orders.forEach(ord=>{%>
+                                <%ord.itensPedidos.forEach(item=>{%>
+                                    <% if(item.status=='REFUGADO' ||item.status=='ARQUIVO_VAZIO' ){%>
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            Atenção item id: <%=item.id %>, status: <%= item.status %>, pedido id:
+                                                    <%=ord.id %>
+                                        </div>
 
-                                                <%} %>
-                                                    <%}) %>
-                                                        <%}) %>
+                                        <%} %>
+                                            <%}) %>
+                                                <%}) %>
 
-                                                            <div class="card">
-                                                                <div class="card-header"><span class="display-4">Meu(s)
-                                                                        Pedido(s)</span></div>
+                                                    <div class="card">
+                                                        <div class="card-header"><span class="display-4">Meu(s)
+                                                                Pedido(s)</span></div>
+                                                        <div class="card-body">
+
+                                                            <div class="card mb-3">
                                                                 <div class="card-body">
+                                                                    <div class="row mb-2">
+                                                                        <div class="col-sm-2">
+                                                                            <label for="dateStart">Data
+                                                                                Inicial</label>
+                                                                            <input type="date" name="dateStart"
+                                                                                class="form-control form-control-sm"
+                                                                                id="dateStart">
+                                                                        </div>
 
-                                                                    <div class="card mb-3">
-                                                                        <div class="card-body">
-                                                                            <div class="row mb-2">
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="dateStart">Data
-                                                                                        Inicial</label>
-                                                                                    <input type="date"
-                                                                                        name="dateStart"
-                                                                                        class="form-control form-control-sm"
-                                                                                        id="dateStart">
-                                                                                </div>
+                                                                        <div class="col-sm-2">
+                                                                            <label for="dateFinish">Data
+                                                                                Final</label>
+                                                                            <input type="date" name="dateFinish"
+                                                                                class="form-control form-control-sm"
+                                                                                id="dateFinish">
+                                                                        </div>
 
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="dateFinish">Data
-                                                                                        Final</label>
-                                                                                    <input type="date" name="dateFinish"
-                                                                                        class="form-control form-control-sm"
-                                                                                        id="dateFinish">
-                                                                                </div>
+                                                                        <div class="col">
+                                                                            <label for="status">Status</label>
+                                                                            <select onchange="filtrar()"
+                                                                                name="selectStatus"
+                                                                                class="form-control form-control-sm"
+                                                                                id="selectStatus">
+                                                                                <option value="" selected>Selecione uma
+                                                                                    opção para filtragem</option>
+                                                                                <option value="CONCLUÍDO">Concluído
+                                                                                </option>
+                                                                                <option value="EM_PRODUCAO">Produzindo
+                                                                                </option>
+                                                                                <option value="REFUGADO">Refugado
+                                                                                </option>
+                                                                            </select>
 
-                                                                                <div class="col">
-                                                                                    <label for="status">Status</label>
-                                                                                    <select onchange="filtrar()" name="selectStatus"
-                                                                                        class="form-control form-control-sm"
-                                                                                        id="selectStatus">
-                                                                                        <option value="" selected>Selecione uma opção para filtragem</option>
-                                                                                        <option value="CONCLUÍDO">Concluído
-                                                                                        </option>
-                                                                                        <option value="EM_PRODUCAO">Produzindo
-                                                                                        </option>
-                                                                                        <option value="REFUGADO">Refugado
-                                                                                        </option>
-                                                                                    </select>
-
-                                                                                </div>
-                                                                            </div>
                                                                         </div>
                                                                     </div>
-
-
-                                                                    <table
-                                                                        class="table table-hover table-sm table-borderless">
-                                                                        <thead class="shadow-sm">
-                                                                            <tr>
-                                                                                <th>Pedido</th>
-                                                                                <th>Cadastro</th>
-                                                                                <th>Status</th>
-                                                                                <th>Valor</th>
-                                                                                <th>Frete</th>
-                                                                                <th>Total</th>
-                                                                                <th>Ação</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <% orders.forEach(o=> {%> 
-                                                                                    <tr>
-
-                                                                                        <td>
-                                                                                            <% if(o.status !='CANCELADO'
-                                                                                                ){%>
-                                                                                                <a href="#">
-                                                                                                    <h6 data-id="<%= o.id %>"
-                                                                                                        class="text-center"
-                                                                                                        data-toggle="modal"
-                                                                                                        title="Ver detalhes"
-                                                                                                        data-target="#modalShowOrder"
-                                                                                                        onclick="showItems(event)">
-                                                                                                        <%= o.id %>
-                                                                                                    </h6>
-                                                                                                </a>
-                                                                                                <%}else{%>
-                                                                                                    <a href="#">
-                                                                                                        <h6 data-id="<%= o.id %>"
-                                                                                                            class="text-center">
-                                                                                                            <%= o.id %>
-                                                                                                        </h6>
-                                                                                                    </a>
-                                                                                                    <%} %>
-    
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <h6>
-                                                                                                <%= o.createdAt.toLocaleDateString('pt-br')
-                                                                                                    %>
-                                                                                            </h6>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <h6>
-                                                                                                <%= o.status %>
-                                                                                            </h6>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <h6>
-                                                                                                <%= parseFloat(o.total).toLocaleString('pt-br',{style:'currency',currency:'brl'})
-                                                                                                    %>
-                                                                                            </h6>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <h6>
-                                                                                                <%= parseFloat(o.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'})
-                                                                                                    %>
-                                                                                            </h6>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <h6>
-                                                                                                <%= parseFloat(o.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'})
-                                                                                                    %>
-                                                                                            </h6>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="row">
-                                                                                                <% if(o.status !='CANCELADO'
-                                                                                                    ){%>
-    
-                                                                                                    <% if(o.pagamento.status!='RECEBIDO'
-                                                                                                        ){%>
-    
-                                                                                                        <form
-                                                                                                            action="/order/payment/"
-                                                                                                            method="post">
-                                                                                                            <input
-                                                                                                                type="hidden"
-                                                                                                                name="idOrder"
-                                                                                                                id="idOrder"
-                                                                                                                value="<%= o.id %>">
-                                                                                                            <button
-                                                                                                                type="submit"
-                                                                                                                class="material-icons btn btn-sm btn-outline-primary mr-2"
-                                                                                                                data-toggle="tooltip"
-                                                                                                                title="Realizar Pagamento">credit_card</button>
-                                                                                                        </form>
-    
-                                                                                                        <form
-                                                                                                            onsubmit="cancelarPedido(event,'Deseja realmente cancelar este pedido?',this)"
-                                                                                                            action="/order/cancel"
-                                                                                                            method="post">
-                                                                                                            <input
-                                                                                                                type="hidden"
-                                                                                                                name="idOrder"
-                                                                                                                value="<%= o.id %>">
-                                                                                                            <button
-                                                                                                                type="submit"
-                                                                                                                class="material-icons btn btn-sm btn-outline-primary mr-2"
-                                                                                                                data-toggle="tooltip"
-                                                                                                                title="Cancelar Pedido">remove_circle_outline</button>
-                                                                                                        </form>
-
-                                                                                                            <button 
-                                                                                                            onclick="enviarArquivo(event,'/admin/payment/receipt/<%=o.id%>','.pdf')" class="btn btn-primary btn-sm">
-                                                                                                            Enviar Comprovante
-                                                                                                            </button>
-                                                                                                        <%} %>
-    
-                                                                                                            <%} %>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <%}) %> 
-                                                                                
-
-
-                                                                        </tbody>
-                                                                    </table>
                                                                 </div>
                                                             </div>
 
 
-                                                            <%- include('../../partials/pay/modalComprovante.ejs') %>
-                                                                <%- include('../../partials/order/modalShowOrder.ejs')
-                                                                    %>
+                                                            <table class="table table-hover table-sm table-borderless">
+                                                                <thead class="shadow-sm">
+                                                                    <tr>
+                                                                        <th>Pedido</th>
+                                                                        <th>Cadastro</th>
+                                                                        <th>Status</th>
+                                                                        <th>Valor</th>
+                                                                        <th>Frete</th>
+                                                                        <th>Total</th>
+                                                                        <th>Ação</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% orders.forEach(o=> {%>
+                                                                        <tr>
+
+                                                                            <td>
+                                                                                <% if(o.status !='CANCELADO' ){%>
+                                                                                    <a href="#">
+                                                                                        <h6 data-id="<%= o.id %>"
+                                                                                            class="text-center"
+                                                                                            data-toggle="modal"
+                                                                                            title="Ver detalhes"
+                                                                                            data-target="#modalShowOrder"
+                                                                                            onclick="showItems(event)">
+                                                                                            <%= o.id %>
+                                                                                        </h6>
+                                                                                    </a>
+                                                                                    <%}else{%>
+                                                                                        <a href="#">
+                                                                                            <h6 data-id="<%= o.id %>"
+                                                                                                class="text-center">
+                                                                                                <%= o.id %>
+                                                                                            </h6>
+                                                                                        </a>
+                                                                                        <%} %>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <h6>
+                                                                                    <%= o.createdAt.toLocaleDateString('pt-br')
+                                                                                        %>
+                                                                                </h6>
+                                                                            </td>
+                                                                            <td>
+                                                                                <h6>
+                                                                                    <%= o.status %>
+                                                                                </h6>
+                                                                            </td>
+                                                                            <td>
+                                                                                <h6>
+                                                                                    <%= parseFloat(o.total).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                                                        %>
+                                                                                </h6>
+                                                                            </td>
+                                                                            <td>
+                                                                                <h6>
+                                                                                    <%= parseFloat(o.valorFrete).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                                                        %>
+                                                                                </h6>
+                                                                            </td>
+                                                                            <td>
+                                                                                <h6>
+                                                                                    <%= parseFloat(o.valorFinal).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                                                        %>
+                                                                                </h6>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="row">
+                                                                                    <% if(o.status !='CANCELADO' ){%>
+
+                                                                                        <% if(o.pagamento.status!='RECEBIDO'
+                                                                                            ){%>
+
+                                                                                            <form
+                                                                                                action="/order/payment/"
+                                                                                                method="post">
+                                                                                                <input type="hidden"
+                                                                                                    name="idOrder"
+                                                                                                    id="idOrder"
+                                                                                                    value="<%= o.id %>">
+                                                                                                <button type="submit"
+                                                                                                    class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                                                                                    data-toggle="tooltip"
+                                                                                                    title="Realizar Pagamento">credit_card</button>
+                                                                                            </form>
+
+                                                                                            <form
+                                                                                                onsubmit="cancelarPedido(event,'Deseja realmente cancelar este pedido?',this)"
+                                                                                                action="/order/cancel"
+                                                                                                method="post">
+                                                                                                <input type="hidden"
+                                                                                                    name="idOrder"
+                                                                                                    value="<%= o.id %>">
+                                                                                                <button type="submit"
+                                                                                                    class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                                                                                    data-toggle="tooltip"
+                                                                                                    title="Cancelar Pedido">remove_circle_outline</button>
+                                                                                            </form>
+
+                                                                                            <button
+                                                                                                onclick="enviarArquivo(event,'/admin/payment/receipt/<%=o.id%>','.pdf')"
+                                                                                                class="btn btn-primary btn-sm">
+                                                                                                Enviar Comprovante
+                                                                                            </button>
+                                                                                            <%} %>
+
+                                                                                                <%} %>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <%}) %>
+
+
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <%- include('../../partials/pay/modalComprovante.ejs') %>
+                                                        <%- include('../../partials/order/modalShowOrder.ejs') %>
 
                 </div>
 
-                <%- include('../../partials/footer') %>
+                    <%- include('../../partials/footer') %>
 
-                    
                     <script src="/js/order.js"></script>
                     <script src="/js/payment.js"></script>

@@ -22,6 +22,7 @@ const itemsOrders = require('../models/itensOrder');
 const product = require('../models/product');
 const address = require('../models/address');
 const itensOrder = require('../models/itensOrder');
+const printers = require('../models/printer')
 
 
 
@@ -34,8 +35,8 @@ router.get('/main', collaboratorAuthentication, async (req, res) => {
         })
 
         let items = await itemsOrders.findAll()
-        
-        res.render('admin/main/main', { pedidos:ords,items})
+
+        res.render('admin/main/main', { pedidos: ords, items })
 
     } catch (error) {
         res.send(error)
@@ -64,9 +65,9 @@ router.get('/main/production', collaboratorAuthentication, async (req, res) => {
 
         let itens = await itensOrder.findAll({
             order: [['posicaoTab', 'asc']],
-            include: [{ model: product }, { model: orders, where: { status: { [sequelize.Op.ne]: 'CARRINHO' } }, include: clients }]
+            include: [{ model: product, include: printers }, { model: orders, where: { status: { [sequelize.Op.ne]: 'CARRINHO' } }, include: clients }]
         })
-
+        
         res.render('admin/main/production', { itens: itens })
     } catch (error) {
         console.log('Erro ao tentar carregas itens dos pedidos-->' + error);
