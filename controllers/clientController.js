@@ -38,7 +38,7 @@ const defaultAuthentication = require('../middleware/defaultAuthentication');
 
 //Validação
 let validate = require('../validations/clientValidation')
-
+let recoverAccount = require('../validations/recoverAccountValidate')
 
 //API DOS CORREIORS
 const Correios = require('node-correios')
@@ -287,7 +287,7 @@ router.post('/client/sendEmailByPassword', defaultAuthentication, async (req, re
             let hash = bcrypt.hashSync(objClient.cnpjCpf, salt)
 
             //Update codigoSegurança through cnpjCpf
-            await clients.update({ codigoSeguranca: hash.slice(5, 10) }, { where: { id: objClient.id } })
+            await clients.update({ codigoSeguranca: hash.slice(7, 12) }, { where: { id: objClient.id } })
 
 
             //Send email
@@ -306,8 +306,8 @@ router.post('/client/sendEmailByPassword', defaultAuthentication, async (req, re
                 to: email,
                 subject: 'Ecommerce Evoluir-Recuperação de conta',
                 html: `<h5">Este é o seu codigo de segurança para recuperação de sua conta. Não forneça esta informação a terceiros.</h5>
-                 <h1>${hash.slice(5, 10)}</h1>
-                <p><a href="http://localhost:${constant.PORTA}/client/newPassword/">Clique aqui para prosseguir com a recuperação da sua conta.</a></p>
+                 <h1>${hash.slice(7, 12)}</h1>
+                <p><a href="http://localhost:${constant.PORTA}/client/recoverAccount/">Clique aqui para prosseguir com a recuperação da sua conta.</a></p>
                  `
 
             }, (err, info) => {
@@ -323,12 +323,12 @@ router.post('/client/sendEmailByPassword', defaultAuthentication, async (req, re
 })
 
 
-router.get('/client/newPassword/', defaultAuthentication, (req, res) => {
-    res.render('admin/clients/restaurePassword')
+router.get('/client/recoverAccount/', defaultAuthentication, (req, res) => {
+    res.render('admin/clients/recoverAccount')
 })
 
 
-router.post('/client/newPassword/', defaultAuthentication, async (req, res) => {
+router.post('/client/recoverAccount/', defaultAuthentication, async (req, res) => {
 
     let data = req.body
     let info = null
@@ -339,15 +339,27 @@ router.post('/client/newPassword/', defaultAuthentication, async (req, res) => {
         let objClient = await clients.findOne({
             where: { codigoSeguranca: data.codSecurity }
         })
-        
+
         if (objClient.email) {
 
-            //Generate hash by cnpjCpf
-            let hash = bcrypt.hashSync( data.newPassword, salt)
+            let validResult = recoverAccount.validate({
+                newPassword: data.newPassword,
+                confirmPassword: data.confirmPassword
+            })
 
-            await clients.update({ password: hash }, { where: { codigoSeguranca: data.codSecurity } })
-            info = 'Senha atualizada com sucesso'
-            err = null
+            if (!validResult.error) {
+                //Generate hash by cnpjCpf
+                let hash = bcrypt.hashSync(data.newPassword, salt)
+
+                await clients.update({ password: hash }, { where: { codigoSeguranca: data.codSecurity } })
+                info = 'Senha atualizada com sucesso'
+                err = null
+            } else {
+                info = null
+                err = validResult.error.details[0].message
+            }
+
+
         }
     } catch (error) {
         console.log(error);
