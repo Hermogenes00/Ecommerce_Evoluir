@@ -59,6 +59,10 @@ const client = connection.define('clientes', {
     uf: {
         type: sequelize.STRING,
         allowNull: false
+    },
+    codigoSeguranca:{
+        type: sequelize.TEXT,
+        allowNull: true
     }
 })
 

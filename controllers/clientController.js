@@ -11,6 +11,10 @@ const address = require('../models/address')
 const payment = require('../models/payment')
 const products = require('../models/product')
 
+//Email
+const nodemailer = require('nodemailer')
+//constantes
+const constant = require('../utils/constants')
 
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
@@ -42,9 +46,6 @@ const Correios = require('node-correios')
 //MULTER Necessário para fazer upload
 const multer = require('multer')
 const path = require('path');
-const { date } = require('joi');
-
-
 
 //Configuração do Multer - Para realização de upload e download
 let enderecoImagem = undefined;
@@ -55,7 +56,7 @@ let storage = multer.diskStorage({
         cb(null, 'public/uploads')
     },
     filename: (req, file, cb) => {
-        enderecoImagem = file.originalname.replace(path.extname(file.originalname),'') + '-' + Date.now() + path.extname(file.originalname)
+        enderecoImagem = file.originalname.replace(path.extname(file.originalname), '') + '-' + Date.now() + path.extname(file.originalname)
         cb(null, enderecoImagem)
     }
 }
@@ -265,9 +266,96 @@ router.post('/client/save', defaultAuthentication, async (req, res) => {
 })
 
 router.get('/client/login', defaultAuthentication, (req, res) => {
-
     let msg = req.flash('erro')
     res.render('admin/clients/login', { msg: msg })
+})
+
+//Create a new password and send for client by mail.
+router.post('/client/sendEmailByPassword', defaultAuthentication, async (req, res) => {
+
+
+    let { email } = req.body
+
+
+    try {
+
+        let objClient = await clients.findOne({ where: { email: email } })
+
+        if (objClient.email) {
+
+            //Generate hash by cnpjCpf
+            let hash = bcrypt.hashSync(objClient.cnpjCpf, salt)
+
+            //Update codigoSegurança through cnpjCpf
+            await clients.update({ codigoSeguranca: hash.slice(5, 10) }, { where: { id: objClient.id } })
+
+
+            //Send email
+            let transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 587,
+                secure: false,
+                auth: {
+                    user: 'neto.programer@gmail.com',
+                    pass: 'alcapone*1756'
+                }
+            })
+
+            transporter.sendMail({
+                from: 'neto.programmer@gmail.com',
+                to: email,
+                subject: 'Ecommerce Evoluir-Recuperação de conta',
+                html: `<h5">Este é o seu codigo de segurança para recuperação de sua conta. Não forneça esta informação a terceiros.</h5>
+                 <h1>${hash.slice(5, 10)}</h1>
+                <p><a href="http://localhost:${constant.PORTA}/client/newPassword/">Clique aqui para prosseguir com a recuperação da sua conta.</a></p>
+                 `
+
+            }, (err, info) => {
+                res.json({ info, err })
+            })
+
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.json({ info: null, err: 'Ocorreu um erro ao tentar realizar o procedimento. ' })
+    }
+})
+
+
+router.get('/client/newPassword/', defaultAuthentication, (req, res) => {
+    res.render('admin/clients/restaurePassword')
+})
+
+
+router.post('/client/newPassword/', defaultAuthentication, async (req, res) => {
+
+    let data = req.body
+    let info = null
+    let err = null
+
+    try {
+
+        let objClient = await clients.findOne({
+            where: { codigoSeguranca: data.codSecurity }
+        })
+        
+        if (objClient.email) {
+
+            //Generate hash by cnpjCpf
+            let hash = bcrypt.hashSync( data.newPassword, salt)
+
+            await clients.update({ password: hash }, { where: { codigoSeguranca: data.codSecurity } })
+            info = 'Senha atualizada com sucesso'
+            err = null
+        }
+    } catch (error) {
+        console.log(error);
+        info = null
+        err = 'Erro ao tentar atualizar password'
+    }
+    res.json({ info, err })
+
 })
 
 

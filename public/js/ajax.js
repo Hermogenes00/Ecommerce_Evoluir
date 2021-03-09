@@ -17,10 +17,10 @@ function requisicao(endereco, callback) {
 }
 
 //Função desenvolvida para realizar consumo da api plugnotas
-function consumo(token,method,address, callback) {
-    
+function consumo(token, method, address, callback) {
+
     let xhttp = new XMLHttpRequest()
-    
+
     xhttp.open(method, address, false)
     xhttp.setRequestHeader('X-API-KEY', token)
 
@@ -49,7 +49,7 @@ async function enviarArquivo(event, action, ext) {
             'accept': ext,
             'aria-label': `Selecione o seu arquivo ${ext}`
         },
-        showConfirmButton:false
+        showConfirmButton: false
     })
 }
 
@@ -81,5 +81,13 @@ function buscarCep(cep, callback) {
     requisicao('/buscarCep/' + cep, (response) => {
         callback(response)
 
+    })
+}
+
+function showMessageAlert(title, message) {
+    Swal.fire({
+        title: `${title}`,
+        html: `${message}`,
+        showConfirmButton: true
     })
 }

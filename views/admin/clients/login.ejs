@@ -1,41 +1,44 @@
 <%-include('../../partials/header') %>
-<%-include('../../partials/navbarlogin') %>
-<%-include('../../partials/navbarlogo') %>
-<%-include('../../partials/navbarmenu') %>
+    <%-include('../../partials/navbarlogin') %>
+        <%-include('../../partials/navbarlogo') %>
+            <%-include('../../partials/navbarmenu') %>
 
+                <div class="container mt-4">
+                    <% if(msg.length>0){%>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>
+                                <%= msg %>
+                            </strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <% } %>
 
-
-
-<div class="container mt-4">
-    <% if(msg.length>0){%>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong><%= msg %> </strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <% } %>
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-header">Login</div>
-                <div class="card-body">
-                    <form action="/client/login" method="POST" class="form">
-                        <input type="email" required name="email" placeholder="email" class="form-control" id="">
-                        <input type="password" required name="password" placeholder="******" class="form-control mt-2"
-                            id="">
-                        <input type="submit" class="btn btn-success mt-3 form-control" value="Logar">
-                        <a href="/clients/client" class="btn btn-primary btn-sm form-control mt-2">Fazer cadastro</a>
-                        <a href="/collaborator/login" class="btn btn-outline-primary btn-sm form-control mt-2">Sou um
-                            colaborador</a>
-                    </form>
+                            <div class="row justify-content-md-center">                                
+                                    <div class="card card-sm">
+                                        <div class="card-header">Login</div>
+                                        <div class="card-body">
+                                            <form action="/client/login" method="POST" class="form">
+                                                <input type="email" required name="email" placeholder="email"
+                                                    class="form-control" id="email">
+                                                <input type="password" required name="password" placeholder="******"
+                                                    class="form-control mt-2" id="">
+                                                <input type="submit" class="btn btn-success mt-3 form-control"
+                                                    value="Logar">
+                                                <a href="/clients/client"
+                                                    class="btn btn-primary btn-sm form-control mt-2">Fazer cadastro</a>
+                                                <a href="/collaborator/login"
+                                                    class="btn btn-outline-primary btn-sm form-control mt-2">Sou um
+                                                    colaborador</a>
+                                                <a href="#" onclick="sendEmailByPassword(event)">Esqueci minha senha</a>
+                                            </form>
+                                        </div>
+                                    </div>
+                            </div>
                 </div>
-            </div>
-
-        </div>
-    </div>
-
-</div>
 
 
-<%- include('../../partials/footer') %>
+                <%- include('../../partials/footer') %>
+                <script src="/js/loginClient.js"></script>
+                    
