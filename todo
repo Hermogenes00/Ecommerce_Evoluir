@@ -33,3 +33,25 @@ UTILIZAÇÃO DE WEBSOCKETS PARA NOTIFICAR SEMPRE QUE UM CARD DE PRODUÇÃO TIVER
 IMPLEMENTAR BASE DE DESCONTO NO VALOR DO PRODUTO BASEADO NA QUANTIDADE (CAMPO A SER INCLUIDO NO CADASTRO DE PRODUTOS BASEADO EM PORCENTAGEM)
 CORRIGIR A ATUALIZAÇÃO DA NAVBAR MENU PARA EXIBIR O NOME DO USUÁRIO AO LOGAR NO SISTEMA.
 ---------
+
+PORCENTAGEM DESCONTO PRODUCT
+let quantidade = 500;
+let valorPadrao = 50;
+let propriedadeDivisao = 100;
+let contAuxiliar = 1
+let porcentagemDesc = 0.5
+let realPorcentagem = porcentagemDesc/100 * valorPadrao
+
+for(i=propriedadeDivisao;i<quantidade;i+=propriedadeDivisao){
+
+let vlrVenda = (contAuxiliar*valorPadrao)-(realPorcentagem*contAuxiliar);
+  
+  if(i>propriedadeDivisao){
+  
+		console.log('Quant: '+i+ ' Valor: '+vlrVenda.toLocaleString('pt-br',{style:'currency',currency:'BRL'}))
+	}else{
+		console.log('Quant: '+i+ ' Valor: '+valorPadrao.toLocaleString('pt-br',{style:'currency',currency:'BRL'}))
+	}
+  
+  contAuxiliar++;
+}
