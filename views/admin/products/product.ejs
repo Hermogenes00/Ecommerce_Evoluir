@@ -150,6 +150,14 @@
                                     value="<%= product.peso?product.peso.replace('.',','):'0,00' %>" name="peso"
                                     id="peso" class="form-control form-control-sm">
                             </div>
+                            <div class="col">
+                                <label for="qtd">Und</label>
+                                <select name="und" id="und" class="form-control form-control-sm">
+                                    <option <%=product.und=='und' ?'selected':'' %> value="und">Und</option>
+                                    <option <%=product.und=='metroQuadrado' ?'selected':''%> value="metroQuadrado">M²
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
@@ -165,12 +173,10 @@
                                     class="form-control form-control-sm">
                             </div>
                             <div class="col">
-                                <label for="qtd">Und</label>
-                                <select name="und" id="und" class="form-control form-control-sm">
-                                    <option <%=product.und=='und' ?'selected':'' %> value="und">Und</option>
-                                    <option <%=product.und=='metroQuadrado' ?'selected':''%> value="metroQuadrado">M²
-                                    </option>
-                                </select>
+                                <label for="desconto">Desconto(%)</label>
+                                <input type="text"  onkeyup="formatReal(event)"
+                                    value="<%= product.vlrProduto?product.vlrProduto.replace('.',','):'0,00' %>"
+                                    name="desconto" id="desconto" class="form-control form-control-sm">
                             </div>
                             <div class="col">
                                 <label for="qtd">Prev. Produção</label>
@@ -199,7 +205,7 @@
 
         <%- include('../../partials/footer') %>
             <script src="/js/printers.js"></script>
-            <script src="/js/product.js"></script>
+            <script src="/js/product.js"></script>            
             <script src="/js/categoria.js"></script>
             <script>
                 let selectImpressoras = document.querySelector('#impressoras')

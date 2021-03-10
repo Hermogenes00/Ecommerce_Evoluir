@@ -77,6 +77,10 @@ const product = connection.define('produtos', {
         type: sequelize.TEXT({ length: 'long' }),
         allowNull: true
     },
+    desconto:{
+        type: sequelize.DECIMAL(10, 2),
+        allowNull: false
+    },
     ativo:{
         type: sequelize.BOOLEAN,
         allowNull: false

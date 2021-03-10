@@ -1,25 +1,3 @@
-let inputs = document.querySelectorAll('input')
-
-for (item in inputs) {
-    switch (inputs[item].name) {
-        case 'vlrProduto':
-        case 'tamFinalAltura':
-        case 'tamFinalLargura':
-        case 'tamSangriaAltura':
-        case 'tamSangriaLargura':
-        case 'peso':
-        case 'gramatura':
-            inputs[item].addEventListener('input', (event) => {
-                if (event.target.value) {
-                    let valorFormatado = formatReal(event.target.value)
-                    event.target.value = valorFormatado
-                }
-
-            })
-            break;
-    }
-}
-
 let selectCategoria = document.getElementById('categoria')
 let selectSubCategoria = document.getElementById('subCategoria')
 

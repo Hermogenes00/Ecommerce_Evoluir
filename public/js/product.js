@@ -1,8 +1,11 @@
 
-document.getElementById('qtd').addEventListener('keyup', event => {
+/**
+ * document.getElementById('qtd').addEventListener('keyup', event => {
     let result = formatReal(event.target.value)
     event.target.value = result;
 })
+ */
+
 
 function lerArquivo(event) {
     let inputFile = event.target
@@ -37,6 +40,9 @@ function vlrTotalMetroQuadrado(largura, altura, callback) {
     if (floatLargura != undefined && !isNaN(floatLargura)) {
         if (floatAltura != undefined && !isNaN(floatAltura)) {
             result = (floatLargura * floatAltura) * parseFloat(vlrel.dataset.valortotal)
+            
+            console.log(`largura: ${floatLargura} * altura: ${floatAltura} = result ${result}`)
+
             callback(result)
         }
     }
@@ -57,7 +63,6 @@ function calculoValores() {
         //Formatando valor do item
 
         qtd[0].addEventListener('change', (event) => {
-
             let qtd = parseInt(event.target.value) / propriedadeDivisao;
             let total = (qtd * vlrel.dataset.valortotal)
             vlrTotalel.innerText = total.toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
@@ -70,25 +75,30 @@ function calculoValores() {
         let altura = document.getElementById('altura')
         let largura = document.getElementById('largura')
 
-
-        largura.addEventListener('keyup', (event) => {
-            let result = formatReal(event.target.value)
+        vlrTotalMetroQuadrado(largura.value, altura.value, result => {
+            vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
+        })
+        /**
+         * largura.addEventListener('onchange', (event) => {
+            let result = formatReal(event)            
             event.target.value = result;
             vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
-
                 vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
             }))
         })
+         */
+
+        /**
+         * altura.addEventListener('onchange', (event) => {
+           let result = formatReal(event)
+           event.target.value = result;
+           vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
+               vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR').toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
+           }))
+       })
+         */
 
 
-        altura.addEventListener('keyup', (event) => {
-            let result = formatReal(event.target.value)
-            event.target.value = result;
-            vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
-
-                vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR').toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
-            }))
-        })
     }
 
     let divDescricao = document.getElementById('descricao');
