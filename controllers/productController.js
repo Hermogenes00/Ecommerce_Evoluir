@@ -225,6 +225,7 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
         subcategoriaId: data.subCategoria,
         previsaoProducao: data.previsaoProducao,
         und: data.und,
+        desconto:data.desconto.replace('.', '').replace(',', '.'),
         imagem: data.imagem        
 
     })
@@ -279,6 +280,7 @@ router.post('/admin/products/save', collaboratorAuthentication, async (req, res)
         previsaoProducao: data.previsaoProducao,
         und: data.und,
         imagem: data.imagem,
+        desconto:data.desconto.replace('.', '').replace(',', '.'),
         ativo: data.ativo?true:false,
         impressoraId:data.impressoras
     }

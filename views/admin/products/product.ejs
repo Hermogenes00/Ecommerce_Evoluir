@@ -175,7 +175,7 @@
                             <div class="col">
                                 <label for="desconto">Desconto(%)</label>
                                 <input type="text"  onkeyup="formatReal(event)"
-                                    value="<%= product.vlrProduto?product.vlrProduto.replace('.',','):'0,00' %>"
+                                    value="<%= product.desconto?product.desconto.replace('.',','):'0,00' %>"
                                     name="desconto" id="desconto" class="form-control form-control-sm">
                             </div>
                             <div class="col">

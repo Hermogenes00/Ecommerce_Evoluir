@@ -17,6 +17,7 @@ let schema = joi.object({
     categoriaId: joi.number().min(1).empty().integer().min(1).message('Informe uma categoria para o produto (obs: valor mínimo = 1)').positive().required(),
     subcategoriaId: joi.number().min(1).integer().min(1).message('Informe uma SubCategoria para o produto').positive().required(),
     und: joi.string().required(),
+    desconto: joi.number().precision(2).min(0.1).message('Informe um valor válido para o campo Valor Produto (obs: valor mínimo = 0,1)').required(),
     material: joi.string().min(5).message('Campo material deve conter no mínimo 5 caracteres').required(),
 
 })
