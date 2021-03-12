@@ -1,7 +1,7 @@
 <%-include('../../partials/header') %>
-<%-include('../../partials/navbarlogin') %>
-<%-include('../../partials/navbarlogo') %>
-<%-include('../../partials/navbarmenu') %>
+    <%-include('../../partials/navbarlogin') %>
+        <%-include('../../partials/navbarlogo') %>
+            <%-include('../../partials/navbarmenu') %>
 
 
 
@@ -13,12 +13,12 @@
                     <hr>
 
                     <div class="row justify-content-start">
-                        <div class="col-md-7">                            
+                        <div class="col-md-7">
                             <img src="<%=product.imagem%>" alt="">
                             <br>
                             <% if(product.gabarito){ %>
-                                <a href="/gabarito/<%=product.gabarito%>"
-                                    class="btn btn-primary btn-sm mt-2">Baixar Gabarito</a>
+                                <a href="/gabarito/<%=product.gabarito%>" class="btn btn-primary btn-sm mt-2">Baixar
+                                    Gabarito</a>
                                 <%} %>
 
                         </div>
@@ -37,10 +37,10 @@
                                                     <label for="qtd">Quantidade</label>
                                                     <select name="qtd"
                                                         data-propriedadeDivisao="<%=product.propriedadeDivisao%>"
-                                                        class="form-control form-control-sm" id="qtd">
-                                                        <% for(let i=product.propriedadeDivisao; i<=product.qtd;
-                                                            i+=product.propriedadeDivisao){%>
-                                                            <option value="<%= i %> ">
+                                                        class="form-control form-control-sm" id="qtd">                                                    
+                                                        <% for(let i=product.propriedadeDivisao,contadorAuxiliar =0 ; i<=product.qtd;
+                                                            i+=product.propriedadeDivisao,contadorAuxiliar++){%>
+                                                            <option data-contadorAuxiliar="<%=contadorAuxiliar%>" value="<%= i %> ">
                                                                 <%= i %>.Und
                                                             </option>
                                                             <%} %>
@@ -50,12 +50,15 @@
                                                     <div class="col">
                                                         <input type="hidden" name="productId" value="<%= product.id %>">
                                                         <label for="alturar">Altura</label>
-                                                        <input type="text" required onkeyup="formatReal(event)" onchange="calculoValores(event)"
+                                                        <input type="text" required onkeyup="formatReal(event)"
+                                                            onchange="calculoValores(event)"
                                                             class="form-control form-control-sm" name="altura"
                                                             id="altura">
                                                         <label for="largura">Largura</label>
-                                                        <input type="text" required onchange="calculoValores(event)" onkeyup="formatReal(event)" class="form-control form-control-sm"
-                                                            name="largura" id="largura">
+                                                        <input type="text" required onchange="calculoValores(event)"
+                                                            onkeyup="formatReal(event)"
+                                                            class="form-control form-control-sm" name="largura"
+                                                            id="largura">
                                                     </div>
                                                     <% } %>
 
@@ -68,7 +71,8 @@
                                                 </div>
                                                 <div class="col">
                                                     <h5 id="vlrel" data-valorTotal="<%=product.vlrProduto%>">
-                                                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
+                                                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                            %>
                                                     </h5>
                                                 </div>
                                             </div>
@@ -78,18 +82,21 @@
                                                 </div>
                                                 <div class="col">
                                                     <h5 id="vlrTotal">
-                                                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
+                                                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                            %>
                                                     </h5>
+                                                    <input type="hidden" name="descUnit" id="descUnit"
+                                                        value="<%=product.desconto%>">
                                                 </div>
                                             </div>
                                             <%}%>
                                                 <% if(user.nome !='Visitante' ){%>
-                                                   
-                                                        <input type="submit" class="btn btn-danger form-control mt-3"
+
+                                                    <input type="submit" class="btn btn-danger form-control mt-3"
                                                         data-toggle="tooltip" data-placement="top"
                                                         title="Adicionar ao carrinho" value="Comprar">
-                                                   
-                                                    
+
+
                                                     <% }else{%>
                                                         <a href="/client/login" class="text-center">
                                                             <h5>Faça login ou cadastre-se</h5>
@@ -105,41 +112,42 @@
 
 
                     <hr>
-                <div class="row mt-2">
-                    <div class="col">
-                        <h3>Sobre o produto</h3>
-                        <div class="" data-descricao="<%= product.descricao %>" id="descricao"></div>
-                    </div>
-                </div>
-
-                <div class="row">
-
-                    <div class="col">
-                        <h5>Descrição Técnica</h5>
-                        <p style="margin-bottom: 0%;">Ref: <%= product.codRef %>
-                        </p>
-                        <p style="margin-bottom: 0%;">Tamanho Final:
-                            <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x
-                                <%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
-                        </p>
-                        <p style="margin-bottom: 0%;">Tamanho c/Sangria:
-                            <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x
-                                <%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
-                        </p>
-                        <p style="margin-bottom: 0%;">Material: <%= product.material %>
-                        </p>
-                        <p style="margin-bottom: 0%;">Gramatura: <%= product.gramatura %>
-                        </p>
-                        <p style="margin-bottom: 0%;">Peso: <%= product.peso %>
-                        </p>
-                        <p style="margin-bottom: 0%;">Produção: <%= product.previsaoProducao %> dias úteis </p>
-                        <p style="margin-bottom: 0%;">Und: <%= product.und=='metroQuadrado' ?'Metro Quadrado':'Und' %>
-                        </p>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <h3>Sobre o produto</h3>
+                            <div class="" data-descricao="<%= product.descricao %>" id="descricao"></div>
+                        </div>
                     </div>
 
-                </div>
+                    <div class="row">
+
+                        <div class="col">
+                            <h5>Descrição Técnica</h5>
+                            <p style="margin-bottom: 0%;">Ref: <%= product.codRef %>
+                            </p>
+                            <p style="margin-bottom: 0%;">Tamanho Final:
+                                <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x
+                                    <%=parseFloat(product.tamFinalLargura).toLocaleString('pt-br') %>
+                            </p>
+                            <p style="margin-bottom: 0%;">Tamanho c/Sangria:
+                                <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x
+                                    <%=parseFloat(product.tamSangriaLargura).toLocaleString('pt-br') %>
+                            </p>
+                            <p style="margin-bottom: 0%;">Material: <%= product.material %>
+                            </p>
+                            <p style="margin-bottom: 0%;">Gramatura: <%= product.gramatura %>
+                            </p>
+                            <p style="margin-bottom: 0%;">Peso: <%= product.peso %>
+                            </p>
+                            <p style="margin-bottom: 0%;">Produção: <%= product.previsaoProducao %> dias úteis </p>
+                            <p style="margin-bottom: 0%;">Und: <%= product.und=='metroQuadrado' ?'Metro Quadrado':'Und'
+                                    %>
+                            </p>
+                        </div>
+
+                    </div>
                 </div>
 
                 <script src="/js/product.js"></script>
-                
+
                 <%- include('../../partials/footer') %>

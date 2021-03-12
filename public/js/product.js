@@ -1,11 +1,33 @@
+window.onload = event => {
 
-/**
- * document.getElementById('qtd').addEventListener('keyup', event => {
-    let result = formatReal(event.target.value)
-    event.target.value = result;
-})
- */
+    let qtdEl = document.getElementsByName('qtd')
+    let desconto = document.getElementById('descUnit')
 
+    if (qtdEl.length > 0) {
+
+        qtdEl[0].addEventListener('change', (event) => {
+
+            let propriedadeDivisao = parseFloat(qtdEl[0].dataset.propriedadedivisao);
+
+            let vlrTotalel = document.getElementById('vlrTotal');
+            let vlrRel = document.getElementById('vlrel')
+
+            let descUnitario = vlrRel.dataset.valortotal * (desconto.value / 100)
+
+            let qtd = parseInt(event.target.value) / propriedadeDivisao;
+
+            let contadorAuxiliar = event.target.selectedOptions[0].dataset.contadorauxiliar
+            let total = 0;
+            
+            total = (qtd * vlrel.dataset.valortotal) - (qtd * (descUnitario * contadorAuxiliar))
+
+            console.log(contadorAuxiliar)
+            vlrTotalel.innerText = total.toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
+            vlrel.toLocaleString('pt-br')
+        })
+    }
+
+}
 
 function lerArquivo(event) {
     let inputFile = event.target
@@ -40,9 +62,6 @@ function vlrTotalMetroQuadrado(largura, altura, callback) {
     if (floatLargura != undefined && !isNaN(floatLargura)) {
         if (floatAltura != undefined && !isNaN(floatAltura)) {
             result = (floatLargura * floatAltura) * parseFloat(vlrel.dataset.valortotal)
-            
-            console.log(`largura: ${floatLargura} * altura: ${floatAltura} = result ${result}`)
-
             callback(result)
         }
     }
@@ -50,56 +69,15 @@ function vlrTotalMetroQuadrado(largura, altura, callback) {
 }
 
 function calculoValores() {
-    let vlrel = document.getElementById('vlrel');
+
     let vlrTotalel = document.getElementById('vlrTotal');
-    let formaMedicao = document.getElementById('formaMedicao')
 
-    if (formaMedicao != null && formaMedicao.dataset.und == 'und') {
+    let altura = document.getElementById('altura')
+    let largura = document.getElementById('largura')
 
-        let qtd = document.getElementsByName('qtd')
-
-        let propriedadeDivisao = parseFloat(qtd[0].dataset.propriedadedivisao);
-        //console.log(qtd[0].dataset.propriedadedivisao);
-        //Formatando valor do item
-
-        qtd[0].addEventListener('change', (event) => {
-            let qtd = parseInt(event.target.value) / propriedadeDivisao;
-            let total = (qtd * vlrel.dataset.valortotal)
-            vlrTotalel.innerText = total.toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
-            vlrel.toLocaleString('pt-br')
-
-
-        })
-    } else {
-
-        let altura = document.getElementById('altura')
-        let largura = document.getElementById('largura')
-
-        vlrTotalMetroQuadrado(largura.value, altura.value, result => {
-            vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
-        })
-        /**
-         * largura.addEventListener('onchange', (event) => {
-            let result = formatReal(event)            
-            event.target.value = result;
-            vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
-                vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
-            }))
-        })
-         */
-
-        /**
-         * altura.addEventListener('onchange', (event) => {
-           let result = formatReal(event)
-           event.target.value = result;
-           vlrTotalMetroQuadrado(largura.value, altura.value, (result => {
-               vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-BR').toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
-           }))
-       })
-         */
-
-
-    }
+    vlrTotalMetroQuadrado(largura.value, altura.value, result => {
+        vlrTotalel.innerHTML = isNaN(result) ? '0,00' : parseFloat(result).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
+    })
 
     let divDescricao = document.getElementById('descricao');
     let texto = divDescricao.dataset.descricao

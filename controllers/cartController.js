@@ -103,7 +103,7 @@ router.get('/admin/cart/itensCart/:idOrder', clientAuthentication, async (req, r
         //await orders.findOne({ where: { id: order.id }, include: itensOrder })
 
 
-        let itensCart = await itensOrder.findAll({ where: { pedidoId: idOrder }, include: [{ model: product }, { model: orders, include: [{ model:payment },{model:address},{model:deliveryRegion}] }] })
+        let itensCart = await itensOrder.findAll({ where: { pedidoId: idOrder }, include: [{ model: product }, { model: orders, include: [{ model: payment }, { model: address }, { model: deliveryRegion }] }] })
 
         res.json(itensCart)
 
@@ -132,6 +132,7 @@ router.get('/admin/cart', clientAuthentication, async (req, res) => {
 })
 
 router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
+
 
     let data = req.body;
     let order = undefined;
@@ -175,6 +176,8 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
             }
 
         } else {
+            if (data.altura < 1 || data.largura < 1)
+                return res.redirect('/admin/products/detail/' + prod.slug)
             let metroTotal = parseFloat(data.altura.replace('.', '').replace(',', '.')) * parseFloat(data.largura.replace('.', '').replace(',', '.'))
             let vlrFinal = metroTotal * prod.vlrProduto
             qtdReal = 1;
