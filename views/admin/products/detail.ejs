@@ -37,7 +37,7 @@
                                                     <label for="qtd">Quantidade</label>
                                                     <select name="qtd"
                                                         data-propriedadeDivisao="<%=product.propriedadeDivisao%>"
-                                                        class="form-control form-control-sm" id="qtd">                                                    
+                                                        class="form-control form-control-sm selectQtd" id="qtd">                                                    
                                                         <% for(let i=product.propriedadeDivisao,contadorAuxiliar =0 ; i<=product.qtd;
                                                             i+=product.propriedadeDivisao,contadorAuxiliar++){%>
                                                             <option data-contadorAuxiliar="<%=contadorAuxiliar%>" value="<%= i %> ">

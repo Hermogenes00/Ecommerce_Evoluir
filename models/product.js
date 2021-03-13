@@ -50,7 +50,7 @@ const product = connection.define('produtos', {
         allowNull: false
     },
     qtd: {
-        type: sequelize.BIGINT,
+        type: sequelize.BIGINT(),
         allowNull: false
     },
     propriedadeDivisao: {

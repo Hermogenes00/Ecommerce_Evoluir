@@ -10,8 +10,7 @@ for (item in inputs) {
         case 'tamSangriaLargura':
         case 'peso':
         case 'gramatura':
-        case 'desconto':
-        case 'qtd':
+        case 'desconto':        
         case 'altura':
         case 'largura':
             inputs[item].addEventListener('keyup', (event) => {

@@ -1,27 +1,34 @@
 window.onload = event => {
 
     let qtdEl = document.getElementsByName('qtd')
-    let desconto = document.getElementById('descUnit')
+    let vlrTotalel = document.getElementById('vlrTotal');
+    let selectQtd = document.querySelector('.selectQtd')
+    let vlrRel = document.getElementById('vlrel')
+    vlrTotalel.innerText = (selectQtd.value * vlrel.dataset.valortotal).toLocaleString('pt-br', { currency: 'brl', style: 'currency' })
+
 
     if (qtdEl.length > 0) {
 
         qtdEl[0].addEventListener('change', (event) => {
 
+            let descontoPorcentagem = document.getElementById('descUnit')
             let propriedadeDivisao = parseFloat(qtdEl[0].dataset.propriedadedivisao);
 
-            let vlrTotalel = document.getElementById('vlrTotal');
-            let vlrRel = document.getElementById('vlrel')
+            let qtd = parseInt(event.target.value);
 
-            let descUnitario = vlrRel.dataset.valortotal * (desconto.value / 100)
-
-            let qtd = parseInt(event.target.value) / propriedadeDivisao;
-
-            let contadorAuxiliar = event.target.selectedOptions[0].dataset.contadorauxiliar
-            let total = 0;
+            let valorSemDesconto = qtd * vlrel.dataset.valortotal
+            let descontoReal = 0
             
-            total = (qtd * vlrel.dataset.valortotal) - (qtd * (descUnitario * contadorAuxiliar))
+            let contadorAuxiliar = event.target.selectedOptions[0].dataset.contadorauxiliar
 
+            descontoReal = valorSemDesconto * (descontoPorcentagem.value / 100)
+            let total = 0;
+
+            total = valorSemDesconto
             console.log(contadorAuxiliar)
+            if (contadorAuxiliar > 0)
+                total = valorSemDesconto - descontoReal
+
             vlrTotalel.innerText = total.toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
             vlrel.toLocaleString('pt-br')
         })
