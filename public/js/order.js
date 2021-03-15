@@ -9,18 +9,13 @@ function showItems(event) {
     //Tabela do modal
     let tbItensOrder = document.getElementById('tbItensOrder')
 
-    requisicao(`/admin/cart/itensCart/` + event.target.dataset.id, (data => {
-
-        let dados = JSON.parse(data)
-
-        console.dir(dados)
-
+    axios.get(`/admin/cart/itensCart/` + event.target.dataset.id).then(response => {
         tbItensOrder.innerHTML = ''
+        let dados = response.data
         dados.forEach(item => {
 
             //Info about the order
             let date = new Date(item.pedido.createdOrder)
-
 
 
             document.getElementById('emissao').innerHTML = `<h6>Emissão: <small class="text-muted"> ${date.toLocaleDateString()}</small> </h6>`
@@ -52,53 +47,50 @@ function showItems(event) {
                 let datePrevisaoEntrega15Day = new Date(item.pedido.createdOrder)
                 datePrevisaoEntrega15Day.setDate(date.getDate() + 15)
                 document.getElementById('previsaoEntrega').innerHTML = `<h6>Previsão de Entrega: <small class="text-muted"> ${datePrevisaoEntrega15Day.toLocaleDateString()}</small> </h6>`
-                document.getElementById('localEntrega').innerHTML = `<h6>Endereço de Entrega:  <small class="text-muted">${item.pedido.regiaoEntrega.rua}, ${item.pedido.regiaoEntrega.numero},${item.pedido.regiaoEntrega.bairro}, ${item.pedido.regiaoEntrega.cep},${item.pedido.regiaoEntrega.cidade}/${item.pedido.regiaoEntrega.uf}</small></h6>`
+                //document.getElementById('localEntrega').innerHTML = `<h6>Endereço de Entrega:  <small class="text-muted">${item.pedido.regiaoEntrega.rua}, ${item.pedido.regiaoEntrega.numero},${item.pedido.regiaoEntrega.bairro}, ${item.pedido.regiaoEntrega.cep},${item.pedido.regiaoEntrega.cidade}/${item.pedido.regiaoEntrega.uf}</small></h6>`
             }
 
 
 
             let linkBaixarArquivo = item.arquivo ? `    
-            <a href="/uploads/${item.arquivo}">Baixar Arquivo</a>
-            `: ''
+                <a href="/uploads/${item.arquivo}">Baixar Arquivo</a>
+                `: ''
 
             tbItensOrder.innerHTML += `
-                                <tr>
-                                    <td>${item.id}</td>
-                                    <td>${item.produto.nome}</td>
-                                    <td>${item.status ? item.status : '---'}</td>
-                                    <td>${parseFloat(item.valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })}</td>
-                               
-                               
-                                    <td>${item.qtd}</td>
-                                                                   
-                                    <td>${item.altura ? item.altura : '---'}</td>
-                                    <td>${item.largura ? item.largura : '---'}</td>
-                               
-                                    <td>${item.produto.codRef}</td>
-                               
-                                    <td>${linkBaixarArquivo}</td>
-
-                                </tr>
-                                ${item.status == 'REFUGADO' || item.status == 'ARQUIVO_VAZIO' ? `
-                                <tr><td colspan="9"> 
-                                
-                                <div class="row">
-
-                                <div class="col"><input type="file" class="form-control form-control-sm" id="arquivo"  name="arquivo" placeholder="Envie o seu arquivo corrigido"></div>
-                                <div class ="col"><button onClick="enviarArquivo(event)" data-idItem="${item.id}" class="btn btn-primary btn-sm">Enviar Arquivo para análise</button></div>
-                                <div class ="col invisible" id="progressFile"></div>
-                                </div>
-                                </td></tr>`
+                                    <tr>
+                                        <td>${item.id}</td>
+                                        <td>${item.produto.nome}</td>
+                                        <td>${item.status ? item.status : '---'}</td>
+                                        <td>${parseFloat(item.valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })}</td>
+                                   
+                                   
+                                        <td>${item.qtd}</td>
+                                                                       
+                                        <td>${item.altura ? item.altura : '---'}</td>
+                                        <td>${item.largura ? item.largura : '---'}</td>
+                                   
+                                        <td>${item.produto.codRef}</td>
+                                   
+                                        <td>${linkBaixarArquivo}</td>
+    
+                                    </tr>
+                                    ${item.status == 'REFUGADO' || item.status == 'ARQUIVO_VAZIO' ? `
+                                    <tr><td colspan="9"> 
+                                    
+                                    <div class="row">
+    
+                                    <div class="col"><input type="file" class="form-control form-control-sm" id="arquivo"  name="arquivo" placeholder="Envie o seu arquivo corrigido"></div>
+                                    <div class ="col"><button onClick="enviarArquivo(event)" data-idItem="${item.id}" class="btn btn-primary btn-sm">Enviar Arquivo para análise</button></div>
+                                    <div class ="col invisible" id="progressFile"></div>
+                                    </div>
+                                    </td></tr>`
                     : ''}
-            `
+                `
 
-        });
+        })
+    }).catch(err => {
 
-
-
-    }
-    )
-    )
+    })
 
     requisicao('/payment/byOrder/' + event.target.dataset.id, (response => {
         let dados = JSON.parse(response)
@@ -170,7 +162,7 @@ function buscarCep() {
 }
 
 
-function filtrar(){
+function filtrar() {
 
     let dateStart = document.getElementById('dateStart')
     let dateFinish = document.getElementById('dateFinish')

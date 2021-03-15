@@ -8,11 +8,10 @@
                         <%= institucional.titulo %>
                             <a href="/admin/institucional/<%= institucional.id %> " data-toggle="tooltip"
                                 title="Editar postagem">
-                                <i class="fas fa-pencil-alt"></i>
+                                <i class="fa fa-edit"></i>
                             </a>
                             <a href="/admin/institucionals/" onclick="excluir(event)">
-                                <i class="far fa-trash-alt">
-                                </i>
+                                <i class="fa fa-trash"></i>
                             </a>                            
                     </h4>
                     <span class="text-muted">Criado em <%= institucional.createdAt.toLocaleDateString('pt-br')%></span>
@@ -22,7 +21,7 @@
             </div>
 
             <div class="row">
-                <div class="col" id="conteudo" data-conteudo="<%= institucional.conteudo %> ">
+                <div class="col" id="conteudo" data-conteudo="<%= institucional.conteudo %> ">                    
                 </div>
             </div>
 
@@ -31,11 +30,14 @@
 
 
         <script>
-            window.onload = function (event) {
+            
                 let domParser = new DOMParser()
-                let parserString = domParser.parseFromString(document.getElementById('conteudo').dataset.conteudo, 'text/html')
-                document.getElementById('conteudo').innerHTML = parserString.body.innerHTML                
-            }
+                let parserString = domParser.parseFromString(document.getElementById('conteudo').dataset.conteudo, 'text/html')                
+                
+                
+                console.log(parserString.body.innerHTML)
+                document.getElementById('conteudo').innerHTML = parserString.body.innerHTML  
+            
 
             function excluir(event) {
                 event.preventDefault()
@@ -47,7 +49,6 @@
                     })
                 }
             }
-
 
         </script>
 

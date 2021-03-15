@@ -136,7 +136,7 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
 
 
     let data = req.body;
-    //res.json(data)
+
     let order = undefined;
     let qtdReal = undefined;
     let objItem = {}
@@ -168,7 +168,8 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
         if (prod.und == 'und') {
 
             vlr = parseFloat(data.qtd * prod.vlrProduto);
-            let desconto = parseFloat(data.desconto)
+            let desconto = parseFloat(data.descUnit)
+
             if (parseInt(data.contadorAuxiliar) > 0)
                 vlr = vlr - (vlr * (desconto / 100))
 
@@ -178,7 +179,7 @@ router.post('/admin/cart/add', clientAuthentication, async (req, res) => {
                 pedidoId: order.id,
                 produtoId: data.productId
             }
-        
+
         } else {
             if (data.altura < 1 || data.largura < 1)
                 return res.redirect('/admin/products/detail/' + prod.slug)

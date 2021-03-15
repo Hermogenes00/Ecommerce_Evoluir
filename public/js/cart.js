@@ -47,7 +47,7 @@ requisicao(`/admin/cart/itensCart/` + document.getElementById('idOrder').value, 
             ${item.produto.nome}
             ${tamanho}
         </div>
-        <div class="col-md-1">${item.qtd} und</div>
+        <div class="col-md-1">${parseFloat(item.qtd).toLocaleString('pt-br')} und</div>
         <div class="col-md-2">${item.produto.previsaoProducao} Dias úteis.</div>
         <div class="col-md-1">${parseFloat(item.valor).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })}</div>
         <div class="col-md-2 text-center">
