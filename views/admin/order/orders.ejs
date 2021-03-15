@@ -158,9 +158,9 @@
                                                                                                     id="idOrder"
                                                                                                     value="<%= o.id %>">
                                                                                                 <button type="submit"
-                                                                                                    class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                                                                                    class="btn btn-sm btn-outline-primary mr-2"
                                                                                                     data-toggle="tooltip"
-                                                                                                    title="Realizar Pagamento">credit_card</button>
+                                                                                                    title="Realizar Pagamento"><i class="fa fa-credit-card"></i></button>
                                                                                             </form>
 
                                                                                             <form
@@ -171,15 +171,15 @@
                                                                                                     name="idOrder"
                                                                                                     value="<%= o.id %>">
                                                                                                 <button type="submit"
-                                                                                                    class="material-icons btn btn-sm btn-outline-primary mr-2"
+                                                                                                    class="btn btn-sm btn-outline-danger mr-2"
                                                                                                     data-toggle="tooltip"
-                                                                                                    title="Cancelar Pedido">remove_circle_outline</button>
+                                                                                                    title="Cancelar Pedido"><i class="fa fa-window-close"></i></button>
                                                                                             </form>
 
-                                                                                            <button
+                                                                                            <button data-toggle="tooltip" title="Enviar comprovante de pagamento"
                                                                                                 onclick="enviarArquivo(event,'/admin/payment/receipt/<%=o.id%>','.pdf')"
-                                                                                                class="btn btn-primary btn-sm">
-                                                                                                Enviar Comprovante
+                                                                                                class="btn btn-outline-primary btn-sm">                                                                                                                                                                                                
+                                                                                                <i class="fa fa-sticky-note"></i>
                                                                                             </button>
                                                                                             <%} %>
 

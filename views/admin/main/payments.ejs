@@ -51,7 +51,7 @@
                                 <th>Status</th>
                                 <th>Informe</th>
                                 <th>Valor</th>
-                                <th class="text-center">Ação</th>
+                                <th class="text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,17 +99,8 @@
                                         </h6>
                                     </td>
                                     <td>
-                                        <div class="text-center">
-                                            <a href="" title="Ver Pedido" data-target="#exampleModal"><i
-                                                    class="material-icons" data-toggle="tooltip" data-placement="top"
-                                                    title="Comprados">monetization_on</i></a>
-                                            <a href="" data-toggle="modal" onclick="verCarrinho(event)"
-                                                data-target="#exampleModal" data-whatever="@getbootstrap"><i
-                                                    class="material-icons" data-clientId="" data-toggle="tooltip"
-                                                    data-placement="top" title="Ver Carrinho">add_shopping_cart</i></a>
-                                            <a href="" title="Ver Pedido"><i class="material-icons"
-                                                    data-toggle="tooltip" data-placement="top"
-                                                    title="Análise">analytics</i></a>
+                                        <div class="text-center">                                                                                
+                                            <a href="" title="Ver Pedido" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" title="Ver pedido"><i class="fa fa-eye"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -184,6 +175,7 @@
         </div>
 
         <%- include('../../partials/main/order/modalVerComprovante.ejs') %>
+
             <script src="/js/modalVerComprovante.js"></script>
             <script src="/js/payments.js"></script>
 
