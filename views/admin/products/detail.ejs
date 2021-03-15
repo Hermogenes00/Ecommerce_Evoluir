@@ -45,6 +45,7 @@
                                                             </option>
                                                             <%} %>
                                                     </select>
+                                                    <input type="hidden" name="contadorAuxiliar" id="contadorAuxiliar">
                                                 </div>
                                                 <% }else{%>
                                                     <div class="col">
@@ -71,7 +72,7 @@
                                                 </div>
                                                 <div class="col">
                                                     <h5 id="vlrel" data-valorTotal="<%=product.vlrProduto%>">
-                                                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br', { style: 'currency', currency: 'brl', minimumFractionDigits: 2})
                                                             %>
                                                     </h5>
                                                 </div>
@@ -82,7 +83,7 @@
                                                 </div>
                                                 <div class="col">
                                                     <h5 id="vlrTotal">
-                                                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                                                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br', { style: 'currency', currency: 'brl', minimumFractionDigits: 2})
                                                             %>
                                                     </h5>
                                                     <input type="hidden" name="descUnit" id="descUnit"
@@ -148,6 +149,9 @@
                     </div>
                 </div>
 
-                <script src="/js/product.js"></script>
+                
 
-                <%- include('../../partials/footer') %>
+<%- include('../../partials/footer') %>
+<script src="/js/productDetail.js"></script>
+                <script src="/js/printers.js"></script>
+                <script src="/js/product.js"></script>

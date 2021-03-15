@@ -1,25 +1,26 @@
+window.onload = event => {
+    
+    $('.money').mask('000.000.000.000.000,000', { reverse: true })
 
-//Add eventListener Keyup in the selected inputs
-let inputs = document.querySelectorAll('input')
-for (item in inputs) {
-    switch (inputs[item].name) {
-        case 'vlrProduto':
-        case 'tamFinalAltura':
-        case 'tamFinalLargura':
-        case 'tamSangriaAltura':
-        case 'tamSangriaLargura':
-        case 'peso':
-        case 'gramatura':
-        case 'desconto':        
-        case 'altura':
-        case 'largura':
-            inputs[item].addEventListener('keyup', (event) => {
-                if (event.target.value) {
-                    let valorFormatado = formatReal(event)
-                    event.target.value = valorFormatado
-                }
-            })
-            break;
+    //Add eventListener Keyup in the selected inputs
+    let inputs = document.querySelectorAll('input')
+    for (item in inputs) {
+        switch (inputs[item].name) {            
+            case 'tamFinalAltura':
+            case 'tamFinalLargura':
+            case 'tamSangriaAltura':
+            case 'tamSangriaLargura':
+            case 'peso':
+            case 'gramatura':
+            case 'largura':
+                inputs[item].addEventListener('keyup', (event) => {
+                    if (event.target.value) {
+                        let valorFormatado = formatReal(event)
+                        event.target.value = valorFormatado
+                    }
+                })
+                break;
+        }
     }
 }
 
@@ -30,6 +31,7 @@ $(function () {
 function getMoney(str) {
     return parseInt(str.replace(/[\D]+/g, ''));
 }
+
 
 function formatReal(event) {
     let valor = getMoney(event.target.value)

@@ -56,7 +56,7 @@ requisicao(`/admin/cart/itensCart/` + document.getElementById('idOrder').value, 
                                 <input type="hidden" name="idItem" value="${item.id}">
                                 <input type="hidden" name="idPedido" value="${item.pedidoId}">
                                 <button data-toggle="tooltip" title="Remover Item" type="submit"
-                                    class=" btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                    class="btn btn-danger"><i class="fa fa-trash"></i></button>
                             </form>
         
         </div>        

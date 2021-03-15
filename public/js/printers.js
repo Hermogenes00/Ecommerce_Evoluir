@@ -10,6 +10,7 @@ function getPrinters(callback) {
     })
 }
 
+
 function buscarImpressoras() {
     window.location.href = `http://localhost:${CONSTANTS().PORT}/admin/printers/${document.getElementById('buscar').value}`
 }

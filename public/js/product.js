@@ -1,40 +1,19 @@
-window.onload = event => {
-
-    let qtdEl = document.getElementsByName('qtd')
-    let vlrTotalel = document.getElementById('vlrTotal');
-    let selectQtd = document.querySelector('.selectQtd')
-    let vlrRel = document.getElementById('vlrel')
-    vlrTotalel.innerText = (selectQtd.value * vlrel.dataset.valortotal).toLocaleString('pt-br', { currency: 'brl', style: 'currency' })
 
 
-    if (qtdEl.length > 0) {
+//take function from js/printers
+let selectImpressoras = document.querySelector('#impressoras')
 
-        qtdEl[0].addEventListener('change', (event) => {
+//Function from /js/printers.js
+getPrinters(printers => {
+    //Show printers wicth status active
+    let activePrinters = printers.filter(prt => prt.ativo == 1)
+    activePrinters.forEach(prt => {
+        selectImpressoras.innerHTML += `<option ${prt.id == selectImpressoras.dataset.idimpressora ? 'selected' : ''} value="${prt.id}">
+                                            ${prt.marca + '-' + prt.modelo}
+                                        </option>`
+    })
+})
 
-            let descontoPorcentagem = document.getElementById('descUnit')
-            let propriedadeDivisao = parseFloat(qtdEl[0].dataset.propriedadedivisao);
-
-            let qtd = parseInt(event.target.value);
-
-            let valorSemDesconto = qtd * vlrel.dataset.valortotal
-            let descontoReal = 0
-            
-            let contadorAuxiliar = event.target.selectedOptions[0].dataset.contadorauxiliar
-
-            descontoReal = valorSemDesconto * (descontoPorcentagem.value / 100)
-            let total = 0;
-
-            total = valorSemDesconto
-            console.log(contadorAuxiliar)
-            if (contadorAuxiliar > 0)
-                total = valorSemDesconto - descontoReal
-
-            vlrTotalel.innerText = total.toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
-            vlrel.toLocaleString('pt-br')
-        })
-    }
-
-}
 
 function lerArquivo(event) {
     let inputFile = event.target

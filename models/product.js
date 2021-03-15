@@ -26,7 +26,7 @@ const product = connection.define('produtos', {
         allowNull: false
     },
     vlrProduto: {
-        type: sequelize.DECIMAL(10, 2),
+        type: sequelize.DECIMAL(10, 3),
         allowNull: false
     },
     material: {
@@ -78,7 +78,7 @@ const product = connection.define('produtos', {
         allowNull: true
     },
     desconto:{
-        type: sequelize.DECIMAL(10, 2),
+        type: sequelize.DECIMAL(10, 3),
         allowNull: false
     },
     ativo:{

@@ -1,69 +1,82 @@
 <%-include('partials/header') %>
-<%-include('partials/navbarlogin') %>
-<%-include('partials/navbarlogo') %>
-<%-include('partials/navbarmenu') %>
-<%- include('partials/navbarslide') %>
+  <%-include('partials/navbarlogin') %>
+    <%-include('partials/navbarlogo') %>
+      <%-include('partials/navbarmenu') %>
+        <%- include('partials/navbarslide') %>
 
-<div class="container mt-4">
-    <div class="row row-cols-1 row-cols-md-4">
-        <% products.filter(p=>p.ativo==1).forEach(product=>{ %>   
-    
-        <div class="col-md-3 mb-3">
-            <div class="card h-100 border-light shadow-sm">
-                <div class="card-body">
-                    <a href="/admin/products/detail/<%= product.slug %>">
+          <div class="container mt-4">
+            <div class="row row-cols-1 row-cols-md-4">
+              <% products.filter(p=>p.ativo==1).forEach(product=>{ %>
+
+                <div class="col-md-3 mb-3">
+                  <div class="card h-100 border-light shadow-sm">
+                    <div class="card-body">
+                      <a href="/admin/products/detail/<%= product.slug %>">
                         <img width="180px" height="160px" src="<%= product.imagem %> " class="card-img-top"></a>
-                    <p class="card-title text-center text-muted" style="font-size: 14px;"><%= product.nome %></p>
-                    <small style="margin-bottom: 0%; text-align: left;">Ref: <%= product.codRef %></small>
-                    <small style="margin-bottom: 0%; text-align: left;">Tam Arte:
-                        <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamSangriaLargura)%>
-                    </small><br>
-                    <small style="margin-bottom: 0%; text-align: left;">Tam Final:
-                        <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x<%=parseFloat(product.tamFinalLargura) %>
-                    </small><br>
-                    <small style="margin-bottom: 0%; text-align: left;">Impressão: Digital </small><br>
-                    <% if(user.nome != 'Visitante'){%>
+                      <p class="card-title text-center text-muted" style="font-size: 14px;">
+                        <%= product.nome %>
+                      </p>
+                      <small style="margin-bottom: 0%; text-align: left;">Ref: <%= product.codRef %></small>
+                      <small style="margin-bottom: 0%; text-align: left;">Tam Arte:
+                        <%=parseFloat(product.tamSangriaAltura).toLocaleString('pt-br')%>x
+                          <%=parseFloat(product.tamSangriaLargura)%>
+                      </small><br>
+                      <small style="margin-bottom: 0%; text-align: left;">Tam Final:
+                        <%=parseFloat(product.tamFinalAltura).toLocaleString('pt-br')%>x
+                          <%=parseFloat(product.tamFinalLargura) %>
+                      </small><br>
+                      <small style="margin-bottom: 0%; text-align: left;">Impressão: Digital </small><br>
+                      <% if(user.nome !='Visitante' ){%>
 
-                    <h5 class="text-center" style="color: green;">
-                        <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'}) %>
-                    </h5>
-                    <%}%>
-                </div>
-                <div class="row">
-                    <div class="col text-center">
+                        <h5 class="text-center" style="color: green;">
+                          <%= parseFloat(product.vlrProduto).toLocaleString('pt-br',{style:'currency',currency:'brl'})
+                            %>
+                        </h5>
+                        <%}%>
+                    </div>
+                    <div class="row">
+                      <div class="col text-center">
                         <% if(product.gabarito){ %>
-                    <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm">Baixar Gabarito</a>
-                    <%} %>
-                    <a href="/admin/products/detail/<%= product.slug %> " data-toggle="tooltip" data-placement="top"
-                        title="Ver detalhes" class="btn btn-primary btn-sm">Detalhes</a>
+                          <a href="/gabarito/<%=product.gabarito%>" class="btn btn-warning btn-sm">Baixar Gabarito</a>
+                          <%} %>
+                            <a href="/admin/products/detail/<%= product.slug %> " data-toggle="tooltip"
+                              data-placement="top" title="Ver detalhes" class="btn btn-primary btn-sm">Detalhes</a>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
+                <%}) %>
+
+
             </div>
-        </div>
-    
-    </div>
-    <%}) %>
+            <!-- Pagination -->
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
 
-      
-</div>
- <!-- Pagination -->
- <nav aria-label="Page navigation example">
-    <ul class="pagination">
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-</div>
+          <input type="text" name="" id="teste">
 
+          <%- include('partials/footer') %>          
 
-<%- include('partials/footer') %>
+            <script>
+              window.onload = event=>{                
+                $('#teste').mask('000.000.000.000.000,000', { reverse: true })
+              }
+             
+            </script>

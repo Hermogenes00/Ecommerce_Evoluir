@@ -163,9 +163,9 @@
                         <div class="row">
                             <div class="col">
                                 <label for="vlrProduto">Vlr Produto</label>
-                                <input type="text"  onkeyup="formatReal(event)"
+                                <input type="text"
                                     value="<%= product.vlrProduto?product.vlrProduto.replace('.',','):'0,00' %>"
-                                    name="vlrProduto" id="vlrProduto" class="form-control form-control-sm">
+                                    name="vlrProduto" id="vlrProduto" class="form-control form-control-sm money">
                             </div>
                             <div class="col">
                                 <label for="qtd">Quantidade</label>
@@ -174,9 +174,9 @@
                             </div>
                             <div class="col">
                                 <label for="desconto">Desconto(%)</label>
-                                <input type="text"  onkeyup="formatReal(event)"
+                                <input type="text"
                                     value="<%= product.desconto?product.desconto.replace('.',','):'0,00' %>"
-                                    name="desconto" id="desconto" class="form-control form-control-sm">
+                                    name="desconto" id="desconto" class="form-control form-control-sm money">
                             </div>
                             <div class="col">
                                 <label for="qtd">Prev. Produção</label>
@@ -204,21 +204,8 @@
         </div>
 
         <%- include('../../partials/footer') %>
+
             <script src="/js/printers.js"></script>
             <script src="/js/product.js"></script>            
-            <script src="/js/categoria.js"></script>
-            <script>
-                let selectImpressoras = document.querySelector('#impressoras')
-                window.onload = function () {
-                    //Function from /js/printers.js
-                    getPrinters(printers => {
-                        //Show printers wicth status active
-                        let activePrinters = printers.filter(prt => prt.ativo == 1)
-                        activePrinters.forEach(prt => {
-                            selectImpressoras.innerHTML += `<option ${prt.id == selectImpressoras.dataset.idimpressora ? 'selected' : ''} value="${prt.id}">
-                                            ${prt.marca + '-' + prt.modelo}
-                                        </option>`
-                        })
-                    })
-                }
-            </script>
+            <script src="/js/categoria.js"></script>       
+            <script src="/js/utils.js"></script>  
