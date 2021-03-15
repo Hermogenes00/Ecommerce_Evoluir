@@ -33,3 +33,5 @@ UTILIZAÇÃO DE WEBSOCKETS PARA NOTIFICAR SEMPRE QUE UM CARD DE PRODUÇÃO TIVER
 ESTUDAR FORMA DE APLICAR DESCONTO COM VALORES MAIS FRACIONADOS EXEMPLO: 0,097
 
 Plugin Jquery (máscara para inputs, ver possibilidar de fracionar o valor product) https://igorescobar.github.io/jQuery-Mask-Plugin/docs.html
+
+DAR SEGMENTE NO CALCULO DO PRODUTO AO ADCIONAR NO CARRINHO, CARTCONTROLLER (/admin/cart/add)
