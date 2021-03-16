@@ -41,9 +41,9 @@
                 <td>                   
                     <form  action="/admin/slide/delete" onsubmit="confirmacao(event,this,'Deseja realmente excluir este slide?')" method="post">
                         <input type="hidden" name="id" id="id" value="<%=slide.id%>">
-                        <a href="/admin/slide/edit/<%= slide.id %>" class="btn btn-outline-primary btn-sm"><i class="far fa-edit"></i></a>
+                        <a href="/admin/slide/edit/<%= slide.id %>" class="btn btn-outline-primary btn-sm"><i class="fa fa-edit"></i></a>
                         <button type="submit" class="btn btn-outline-primary btn-sm">
-                            <i class="far fa-trash-alt"></i>
+                            <i class="fa fa-trash"></i>
                         </button>
                     </form>
                 </td>

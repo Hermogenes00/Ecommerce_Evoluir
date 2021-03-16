@@ -22,7 +22,7 @@
             <tr>
                 <th>Cliente</th>
                 <th>email</th>
-                <th class="text-center">Ação</th>
+                <th class="text-center"></th>
             </tr>
         </thead>
         <tbody>
@@ -36,14 +36,15 @@
                     <h6><%= clt.email %></h6>
                 </td>
                 <td>
-                    <div>
-
+                    <div>                        
                         <form method="POST" class="form form-inline" action="/collaborator/delete" onsubmit="deleteCollaborator(event,this)">
                             <input type="hidden" name="id" value="<%= clt.id %> ">
-                            <a href="/admin/collaborators/collaborator/<%= clt.id %> " title="Editar" data-target="#exampleModal"><i
-                                    class="material-icons" data-toggle="tooltip" data-placement="top"
-                                    title="Editar Colaborador">person</i></a>
-                            <input type="submit" value="Excluir" id="btnExcluir" class="btn btn-outline-danger btn-sm">
+                            <a href="/admin/collaborators/collaborator/<%= clt.id %> " class="btn btn-sm btn-outline-primary mr-2" title="Editar" data-target="#exampleModal">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <button type="submit" value="Excluir" id="btnExcluir" class="btn btn-outline-danger btn-sm">
+                                <i class="fa fa-hand-paper"></i>
+                            </button>
                         </form>
 
                     </div>

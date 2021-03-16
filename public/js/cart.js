@@ -162,7 +162,6 @@ function calcPrecoPrazo(event) {
         <span class="sr-only">Loading...</span>
       </div>`
     }
-
     if (event.target.value == 'RETIRA_BASE') {
 
         requisicao(`/consultar/CalcPrecoPrazo/${event.target.dataset.idorder}/${event.target.value}/${selectCidade.value}`, result => {
@@ -194,24 +193,29 @@ function calcPrecoPrazo(event) {
 
             if (!obj.error) {
 
-                if (obj.PrazoEntrega > 0) {
-                    colPrazo.innerHTML = `De ${obj.PrazoEntrega} dia(s) à ${parseInt(obj.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.`
+                if (event.target.value == 'ENTREGA_A_DOMICILIO') {
+                    colPrazo.innerHTML = '<td>De 24 à 48 hrs, após a produção do último item</td>'
                 } else {
-                    colPrazo.innerHTML = `De 3 dias úteis à 5 dias úteis, após a produção do último item`
-                }
 
+                    if (obj.PrazoEntrega > 0) {
+                        colPrazo.innerHTML = `De ${obj.PrazoEntrega} dia(s) à ${parseInt(obj.PrazoEntrega) + 20} dia(s) úteis após a produção do último item.`
+                    } else {
+                        colPrazo.innerHTML = `De 3 dias úteis à 5 dias úteis, após a produção do último item`
+                    }
+                }
+                
                 colValor.innerHTML = obj.Valor
 
                 valorFrete.innerHTML = 'Frete: R$ ' + obj.Valor
 
                 let total = parseFloat(obj.Valor.replace('.', '').replace(',', '.')) + parseFloat(valorFrete.dataset.valorsemfrete)
                 valorFinal.innerHTML = 'Total: ' + total.toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
-
             } else {
                 colPrazo.innerHTML = `Falha ao tentar consultar, teve novamente mais tarde`
                 colValor.innerHTML = `Falha ao tentar consultar, teve novamente mais tarde`
                 valorFrete.innerHTML = `Frete: Falha ao tentar consultar, teve novamente mais tarde`
             }
+
         })
     }
 
