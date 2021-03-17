@@ -50,7 +50,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'admin','admin@email.com','$2b$10$kDTFTphoXBIjv4hISDm37OstDyJ.r28Zzmq2kj3XM1eGSWkYfQnwW','75 1234-5678','75 91234-5678','75 91234-5678','65036400','Rua José Timóteo','Caratatiua','563','casa','10291803423','','','2021-02-12 00:00:00','2021-02-23 19:50:00');
+INSERT INTO `usuarios` VALUES (1,'Hermógenes Neto','admin@email.com','$2b$10$kDTFTphoXBIjv4hISDm37OstDyJ.r28Zzmq2kj3XM1eGSWkYfQnwW','75 1234-5678','75 91234-5678','75 91234-5678','65036400','Rua José Timóteo','Caratatiua','563','casa','10291803423','','','2021-02-12 00:00:00','2021-03-16 12:24:37');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-10 17:08:11
+-- Dump completed on 2021-03-17  8:44:09

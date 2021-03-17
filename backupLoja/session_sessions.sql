@@ -39,7 +39,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('4zhuY6NkDisNqGb3vDRl4Fj9eLcj10jh',NULL,'2021-03-11 19:51:05','{\"cookie\":{\"originalMaxAge\":86400000,\"expires\":\"2021-03-11T19:51:05.170Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{}}','2021-03-10 19:51:05','2021-03-10 19:51:05'),('IgxEnJSSypmLp-ytwoB-bKxfXv9J3Jhw',NULL,'2021-03-11 19:59:04','{\"cookie\":{\"originalMaxAge\":86400000,\"expires\":\"2021-03-11T19:57:40.664Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"client\":{\"id\":1,\"nome\":\"João Souza Santos\",\"email\":\"joao@email.com\"}}','2021-03-10 19:57:33','2021-03-10 19:59:04');
+INSERT INTO `sessions` VALUES ('F93gVuD4YJyDk2ZmfssiWJ48eaJN71--',NULL,'2021-03-17 20:28:21','{\"cookie\":{\"originalMaxAge\":86400000,\"expires\":\"2021-03-17T20:08:10.693Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"collaborator\":{\"id\":1,\"nome\":\"Hermógenes Neto\",\"email\":\"admin@email.com\"},\"client\":{\"id\":1,\"nome\":\"João Souza Santos\",\"email\":\"joao@email.com\"}}','2021-03-16 12:24:37','2021-03-16 20:28:21');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-10 17:08:08
+-- Dump completed on 2021-03-17  8:44:07
