@@ -19,6 +19,7 @@ router.get('/admin/company', collaboratorAuthentication, async (req, res) => {
 
 router.post('/admin/company', collaboratorAuthentication, async (req, res) => {
     let data = req.body
+    
     let objCompany = {
         rsocial: data.rsocial,
         fantasia: data.fantasia,
@@ -40,9 +41,7 @@ router.post('/admin/company', collaboratorAuthentication, async (req, res) => {
         naturezaOperacao: data.naturezaOperacao,
         optanteSimplesNacional: data.optanteSimplesNacional ? true : false,
         incentivadorCultural: data.incentivadorCultural ? true : false,
-    }
-
-    console.log(objCompany)
+    }    
 
     //Take the ibge code and update in the objCompany
     try {
