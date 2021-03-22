@@ -74,25 +74,6 @@ router.get('/main/production', collaboratorAuthentication, async (req, res) => {
     }
 })
 
-router.get('/main/clients/:client?', collaboratorAuthentication, async (req, res) => {
-
-    let client = `%${req.params.client}%`;
-    let clts = undefined
-    try {
-
-        if (req.params.client != undefined && req.params.client != 'all') {
-            clts = await clients.findAll({ where: { nome: { [sequelize.Op.like]: client } } })
-        } else {
-            clts = await clients.findAll()
-        }
-
-        res.render('admin/main/clients/clients', { clients: clts })
-
-    } catch (error) {
-        res.json(error)
-    }
-})
-
 router.get('/main/orders/:cliente?/:dateStart?/:dateFinish?/:status?', collaboratorAuthentication, async (req, res) => {
 
     let { cliente, dateStart, dateFinish, status } = req.params

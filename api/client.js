@@ -14,7 +14,6 @@ const payment = require('../models/payment')
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
 
-
 const fs = require('fs')
 
 const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
@@ -126,13 +125,17 @@ router.get('/client/:id', (req, res) => {
 })
 
 //Listar todos os clientes
-router.get('/clients', (req, res) => {
-    clients.findAll().then(clts => {
-        res.statusCode = 200
-        res.json(clts)
-    }).catch(err => {
+router.get('/clients/:client?', async (req, res) => {
+
+    let client = `%${req.params.client}%`;
+    
+    try {
+        let response = await clients.findAll({ where: { nome: { [sequelize.Op.like]: client } } })
+        res.json({ clts: response.data })
+    } catch (error) {
         res.statusCode = 400
-    })
+        res.json({ err })
+    }
 })
 
 

@@ -52,6 +52,7 @@ const institucional = require('./models/institucional')
 //Importação dos controllers
 const productController = require('./controllers/dash/productController');
 const clientController = require('./controllers/site/clientController');
+const clientDashController = require('./controllers/dash/clientController')
 const collaboratorController = require('./controllers/dash/collaboratorController');
 const orderController = require('./controllers/orderController');
 const mainController = require('./controllers/dash/mainController');
@@ -135,20 +136,21 @@ app.use('/', printerController)
 app.use('/', companyController)
 app.use('/', fiscalController)
 app.use('/', institucionalController)
+app.use('/', clientDashController)
 
 //Api's
-app.use('/', productApi)
-app.use('/', clientApi)
-app.use('/', orderApi)
-app.use('/', collaboratorApi)
-app.use('/', categoryApi)
-app.use('/', addressApi)
-app.use('/', cartApi)
-app.use('/', deliveryRegionApi)
-app.use('/', slideApi)
-app.use('/', printerApi)
-app.use('/', paymentApi)
-app.use('/', itemOrderApi)
+app.use('/api/', productApi)
+app.use('/api/', clientApi)
+app.use('/api/', orderApi)
+app.use('/api/', collaboratorApi)
+app.use('/api/', categoryApi)
+app.use('/api/', addressApi)
+app.use('/api/', cartApi)
+app.use('/api/', deliveryRegionApi)
+app.use('/api/', slideApi)
+app.use('/api/', printerApi)
+app.use('/api/', paymentApi)
+app.use('/api/', itemOrderApi)
 
 //View engine ejs
 app.set('view engine', 'ejs')
