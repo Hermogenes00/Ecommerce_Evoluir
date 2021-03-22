@@ -382,14 +382,15 @@ router.post('/client/login', defaultAuthentication, (req, res) => {
 
     }).then(client => {
         let compare = bcrypt.compareSync(data.password, client.password)
-        console.log('Resultado da comparação----' + compare);
         if (compare) {
+            
             req.session.client = {
                 id: client.id,
                 nome: client.nome,
                 email: client.email
             }
             res.redirect('/')
+
         } else {
             req.flash('erro', 'Erro ao realizar o login, verifique seu usuário e senha')
             res.redirect('/client/login')
@@ -401,11 +402,14 @@ router.post('/client/login', defaultAuthentication, (req, res) => {
     })
 })
 
+router.get('/client/logout', defaultAuthentication, async (req, res) => {
+    try {
+        await req.session.destroy()
+        res.redirect('/')
+    } catch (error) {        
+        res.redirect('/')
+    }
 
-
-router.get('/client/logout', defaultAuthentication, (req, res) => {
-    req.session.destroy()
-    res.redirect('/')
 })
 
 router.get('/client/cart', clientAuthentication, async (req, res) => {

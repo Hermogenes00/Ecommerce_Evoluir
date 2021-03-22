@@ -28,6 +28,7 @@ let configSession = (session, SequelizeStore) => {
             secret: '602dbccda7814faeaf7c528912dfb560',
             store: new SequelizeStore({
                 db: sequelize,
+                checkExpirationInterval: hour * 2,
                 expiration: 24 * 60 * 60 * 1000,
                 table: 'session',
                 extendDefaultFields: (defaults, session) => {
