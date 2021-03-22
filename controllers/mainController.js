@@ -74,7 +74,6 @@ router.get('/main/production', collaboratorAuthentication, async (req, res) => {
     }
 })
 
-
 router.get('/main/clients/:client?', collaboratorAuthentication, async (req, res) => {
 
     let client = `%${req.params.client}%`;
@@ -87,7 +86,7 @@ router.get('/main/clients/:client?', collaboratorAuthentication, async (req, res
             clts = await clients.findAll()
         }
 
-        res.render('admin/main/clients', { clients: clts })
+        res.render('admin/main/clients/clients', { clients: clts })
 
     } catch (error) {
         res.json(error)

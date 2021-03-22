@@ -135,6 +135,7 @@ router.get('/clients', (req, res) => {
     })
 })
 
+
 //Criação
 router.post('/client', async (req, res) => {
     let data = req.body
@@ -238,7 +239,7 @@ router.post('/client', async (req, res) => {
             })
 
             res.statusCode = 200
-            res.json(client)
+            res.json({ client, err: null })
 
         } else {
 
@@ -259,7 +260,7 @@ router.post('/client', async (req, res) => {
             }, { where: { id: data.id } }).then((response) => {
 
                 res.statusCode = 200
-                res.json(response)
+                res.json({ client: data, err: null })
 
             }).catch(error => {
                 res.statusCode = 400
@@ -267,13 +268,14 @@ router.post('/client', async (req, res) => {
             })
         }
     } catch (error) {
+        res.json({ client: null, err: error })
         res.statusCode = 400
     }
 
 })
 
 //Busca todos os itens que estejam vinculados ao cliente, bem como todos os endereços do cliente, somente status de CARRINHO
-router.get('/client/cart/:idClient',  async (req, res) => {
+router.get('/client/cart/:idClient', async (req, res) => {
 
     let idClient = req.params.idClient
 
