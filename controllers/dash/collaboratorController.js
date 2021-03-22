@@ -3,27 +3,27 @@ const router = express.Router()
 const sequelize = require('sequelize')
 
 //Middleware Authentication
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+const collaboratorAuthentication = require('../../middleware/collaboratorAuthentication')
 
 //Hash
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
 
 //Models
-const category = require('../models/category')
-const subCategory = require('../models/subCategory')
-const collaborators = require('../models/collaborator')
+const category = require('../../models/category')
+const subCategory = require('../../models/subCategory')
+const collaborators = require('../../models/collaborator')
 
 //Validation
-let validate = require('../validations/collaboratorValidation')
-const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
+let validate = require('../../validations/collaboratorValidation')
+const cnpjCpfValidation = require('../../validations/cnpjCpfValidation')
 
 
 router.get('/admin/collaborators/perfil', collaboratorAuthentication, async (req, res) => {
 
     let collaborator = await collaborators.findByPk(res.locals.collaborator.id)
     if (collaborator) {
-        res.render('admin/collaborators/perfil', { collaborator: collaborator })
+        res.render('admin/main/collaborators/perfil', { collaborator: collaborator })
     } else {
         res.redirect('/main')
     }
@@ -34,7 +34,7 @@ router.get('/collaborator/login', (req, res) => {
     if (req.session.collaborator) {
         res.redirect('/main')
     } else {
-        res.render('admin/collaborators/login')
+        res.render('admin/main/collaborators/login')
     }
 })
 
@@ -103,9 +103,9 @@ router.get('/admin/collaborators/collaborator/:id?', collaboratorAuthentication,
     try {
         if (req.params.id) {
             data = await collaborators.findByPk(req.params.id)
-            res.render('admin/collaborators/collaborator', { collaborator: data, msg })
+            res.render('admin/main/collaborators/collaborator', { collaborator: data, msg })
         } else {
-            res.render('admin/collaborators/collaborator', { collaborator: data, msg })
+            res.render('admin/main/collaborators/collaborator', { collaborator: data, msg })
         }
     } catch (error) {
         console.log('Erro ao tentar consultar colaborador pelo id->', error);
@@ -134,7 +134,7 @@ router.post('/admin/collaborators/collaborator', async (req, res) => {
 
     if (validResult.error) {
         msg.push(validResult.error.details[0].message)
-        return res.render('admin/collaborators/collaborator', { collaborator: data, msg })
+        return res.render('admin/main/collaborators/collaborator', { collaborator: data, msg })
     }
 
     if (cnpjCpfValidation.cpfValidation(data.cnpjCpf)) validCnpjCpf = true
@@ -151,11 +151,11 @@ router.post('/admin/collaborators/collaborator', async (req, res) => {
 
         if (validCnpjCpf) {
             msg.push('CnpjCpf já cadastrado no sistema')
-            return res.render('admin/collaborators/collaborator', { collaborator: data, msg })
+            return res.render('admin/main/collaborators/collaborator', { collaborator: data, msg })
         }
     } catch (error) {
         console.log('Erro ao tentar buscar colaboradores pelo cpf->', error);
-        return res.render('admin/collaborators/collaborator', { collaborator: data, msg })
+        return res.render('admin/main/collaborators/collaborator', { collaborator: data, msg })
     }
 
     try {
@@ -169,12 +169,12 @@ router.post('/admin/collaborators/collaborator', async (req, res) => {
 
         if (validEmail) {
             msg.push('Email já cadastrado no sistema')
-            return res.render('admin/collaborators/collaborator', { collaborator: data, msg })
+            return res.render('admin/main/collaborators/collaborator', { collaborator: data, msg })
         }
 
     } catch (error) {
         console.log('Erro ao tentar buscar colaboradores pelo email->', error);
-        return res.render('admin/collaborators/collaborator', { collaborator: data, msg })
+        return res.render('admin/main/collaborators/collaborator', { collaborator: data, msg })
     }
     //#endregion
 

@@ -1,17 +1,17 @@
-const order = require('../models/order')
-const payment = require('../models/payment')
-const client = require('../models/client')
+const order = require('../../models/order')
+const payment = require('../../models/payment')
+const client = require('../../models/client')
 const router = require('express').Router()
-const category = require('../models/category')
-const subCategory = require('../models/subCategory')
-const itemsOrder = require('../models/itensOrder')
-const clientAuthentication = require('../middleware/clientAuthentication')
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+const category = require('../../models/category')
+const subCategory = require('../../models/subCategory')
+const itemsOrder = require('../../models/itensOrder')
+const clientAuthentication = require('../../middleware/clientAuthentication')
+const collaboratorAuthentication = require('../../middleware/collaboratorAuthentication')
 const sequelize = require('sequelize')
 
 
 //CONSTANTES
-const CONSTANTE = require('../utils/constants')
+const CONSTANTE = require('../../utils/constants')
 
 //Tratamento dos arquivo (upload gabarito)
 const multer = require('multer')

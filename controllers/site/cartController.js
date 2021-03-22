@@ -2,23 +2,23 @@ const express = require('express')
 const router = express.Router();
 
 //CONSTANTES
-const CONSTANTES = require('../utils/constants')
+const CONSTANTES = require('../../utils/constants')
 
 //Models
-const orders = require('../models/order')
-const itensOrder = require('../models/itensOrder')
-const product = require('../models/product')
-const client = require('../models/client')
-const category = require('../models/category')
-const subCategory = require('../models/subCategory')
-const address = require('../models/address')
-const payment = require('../models/payment');
-const deliveryRegion = require('../models/deliveryRegion');
+const orders = require('../../models/order')
+const itensOrder = require('../../models/itensOrder')
+const product = require('../../models/product')
+const client = require('../../models/client')
+const category = require('../../models/category')
+const subCategory = require('../../models/subCategory')
+const address = require('../../models/address')
+const payment = require('../../models/payment');
+const deliveryRegion = require('../../models/deliveryRegion');
 
-const tratarArquivo = require('../utils/trataArquivo')
+const tratarArquivo = require('../../utils/trataArquivo')
 
 //Middleware Authentication
-const clientAuthentication = require('../middleware/clientAuthentication');
+const clientAuthentication = require('../../middleware/clientAuthentication');
 
 
 

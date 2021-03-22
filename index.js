@@ -50,23 +50,22 @@ const company = require('./models/company')
 const institucional = require('./models/institucional')
 
 //Importação dos controllers
-const productController = require('./controllers/productController');
-const clientController = require('./controllers/clientController');
-const collaboratorController = require('./controllers/collaboratorController');
+const productController = require('./controllers/dash/productController');
+const clientController = require('./controllers/site/clientController');
+const collaboratorController = require('./controllers/dash/collaboratorController');
 const orderController = require('./controllers/orderController');
-const mainController = require('./controllers/mainController');
+const mainController = require('./controllers/dash/mainController');
 const utilsController = require('./controllers/utilsController');
-const categoryController = require('./controllers/categoryController')
-const storeController = require('./controllers/storeController')
-const addressController = require('./controllers/addressController')
-const cartController = require('./controllers/cartController')
+const categoryController = require('./controllers/dash/categoryController')
+const addressController = require('./controllers/site/addressController')
+const cartController = require('./controllers/site/cartController')
 const deliveryRegionController = require('./controllers/deliveryRegionController');
-const slideController = require('./controllers/slideController');
-const paymentController = require('./controllers/paymentController');
-const printerController = require('./controllers/printerController')
-const companyController = require('./controllers/companyController')
-const fiscalController = require('./controllers/fiscalController')
-const institucionalController = require('./controllers/institucionalController')
+const slideController = require('./controllers/dash/slideController');
+const paymentController = require('./controllers/dash/paymentController');
+const printerController = require('./controllers/dash/printerController')
+const companyController = require('./controllers/dash/companyController')
+const fiscalController = require('./controllers/dash/fiscalController')
+const institucionalController = require('./controllers/dash/institucionalController')
 
 
 //Importação da api
@@ -127,7 +126,6 @@ app.use('/', collaboratorController)
 app.use('/', mainController)
 app.use('/', utilsController)
 app.use('/', categoryController)
-app.use('/', storeController)
 app.use('/', addressController)
 app.use('/', cartController)
 app.use('/', deliveryRegionController)

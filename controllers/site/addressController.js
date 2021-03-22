@@ -1,7 +1,7 @@
 const express = require('express');
-const address = require('../models/address')
+const address = require('../../models/address')
 const router = express.Router();
-const clientAuthentication = require('../middleware/clientAuthentication')
+const clientAuthentication = require('../../middleware/clientAuthentication')
 
 router.get('/client/address', clientAuthentication, async (req, res) => {
 

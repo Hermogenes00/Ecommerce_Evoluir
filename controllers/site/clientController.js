@@ -2,19 +2,19 @@ const express = require('express')
 const router = express.Router();
 
 //Models
-const clients = require('../models/client')
-const orders = require('../models/order');
-const itensOrder = require('../models/itensOrder')
-const category = require('../models/category')
-const subCategory = require('../models/subCategory')
-const address = require('../models/address')
-const payment = require('../models/payment')
-const products = require('../models/product')
+const clients = require('../../models/client')
+const orders = require('../../models/order');
+const itensOrder = require('../../models/itensOrder')
+const category = require('../../models/category')
+const subCategory = require('../../models/subCategory')
+const address = require('../../models/address')
+const payment = require('../../models/payment')
+const products = require('../../models/product')
 
 //Email
 const nodemailer = require('nodemailer')
 //constantes
-const constant = require('../utils/constants')
+const constant = require('../../utils/constants')
 
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
@@ -22,23 +22,23 @@ const salt = bcrypt.genSaltSync(10)
 
 const fs = require('fs')
 
-const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
+const cnpjCpfValidation = require('../../validations/cnpjCpfValidation')
 
 //Sequelize
 const sequelize = require('sequelize')
 
 //Módulo para gerenciar arquivos
-const tratarArquivo = require('../utils/trataArquivo')
+const tratarArquivo = require('../../utils/trataArquivo')
 
-const CONSTANTES = require('../utils/constants')
+const CONSTANTES = require('../../utils/constants')
 
 //Autenticação
-const clientAuthentication = require('../middleware/clientAuthentication');
-const defaultAuthentication = require('../middleware/defaultAuthentication');
+const clientAuthentication = require('../../middleware/clientAuthentication');
+const defaultAuthentication = require('../../middleware/defaultAuthentication');
 
 //Validação
-let validate = require('../validations/clientValidation')
-let recoverAccount = require('../validations/recoverAccountValidate')
+let validate = require('../../validations/clientValidation')
+let recoverAccount = require('../../validations/recoverAccountValidate')
 
 //API DOS CORREIORS
 const Correios = require('node-correios')

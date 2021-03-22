@@ -3,10 +3,10 @@ const router = express.Router()
 
 //Model
 const sequelize = require('sequelize')
-const printer = require('../models/printer')
+const printer = require('../../models/printer')
 
 //Middleware Authentication
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+const collaboratorAuthentication = require('../../middleware/collaboratorAuthentication')
 
 //Rotas
 router.get('/admin/printers/:marca?', collaboratorAuthentication, async (req, res) => {
@@ -19,7 +19,7 @@ router.get('/admin/printers/:marca?', collaboratorAuthentication, async (req, re
         } else {
             printers = await printer.findAll()
         }
-        res.render('admin/printer/printers', { printers })
+        res.render('admin/main/printer/printers', { printers })
     } catch (error) {
         console.log('Erro ao tentar consultar impressoras', error);
         res.redirect('/main')
@@ -40,7 +40,7 @@ router.get('/admin/printers/printer/:id?', collaboratorAuthentication, async (re
         objPrinter = {}
     }
 
-    res.render('admin/printer/printer', { printer: objPrinter })
+    res.render('admin/main/printer/printer', { printer: objPrinter })
 
 })
 

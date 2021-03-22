@@ -6,23 +6,23 @@ const salt = bcrypt.genSaltSync(10)
 const sequelize = require('sequelize');
 
 //Middleware authentication
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication');
+const collaboratorAuthentication = require('../../middleware/collaboratorAuthentication');
 
 //Constantes
-const CONSTANTES = require('../utils/constants')
+const CONSTANTES = require('../../utils/constants')
 
 //Models
-const category = require('../models/category')
-const subCategory = require('../models/subCategory')
-const orders = require('../models/order');
-const payment = require('../models/payment')
-const products = require('../models/product')
-const clients = require('../models/client')
-const itemsOrders = require('../models/itensOrder');
-const product = require('../models/product');
-const address = require('../models/address');
-const itensOrder = require('../models/itensOrder');
-const printers = require('../models/printer')
+const category = require('../../models/category')
+const subCategory = require('../../models/subCategory')
+const orders = require('../../models/order');
+const payment = require('../../models/payment')
+const products = require('../../models/product')
+const clients = require('../../models/client')
+const itemsOrders = require('../../models/itensOrder');
+const product = require('../../models/product');
+const address = require('../../models/address');
+const itensOrder = require('../../models/itensOrder');
+const printers = require('../../models/printer')
 
 
 
@@ -150,7 +150,7 @@ router.get('/main/order/:clientId?', collaboratorAuthentication, async (req, res
         let ord = await orders.findOne({
             where: {
                 clienteId: clientId,
-                status: require('../utils/constants').STATUS_PEDIDO.CARRINHO
+                status: require('../../utils/constants').STATUS_PEDIDO.CARRINHO
             }, include: clients
         })
         if (ord) {
