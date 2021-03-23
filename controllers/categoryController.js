@@ -6,8 +6,9 @@ const router = express.Router()
 const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
 
 
-router.get('/category/categories/:json?', collaboratorAuthentication, async (req, res) => {
+router.get('/category/categories/:json?', async (req, res) => {
 
+    res.json(req.headers)
 
     let cat = []
     let subCats = []
@@ -26,6 +27,8 @@ router.get('/category/categories/:json?', collaboratorAuthentication, async (req
             subCategories: subCats
         })
     }
+
+
 })
 
 router.post('/category/save', collaboratorAuthentication, async (req, res) => {
@@ -82,7 +85,7 @@ router.post('/subCategory/save', collaboratorAuthentication, async (req, res) =>
 
         res.redirect('/category/categories')
 
-        
+
     } catch (error) {
         console.log('Ops, não foi possível realizar esta operação, tente novamente, caso o problema persista, entre em contato com o suporte->' + error);
         res.send('Ops, não foi possível realizar esta operação, tente novamente, caso o problema persista, entre em contato com o suporte')

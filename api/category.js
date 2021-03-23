@@ -10,8 +10,8 @@ router.get('/category', async (req, res) => {
 
     let cat = []
     try {
-        cat = await category.findAll({ include: subCategory });
         
+        cat = await category.findAll({ include: subCategory });        
         res.statusCode = 200
         res.json(cat)
 

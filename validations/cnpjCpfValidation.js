@@ -1,5 +1,7 @@
 
 function cpfValidation(str) {
+    if (!str)
+        return false
     var Soma;
     var Resto;
     Soma = 0;
@@ -22,6 +24,8 @@ function cpfValidation(str) {
 
 function cnpjValidation(cnpj) {
 
+    if (!cnpj)
+        return false
     cnpj = cnpj.replace(/[^\d]+/g, '');
 
     if (cnpj == '') return false;
