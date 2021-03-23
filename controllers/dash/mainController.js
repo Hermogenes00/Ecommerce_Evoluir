@@ -6,23 +6,23 @@ const salt = bcrypt.genSaltSync(10)
 const sequelize = require('sequelize');
 
 //Middleware authentication
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication');
+const collaboratorAuthentication = require('../../middleware/collaboratorAuthentication');
 
 //Constantes
-const CONSTANTES = require('../utils/constants')
+const CONSTANTES = require('../../utils/constants')
 
 //Models
-const category = require('../models/category')
-const subCategory = require('../models/subCategory')
-const orders = require('../models/order');
-const payment = require('../models/payment')
-const products = require('../models/product')
-const clients = require('../models/client')
-const itemsOrders = require('../models/itensOrder');
-const product = require('../models/product');
-const address = require('../models/address');
-const itensOrder = require('../models/itensOrder');
-const printers = require('../models/printer')
+const category = require('../../models/category')
+const subCategory = require('../../models/subCategory')
+const orders = require('../../models/order');
+const payment = require('../../models/payment')
+const products = require('../../models/product')
+const clients = require('../../models/client')
+const itemsOrders = require('../../models/itensOrder');
+const product = require('../../models/product');
+const address = require('../../models/address');
+const itensOrder = require('../../models/itensOrder');
+const printers = require('../../models/printer')
 
 
 
@@ -71,26 +71,6 @@ router.get('/main/production', collaboratorAuthentication, async (req, res) => {
         res.render('admin/main/production', { itens: itens })
     } catch (error) {
         console.log('Erro ao tentar carregas itens dos pedidos-->' + error);
-    }
-})
-
-
-router.get('/main/clients/:client?', collaboratorAuthentication, async (req, res) => {
-
-    let client = `%${req.params.client}%`;
-    let clts = undefined
-    try {
-
-        if (req.params.client != undefined && req.params.client != 'all') {
-            clts = await clients.findAll({ where: { nome: { [sequelize.Op.like]: client } } })
-        } else {
-            clts = await clients.findAll()
-        }
-
-        res.render('admin/main/clients', { clients: clts })
-
-    } catch (error) {
-        res.json(error)
     }
 })
 
@@ -151,7 +131,7 @@ router.get('/main/order/:clientId?', collaboratorAuthentication, async (req, res
         let ord = await orders.findOne({
             where: {
                 clienteId: clientId,
-                status: require('../utils/constants').STATUS_PEDIDO.CARRINHO
+                status: require('../../utils/constants').STATUS_PEDIDO.CARRINHO
             }, include: clients
         })
         if (ord) {

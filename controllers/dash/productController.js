@@ -1,16 +1,16 @@
 const express = require('express');
-const products = require('../models/product')
+const products = require('../../models/product')
 const sequelize = require('sequelize')
-const category = require('../models/category')
-const subCategory = require('../models/subCategory')
-const printer = require('../models/printer');
-const slides = require('../models/slide')
+const category = require('../../models/category')
+const subCategory = require('../../models/subCategory')
+const printer = require('../../models/printer');
+const slides = require('../../models/slide')
 const router = express.Router();
 const slug = require('slugify')
 
 //Middleware Authentication
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
-const defaultAuthentication = require('../middleware/defaultAuthentication')
+const collaboratorAuthentication = require('../../middleware/collaboratorAuthentication')
+const defaultAuthentication = require('../../middleware/defaultAuthentication')
 
 //Tratamento dos arquivo (upload gabarito)
 const multer = require('multer')
@@ -19,8 +19,8 @@ const fs = require('fs')
 
 
 //Validation
-let validation = require('../validations/productValidation');
-const { validate } = require('../validations/productValidation');
+let validation = require('../../validations/productValidation');
+const { validate } = require('../../validations/productValidation');
 
 
 //Configuração do multer, para upload e download dos gabaritos

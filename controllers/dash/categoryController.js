@@ -1,9 +1,9 @@
 const express = require('express')
-const category = require('../models/category')
-const subCategory = require('../models/subCategory')
+const category = require('../../models/category')
+const subCategory = require('../../models/subCategory')
 const slug = require('slugify')
 const router = express.Router()
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+const collaboratorAuthentication = require('../../middleware/collaboratorAuthentication')
 
 
 router.get('/category/categories/:json?', async (req, res) => {
@@ -20,7 +20,7 @@ router.get('/category/categories/:json?', async (req, res) => {
         res.send('Ops, não foi possível realizar esta operação, tente novamente, caso o problema persista, entre em contato com o suporte')
     }
     if (!req.params.json) {
-        res.render('admin/category/categories', { categories: cat, subCategories: subCats })
+        res.render('admin/main/category/categories', { categories: cat, subCategories: subCats })
     } else {
         res.json({
             categories: cat,

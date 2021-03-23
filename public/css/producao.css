@@ -13,7 +13,7 @@
 }
 
 .dropzone {
-    width: 350px;
+    width: 300px;
     height: 800px;
     overflow: auto;
 }
@@ -24,8 +24,9 @@
     margin-left: 0px;
     margin-right: 0px;
     text-align: left;
-    min-width: 20px;
-    min-height: 200px;
+    min-width: 10px;
+    max-width: 100%;
+    min-height: 100px;
     border-style: solid;
     background-color: white;
     box-shadow: 0 2px 2px -1px #fd951fcc;

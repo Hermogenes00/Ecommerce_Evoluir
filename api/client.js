@@ -14,7 +14,6 @@ const payment = require('../models/payment')
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
 
-
 const fs = require('fs')
 
 const cnpjCpfValidation = require('../validations/cnpjCpfValidation')
@@ -126,14 +125,19 @@ router.get('/client/:id', (req, res) => {
 })
 
 //Listar todos os clientes
-router.get('/clients', (req, res) => {
-    clients.findAll().then(clts => {
-        res.statusCode = 200
-        res.json(clts)
-    }).catch(err => {
+router.get('/clients/:client?', async (req, res) => {
+
+    let client = `%${req.params.client}%`;
+    
+    try {
+        let response = await clients.findAll({ where: { nome: { [sequelize.Op.like]: client } } })
+        res.json({ clts: response.data })
+    } catch (error) {
         res.statusCode = 400
-    })
+        res.json({ err })
+    }
 })
+
 
 //Criação
 router.post('/client', async (req, res) => {
@@ -238,7 +242,7 @@ router.post('/client', async (req, res) => {
             })
 
             res.statusCode = 200
-            res.json(client)
+            res.json({ client, err: null })
 
         } else {
 
@@ -259,7 +263,7 @@ router.post('/client', async (req, res) => {
             }, { where: { id: data.id } }).then((response) => {
 
                 res.statusCode = 200
-                res.json(response)
+                res.json({ client: data, err: null })
 
             }).catch(error => {
                 res.statusCode = 400
@@ -267,13 +271,14 @@ router.post('/client', async (req, res) => {
             })
         }
     } catch (error) {
+        res.json({ client: null, err: error })
         res.statusCode = 400
     }
 
 })
 
 //Busca todos os itens que estejam vinculados ao cliente, bem como todos os endereços do cliente, somente status de CARRINHO
-router.get('/client/cart/:idClient',  async (req, res) => {
+router.get('/client/cart/:idClient', async (req, res) => {
 
     let idClient = req.params.idClient
 

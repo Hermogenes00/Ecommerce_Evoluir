@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
-const company = require('../models/company')
+const collaboratorAuthentication = require('../../middleware/collaboratorAuthentication')
+const company = require('../../models/company')
 
 //Api Correios
 const Correios = require('node-correios');

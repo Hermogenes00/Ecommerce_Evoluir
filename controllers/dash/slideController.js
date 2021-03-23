@@ -1,8 +1,8 @@
 const express = require('express');
-const slide = require('../models/slide')
+const slide = require('../../models/slide')
 const sequelize = require('sequelize')
 const router = express.Router();
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication');
+const collaboratorAuthentication = require('../../middleware/collaboratorAuthentication');
 
 
 
@@ -24,7 +24,7 @@ router.get('/admin/slides/:title?', collaboratorAuthentication, async (req, res)
             slides = await slide.findAll();
         }
 
-        res.render('admin/slide/slides', { slides })
+        res.render('admin/main/slide/slides', { slides })
     } catch (error) {
         console.log('Erro ao tentar carregar slides->', error);
         res.redirect('/main')
@@ -33,7 +33,7 @@ router.get('/admin/slides/:title?', collaboratorAuthentication, async (req, res)
 })
 
 router.get('/admin/slide/new', collaboratorAuthentication, (req, res) => {
-    res.render('admin/slide/new')
+    res.render('admin/main/slide/new')
 })
 
 router.post('/admin/slide/save', collaboratorAuthentication, (req, res) => {
@@ -44,17 +44,17 @@ router.post('/admin/slide/save', collaboratorAuthentication, (req, res) => {
         subTitulo: data.subTitulo,
         imagem: data.imagem
     }).then(() => {
-        res.redirect('/admin/slides/')
+        res.redirect('/admin/main/slides/')
     }).catch(err => {
         console.log('Erro ao tentar salvar o slide->', err);
-        res.redirect('/admin/slide/new')
+        res.redirect('/admin/main/slide/new')
     })
 })
 
 router.get('/admin/slide/edit/:id', collaboratorAuthentication, (req, res) => {
     let id = req.params.id
     slide.findByPk(id).then(sld => {
-        res.render('admin/slide/edit', { slide: sld })
+        res.render('admin/main/slide/edit', { slide: sld })
     }).catch(err => {
         console.log('Erro ao tentar carregar o slide->', err);
         res.redirect('/admin/slides/')

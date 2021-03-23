@@ -2,8 +2,8 @@ const express = require('express')
 const sequelize = require('sequelize')
 const router = express.Router()
 const slug = require('slugify')
-const institucional = require('../models/institucional')
-const collaboratorAuthentication = require('../middleware/collaboratorAuthentication')
+const institucional = require('../../models/institucional')
+const collaboratorAuthentication = require('../../middleware/collaboratorAuthentication')
 
 
 //Find all posts
