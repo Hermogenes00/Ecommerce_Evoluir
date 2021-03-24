@@ -11,8 +11,6 @@ const address = require('../../models/address')
 const payment = require('../../models/payment')
 const products = require('../../models/product')
 
-
-
 //constantes
 const constant = require('../../utils/constants')
 
@@ -23,7 +21,6 @@ const axiosConfig = {
         port: constant.PORTA
     }
 }
-
 
 //Email
 const nodemailer = require('nodemailer')
