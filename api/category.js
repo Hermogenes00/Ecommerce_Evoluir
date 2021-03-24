@@ -3,10 +3,10 @@ const category = require('../models/category')
 const subCategory = require('../models/subCategory')
 const slug = require('slugify')
 const router = express.Router()
-
+const apiAuthentication = require('../middleware/apiAuthentication')
 
 //Listagem
-router.get('/category', async (req, res) => {
+router.get('/category',apiAuthentication.apiCollaboratorAuthentication, async (req, res) => {
 
     let cat = []
     try {

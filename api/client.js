@@ -10,7 +10,6 @@ const subCategory = require('../models/subCategory')
 const address = require('../models/address')
 const payment = require('../models/payment')
 
-
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(10)
 
@@ -80,6 +79,13 @@ router.use(async (req, res, next) => {
 
 
 //Rotas
+//Esta rota servirá para autenticar o client, e gerar o token, para o consuma das demais rotas...
+router.post('/client/login', async (req, res) => {
+    let data = req.body
+    
+})
+
+
 router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
     let idItem = req.params.item;
 
@@ -128,7 +134,7 @@ router.get('/client/:id', (req, res) => {
 router.get('/clients/:client?', async (req, res) => {
 
     let client = `%${req.params.client}%`;
-    
+
     try {
         let response = await clients.findAll({ where: { nome: { [sequelize.Op.like]: client } } })
         res.json({ clts: response.data })

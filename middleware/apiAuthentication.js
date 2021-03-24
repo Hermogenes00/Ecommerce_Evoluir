@@ -1,26 +1,36 @@
-const jwt = require('jsonwebtoken')
-
-const secret = 'b26d3201e81a21f3ff8cccce85d64da3'
-
-const modelCollaborator = require('../models/collaborator')
 const modelClient = require('../models/client')
-
-const bcrypt = require('bcrypt')
+const jwtClient = require('../jwtValidation/jwtClient')
+const jwtCollaborator = require('../jwtValidation/jwtCollaborator')
 
 //Middlewares
 const apiCollaboratorAuthentication = (req, res, next) => {
 
-    let token = req.headers['authorization'];
-    
-    if(condition) {
+    if (req.session.collaborator)
+        next()
 
-    }
+    let token = req.headers['authorization']
+    let response = jwtCollaborator.verify(token)
+
+    if (!response.err)
+        next()
+
+    res.status(404)
+    res.json(response.err)
 }
 
-const apiClientAuthentication = (req, res, next) > {
-    if(condition) {
+const apiClientAuthentication = (req, res, next) => {
 
-    }
+    if (req.session.client)
+        next()
+
+    let token = req.headers['authorization']
+    let response = jwtCollaborator.verify(token)
+
+    if (!response.err)
+        next()
+
+    res.status(404)
+    res.json(response.err)
 }
 
 
