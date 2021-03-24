@@ -7,16 +7,15 @@ let dayInHours = Math.floor(Date.now() / 1000) + (60 * 60)
 //payload of the token
 const sign = name => {
 
-    let tokenResponse = undefined;
+    let response = undefined
 
     let payload = { name, authorization: ['client'] }
 
     jwt.sign(payload, SECRET, { expiresIn: dayInHours }, (err, token) => {
-        if (!err)
-            tokenResponse = token
+        response = { err, token }
     })
 
-    return tokenResponse
+    return response
 }
 
 const verify = token => {

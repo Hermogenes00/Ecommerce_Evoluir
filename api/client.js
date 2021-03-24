@@ -79,11 +79,45 @@ router.use(async (req, res, next) => {
 
 
 //Rotas
-//Esta rota servirá para autenticar o client, e gerar o token, para o consuma das demais rotas...
+//Esta rota servirá para autenticar o client, e gerar o token, para consumir as das demais rotas...
 router.post('/client/login', async (req, res) => {
+
     let data = req.body
     
+    try {
+        let client = await clients.findOne({
+            where: {
+                email: data.email
+            }
+        })
+        if (client) {
+
+            let compare = bcrypt.compareSync(data.password, client.password)
+            if (compare) {
+
+                //Cria uma sessão para os usuários poderem navegar no ecommerce
+                req.session.client = {
+                    id: client.id,
+                    nome: client.nome,
+                    email: client.email
+                }
+
+                //Retorna o token, para clientes externos poderem consumir a api
+                
+                res.redirect('/')
+            } else {
+                req.flash('erro', 'Erro ao realizar o login, verifique seu usuário e senha')
+                res.redirect('/client/login')
+            }
+            res.json(data)
+        }
+    } catch (error) {
+
+    }
 })
+
+
+
 
 
 router.post('/client/upload/:item', upload.single('file'), async (req, res) => {
