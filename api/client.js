@@ -39,6 +39,9 @@ const Correios = require('node-correios')
 const multer = require('multer')
 const path = require('path');
 
+//API Authentication
+const apiAuthentication = require('../middleware/apiAuthentication')
+
 
 //Configuração do Multer - Para realização de upload e download
 let enderecoImagem = undefined;
@@ -117,7 +120,23 @@ router.post('/client/login', async (req, res) => {
     }
 })
 
+//Listar todos os clientes
+router.get('/clients/:client?', async (req, res) => {
 
+    let client = `%${req.params.client}%`;
+    let response = undefined
+    try {
+        if (req.params.client) {
+            response = await clients.findAll({ where: { nome: { [sequelize.Op.like]: client } } })
+        } else {
+            response = await clients.findAll()
+        }
+        res.json({ clts: response })
+    } catch (error) {
+        res.statusCode = 400
+        res.json({ err })
+    }
+})
 
 
 
@@ -164,21 +183,6 @@ router.get('/client/:id', (req, res) => {
         res.statusCode = 400
     })
 })
-
-//Listar todos os clientes
-router.get('/clients/:client?', async (req, res) => {
-
-    let client = `%${req.params.client}%`;
-
-    try {
-        let response = await clients.findAll({ where: { nome: { [sequelize.Op.like]: client } } })
-        res.json({ clts: response.data })
-    } catch (error) {
-        res.statusCode = 400
-        res.json({ err })
-    }
-})
-
 
 //Criação
 router.post('/client', async (req, res) => {

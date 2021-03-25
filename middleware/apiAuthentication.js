@@ -5,9 +5,6 @@ const jwtCollaborator = require('../jwtValidation/jwtCollaborator')
 //Middlewares
 const apiCollaboratorAuthentication = (req, res, next) => {
 
-    if (req.session.collaborator)
-        next()
-
     let token = req.headers['authorization']
     let response = jwtCollaborator.verify(token)
 
@@ -20,11 +17,8 @@ const apiCollaboratorAuthentication = (req, res, next) => {
 
 const apiClientAuthentication = (req, res, next) => {
 
-    if (req.session.client)
-        next()
-
     let token = req.headers['authorization']
-    let response = jwtCollaborator.verify(token)
+    let response = jwtClient.verify(token)
 
     if (!response.err)
         next()

@@ -129,6 +129,15 @@ router.get('/clients/client/:id?', defaultAuthentication, async (req, res) => {
     res.render('admin/clients/client', { clt, msg })
 })
 
+router.get('/clients/test/',defaultAuthentication, async (req, res) => {
+    try {
+        let response = await axios.get('http://localhost:8090/api/clients',{})
+        res.json(response.data)
+    } catch (error) {
+        res.json('' + error)
+    }
+
+})
 
 router.post('/client/save', defaultAuthentication, async (req, res) => {
     let data = req.body
@@ -370,13 +379,6 @@ router.post('/client/recoverAccount/', defaultAuthentication, async (req, res) =
 
 })
 
-/**
- * router.get('/client/loginTeste', defaultAuthentication, async (req, res) => {
-    res.render('admin/test/login')
-})
- */
-
-
 router.post('/client/login', defaultAuthentication, async (req, res) => {
 
     //req.session.client = undefined;
@@ -396,7 +398,7 @@ router.post('/client/login', defaultAuthentication, async (req, res) => {
                 token: response.data.token
             }
             res.redirect('/')
-        }else{
+        } else {
             res.redirect('/client/login')
         }
     } catch (error) {
@@ -406,9 +408,9 @@ router.post('/client/login', defaultAuthentication, async (req, res) => {
 })
 
 router.get('/client/logout', defaultAuthentication, async (req, res) => {
-    
-    try {        
-        req.session.destroy()        
+
+    try {
+        req.session.destroy()
         res.redirect('/')
     } catch (error) {
         res.redirect('/')
