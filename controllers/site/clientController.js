@@ -370,62 +370,45 @@ router.post('/client/recoverAccount/', defaultAuthentication, async (req, res) =
 
 })
 
-router.post('/client/loginTeste', defaultAuthentication, async (req, res) => {
-
-    req.session.client = undefined;
-
-    let data = req.body;
-    let response = await axios.post('http://localhost:8090/api/client/login', data)
-
-    if (!response.err) {
-        req.session.client = {
-            id: client.id,
-            nome: client.nome,
-            email: client.email            
-        }
-        res.json(response.data)
-    }else{
-        res.json(response.data)
-    }
-
+/**
+ * router.get('/client/loginTeste', defaultAuthentication, async (req, res) => {
+    res.render('admin/test/login')
 })
+ */
 
-router.post('/client/login', defaultAuthentication, (req, res) => {
 
-    req.session.client = undefined;
+router.post('/client/login', defaultAuthentication, async (req, res) => {
+
+    //req.session.client = undefined;
 
     let data = req.body;
 
-    clients.findOne({
-        where: {
-            email: data.email
-        }
+    try {
 
-    }).then(client => {
-        let compare = bcrypt.compareSync(data.password, client.password)
-        if (compare) {
+        let response = await axios.post('http://localhost:8090/api/client/login', data)
+
+        if (!response.data.err) {
 
             req.session.client = {
-                id: client.id,
-                nome: client.nome,
-                email: client.email
+                id: response.data.id,
+                nome: response.data.nome,
+                email: response.data.email,
+                token: response.data.token
             }
             res.redirect('/')
-
-        } else {
-            req.flash('erro', 'Erro ao realizar o login, verifique seu usuário e senha')
+        }else{
             res.redirect('/client/login')
         }
-    }).catch(erro => {
+    } catch (error) {
         req.flash('erro', 'Erro ao realizar o login, verifique seu usuário e senha')
-        console.log('Erro ao tentar logar ' + erro);
         res.redirect('/client/login')
-    })
+    }
 })
 
 router.get('/client/logout', defaultAuthentication, async (req, res) => {
-    try {
-        await req.session.destroy()
+    
+    try {        
+        req.session.destroy()        
         res.redirect('/')
     } catch (error) {
         res.redirect('/')

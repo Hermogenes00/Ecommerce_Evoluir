@@ -29,6 +29,8 @@ const CONSTANTES = require('../utils/constants')
 //Validação
 let validate = require('../validations/clientValidation')
 
+//JWT Client
+let jwtClient = require('../jwtValidation/jwtClient')
 
 //API DOS CORREIORS
 const Correios = require('node-correios')
@@ -96,15 +98,22 @@ router.post('/client/login', async (req, res) => {
             let compare = bcrypt.compareSync(data.password, client.password)
             if (compare) {
                 //Retorna o token, para clientes externos poderem consumir a api
-                res.json({ err: null, tokenFalso: 'fadsfadsfadfs' })
+                jwtClient.sign({ id: client.id, nome: client.nome, email: client.email }, (err, token) => {
+                    if (!err) {
+                        res.json({ err, token, id: client.id, nome: client.nome, email: client.email })
+                    } else {
+                        res.json({ err, token: null })
+                    }
+                })
             } else {
                 res.json({ err: 'Erro ao tentar consultar a api', tokenFalso: null })
             }
         } else {
-            res.json({ err: 'Erro ao tentar consultar a api', tokenFalso: null })
+            res.json({ err: 'Cliente não encontrado', tokenFalso: null })
         }
     } catch (error) {
-        res.json({ error })
+        console.log(error)
+        res.json({ error: '' + error })
     }
 })
 
