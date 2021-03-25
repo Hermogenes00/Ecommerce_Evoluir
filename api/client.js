@@ -11,6 +11,7 @@ const address = require('../models/address')
 const payment = require('../models/payment')
 
 const bcrypt = require('bcrypt')
+
 const salt = bcrypt.genSaltSync(10)
 
 const fs = require('fs')
@@ -79,11 +80,12 @@ router.use(async (req, res, next) => {
 
 
 //Rotas
+
 //Esta rota servirá para autenticar o client, e gerar o token, para consumir as das demais rotas...
 router.post('/client/login', async (req, res) => {
 
     let data = req.body
-    
+
     try {
         let client = await clients.findOne({
             where: {
@@ -91,28 +93,18 @@ router.post('/client/login', async (req, res) => {
             }
         })
         if (client) {
-
             let compare = bcrypt.compareSync(data.password, client.password)
             if (compare) {
-
-                //Cria uma sessão para os usuários poderem navegar no ecommerce
-                req.session.client = {
-                    id: client.id,
-                    nome: client.nome,
-                    email: client.email
-                }
-
                 //Retorna o token, para clientes externos poderem consumir a api
-                
-                res.redirect('/')
+                res.json({ err: null, tokenFalso: 'fadsfadsfadfs' })
             } else {
-                req.flash('erro', 'Erro ao realizar o login, verifique seu usuário e senha')
-                res.redirect('/client/login')
+                res.json({ err: 'Erro ao tentar consultar a api', tokenFalso: null })
             }
-            res.json(data)
+        } else {
+            res.json({ err: 'Erro ao tentar consultar a api', tokenFalso: null })
         }
     } catch (error) {
-
+        res.json({ error })
     }
 })
 

@@ -43,13 +43,16 @@ let recoverAccount = require('../../validations/recoverAccountValidate')
 //API DOS CORREIORS
 const Correios = require('node-correios')
 
+//AXIOS
+const axios = require('axios')
+
 //MULTER Necessário para fazer upload
 const multer = require('multer')
 const path = require('path');
 
+
 //Configuração do Multer - Para realização de upload e download
 let enderecoImagem = undefined;
-
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -289,7 +292,6 @@ router.post('/client/sendEmailByPassword', defaultAuthentication, async (req, re
             //Update codigoSegurança through cnpjCpf
             await clients.update({ codigoSeguranca: hash.slice(7, 12) }, { where: { id: objClient.id } })
 
-
             //Send email
             let transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
@@ -358,8 +360,6 @@ router.post('/client/recoverAccount/', defaultAuthentication, async (req, res) =
                 info = null
                 err = validResult.error.details[0].message
             }
-
-
         }
     } catch (error) {
         console.log(error);
@@ -370,9 +370,30 @@ router.post('/client/recoverAccount/', defaultAuthentication, async (req, res) =
 
 })
 
+router.post('/client/loginTeste', defaultAuthentication, async (req, res) => {
+
+    req.session.client = undefined;
+
+    let data = req.body;
+    let response = await axios.post('http://localhost:8090/api/client/login', data)
+
+    if (!response.err) {
+        req.session.client = {
+            id: client.id,
+            nome: client.nome,
+            email: client.email            
+        }
+        res.json(response.data)
+    }else{
+        res.json(response.data)
+    }
+
+})
 
 router.post('/client/login', defaultAuthentication, (req, res) => {
+
     req.session.client = undefined;
+
     let data = req.body;
 
     clients.findOne({
@@ -383,7 +404,7 @@ router.post('/client/login', defaultAuthentication, (req, res) => {
     }).then(client => {
         let compare = bcrypt.compareSync(data.password, client.password)
         if (compare) {
-            
+
             req.session.client = {
                 id: client.id,
                 nome: client.nome,
@@ -406,7 +427,7 @@ router.get('/client/logout', defaultAuthentication, async (req, res) => {
     try {
         await req.session.destroy()
         res.redirect('/')
-    } catch (error) {        
+    } catch (error) {
         res.redirect('/')
     }
 

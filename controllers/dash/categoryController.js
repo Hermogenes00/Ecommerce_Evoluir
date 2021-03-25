@@ -8,8 +8,6 @@ const collaboratorAuthentication = require('../../middleware/collaboratorAuthent
 
 router.get('/category/categories/:json?', async (req, res) => {
 
-    res.json(req.headers)
-
     let cat = []
     let subCats = []
     try {
@@ -27,7 +25,6 @@ router.get('/category/categories/:json?', async (req, res) => {
             subCategories: subCats
         })
     }
-
 
 })
 
