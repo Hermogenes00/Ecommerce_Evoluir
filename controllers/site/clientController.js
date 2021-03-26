@@ -140,152 +140,29 @@ router.get('/clients/test/', defaultAuthentication, async (req, res) => {
 })
 
 //Rota de teste
-router.post('/client/save', defaultAuthentication, async (req, res) => {
+router.post('/client/saveTeste', defaultAuthentication, async (req, res) => {
+
     let data = req.body
-    let msg = []
-    
-    let validCnpjCpf = false;
+    let err = null
+    let response = null
+
     try {
-
-        //#region Validação
-        let validResult = validate.validate({
-            nome: data.nome,
-            cnpjCpf: data.cnpjCpf,
-            email: data.email,
-            password: data.password,
-            tel: data.tel,
-            cel1: data.cel1,
-            cel2: data.cel2,
-            cep: data.cep,
-            numero: data.numero
-        })
-
-        if (cnpjCpfValidation.cpfValidation(data.cnpjCpf)) validCnpjCpf = true
-        if (cnpjCpfValidation.cnpjValidation(data.cnpjCpf)) validCnpjCpf = true
-
-        if (!validCnpjCpf) {
-            msg.push('Cnpj/Cpf inválido')            
-            return res.render('admin/clients/client', { clt: data, msg })
+        if (data.id <= 0 || typeof data.id == 'undefined') {
+            //Create
+            console.log('CHEGOU NO CREATE');
+            response = await axios.post('http://localhost:8090/api/client', data)
+        } else {
+            //Update
+            console.log('CHEGOU NO UPDATE');
+            response = await axios.put('http://localhost:8090/api/client', data)
         }
-
-        if (validResult.error) {
-            msg.push(validResult.error.details[0].message)
-            return res.render('admin/clients/client', { clt: data, msg })
-        }
-
-        try {
-            let validCnpjCpf = undefined
-    
-            if (data.id > 0) {
-                validCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf, id: { [sequelize.Op.not]: data.id } } })
-            } else {
-                validCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf } })
-            }
-    
-            if (validCnpjCpf) {
-                msg.push('CnpjCpf já cadastrado no sistema')
-                return res.render('admin/clients/client', { clt: data, msg })
-            }
-        } catch (error) {
-            console.log('Erro ao tentar buscar clientes pelo cpf->', error);
-            return res.render('admin/clients/client', { clt: data, msg })
-        }
-
-        try {
-            let validEmail = undefined
-    
-            if (data.id > 0) {
-                validCnpjCpf = await clients.findOne({ where: { email: data.email, id: { [sequelize.Op.not]: data.id } } })
-            } else {
-                validCnpjCpf = await clients.findOne({ where: { email: data.email } })
-            }
-    
-            if (validEmail) {
-                msg.push('Email já cadastrado no sistema')
-                return res.render('admin/collaborators/collaborator', { collaborator: data, msg })
-            }
-    
-        } catch (error) {
-            console.log('Erro ao tentar buscar colaboradores pelo email->', error);
-            return res.render('admin/collaborators/collaborator', { collaborator: data, msg })
-        }
-
-        try {
-            if (data.id <= 0) {
-    
-                let client = await clients.create({
-                    email: data.email,
-                    nome: data.nome,
-                    password: bcrypt.hashSync(data.password, salt),
-                    cnpjCpf: data.cnpjCpf,
-                    tel: data.tel,
-                    cel1: data.cel1,
-                    cel2: data.cel2,
-                    cep: data.cep,
-                    rua: data.rua,
-                    bairro: data.bairro,
-                    numero: data.numero,
-                    complemento: data.complemento,
-                    cidade: data.cidade,
-                    uf: data.uf
-                })
-    
-                await address.create({
-                    cep: data.cep,
-                    cidade: data.cidade,
-                    uf: data.uf,
-                    rua: data.rua,
-                    bairro: data.bairro,
-                    numero: data.numero,
-                    complemento: data.complemento,
-                    clienteId: client.id
-                })
-    
-                req.session.client = undefined;
-                //Cria uma sessão                
-                req.session.client = {
-                    id: client.id,
-                    nome: client.nome,
-                    email: client.email
-                }
-                return res.redirect('/')
-            } else {
-    
-                clients.update({
-                    email: data.email,
-                    nome: data.nome,
-                    cnpjCpf: data.cnpjCpf,
-                    tel: data.tel,
-                    cel1: data.cel1,
-                    cel2: data.cel2,
-                    cep: data.cep,
-                    rua: data.rua,
-                    bairro: data.bairro,
-                    numero: data.numero,
-                    complemento: data.complemento,
-                    uf: data.uf,
-                    cidade: data.cidade
-                }, { where: { id: data.id } }).then(() => {
-                    return res.redirect('/client/logout')
-                }).catch(error => {
-                    console.log('Erro ao tentar alterar cliente', error);
-                    return res.render('admin/clients/client', { clt: data, msg })
-                })
-            }
-        } catch (error) {
-            return res.redirect('/')
-        }
-
-
-        let response = await axios.get('http://localhost:8090/api/clients', {})
-        res.json(response.data)
-
     } catch (error) {
-        res.json('' + error)
+        err = '' + error
     }
 
-
-
+    let codStatus = err ? 400 : 200
+    res.statusCode = codStatus
+    res.json(response.data)
 })
 
 router.post('/client/save', defaultAuthentication, async (req, res) => {

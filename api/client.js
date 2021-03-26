@@ -130,9 +130,9 @@ router.get('/clients/:client?', async (req, res) => {
             response = await clients.findAll()
         }
         res.json({ clts: response })
+
     } catch (error) {
-        res.statusCode = 400
-        res.json({ err })
+        res.status(400).json({ err: '' + error })
     }
 })
 
@@ -182,6 +182,7 @@ router.get('/client/:id', (req, res) => {
     })
 })
 
+
 //Criação
 router.post('/client', async (req, res) => {
     let data = req.body
@@ -208,15 +209,15 @@ router.post('/client', async (req, res) => {
 
     if (!validCnpjCpf) {
         err = 'Cnpj/Cpf inválido'
-        res.status(400).json({ err })
     }
     if (validResult.error) {
         err = validResult.error.details[0].message
-        res.status(400).json({ err })
     }
 
     try {
+
         let findByCnpjCpf = undefined
+
         if (data.id > 0) {
             findByCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf, id: { [sequelize.Op.not]: data.id } } })
         } else {
@@ -225,11 +226,9 @@ router.post('/client', async (req, res) => {
 
         if (findByCnpjCpf) {
             err = 'Cnpj/Cpf já cadastrado'
-            res.status(400).json({ err })
         }
     } catch (error) {
         err = 'Erro ao tentar buscar clientes pelo cpf'
-        res.status(400).json({ err })
     }
 
     try {
@@ -243,17 +242,15 @@ router.post('/client', async (req, res) => {
 
         if (validEmail) {
             err = 'Email já cadastrado no sistema'
-            res.status(400).json({ err })
         }
 
     } catch (error) {
         err = 'Erro ao tentar buscar colaboradores pelo email'
-        res.status(400).json({ err })        
     }
     //#endregion
 
     try {
-        if (data.id <= 0) {
+        if (data.id <= 0 || typeof data.id == 'undefined') {
 
             let client = await clients.create({
                 email: data.email,
@@ -282,40 +279,107 @@ router.post('/client', async (req, res) => {
                 complemento: data.complemento,
                 clienteId: client.id
             })
-
-            res.statusCode = 200
-            res.json({ client, err: null })
-
         } else {
-
-            clients.update({
-                email: data.email,
-                nome: data.nome,
-                cnpjCpf: data.cnpjCpf,
-                tel: data.tel,
-                cel1: data.cel1,
-                cel2: data.cel2,
-                cep: data.cep,
-                rua: data.rua,
-                bairro: data.bairro,
-                numero: data.numero,
-                complemento: data.complemento,
-                uf: data.uf,
-                cidade: data.cidade
-            }, { where: { id: data.id } }).then((response) => {
-
-                res.statusCode = 200
-                res.json({ client: data, err: null })
-
-            }).catch(error => {
-                res.statusCode = 400
-                res.send('Erro ao tentar alterar o cliente')
-            })
+            err = 'Id já vinculado a um cliente'
         }
     } catch (error) {
-        res.json({ client: null, err: error })
-        res.statusCode = 400
+        err = error
     }
+
+    console.log('' + err)
+    let statusCode = err ? 400 : 200
+    res.statusCode = 200
+    res.json({ err: '' + err })
+})
+
+router.put('/client', async (req, res) => {
+
+    let data = req.body
+    let err = null
+    let returnObj = null
+    let validCnpjCpf = false;
+
+    //#region Validação
+    let validResult = validate.validate({
+        nome: data.nome,
+        cnpjCpf: data.cnpjCpf,
+        email: data.email,
+        password: data.password,
+        tel: data.tel,
+        cel1: data.cel1,
+        cel2: data.cel2,
+        cep: data.cep,
+        numero: data.numero
+    })
+
+    if (cnpjCpfValidation.cpfValidation(data.cnpjCpf)) validCnpjCpf = true
+    if (cnpjCpfValidation.cnpjValidation(data.cnpjCpf)) validCnpjCpf = true
+
+    if (!validCnpjCpf) {
+        err = 'Cnpj/Cpf inválido'
+    }
+    if (validResult.error) {
+        err = validResult.error.details[0].message
+    }
+
+    try {
+
+        let findByCnpjCpf = undefined
+        //Search client by cnpj or cpdf
+        if (data.id > 0) {
+            findByCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf, id: { [sequelize.Op.not]: data.id } } })
+        } else {
+            findByCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf } })
+        }
+
+        if (findByCnpjCpf) {
+            err = 'Cnpj/Cpf já cadastrado'
+        }
+    } catch (error) {
+        err = 'Erro ao tentar buscar clientes pelo cpf'
+    }
+
+    try {
+        let validEmail = undefined
+
+        //Search client by email for validation
+        if (data.id > 0) {
+            validEmail = await clients.findOne({ where: { email: data.email, id: { [sequelize.Op.not]: data.id } } })
+        } else {
+            validEmail = await clients.findOne({ where: { email: data.email } })
+        }
+
+        if (validEmail) {
+            err = 'Email já cadastrado no sistema'
+        }
+
+    } catch (error) {
+        err = 'Erro ao tentar buscar colaboradores pelo email'
+    }
+
+    try {
+        returnObj = await clients.update({
+            email: data.email,
+            nome: data.nome,
+            cnpjCpf: data.cnpjCpf,
+            tel: data.tel,
+            cel1: data.cel1,
+            cel2: data.cel2,
+            cep: data.cep,
+            rua: data.rua,
+            bairro: data.bairro,
+            numero: data.numero,
+            complemento: data.complemento,
+            uf: data.uf,
+            cidade: data.cidade
+        }, { where: { id: data.id } })
+    } catch (error) {
+        err = error
+    }
+
+    let codStatus = err ? 400 : 200
+    res.statusCode = codStatus
+    res.json({ err: '' + err, returnObj })
 
 })
 
