@@ -132,7 +132,7 @@ router.get('/clients/client/:id?', defaultAuthentication, async (req, res) => {
 //Rota de teste
 router.get('/clients/test/', defaultAuthentication, async (req, res) => {
     try {
-        let response = await axios.get('http://localhost:8090/api/clients', {})
+        let response = await axios.get(`http://localhost:${process.env.PORT}/api/clients`, {})
         res.json(response.data)
     } catch (error) {
         res.json('' + error)
@@ -150,11 +150,11 @@ router.post('/client/saveTeste', defaultAuthentication, async (req, res) => {
         if (data.id <= 0 || typeof data.id == 'undefined') {
             //Create
             console.log('CHEGOU NO CREATE');
-            response = await axios.post('http://localhost:8090/api/client', data)
+            response = await axios.post(`http://localhost:${process.env.PORT}/api/client`, data)
         } else {
             //Update
             console.log('CHEGOU NO UPDATE');
-            response = await axios.put('http://localhost:8090/api/client', data)
+            response = await axios.put(`http://${process.env.PORT}/api/client`, data)
         }
     } catch (error) {
         err = '' + error
