@@ -55,9 +55,7 @@ let storage = multer.diskStorage({
         enderecoImagem = file.originalname + '-' + Date.now() + path.extname(file.originalname)
         cb(null, enderecoImagem)
     }
-}
-)
-
+})
 
 let upload = multer({
     storage: storage,
@@ -188,6 +186,8 @@ router.get('/client/:id', (req, res) => {
 router.post('/client', async (req, res) => {
     let data = req.body
     let msg = []
+    let err = null
+
     let validCnpjCpf = false;
 
     //#region Validação
@@ -207,51 +207,48 @@ router.post('/client', async (req, res) => {
     if (cnpjCpfValidation.cnpjValidation(data.cnpjCpf)) validCnpjCpf = true
 
     if (!validCnpjCpf) {
-        res.statusCode = 400
-        res.send('Cnpj/Cpf inválido')
+        err = 'Cnpj/Cpf inválido'
+        res.status(400).json({ err })
     }
-
     if (validResult.error) {
-        res.statusCode = 400
-        res.send(validResult.error.details[0].message)
+        err = validResult.error.details[0].message
+        res.status(400).json({ err })
     }
 
     try {
-        let validCnpjCpf = undefined
-
+        let findByCnpjCpf = undefined
         if (data.id > 0) {
-            validCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf, id: { [sequelize.Op.not]: data.id } } })
+            findByCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf, id: { [sequelize.Op.not]: data.id } } })
         } else {
-            validCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf } })
+            findByCnpjCpf = await clients.findOne({ where: { cnpjCpf: data.cnpjCpf } })
         }
 
-        if (validCnpjCpf) {
-            res.statusCode = 400
-            res.send('CnpjCpf já cadastrado no sistema')
+        if (findByCnpjCpf) {
+            err = 'Cnpj/Cpf já cadastrado'
+            res.status(400).json({ err })
         }
     } catch (error) {
-        res.statusCode = 400
-        res.send('Erro ao tentar buscar clientes pelo cpf')
+        err = 'Erro ao tentar buscar clientes pelo cpf'
+        res.status(400).json({ err })
     }
-
 
     try {
         let validEmail = undefined
 
         if (data.id > 0) {
-            validCnpjCpf = await clients.findOne({ where: { email: data.email, id: { [sequelize.Op.not]: data.id } } })
+            validEmail = await clients.findOne({ where: { email: data.email, id: { [sequelize.Op.not]: data.id } } })
         } else {
-            validCnpjCpf = await clients.findOne({ where: { email: data.email } })
+            validEmail = await clients.findOne({ where: { email: data.email } })
         }
 
         if (validEmail) {
-            res.statusCode = 400
-            res.send('Email já cadastrado no sistema')
+            err = 'Email já cadastrado no sistema'
+            res.status(400).json({ err })
         }
 
     } catch (error) {
-        res.statusCode = 400
-        res.send('Erro ao tentar buscar colaboradores pelo email')
+        err = 'Erro ao tentar buscar colaboradores pelo email'
+        res.status(400).json({ err })        
     }
     //#endregion
 
