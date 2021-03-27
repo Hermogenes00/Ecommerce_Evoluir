@@ -26,6 +26,9 @@ const tratarArquivo = require('../utils/trataArquivo')
 
 const CONSTANTES = require('../utils/constants')
 
+//Email
+const nodemailer = require('nodemailer')
+
 //Validação
 let validate = require('../validations/clientValidation')
 
@@ -40,7 +43,7 @@ const multer = require('multer')
 const path = require('path');
 
 //API Authentication
-const apiAuthentication = require('../middleware/apiAuthentication')
+const apiAuthentication = require('../middleware/apiAuthentication');
 
 
 //Configuração do Multer - Para realização de upload e download
@@ -292,6 +295,7 @@ router.post('/client', async (req, res) => {
     res.json({ err: '' + err })
 })
 
+//Update Client
 router.put('/client', async (req, res) => {
 
     let data = req.body
@@ -358,6 +362,7 @@ router.put('/client', async (req, res) => {
     }
 
     try {
+        console.log('CHEGOU NA API')
         returnObj = await clients.update({
             email: data.email,
             nome: data.nome,
@@ -379,14 +384,19 @@ router.put('/client', async (req, res) => {
 
     let codStatus = err ? 400 : 200
     res.statusCode = codStatus
-    res.json({ err: '' + err, returnObj })
+
+    res.json({ err, returnObj })
 
 })
 
-//Busca todos os itens que estejam vinculados ao cliente, bem como todos os endereços do cliente, somente status de CARRINHO
+/**
+ * Busca todos os itens que estejam vinculados ao cliente
+ * bem como todos os endereços do cliente, somente status de CARRINHO
+ * Retorna também a listagem de endereços do cliente
+ */
 router.get('/client/cart/:idClient', async (req, res) => {
 
-    let idClient = req.params.idClient
+    let { idClient } = req.params
 
     try {
         let objOrders = await orders.findOne({
@@ -394,14 +404,12 @@ router.get('/client/cart/:idClient', async (req, res) => {
             include: [{ model: clients }, { model: itensOrder }, { model: address }]
         });
 
-        let adr = await address.findAll({ where: { clienteId: idClient } })
-
         res.statusCode = 200
-        res.json({ objOrders, adr })
+        res.json({ objOrders })
 
     } catch (error) {
         res.statusCode = 400
-        res.send('Erro ao tentar buscar pedidos')
+        res.json({ error })
     }
 
 })
@@ -470,5 +478,57 @@ router.delete('/order/:idOrder', async (req, res) => {
 
 })
 
+//Envia email para o cliente, seta também um código de segurança para a redefinição de senha
+router.post('/client/sendEmailByPassword', async (req, res) => {
+    let err = null
+    let infoEmail = null
+    let { sender, recipient } = req.body
+        
+    try {
+
+        let objClient = await clients.findOne({ where: { email: email } })
+
+        if (objClient.email) {
+
+            //Generate hash by cnpjCpf
+            let hash = bcrypt.hashSync(objClient.cnpjCpf, salt)
+
+            //Update codigoSegurança through cnpjCpf
+            await clients.update({ codigoSeguranca: hash.slice(7, 12) }, { where: { id: objClient.id } })
+
+            //Send email
+            let transporter = nodemailer.createTransport({
+                host: sender.host,
+                port: sender.port,
+                secure: false,
+                auth: {
+                    user: sender.email,
+                    pass: sender.password
+                }
+            })
+
+            transporter.sendMail({
+                from: sender.email,
+                to: recipient.email,
+                subject: 'Redefinição de Senha',
+                html:
+                    `<h5">Este é o seu codigo de segurança para recuperação de sua conta. Não forneça esta informação a terceiros.</h5>
+                 <h1>${hash.slice(7, 12)}</h1>
+                <p><a href="http://localhost:${process.env.PORT}/client/recoverAccount/">Clique aqui para prosseguir com a recuperação da sua conta.</a></p>
+                 `
+
+            }, (error, info) => {
+                err = error
+                infoEmail = info
+            })
+        }
+
+    } catch (error) {
+        err = error        
+    }
+
+    res.json({ err, infoEmail })
+
+})
 
 module.exports = router
