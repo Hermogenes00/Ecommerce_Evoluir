@@ -14,6 +14,9 @@ let SequelizeStore = require('connect-session-sequelize')(session.Store)
 app.use(configSession(session,SequelizeStore))
 
 
+//Config DOTENV
+require('dotenv').config()
+
 //Possibilita a utilização da api em ambientes externos ao servidor local
 app.use(cors())
 
@@ -161,7 +164,7 @@ app.use(express.static('uploads'))
 app.use(express.static('gabarito'))
 
 
-app.listen(8090, () => {
-    console.log('Rodando na porta 8090');
+app.listen(process.env.PORT, () => {
+    console.log('Rodando na porta '+process.env.PORT);
 })
 

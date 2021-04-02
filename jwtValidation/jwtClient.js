@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const SECRET = '288c200024cfa9f3f6bbf6ea5b38e143'
+const SECRET = process.env.SECRET_JWT_COLLABORATOR
 
 //24 hours
 let dayInHours = Math.floor(Date.now() / 1000) + (60 * 60)

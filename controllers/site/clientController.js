@@ -129,14 +129,93 @@ router.get('/clients/client/:id?', defaultAuthentication, async (req, res) => {
     res.render('admin/clients/client', { clt, msg })
 })
 
-router.get('/clients/test/',defaultAuthentication, async (req, res) => {
+//#region Rotas de TESTE
+
+//listar clientes
+router.get('/clients/test/', defaultAuthentication, async (req, res) => {
     try {
+<<<<<<< HEAD
         let response = await axios.get('http://localhost:8090/api/clients')
+=======
+        let response = await axios.get(`http://${process.env.HOST}:${process.env.PORT}/api/clients`, {})
+>>>>>>> 80e9d69187b92834a3dc75ee5d1605a121977dc2
         res.json(response.data)
     } catch (error) {
         res.json('' + error)
     }
+<<<<<<< HEAD
+=======
 })
+
+//Create or Update cliente
+router.post('/client/saveTeste', defaultAuthentication, async (req, res) => {
+
+    let data = req.body
+    let err = null
+    let response = null
+
+    try {
+        if (data.id <= 0 || typeof data.id == 'undefined') {
+            //Create            
+            response = await axios.post(`http://${process.env.HOST}:${process.env.PORT}/api/client`, data)
+        } else {
+            //Update            
+            response = await axios.put(`http://${process.env.HOST}:${process.env.PORT}/api/client`, data)
+        }
+    } catch (error) {
+        err = '' + error
+    }
+
+    let codStatus = err ? 400 : 200
+    res.statusCode = codStatus
+    res.json(response.data)
+>>>>>>> 80e9d69187b92834a3dc75ee5d1605a121977dc2
+})
+
+/**
+ * Busca todos os itens que estejam vinculados ao cliente
+ * bem como todos os endereços do cliente, somente status de CARRINHO
+ * Retorna também a listagem de endereços do cliente
+ */
+router.get('/client/cart/:idClient/teste', async (req, res) => {
+    let { idClient } = req.params
+    let err = null
+    let response = null
+
+    try {
+        if (idClient) {
+            response = await axios.get(`http://${process.env.HOST}:${process.env.PORT}/api/client/cart/${idClient}`)
+        }
+    } catch (error) {
+        err = error
+    }
+    res.json({ err, response: response.data })
+})
+
+
+router.post('/client/sendEmailByPassword/teste', defaultAuthentication, async (req, res) => {
+    let err = null
+    let response = null
+    let { sender, recipient } = req.body
+    
+    try {
+        console.log('CHEGOU NA ROTA')
+        response = await axios.post(`http://${process.env.HOST}:${process.env.PORT}/api/client/sendEmailByPassword`, { sender, recipient })
+    } catch (error) {
+        err = error+''
+    }
+
+    res.json({err,response:response.data})
+})
+
+
+
+
+
+
+
+//#endregion
+
 
 router.post('/client/save', defaultAuthentication, async (req, res) => {
     let data = req.body
@@ -323,7 +402,6 @@ router.post('/client/sendEmailByPassword', defaultAuthentication, async (req, re
             }, (err, info) => {
                 res.json({ info, err })
             })
-
         }
 
     } catch (error) {
