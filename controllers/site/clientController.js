@@ -131,12 +131,11 @@ router.get('/clients/client/:id?', defaultAuthentication, async (req, res) => {
 
 router.get('/clients/test/',defaultAuthentication, async (req, res) => {
     try {
-        let response = await axios.get('http://localhost:8090/api/clients',{})
+        let response = await axios.get('http://localhost:8090/api/clients')
         res.json(response.data)
     } catch (error) {
         res.json('' + error)
     }
-
 })
 
 router.post('/client/save', defaultAuthentication, async (req, res) => {
