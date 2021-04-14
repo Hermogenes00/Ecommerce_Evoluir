@@ -8,12 +8,11 @@
 #### EJS -> Controle e manipulação das views
 
 >Página Inicial Home
-#### `Página incial Home`
 <img src = "https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print.png?raw=true"/>
 
-#### `Página Detalhe Produto`
+>Página Detalhe Produto
 <img src = "https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print2.png?raw=true"/>
 
-#### `Carrinho de compras`
+>Carrinho de compras
 <img src ="https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print3.png?raw=true"/>
->fadsfasdf
+
