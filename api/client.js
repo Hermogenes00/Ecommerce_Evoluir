@@ -121,6 +121,7 @@ router.post('/client/login', async (req, res) => {
     }
 })
 
+
 //Listar todos os clientes
 router.get('/clients/:client?', async (req, res) => {
 

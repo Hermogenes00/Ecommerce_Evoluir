@@ -134,11 +134,17 @@ router.get('/clients/client/:id?', defaultAuthentication, async (req, res) => {
 //listar clientes
 router.get('/clients/test/', defaultAuthentication, async (req, res) => {
     try {
+<<<<<<< HEAD
+        let response = await axios.get('http://localhost:8090/api/clients')
+=======
         let response = await axios.get(`http://${process.env.HOST}:${process.env.PORT}/api/clients`, {})
+>>>>>>> 80e9d69187b92834a3dc75ee5d1605a121977dc2
         res.json(response.data)
     } catch (error) {
         res.json('' + error)
     }
+<<<<<<< HEAD
+=======
 })
 
 //Create or Update cliente
@@ -163,6 +169,7 @@ router.post('/client/saveTeste', defaultAuthentication, async (req, res) => {
     let codStatus = err ? 400 : 200
     res.statusCode = codStatus
     res.json(response.data)
+>>>>>>> 80e9d69187b92834a3dc75ee5d1605a121977dc2
 })
 
 /**
