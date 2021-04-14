@@ -9,7 +9,7 @@
 
 #### `Página incial Home`
 <img src = "https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print.png?raw=true"/>
-#### `Página detalhe de produto`
+#### `Página Detalhe Produto`
 <img src = "https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print2.png?raw=true"/>
 #### `Carrinho de compras`
 <img src ="https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print3.png?raw=true"/>
