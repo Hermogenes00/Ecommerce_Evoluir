@@ -201,12 +201,6 @@ router.post('/client/sendEmailByPassword/teste', defaultAuthentication, async (r
     res.json({err,response:response.data})
 })
 
-
-
-
-
-
-
 //#endregion
 
 
