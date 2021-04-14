@@ -7,7 +7,7 @@
 #### Mercado Pago (Realizar pagamento e gerenciamento dos valores recebidos)
 #### EJS -> Controle e manipulação das views
 
->asdfasdf
+>Página Inicial Home
 #### `Página incial Home`
 <img src = "https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print.png?raw=true"/>
 
