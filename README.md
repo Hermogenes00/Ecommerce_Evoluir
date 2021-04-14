@@ -7,8 +7,8 @@
 #### Mercado Pago (Realizar pagamento e gerenciamento dos valores recebidos)
 #### EJS -> Controle e manipulação das views
 
+>asdfasdf
 #### `Página incial Home`
-[teste](https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print.png?raw=true)
 <img src = "https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print.png?raw=true"/>
 
 #### `Página Detalhe Produto`
@@ -16,3 +16,4 @@
 
 #### `Carrinho de compras`
 <img src ="https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print3.png?raw=true"/>
+>fadsfasdf
