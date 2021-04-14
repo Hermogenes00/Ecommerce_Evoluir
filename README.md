@@ -6,6 +6,7 @@
 #### À implentar emissão fiscal com a api do plug notas
 #### Mercado Pago (Realizar pagamento e gerenciamento dos valores recebidos)
 #### EJS -> Controle e manipulação das views
+#### Bootstrap
 
 >Página Inicial Home
 <img src = "https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print.png?raw=true"/>
