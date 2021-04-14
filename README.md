@@ -8,8 +8,7 @@
 #### EJS -> Controle e manipulação das views
 
 #### `Página incial Home`
-`<img src = "https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print.png?raw=true"/>`
-
+<img src = "https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print.png?raw=true"/>
 
 #### `Página Detalhe Produto`
 <img src = "https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print2.png?raw=true"/>
