@@ -17,3 +17,6 @@
 >Carrinho de compras
 <img src ="https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/print3.png?raw=true"/>
 
+
+>Dashboard
+<img src ="https://github.com/Hermogenes00/Ecommerce_Evoluir/blob/master/public/images/ecommerce/main.png?raw=true"/>
