@@ -112,7 +112,7 @@ app.get('/',defaultAuthentication, async (req, res) => {
         let prods = await products.findAll()
         let sld = await slides.findAll()
 
-        res.render('index', { products: prods, slides: sld })
+        res.render('pages/examples/login', { products: prods, slides: sld })
 
     } catch (error) {
         console.log('Erro ao carregar Página home->', error);
